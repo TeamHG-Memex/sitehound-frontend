@@ -1,0 +1,84 @@
+
+#login_user_form #email{
+	padding:4px;
+	margin:10px;
+	margin-bottom:0px;
+	width:250px;
+}
+#login_user_form #password{
+	padding:4px;
+	margin:10px;
+	margin-left:41px;
+	margin-bottom:0px;
+	width:250px;
+}
+#login_user_form #remember{
+	margin:12px;
+	margin-bottom:0px;
+}
+#login_user_form li{
+	color:red;
+}
+
+
+.small-custom-button{
+	margin-left:5px;
+	padding: 0px 5px;
+}
+
+.form-inline input{
+#	margin-left:10px;
+	margin-right:10px;
+}
+
+.editable-hide{
+	display:none;
+}
+
+
+#register_user_table #email{
+	padding:4px;
+	width:250px;
+}
+#register_user_table #password{
+	padding:4px;
+	width:250px;
+}
+#register_user_table #password_confirm{
+	padding:4px;
+	width:250px;
+}
+#registerForm .error-span{
+	margin-left:22px;
+	color:red;
+}
+
+#change_password_form #password{
+	padding:4px;
+	margin:10px;
+	margin-left:64px;
+	margin-bottom:0px;
+	width:250px;
+}
+#change_password_form #new_password{
+	padding:4px;
+	margin:10px;
+	margin-bottom:0px;
+	margin-left:33px;
+	width:250px;
+}
+#change_password_form #new_password_confirm{
+	padding:4px;
+	margin:10px;
+	margin-left:15px;
+	margin-bottom:0px;
+	width:250px;
+}
+#change_password_form li{
+	color:red;
+}
+
+#submit{
+	margin-top:10px;
+	margin-bottom:10px;
+}

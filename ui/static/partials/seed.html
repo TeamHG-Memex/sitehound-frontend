@@ -1,0 +1,95 @@
+	<style>
+
+	.panel-body ul {
+		width:90%;
+	#  width:760px;
+	  margin-bottom:40px;
+	  overflow:hidden;
+	#  border-top:1px solid #ccc;
+	}
+	.panel-body li {
+	  line-height:1.5em;
+	  border-bottom:1px solid #ccc;
+	  float:left;
+	  display:inline;
+	}
+	.panel-body li  { width:25%; }
+
+	.panel-body section {padding:30px;}
+
+	</style>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" style="display:inline;">Include and exclude keywords related to your Domain</h3>
+							<a id="memtool" class="glyphicon glyphicon-question-sign" style="opacity:1;"></a>
+							<a ng-click="navigateToDashboard(workspace._id)" >
+								<span class="next-step">
+									Back to Dashboard
+									<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+								</span>
+							</a>				</div>
+						<div class="panel-body">
+							<section>
+								<form name="includeForm" validate>
+									<label>Enter keywords to Include </label>&nbsp;
+									<input id="includeButton" ng-model="includedWord" ng-minlength="3" placeholder=" at least 3 chars" custom-validation
+										ng-keypress="($event.which === 13) && includedWord.length && includeForm.$valid && addIncludedWord(includedWord)"
+											/>
+									<button type="button" class="btn btn-primary btn-sm" ng-click="includeForm.$valid && addIncludedWord(includedWord)">
+										Add
+									</button>
+								</form>
+								<br/>
+								<div>
+									<ul>
+										<li ng-repeat="(key, value) in words | objectFilterByScoreVal: 5" style="list-style-type: none;">
+											<div>
+												<a href="" ng-click="removeWord(key)">
+													<span class="glyphicon glyphicon-remove right"></span>
+												</a>
+												<span>&nbsp;{{value.word}}
+													<!--&nbsp;{{value.score}}-->
+												</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<br/>
+								<form name="excludeForm">
+									<label>Enter keywords to Exclude </label>&nbsp;
+									<input id="excludeInput" ng-model="excludedWord" ng-minlength="3" placeholder=" at least 3 chars" custom-validation
+									ng-keypress="($event.which === 13 || $event.which === 44)  && excludedWord.length && excludeForm.$valid && addExcludedWord(excludedWord)"
+									/>
+									<button type="button" class="btn btn-primary btn-sm" ng-click="excludeForm.$valid && addExcludedWord(excludedWord)" >
+										Add
+									</button>
+								</form>
+								<br/>
+								<div>
+									<ul>
+										<!--<li ng-repeat="keyword in words | filter: {'score':1}"  >-->
+										<li ng-repeat="(key, value) in words | objectFilterByScoreVal: 1" style="list-style-type: none;">
+											<div>
+												<a href="" ng-click="removeWord(key)">
+													<span class="glyphicon glyphicon-remove right"></span>
+												</a>
+												<span>&nbsp;{{value.word}}
+													<!--&nbsp;{{value.score}}-->
+												</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</section>
+
+							<!--<section>-->
+
+									<!--<button type="button" class="btn btn-primary btn-md" ng-click="navigateToDashboard(workspace._id)">-->
+									<!--Back to Workflow-->
+								<!--</button>-->
+							<!--</section>-->
+						</div>
+						<div class="panel-footer">
+						</div>
+					</div>

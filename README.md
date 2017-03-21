@@ -1,0 +1,96 @@
+# Site Hound
+Site Hound (previously THH) is a Domain Discovery Tool extending the capabilities of Search engines, allowing the user to expand the set of relevant URLs on his domain/s of interest. <br>
+Site Hound is the UI to a more complex set of tools described below.
+Site Hound was developed under the Memex Program by HyperionGray LLC. (2015/2017)
+
+### Main Features
+
+ 1. Role Based Access Control (RBAC).
+ 2. Multiple __workspaces__ for keeping things tidy.
+ 3. Input of __keywords__, to be included or excluded from searchs. 
+ 4. Input of __seeds URLs__, the sites you already know are on-topic.
+ 5. Expand the sites fetching the keywords on the Search engines.
+ 6. Displays __screenshots__ (powered by Splash), title, text, html, relevant terms in the text 
+ 7. Allows the __iterative training__ of these results into defined values (Relevant/Irrelevant/Neutral), and the re-scoring of the keywords.
+ 8. Allows an unbounded training based on __user-defined categories__.
+ 9. __Language detection__ (powered byApache Tika) and __page-type classification__ (powered by HG's thh-classifier)
+10. Performs a __broad crawl__ of thousand of sites, using __Machine Learning__ (provided by DeepDeep-crawler) filtering the ones matching the defined domain.
+11. Displays the results in an interface similar to __Pinterest__ for easy scrolling of the findings.
+12. Provides __summarized__ data about the broad crawl and __exporting__ of the broad-crawl results in CSV format.
+13. Provides real time information about the __progress__ of the crawlers.
+14. Allows search of the Dark web via integration with an __onion index__ 
+
+   
+    
+### Infrastructure Components
+
+When the app starts up, it will try to connect first with all this components    
+- Mongo (>3.0.*) stores the data about users, workspace and metadata about the crawlings 
+- Elasticsearch (2.0) stores the results of the crawling (screenshots, html, extracted text)
+- Kafka (8.*) handles the communication between the backend components regarding the crawlings.
+
+Custom Docker versions of these components are provided with their extra args to set up the stack correctly, in the #Containers section 
+    
+
+### Service Components:
+
+This components offer a suite of capabilities to Site Hound. Only the first three components are required.
+
+- [HH-joogle](https://github.com/TeamHG-Memex/hh-joogle): Performs queries on the Search engines, follows the relevant links and orchestrates the screenshots, text extraction, 
+language identification, page-classification, naive scoring using the cosine difference of TF*IDF, and stores the results sets.<br>
+- [Splash](https://github.com/scrapinghub/splash): Splash is used for screenshoot and html capturing.
+- [HH-DeepDeep](https://github.com/TeamHG-Memex/hh-deep-deep): Allows the user to train a page model to perform on-topic crawls
+- [THH-classifier](https://github.com/TeamHG-Memex/thh-classifiers): Classifies pages according to their type (i.e. Forums, Blogs, etc)
+- Dark Web index: This is currently a private db. Ask us about it.
+
+
+Here is the components diagram for reference
+![Components Diagram](https://github.com/TeamHG-Memex/the-headless-horseman/blob/develop/docs/img/components-diagram.png) 
+
+
+
+### Containers
+Containers are stored in [HyperionGray's docker hub](https://hub.docker.com/u/hyperiongray/dashboard/)
+
+
+##### Mongodb
+define a folder for the data
+```bash
+sudo mkdir -p /data/db
+```
+and run the container
+```
+docker run -d -p 127.0.0.1:27017:27017 --name=mongodb --hostname=mongodb -v /data/db:/data/db hyperiongray/mongodb:1.0
+```
+
+##### Kafka
+```
+docker run -d -p 127.0.0.1:9092:9092 -p 127.0.0.1:2181:2181 --name kafkacontainer --hostname=hh-kafka hyperiongray/kafka:1.0
+```
+wait 10 secs for the service to fully start and be ready for connections
+    
+
+##### Elasticsearch
+```
+docker run -d -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300  -v /opt/sleepyhollow/docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml --name=elasticsearch --hostname=elasticsearch elasticsearch:2.0
+```
+
+Lastly check [HH-DeepDeep](https://github.com/TeamHG-Memex/hh-deep-deep) installation notes about running it with Docker
+
+
+### Configuration
+
+Properties are defined in /ui/settings.py    
+
+
+### Installation
+
+The app runs on python 2.7 and the dependencies can be installed with pip
+```bash
+pip install -r ui/requirements.txt
+```
+then start up the flask server
+```
+python runserver.py
+```
+The app should be listening on http://localhost:5082 with the admin credentials: admin@hyperiongray.com / changeme!

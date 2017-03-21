@@ -1,0 +1,67 @@
+    <style>
+
+    .panel-body ul {
+        width:90%;
+    #  width:760px;
+      margin-bottom:40px;
+      overflow:hidden;
+    #  border-top:1px solid #ccc;
+    }
+    .panel-body li {
+      line-height:1.5em;
+      border-bottom:1px solid #ccc;
+      float:left;
+      display:inline;
+    }
+    .panel-body li  { width:25%; }
+
+    .panel-body section {padding:30px;}
+
+    </style>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display:inline;">User Defined Categories</h3>
+                    <a id="memtool" class="glyphicon glyphicon-question-sign" style="opacity:1;"></a>
+                    <a ng-click="navigateToDashboard(workspace._id)" >
+                        <span class="next-step">
+                            Back to Dashboard
+                            <span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                        </span>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <section>
+                        <form name="includeForm" validate>
+                            <label>Enter the categories you want to use for training</label>&nbsp;
+                            <input id="includeButton" ng-model="userDefinedCategory" ng-minlength="3" placeholder=" at least 3 chars" custom-validation
+                                ng-keypress="($event.which === 13) && userDefinedCategory.length && includeForm.$valid && add(userDefinedCategory)"
+                                    />
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="includeForm.$valid && add(userDefinedCategory)">
+                                Add
+                            </button>
+                        </form>
+                        <br/>
+                        <div>
+                            <ul>
+                                <li ng-repeat="userDefinedCategoryCount in userDefinedCategoriesCounted" style="list-style-type: none;">
+                                    <div>
+                                        <a href="" ng-click="remove(userDefinedCategoryCount.category)" ng-hide="userDefinedCategoryCount.count>0">
+                                            <span class="glyphicon glyphicon-remove right"></span>
+                                        </a>
+                                        <span>&nbsp;{{userDefinedCategoryCount.category}}
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                        <div>
+                            <p style="font-style:italic">
+                                Categories that are currently in use can NOT be deleted. <a href="" ng-click="navigateToLabelUserDefinedCategories()">Uncheck</a> them first.
+                            </p>
+                        </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+            </div>

@@ -1,0 +1,39 @@
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="submittedOk">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedOk()">&times;</span></button>
+	<strong>Success!</strong> The URLs were submitted. The results will be available on the Dashboard
+	<!--<a class="navbar-seed-url-imported alert-link" ng-click="navigateToDashboard()">Related URLs > Imported</a>-->
+</div>
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="submittedError">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedError()">&times;</span></button>
+	<strong>Error!</strong> Please check that the URLs are all valid.
+</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" style="display:inline;">Add Known Urls</h3>
+							<a id="memtool" class="glyphicon glyphicon-question-sign"></a>
+							<a ng-click="navigateToDashboard(workspace._id)" >
+								<span class="next-step">
+									Back to Dashboard
+									<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+								</span>
+							</a>
+						</div>
+						<div class="panel-body" >
+							<div style="margin-bottom:10px">
+								Enter line-separated full URLs (i.e. http://www.google.com)
+								<br/>
+							</div>
+							<div class="input-group" style="margin-bottom: 15px;">
+								<textarea id="urlsToAdd" ng-model="urlsToAdd" style="height:250px; width:800px; font-size:11px;" class="form-control"></textarea>
+							</div><!-- /input-group -->
+							<div class="input-group-btn" style="display:inline">
+								<button ng-click="saveUrls()" class="btn btn-primary" type="button" style="display:inline;">
+									Save
+								</button>
+							</div>
+							<span id="saved" style="display:none; padding-left:10px;">Your entry has been saved</span>
+						</div>
+						<div class="panel-footer">
+						</div>
+					</div>

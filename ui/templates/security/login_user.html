@@ -1,0 +1,74 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+<!--{% include "security/_messages.html" %}-->
+<html ng-app="ngApp">
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<title>Headless Horseman</title>
+
+	<link href="{{ url_for('static', filename='css/jquery-ui.css') }}" rel=stylesheet>
+	<link href="{{ url_for('static', filename='css/security.css') }}" rel=stylesheet>
+
+	<!-- Latest compiled and minified CSS -->
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
+	<link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap.min.css') }}" rel=stylesheet>
+	<!-- Optional theme -->
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">-->
+	<link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap-theme.min.css') }}" rel=stylesheet>
+	<!-- Latest compiled and minified JavaScript -->
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>-->
+	<!--<script src="{{ url_for('static', filename='lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script>-->
+
+	<!--&lt;!&ndash;<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel=stylesheet>&ndash;&gt;-->
+	<!--<link href="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch-bootstrap-3.css') }}" rel=stylesheet>-->
+	<!--<link href="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.css') }}" rel=stylesheet>-->
+
+	<link href="{{ url_for('static', filename='css/d3.slider.css') }}" rel=stylesheet>
+	<link href="{{ url_for('static', filename='css/hg.css') }}" rel=stylesheet>
+	<link href="{{ url_for('static', filename='css/tooltipster.css') }}" rel=stylesheet>
+
+</head>
+<body>
+	<div id="workspace">
+		<div class="jquery-script-clear"></div>
+		<div id="container">
+			<div class="container marketing">
+			<!--<div id="main-container">-->
+				<div class="row" >
+					<div class="col-lg-12">
+						<div>
+							<div class="panel panel-default" >
+								<div class="panel-heading">
+									<h3 class="panel-title" style="display:inline;">Welcome!</h3>
+								</div>
+								<div class="panel-body">
+									<div width="60%">
+										<h3 style="margin:10px;margin-top:15px;margin-bottom:20px">Please log in to access</h3>
+										<form action="{{ url_for_security('login') }}" method="POST" id="login_user_form" name="login_user_form" style="margin-left:10px">
+											{{ login_user_form.hidden_tag() }}
+											{{ render_field_with_errors(login_user_form.email) }}
+											{{ render_field_with_errors(login_user_form.password) }}
+											{{ render_field_with_errors(login_user_form.remember) }}
+											{{ render_field(login_user_form.next) }}
+											<!--{{ render_field(login_user_form.submit) }}-->
+											<button id="submit" class="btn btn-primary" name="submit" type="submit">Login</button>
+										</form>
+									</div>
+								</div>
+								<div class="panel-footer"></div>
+							</div>
+						</div>
+					</div><!-- /.col-lg-6 -->
+				</div><!-- /.row -->
+			</div>
+		</div>
+	</div>
+
+
+<!--<h1>Login</h1>-->
+<!--{% include "security/_menu.html" %}-->
+
+</body>
+</html>

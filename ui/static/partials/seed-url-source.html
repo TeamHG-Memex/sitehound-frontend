@@ -1,0 +1,203 @@
+<!--accordion-->
+<script type="text/ng-template" id="group-template.html">
+	<div class="panel {{panelClass || 'panel-default'}}">
+		<div class="panel-heading" ng-click="toggleOpen()">
+			<h6 class="panel-title" href tabindex="0"  accordion-transclude="heading">
+				<span ng-class="{'text-muted': isDisabled}">{{heading}}</span>
+			</h6>
+		</div>
+		<div class="panel-collapse collapse" collapse="!isOpen">
+			<div class="panel-body" ng-transclude>
+			</div>
+		</div>
+	</div>
+</script>
+
+
+
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="submittedOk">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedOk()">&times;</span></button>
+	<strong>Success!</strong> The URLs were submitted. The results will be available in some seconds.</a>
+</div>
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="submittedError">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedError()">&times;</span></button>
+	<strong>Something went wrong!</strong> {{errorMessage ? errorMessage : errorMessageDefault}}
+</div>
+
+
+
+						<!--<div id="loading" ng-show="loading==true">-->
+						<!--DISABLED; NO NEED-->
+						<!--<div id="loading" ng-show="loading==true">-->
+							<!--<div class="alert alert-loading" role="alert">Loading... </div>-->
+						<!--</div>-->
+						<div class="panel panel-default" >
+							<div class="panel-heading">
+								<h3 class="panel-title" style="display:inline;">Evaluate related URL's </h3>
+								<a id="memtool" class="glyphicon glyphicon-question-sign" style="opacity:1;"></a>
+								<a ng-click="navigateToDashboard(workspace._id)" >
+									<span class="next-step">
+										Back to Dashboard
+										<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+									</span>
+								</a>
+							</div>
+							<div class="panel-body">
+								<div col-lg="12">
+									<div>
+										<h3>
+											Source: {{source =="searchengine"? "Google + Bing": source =="deepdeep"? "Deep Deep": source=="tor" ? "Deep Web" :(source | capitalize)}}
+
+										</h3>
+									</div>
+
+									<hr>
+									<!--<div ng-hide='source=="imported"'>-->
+										<!--<div ng-hide='source=="deepdeep"'>-->
+											<!--<br/>-->
+											<!--<button class="btn btn-primary" ng-click="generateSeedUrls()" >-->
+												<!--Launch-->
+											<!--</button>-->
+											<!--<hr>-->
+										<!--</div>-->
+										<div ng-show='source=="deepdeep"'>
+											<!--<br/>-->
+											<!--<button class="btn btn-primary" ng-click="startDdModeler()" >-->
+												<!--Build Initial Model-->
+											<!--</button>-->
+											<!--<div style="padding:20px">-->
+												<!--<div ng-hide='modelerProgress==[]'>-->
+													<!--<h4>Quality:</h4>-->
+													<!--<div>-->
+														<!--<ul>-->
+															<!--<li ng-repeat="elem in modelerProgress">{{elem[0]}}:&nbsp;{{elem[1]}}</li>-->
+														<!--</ul>-->
+														<!--&lt;!&ndash;<span ng-bind="modelerProgress"></span>&ndash;&gt;-->
+													<!--</div>-->
+												<!--</div>-->
+												<!--<div ng-show='modelerProgress==[]' >-->
+													<!--<h4>Important</h4>-->
+													<!--<span>Requires a prior training using the SearchEngines to gather some URLs</span>-->
+												<!--</div>-->
+											<!--</div>-->
+											<!--<hr>-->
+											<!--<button class="btn btn-primary" ng-click="startDdTrainer()" >-->
+												<!--Start Deep Deep Trainer-->
+											<!--</button>-->
+											<!--<button class="btn btn-primary" ng-click="stopDdTrainer()" >-->
+												<!--Stop Deep Deep Trainer-->
+											<!--</button>-->
+											<div style="padding:20px" ng-hide='trainerProgress==""'>
+												<div >
+													<h4>Progress:</h4>
+													<span ng-bind="trainerProgress"></span>
+												</div>
+												<!--<div ng-show='trainerProgress==""' >-->
+													<!--<h4>Important</h4>-->
+													<!--<span>Requires a prior training using the SearchEngines to gather some URLs</span>-->
+												<!--</div>-->
+											</div>
+											<hr>
+										</div>
+									<!--</div>-->
+									<br>
+									<div style="float:left; font-size:13px">
+										<label style="margin-right:15px">Showing</label>
+										Not Evaluated <input type="checkbox" value="NEUTRAL" ng-click="reloadResults()" ng-model="relevancyFilter_Neutral" style="margin-right:10px; margin-left:5px">
+										Relevant<input type="checkbox" value="RELEVANT" ng-click="reloadResults()" ng-model="relevancyFilter_Relevant" style="margin-right:10px; margin-left:5px">
+										Irrelevant<input type="checkbox" value="IRRELEVANT" ng-click="reloadResults()" ng-model="relevancyFilter_Irrelevant" style="margin-right:10px; margin-left:5px">
+									</div>
+									<!--<div style="float:right">-->
+										<!--<button class="btn btn-danger" ng-click="resetResults()">Reset Results</button>-->
+									<!--</div>-->
+									<div style="clear:both"></div>
+									<br/>
+								</div>
+								<accordion close-others="false">
+									<!--<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in seedUrls | filter : isSearchEngine | filter : relevancy | filter: deletedFilter">-->
+									<div infinite-scroll='fetch()' infinite-scroll-disabled='crawlStatusBusy' infinite-scroll-distance='5'>
+										<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in seedUrls | filter : relevancy | filter: deletedFilter">
+										<accordion-heading >
+											<span ng-hide="status.open">
+												{{elem.host}}
+											</span>
+											<span ng-show="status.open">
+												&nbsp;
+											</span>
+											<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+										</accordion-heading>
+										<accordion-body>
+											<div>
+												<div style="float:left;" class="imageBox">
+													<img ng-src="api/workspace/{{workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210"/>
+												</div>
+
+												<div style="float:left; padding-left:20px; padding-right:10px;width:55%; min-height:210px">
+													<p>
+														<a style="margin-right:5px" ng-click="onSeedUrlDelete(elem._id)">
+															<i class="glyphicon glyphicon-trash"></i>
+														</a>
+														<a ng-click="deepCrawl(elem)" title="Deep crawl this host" class="glyphicon glyphicon-save" style="font-size: 17px; margin-right:5px">
+														</a>
+														<a href="{{elem.url}}" target="_blank" style="margin-right:5px">
+															<span class="url">{{elem.url}}</span>
+														</a>
+													</p>
+													<p><b>{{elem.title}}</b></p>
+													<!--<p style="font-size:12px; overflow: hidden;">{{elem.desc}}</p>-->
+													<p style="font-size:12px; overflow: hidden;text-align: justify;">{{elem.desc | ellipsis:true:850:' ...'}}</p>
+												</div>
+												<div style="float:right; text-align: right">
+													<div ng-repeat="word in elem.wordWithScores | limitTo: wordsQuantityToShow track by word.name ">
+														<div style="float:left; font-size:12px; margin-left:10px; margin-right:5px" title='{{word.name.length<14 ? "" : word.name}}'>{{word.name.length<14? word.name : (word.name | ellipsis:true:11:'...')}}</div>
+														<div style="float:right;" >
+															<rating ng-model="word.score" ng-change="onWordScoreUpdated(word)" max="max" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three','four','five']" ></rating>
+														</div>
+														<div style="clear:both"></div>
+													</div>
+												</div>
+											</div>
+											<div style="clear:both">
+												<div section="lower-icons" style="text-align:center;padding-top: 15px; ">
+													  <div class="btn-group" data-toggle="buttons" >
+														<label class="btn btn-default" ng-click="onSeedUrlUpdated(elem._id, false)"  ng-class="{active : elem.relevant===false}" >
+														  <input name="relevant1" id="css1" type="radio" ng-model="elem.relevant" >
+															Irrelevant
+														</label>
+														<label class="btn btn-default" ng-click="onSeedUrlUpdated(elem._id, null)" ng-class="{active: elem.relevant===null }">
+														  <input name="relevant1" id="css2"  type="radio" ng-model="elem.relevant" >
+															Neutral
+														</label>
+														<label class="btn btn-default" ng-click="onSeedUrlUpdated(elem._id, true)" ng-class="{active: elem.relevant===true }">
+														  <input name="relevant1" id="css3" type="radio"  ng-model="elem.relevant" >
+															Relevant
+														</label>
+													  </div>
+													</div>
+												</div>
+											<!--<div style="clear:both">-->
+												<!--<div section="lower-icons" style="text-align:center;padding-top: 15px; ">-->
+													<!--<nz-toggle width="150" tri-toggle-->
+														<!--on-toggle="onSeedUrlUpdated(elem._id, elem.relevant)"-->
+														<!--ng-model="elem.relevant"-->
+														<!--val-true="true"-->
+														<!--val-false="false"-->
+														<!--val-null="null"-->
+														<!--tip-false="'Irrelevant'"-->
+														<!--tip-null="'Neutral'"-->
+														<!--tip-true="'Relevant'"-->
+														<!--&gt;-->
+													<!--</nz-toggle>-->
+												<!--</div>-->
+											<!--</div>-->
+										</accordion-body>
+									</accordion-group>
+									</div>
+									<div ng-hide="seedUrls.length > 0">
+										No new results found.
+									</div>
+								</accordion>
+							</div>
+							<div class="panel-footer">
+							</div>
+						</div>

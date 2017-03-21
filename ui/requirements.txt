@@ -1,0 +1,21 @@
+#easy_install pip
+
+pymongo==2.7.2
+flask==0.10.1
+bleach
+#readability-lxml
+#lxml
+#python-scrapyd-api==0.1.0
+-e git+https://github.com/TeamHG-Memex/tldextract.git@f2cad3bb2532cd8becf2dc4e8f20d2f487d71007#egg=tldextract-master
+flask-security
+flask-mongoengine
+flask-Login==0.3.2
+Flask-Principal==0.4.0
+Flask-Cache==0.13.1
+Flask-Mail==0.9.1
+tika==1.9.3
+kafka-python==0.9.3
+elasticsearch>=2.0.0,<3.0.0
+markupsafe==0.23
+passlib==1.6.5
+urllib3==1.11

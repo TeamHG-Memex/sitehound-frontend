@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html ng-app="ngApp">
+<head lang="en">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<title>Headless Horseman</title>
+
+	<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery.tooltipster.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/d3.v3.min.js') }}" charset=utf-8></script>
+	<script src="{{ url_for('static', filename='js/StackBlur.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/URI.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/pinterest_grid.js') }}"></script>
+
+	<link href="{{ url_for('static', filename='css/jquery-ui.css') }}" rel=stylesheet>
+
+	<!-- Latest compiled and minified CSS -->
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
+	<link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap.min.css') }}" rel=stylesheet>
+	<!-- Optional theme -->
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">-->
+	<link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap-theme.min.css') }}" rel=stylesheet>
+	<!-- Latest compiled and minified JavaScript -->
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>-->
+	<script src="{{ url_for('static', filename='lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script>
+
+	<!--<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel=stylesheet>-->
+	<link href="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch-bootstrap-3.css') }}" rel=stylesheet>
+	<link href="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.css') }}" rel=stylesheet>
+
+	<link href="{{ url_for('static', filename='css/d3.slider.css') }}" rel=stylesheet>
+	<link href="{{ url_for('static', filename='css/hg.css') }}" rel=stylesheet>
+	<link href="{{ url_for('static', filename='css/security.css') }}" rel=stylesheet>
+	<link href="{{ url_for('static', filename='css/tooltipster.css') }}" rel=stylesheet>
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+	<div id="the-navbar" class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<div class="navbar-brand" id="navbar-brand">Site Hound</div>
+
+				<ul class="nav navbar-nav" >
+
+					{% if is_admin %}
+					<li class="navbar-user scroll dropdown">
+						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+							<span>Users</span>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/#/user" class="navbar-user-list" >List</a></li>
+							<li><a href="/#/register"class="navbar-user-register">Register</a></li>
+						</ul>
+					</li>
+					{% endif %}
+					<li class="navbar-workspace scroll"><a > <span>Workspaces</span> <span class="glyphicon" ></span></a></li>
+					</ul>
+			</div>
+			<span id="nav-user" class="navbar-text navbar-right" style="margin-right: 5px">
+				<!-- Single button -->
+				<div class="btn-group">
+					<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:0px; padding-bottom:0px">
+						<!--Action-->
+						<span class="glyphicon glyphicon-user" id="user-name"></span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="javascript:void(0)">Logged in as {{current_user}}</a></li>
+						<!--<li><a href="#">Another action</a></li>-->
+						<li><a href="/change">Change Password</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="/logout">Log out</a></li>
+				  </ul>
+				</div>
+			</span>
+			<span id="nav-workspace-current" class="navbar-text navbar-right" style="margin-right: 10px">
+				Workspace: <span id="workspace-name"></span>
+			</span>
+
+		</div>
+	</div>
+	<div id="workspace">
+		<div id="top-of-page"></div>
+		<div class="jquery-script-ads">
+			<script type="text/javascript"></script>
+		</div>
+		<div class="jquery-script-clear"></div>
+		<div id="container">
+			<div class="container marketing">
+			<!--<div id="main-container">-->
+				<div class="row" >
+					<div class="col-lg-12">
+						<div ng-view="">
+
+						</div>
+					</div><!-- /.col-lg-6 -->
+				</div><!-- /.row -->
+			</div>
+		</div>
+	</div>
+
+
+	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-route.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-resource.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-animate.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-cookies.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular-ui/bootstrap/v0.13.4/ui-bootstrap-tpls-0.13.4.min.js') }}"></script>
+	<!--<script src="{{ url_for('static', filename='lib/bootstrap/v3.3.5/bootstrap.min.js') }}"></script>-->
+
+
+	<script src="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular-ui/ng-infinite-scroll.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular/ngSilent/ngSilent.js') }}"></script>
+
+
+	<script src="{{ url_for('static', filename='lib/angular-ui/xeditable/js/xeditable.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular-ui/xeditable/js/checklist-model.js') }}"></script>
+	<link src="{{ url_for('static', filename='lib/angular-ui/xeditable/css/xeditable.css') }}" rel="stylesheet">
+
+	<script src="{{ url_for('static', filename='lib/angular-ui/light-grid/light-grid.js') }}"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css"/>
+	<!--<link href="{{ url_for('static', filename='lib/angular-ui/light-grid/font-awesome.css') }}" rel="stylesheet">-->
+	<link href="{{ url_for('static', filename='lib/angular-ui/light-grid/light-grid-custom.css') }}" rel="stylesheet">
+
+	<script src="{{ url_for('static', filename='lib/angular/ng-csv/ng-csv.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-sanitize.min.js') }}"></script>
+
+
+	<script src="{{ url_for('static', filename='js3/ngapp.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/index.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/user.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/auth-register.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/workspace.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/seed.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/user-defined-categories.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/label-user-defined-categories.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/seed-url.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/seed-url-source.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/dd-training.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/event-factory.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/progress-factory.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/import-url.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/broadcrawler.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/broadcrawler-results.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/broadcrawler-results-summary.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/deep-crawler.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/job.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/navbar.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>
+
+	<!--<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.4.js"></script>-->
+	<!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">-->
+	<!--<link src="{{ url_for('static', filename='lib/bootstrap/v3.1.1/css/bootstrap.min.css') }}" rel="stylesheet">-->
+
+
+	<script src="{{ url_for('static', filename='lib/languages.js') }}"></script>
+
+</body>
+</html>

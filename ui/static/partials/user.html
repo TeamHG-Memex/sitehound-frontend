@@ -1,0 +1,106 @@
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="submittedOk">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedOk()">&times;</span></button>
+	<strong>Success!</strong> <span ng-bind="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="submittedError">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedError()">&times;</span></button>
+	<strong>Error!</strong> <span ng-bind="errorMessage"></span>.
+</div>
+
+
+	<div id="loading" ng-show="loading==true">
+		<div class="alert alert-loading" role="alert">Processing, please wait... </div>
+	</div>
+	<div id="notificationArea">
+		<!--TODO -->
+	</div>
+	<div class="panel panel-default" >
+		<div class="panel-heading">
+			<h3 class="panel-title" style="display:inline;">User Dashboard</h3>
+			<a href="/#/register">
+				<span class="next-step">
+					Register
+					<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+				</span>
+			</a>
+		</div>
+		<div class="panel-body">
+			<div id="wsList" class="list-group">
+				<div width="60%">
+					<table class="table" width="70%" style="font-size:13px">
+						<thead>
+							<tr>
+								<th width="2%">#</th>
+								<th>Email</th>
+								<th>Roles</th>
+								<th>Login Count</th>
+								<th>Login At</th>
+								<th>Login IP</th>
+								<!--<th>Last Login At</th>-->
+								<!--<th>Last Login IP</th>-->
+								<th>Active</th>
+								<th>&nbsp;</th>
+						  </tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="user in users track by $index"  ng-class-even="user.selected ? '':'workspace-row-even'" class='{{ user.selected ? "workspace-row-selected" : ""}}'>
+							<th scope="row" class="selectionable" >{{ $index + 1 }}</th>
+							<td>{{ user.email }}</td>
+							<td>
+								<div>
+									<a href="#" editable-checkbox="user.isAdmin" e-title="Admin?" onaftersave="setRoles(user)">
+										{{user.isAdmin && "Admin" || "User" }}
+									</a>
+								</div>
+							</td>
+							<td>{{ user.login_count }}</td>
+							<td>{{ user.current_login_at }}</td>
+							<td>{{ user.current_login_ip }}</td>
+							<!--<td>{{ user.last_login_at }}</td>-->
+							<!--<td>{{ user.last_login_ip }}</td>-->
+							<td>
+								<div>
+									<a href="#" editable-checkbox="users[$index].active" e-title="Activate?"
+									onaftersave="activate(user._id, user.email, users[$index].active)">
+										{{ users[$index].active && "Active" || "Locked" }}
+									</a>
+								</div>
+							</td>
+							<td>
+								<a>
+									<span class="glyphicon glyphicon-trash" title="remove" ng-click="loadDeleteModal(user)"></span>
+								</a>
+							</td>
+						  </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer"></div>
+	</div>
+
+
+<!-- Delete Modal -->
+<script type="text/ng-template" id="myDeleteModalContent.html">
+
+
+	<!--<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+		<!--<div class="modal-dialog" role="document">-->
+			<!--<div class="modal-content">-->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Delete User</h4>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to delete the user <span style="color:red">{{items.user.email}} </span>? <br>
+					There is no undo operation.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+					<button type="button" class="btn btn-danger" ng-click="sendArgs(items.user)">Delete</button>
+				</div>
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+</script>

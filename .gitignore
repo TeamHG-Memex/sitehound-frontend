@@ -1,0 +1,9 @@
+.idea/
+*.iml
+.pydevproject
+
+ui/src
+scripts
+ui/settings_prod.py
+changelog.md
+notes.txt

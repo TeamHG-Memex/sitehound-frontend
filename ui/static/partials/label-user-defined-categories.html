@@ -1,0 +1,122 @@
+<!--accordion-->
+<script type="text/ng-template" id="group-template.html">
+    <div class="panel {{panelClass || 'panel-default'}}">
+        <div class="panel-heading" ng-click="toggleOpen()">
+            <h6 class="panel-title" href tabindex="0"  accordion-transclude="heading">
+                <span ng-class="{'text-muted': isDisabled}">{{heading}}</span>
+            </h6>
+        </div>
+        <div class="panel-collapse collapse" collapse="!isOpen">
+            <div class="panel-body" ng-transclude>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="submittedOk">
+    <button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedOk()">&times;</span></button>
+    <strong>Success!</strong> The URLs were submitted. The results will be available in some seconds.</a>
+</div>
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="submittedError">
+    <button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedError()">&times;</span></button>
+    <strong>Something went wrong!</strong> {{errorMessage ? errorMessage : errorMessageDefault}}
+</div>
+
+                        <div class="panel panel-default" >
+                            <div class="panel-heading">
+                                <h3 class="panel-title" style="display:inline;">Evaluate related URL's </h3>
+                                <a id="memtool" class="glyphicon glyphicon-question-sign" style="opacity:1;"></a>
+                                <a ng-click="navigateToDashboard(workspace._id)" >
+                                    <span class="next-step">
+                                        Back to Dashboard
+                                        <span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="panel-body">
+                                <div col-lg="12">
+                                    <div style="float:left">
+                                        <h3>Labeling with User Defined Categories</h3>
+                                    </div>
+                                    <div style="float:right; margin-top: 20px; margin-bottom: 10px;margin-right:20px">
+                                        <a href="" ng-click="navigateToUserDefinedCategories()">Edit categories</a>
+                                    </div>
+                                    <div style="float:right; margin-top: 20px; margin-bottom: 10px;margin-right:20px">
+                                         <!--<a href="api/workspace/58371731166f1c63b4769401/label-user-defined-categories/all">Download</a>-->
+                                        <a href="" ng-click="navigateToUserDefinedCategoriesDownload()">Download</a>
+
+                                    </div>
+                                    <div style="clear:both"></div>
+                                    <hr>
+
+                                    <br/>
+                                </div>
+                                <accordion close-others="false">
+                                    <div infinite-scroll='fetch()' infinite-scroll-disabled='crawlStatusBusy' infinite-scroll-distance='5'>
+                                        <accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in seedUrls  | filter: deletedFilter">
+                                        <accordion-heading >
+                                            <span ng-hide="status.open">
+                                                {{elem.host}}
+                                            </span>
+                                            <span ng-show="status.open">
+                                                &nbsp;
+                                            </span>
+                                            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                        </accordion-heading>
+                                        <accordion-body>
+                                            <div>
+                                                <div style="float:left;" class="imageBox">
+                                                    <img ng-src="api/workspace/{{workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210"/>
+                                                </div>
+
+                                                <div style="float:left; padding-left:20px; padding-right:10px;width:55%; min-height:210px">
+                                                    <p>
+                                                        <a style="margin-right:5px" ng-click="onSeedUrlDelete(elem._id)">
+                                                            <i class="glyphicon glyphicon-trash"></i>
+                                                        </a>
+                                                        <a ng-click="deepCrawl(elem)" title="Deep crawl this host" class="glyphicon glyphicon-save" style="font-size: 17px; margin-right:5px">
+                                                        </a>
+                                                        <a href="{{elem.url}}" target="_blank" style="margin-right:5px">
+                                                            <span class="url">{{elem.url}}</span>
+                                                        </a>
+                                                    </p>
+                                                    <p><b>{{elem.title}}</b></p>
+                                                    <p style="font-size:12px; overflow: hidden;text-align: justify;">{{elem.desc | ellipsis:true:850:' ...'}}</p>
+                                                </div>
+                                                <div style="float:right; text-align: right">
+                                                    <div ng-repeat="word in elem.wordWithScores | limitTo: wordsQuantityToShow track by word.name ">
+                                                        <div style="float:left; font-size:12px; margin-left:10px; margin-right:5px" title='{{word.name.length<14 ? "" : word.name}}'>{{word.name.length<14? word.name : (word.name | ellipsis:true:11:'...')}}</div>
+                                                        <div style="float:right;" >
+                                                            <rating ng-model="word.score" ng-change="onWordScoreUpdated(word)" max="max" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three','four','five']" ></rating>
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="clear:both">
+                                                <div section="lower-icons" style="text-align:center;padding-top: 15px; ">
+                                                    <div>
+                                                        <label ng-repeat="category in userDefinedCategories" class="checkbox-inline">
+                                                            <input type="checkbox"
+                                                                   ng-checked="elem.userDefinedCategorySelected[category]"
+                                                                   ng-model="elem.userDefinedCategorySelected[category]"
+                                                                   ng-click="onSeedUrlLabelChanged(elem._id, category, elem.userDefinedCategorySelected[category])"
+                                                            >
+                                                            {{category | capitalize}}
+                                                        </label>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                        </accordion-body>
+                                    </accordion-group>
+                                    </div>
+                                    <div ng-hide="seedUrls.length > 0">
+                                        No new results found.
+                                    </div>
+                                </accordion>
+                            </div>
+                            <div class="panel-footer">
+                            </div>
+                        </div>

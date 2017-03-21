@@ -1,0 +1,78 @@
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="submittedOk">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedOk()">&times;</span></button>
+	<strong>Success!</strong> The user was registered. The list of users is available
+	<a href="/#user" class=" alert-link">Users>List</a>
+</div>
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="submittedError">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedError()">&times;</span></button>
+	<strong>Error!</strong> <span ng-bind="errorMessage"></span>.
+</div>
+
+
+						<div class="panel panel-default" >
+							<div class="panel-heading">
+								<h3 class="panel-title" style="display:inline;">Register User</h3>
+								<a href="/#/user">
+									<span class="next-step">
+										List
+										<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+									</span>
+								</a>
+							</div>
+							<div class="panel-body">
+								<div id="wsList" class="list-group">
+									<div width="60%">
+										<form id="registerForm" name="registerForm">
+											<!--<h3 style="margin:10px;margin-top:15px;margin-bottom:20px">Create a new User</h3>-->
+											<table style="margin:40px" id="register_user_table">
+												<tr style="height:45px">
+													<td width="140px">
+														<label for="email">Email:</label>
+													</td>
+													<td>
+														<input id="email" name="email" type="email" ng-model="email" style="width:250px">
+														<span class="error-span" ng-show="registerForm.email.$error.minLength">
+															An email should be at minimum 8 chars
+														</span>
+													</td>
+												</tr>
+												<tr style="height:45px">
+													<td>
+														<label for="password">Password:</label>
+													</td>
+													<td>
+														<input id="password" type="password" name="password" ng-model="password" style="width:250px" >
+														<!--&nbsp; &nbsp; <a href="javascript:void(0)" ng-click="autoGeneratePassword()">autogenerate</a>-->
+														<span class="error-span" ng-show="registerForm.password.$error.minLength">
+															The password should be at minimum 8 chars
+														</span>
+
+													</td>
+												</tr>
+												<tr style="height:45px">
+													<td>
+														<label for="password_confirm">Confirm Password:</label>
+													</td>
+													<td>
+														<input id="password_confirm" type="password" name="confirmPassword" ng-model="confirmPassword" style="width:250px">
+														<span class="error-span" ng-show="registerForm.confirmPassword.$error.doNotMatch">
+															The passwords do not match
+														</span>
+
+													</td>
+
+												</tr>
+												<tr style="height:45px">
+													<td colspan="2">
+														<br/>
+													<button id="submit" class="btn btn-primary" name="submit" ng-click="save()">Register</button>
+												</td></tr>
+
+											</table>
+
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer"></div>
+						</div>

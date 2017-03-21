@@ -1,0 +1,132 @@
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" style="display:inline;">Broad Crawler Results</h3>
+							<a id="memtool" class="glyphicon glyphicon-question-sign" style="margin-left:5px"></a>
+								<a ng-click="navigateToDashboard(workspace._id)" >
+									<span class="next-step">
+										Back to Dashboard
+										<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+									</span>
+								</a>
+
+						</div>
+						<section class="panel-body">
+							<!--not yet-->
+							<!--<div class="col-lg-12" ng-show="jobId">-->
+								<!--<label>Job Id:</label>-->
+								<!--<span>{{jobId}}</span>-->
+							<!--</div>-->
+							<div class="col-lg-12">
+								<label ng-bind="labelCategories" ></label>
+								<div class="checkbox-inline" ng-repeat="category in categories" style="margin-left:10px">
+									<span>
+										<input type="checkbox" class="checkbox-search-category" ng-model="selectedCategories[category]" value="{{ category }}"/>
+										{{ category }}
+									</span>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<label ng-bind="labelLanguages"></label>
+								<div class="checkbox-inline" ng-repeat="language in languages" style="margin-left:10px">
+									<span>
+									<input type="checkbox" class="checkbox-search-language" ng-model="selectedLanguages[language]" value="{{ language }}"/>
+										{{ language | fullLanguageName}}
+									</span>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<label id="label-search-disclaimer">{{ filterDisclaimer }}</label>
+							</div>
+							<!--</div>-->
+
+							<!--<div class="col-lg-12" style="margin-top:12px; margin-bottom:24px">-->
+								<!--<div id="crawl-status-2" class="col-xs-2">-->
+									<!--<label for="ex1">Current records: </label>-->
+									<!--<span id="count-number"></span>-->
+								<!--</div>-->
+								<!--<br>-->
+							<!--</div>-->
+
+							<!--<div class="progress">-->
+								<!--<div class="progress-bar" role="progressbar" aria-valuenow="70"-->
+									<!--aria-valuemin="0" aria-valuemax="100" style="width:80%">-->
+									<!--<span class="sr-only">70% Complete</span>-->
+								<!--</div>-->
+
+							<div class="col-lg-12">
+								<p>
+									<toggle-switch
+											ng-model="bookmarkSwitchStatus"
+											class="switch-info"
+											on-label="On"
+											off-label="Off">
+									>
+									</toggle-switch>
+									&nbsp; Show only Pinned
+								</p>
+							</div>
+
+							<div class="col-lg-12">
+								<!--<button id="all-filter"         ng-model="pin" value="ALL" class="pin-filter btn btn-danger">All</button>-->
+								<!--<button id="only-pinned-filter" ng-model="pin" value="PINNED"  class="pin-filter btn btn-default">Pinned</button>-->
+								<!--<button id="not-pinned-filter"  ng-model="pin" value="NOT_PINNED"  class="pin-filter btn btn-default">Not Pinned</button>-->
+								<div class="input-group">
+									<input id="searchText" type="text" ng-model="searchText" class="form-control" placeholder="Click Search to search or refresh results...">
+									<span class="input-group-btn">
+										<button id="broadSearch" ng-click="search()" class="btn btn-default" type="button">
+											Search
+										</button>
+									</span>
+								</div><!-- /input-group -->
+								</br>
+							</div>
+
+
+							<section>
+								<div id="wrapper" class="col-lg-12 .container"  >
+									<!--<div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>-->
+									<div id="rows"  infinite-scroll='fetch()' infinite-scroll-disabled='crawlStatusBusy' infinite-scroll-distance='1'>
+										<div class="pin fixed-width" ng-repeat="result in results | filter : notRemovedFilter | filter : bookmarkFilter " >
+											<div style="float:left">
+												<p>
+													<a ng-click="remove(result)" title="Remove this host" class="glyphicon glyphicon-trash" style="font-size: 16px; margin-right:2px"></a>
+													<a ng-click="deepCrawl(result)" title="Deep crawl this host" class="glyphicon glyphicon-save" style="font-size: 17px"></a>
+													<!--<a href="{{result.url}}" target="_blank" style="font-size: 16px; margin-right:2px">-->
+														<!--<span class="glyphicon glyphicon-new-window"    ></span>-->
+													<!--</a>-->
+												</p>
+											</div>
+											<div style="float:right; margin-bottom:5px">
+												<button type="button" ng-if="result.pinned==true" ng-click="unbookmark(result)" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-bookmark celeste" aria-hidden="true"></span> Unpin it</button>
+												<button type="button" ng-if="result.pinned!=true" ng-click="bookmark(result)" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-bookmark white" aria-hidden="true"></span> Pin it!</button>
+											</div>
+											<div style="clear:both"></div>
+											<hr style="margin-top: 5px; margin-bottom: 5px; "/>
+											<!--<img ng-if="result.snapshot.png" src="data:image/png;base64,{{result.snapshot.png }}" width="320" height="240"/>-->
+											<!--<img ng-if="!result.snapshot.png" src="/static/images/image-not-found.gif" width="320" height="240"/>-->
+											<img ng-src="api/workspace/{{workspaceId}}/broadcrawl/screenshot/{{result.id}}" width="320" height="240"/>
+											<!--<hr style="margin-top: 5px; margin-bottom: 5px; "/>-->
+											<!--<p>{{ result.id }}</p>-->
+											<!--<p><a href="{{ result.url }}" > {{ result.url }} </a></p>-->
+											<a href="{{result.url}}" target="_blank" style="font-size: 16px; margin-right:2px">
+												<span class="url" title='{{result.url}}'>
+													{{(result.url | decodeURIComponent).length<53? (result.url  | decodeURIComponent) : ((result.url | decodeURIComponent) | ellipsis:true:50:'...')}}
+													<!--{{result.url | ellipsis:true:46: '...'}}-->
+												</span>
+											</a>
+											<p> <strong> Host: </strong> {{ result.host }}</p>
+
+											<!--<hr style="margin-top: 5px; margin-bottom: 5px; "/>-->
+											<p><strong>Title: </strong> {{ result.title }} </p>
+											<p ng-if="result.categories.length > 0">
+												<strong>Categories: </strong>
+												{{result.categories.join(', ')}}
+											</p>
+											<p ng-if="result.language != 'unidentified'"><strong>Language: </strong>{{ result.language | fullLanguageName }} </p>
+											<p ng-if="result.score != 'unidentified'"><strong>Score: </strong>{{ result.score | number : 2 }} </p>
+										</div>
+									</div>
+								</div>
+							</section>
+						</section>
+					</div>
