@@ -95,3 +95,13 @@ then start up the flask server
 python runserver.py
 ```
 The app should be listening on http://localhost:5082 with the admin credentials: admin@hyperiongray.com / changeme!
+
+
+### Dockerized version of Sitehound
+
+Alternatively, a container can be run instead of the local installation
+
+```
+sitehound_version="3.2.9"
+docker run -d -p 0.0.0.0:5081:5081 --name=sitehound-$sitehound_version --hostname=sitehound --link mongodb:mongodb --link kafkacontainer:hh-kafka --link elasticsearch:hh-elasticsearch hyperiongray/sitehound:$sitehound_version
+```
