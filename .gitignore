@@ -5,5 +5,6 @@
 ui/src
 scripts
 ui/settings_prod.py
+ui/thh.log
 changelog.md
 notes.txt
