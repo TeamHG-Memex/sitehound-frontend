@@ -1,7 +1,7 @@
 # Site Hound
 Site Hound (previously THH) is a Domain Discovery Tool extending the capabilities of Search engines, allowing the user to expand the set of relevant URLs on his domain/s of interest. <br>
 Site Hound is the UI to a more complex set of tools described below.
-Site Hound was developed under the Memex Program by HyperionGray LLC. (2015/2017)
+Site Hound was developed under the Memex Program by HyperionGray LLC in partnership with Scrapinghub, Ltd. (2015/2017)
 
 ### Main Features
 
