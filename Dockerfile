@@ -28,7 +28,7 @@ ADD runserver.py /root/sitehound/runserver.py
 WORKDIR /root/sitehound
 
 # Get pip to download and install requirements:
-RUN pip install -r /root/sitehound/ui/requirements.txt
+RUN pip install -r /root/sitehound/requirements.txt
 
 # Expose ports
 EXPOSE 5081

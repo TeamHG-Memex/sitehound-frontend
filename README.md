@@ -88,7 +88,7 @@ Properties are defined in /ui/settings.py
 
 The app runs on python 2.7 and the dependencies can be installed with pip
 ```bash
-pip install -r ui/requirements.txt
+pip install -r requirements.txt
 ```
 then start up the flask server
 ```

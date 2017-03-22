@@ -1,3 +1,5 @@
+*.pyc
+*~
 .idea/
 *.iml
 .pydevproject
@@ -8,3 +10,4 @@ ui/settings_prod.py
 ui/thh.log
 changelog.md
 notes.txt
+sitehound.log
