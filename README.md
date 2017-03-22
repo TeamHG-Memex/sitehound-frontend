@@ -94,7 +94,7 @@ then start up the flask server
 ```
 python runserver.py
 ```
-The app should be listening on http://localhost:5082 with the admin credentials: admin@hyperiongray.com / changeme!
+The app should be listening on http://localhost:5081 with the admin credentials: admin@hyperiongray.com / changeme!
 
 
 ### Dockerized version of Sitehound
