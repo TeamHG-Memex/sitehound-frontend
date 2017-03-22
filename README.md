@@ -66,14 +66,14 @@ docker run -d -p 127.0.0.1:27017:27017 --name=mongodb --hostname=mongodb -v /dat
 
 ##### Kafka
 ```
-docker run -d -p 127.0.0.1:9092:9092 -p 127.0.0.1:2181:2181 --name kafkacontainer --hostname=hh-kafka hyperiongray/kafka:1.0
+docker run -d -p 127.0.0.1:9092:9092 -p 127.0.0.1:2181:2181 --name kafka-2.11-0.10.1.1-2.2 --hostname=hh-kafka hyperiongray/kafka-2.11-0.10.1.1:2.2
 ```
 wait 10 secs for the service to fully start and be ready for connections
     
 
 ##### Elasticsearch
 ```
-docker run -d -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300  -v /opt/sleepyhollow/docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml --name=elasticsearch --hostname=elasticsearch elasticsearch:2.0
+docker run -d -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 --name=elasticsearch --hostname=elasticsearch elasticsearch:2.0
 ```
 
 Lastly check [HH-DeepDeep](https://github.com/TeamHG-Memex/hh-deep-deep) installation notes about running it with Docker
@@ -102,6 +102,6 @@ The app should be listening on http://localhost:5081 with the admin credentials:
 Alternatively, a container can be run instead of the local installation
 
 ```
-sitehound_version="3.2.9"
-docker run -d -p 0.0.0.0:5081:5081 --name=sitehound-$sitehound_version --hostname=sitehound --link mongodb:mongodb --link kafkacontainer:hh-kafka --link elasticsearch:hh-elasticsearch hyperiongray/sitehound:$sitehound_version
+sitehound_version="3.3.2"
+docker run -d -p 0.0.0.0:5081:5081 --name=sitehound-$sitehound_version --hostname=sitehound --link mongodb:mongodb --link kafka-2.11-0.10.1.1-2.3:hh-kafka --link elasticsearch:hh-elasticsearch hyperiongray/sitehound:$sitehound_version
 ```

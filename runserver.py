@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # Create database connection object
     app.config['MONGODB_HOST'] = app.config['MONGO_HOST_NAME']
     app.config['MONGODB_PORT'] = app.config['MONGO_HOST_PORT']
-    app.config['MONGODB_DB'] = 'sitehound'
+    app.config['MONGODB_DB'] = 'MemexHack'
     db = MongoEngine(app)
 
 

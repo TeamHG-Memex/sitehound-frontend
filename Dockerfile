@@ -22,7 +22,10 @@ RUN mkdir -p /root/sitehound
 # Import the application
 ADD ui /root/sitehound/ui
 ADD runserver.py /root/sitehound/runserver.py
+ADD requirements.txt /root/sitehound/requirements.txt
 
+# in case is needed to replace some config
+ADD ui/settings.py /root/sitehound/ui/
 
 # Set the default directory where CMD will execute
 WORKDIR /root/sitehound

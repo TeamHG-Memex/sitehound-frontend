@@ -16,7 +16,7 @@ to connect to common crawl specify this as cc_crawldata
 '''
 
 
-mongo_database_name = "sitehound"
+mongo_database_name = "MemexHack"
 seed_urls_collection_name = "seed_urls"
 broad_crawler_collection_name = "broad_crawler"
 crawl_job_collection_name = "crawl_job"
