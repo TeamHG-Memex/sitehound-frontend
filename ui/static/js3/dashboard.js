@@ -107,13 +107,15 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 	}
 
 	$scope.getAggregatedLabelUserDefinedCategories = function() {
-		labelUserDefinedCategoriesFactory.getAggregated($scope.workspaceId)
-        .success(function (data) {
-            $scope.userDefinedCategoriesCounted = userDefinedCategoriesFactory.mergeUserDefinedCategoriesCounted($scope.workspace.userDefinedCategories, data);
-        })
-        .error(function (error) {
-            $scope.status = 'Unable to load data: ' + error.message;
-        });
+	    if($scope.workspace.userDefinedCategories){
+            labelUserDefinedCategoriesFactory.getAggregated($scope.workspaceId)
+            .success(function (data) {
+                $scope.userDefinedCategoriesCounted = userDefinedCategoriesFactory.mergeUserDefinedCategoriesCounted($scope.workspace.userDefinedCategories, data);
+            })
+            .error(function (error) {
+                $scope.status = 'Unable to load data: ' + error.message;
+            });
+	    }
 	}
 
     $scope.resultStruct = {
