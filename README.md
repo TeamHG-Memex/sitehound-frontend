@@ -37,7 +37,7 @@ Custom Docker versions of these components are provided with their extra args to
 
 This components offer a suite of capabilities to Site Hound. Only the first three components are required.
 
-- [HH-joogle](https://github.com/TeamHG-Memex/hh-joogle): Performs queries on the Search engines, follows the relevant links and orchestrates the screenshots, text extraction, 
+- [Sitehound-Backend](https://github.com/TeamHG-Memex/sitehound-backend): Performs queries on the Search engines, follows the relevant links and orchestrates the screenshots, text extraction, 
 language identification, page-classification, naive scoring using the cosine difference of TF*IDF, and stores the results sets.<br>
 - [Splash](https://github.com/scrapinghub/splash): Splash is used for screenshoot and html capturing.
 - [HH-DeepDeep](https://github.com/TeamHG-Memex/hh-deep-deep): Allows the user to train a page model to perform on-topic crawls
@@ -66,7 +66,7 @@ docker run -d -p 127.0.0.1:27017:27017 --name=mongodb --hostname=mongodb -v /dat
 
 ##### Kafka
 ```
-docker run -d -p 127.0.0.1:9092:9092 -p 127.0.0.1:2181:2181 --name kafka-2.11-0.10.1.1-2.2 --hostname=hh-kafka hyperiongray/kafka-2.11-0.10.1.1:2.2
+docker run -d -p 127.0.0.1:9092:9092 -p 127.0.0.1:2181:2181 --name kafka-2.11-0.10.1.1-2.4 --hostname=hh-kafka hyperiongray/kafka-2.11-0.10.1.1:2.4
 ```
 wait 10 secs for the service to fully start and be ready for connections
     
@@ -103,5 +103,5 @@ Alternatively, a container can be run instead of the local installation
 
 ```
 sitehound_version="3.3.2"
-docker run -d -p 0.0.0.0:5081:5081 --name=sitehound-$sitehound_version --hostname=sitehound --link mongodb:mongodb --link kafka-2.11-0.10.1.1-2.3:hh-kafka --link elasticsearch:hh-elasticsearch hyperiongray/sitehound:$sitehound_version
+docker run -d -p 0.0.0.0:5081:5081 --name=sitehound-$sitehound_version --hostname=sitehound --link mongodb:mongodb --link kafka-2.11-0.10.1.1-2.4:hh-kafka --link elasticsearch:hh-elasticsearch hyperiongray/sitehound:$sitehound_version
 ```
