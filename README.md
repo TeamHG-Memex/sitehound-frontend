@@ -46,7 +46,7 @@ language identification, page-classification, naive scoring using the cosine dif
 
 
 Here is the components diagram for reference
-![Components Diagram](https://github.com/TeamHG-Memex/the-headless-horseman/blob/develop/docs/img/components-diagram.png) 
+![Components Diagram](docs/img/components-diagram.png) 
 
 
 
