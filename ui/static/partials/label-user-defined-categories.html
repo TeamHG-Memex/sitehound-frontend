@@ -44,18 +44,31 @@
                                         <a href="" ng-click="navigateToUserDefinedCategories()">Edit categories</a>
                                     </div>
                                     <div style="float:right; margin-top: 20px; margin-bottom: 10px;margin-right:20px">
-                                         <!--<a href="api/workspace/58371731166f1c63b4769401/label-user-defined-categories/all">Download</a>-->
                                         <a href="" ng-click="navigateToUserDefinedCategoriesDownload()">Download</a>
-
                                     </div>
                                     <div style="clear:both"></div>
+                                    <br/>
+                                    <div section="lower-icons" style="float:left;text-align:left;font-size:14px; vertical-align: bottom;">
+                                        <label style="margin-right:15px">Showing</label>
+                                        <label ng-repeat="(category,checked) in userDefinedCategoriesFilters" class="checkbox-inline">
+                                            <input type="checkbox"
+                                                   ng-checked="userDefinedCategoriesFilters[category]"
+                                                   ng-model="userDefinedCategoriesFilters[category]"
+                                                   ng-click="reloadResults()"
+                                            >
+                                            {{category | capitalize}}
+                                        </label>
+                                    </div>
+                                    <br/>
                                     <hr>
 
                                     <br/>
                                 </div>
                                 <accordion close-others="false">
                                     <div infinite-scroll='fetch()' infinite-scroll-disabled='crawlStatusBusy' infinite-scroll-distance='5'>
-                                        <accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in seedUrls  | filter: deletedFilter">
+                                        <!--<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in seedUrls | filter : categoryFilter | filter: deletedFilter">-->
+                                        <!--The onclick event on the checkbox doesn't triggers if it is being filter by the categoryFilter. Removing the categoryFilter-->
+                                        <accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in seedUrls | filter: deletedFilter">
                                         <accordion-heading >
                                             <span ng-hide="status.open">
                                                 {{elem.host}}
@@ -100,15 +113,14 @@
                                                     <div>
                                                         <label ng-repeat="category in userDefinedCategories" class="checkbox-inline">
                                                             <input type="checkbox"
-                                                                   ng-checked="elem.userDefinedCategorySelected[category]"
                                                                    ng-model="elem.userDefinedCategorySelected[category]"
                                                                    ng-click="onSeedUrlLabelChanged(elem._id, category, elem.userDefinedCategorySelected[category])"
                                                             >
                                                             {{category | capitalize}}
                                                         </label>
-                                                      </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                         </accordion-body>
                                     </accordion-group>
                                     </div>

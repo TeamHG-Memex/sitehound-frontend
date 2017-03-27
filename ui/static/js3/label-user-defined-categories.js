@@ -16,7 +16,11 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
 	}
 
     $scope.navigateToUserDefinedCategoriesDownload = function(){
-		domFactory.navigateToUserDefinedCategoriesDownload();
+        var qs ="";
+        if($scope.userDefinedCategoriesSelected()!=null){
+            qs ="?categories=" +$scope.userDefinedCategoriesSelected()
+        }
+		domFactory.navigateToUserDefinedCategoriesDownload(qs);
 	}
 
 
@@ -32,10 +36,10 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
 
     $scope.hideSubmittedOk = function(){
         $scope.submittedOk = false;
-    }
+    };
     $scope.hideSubmittedError = function(){
         $scope.submittedError = false;
-    }
+    };
 
     $scope.errorMessageDefault = 'Please check your connection and contact and administrator.'
 
@@ -51,13 +55,14 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
         .finally(function(){
 //			$scope.loading = false;
         });
-    }
+    };
 
     $scope.userDefinedCategories = [];
     function getUserDefinedCategories(){
         userDefinedCategoriesFactory.get($scope.workspaceId)
         .success(function (data) {
             $scope.userDefinedCategories = data || [];
+            setFilters(data);
         })
         .error(function (error) {
             $scope.status = 'Unable to load data: ' + error.message;
@@ -65,16 +70,40 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
         .finally(function(){
             $scope.loading = false;
         });
-    }
+    };
+
+    $scope.userDefinedCategoriesFilters = {};
+    function setFilters(categories){
+        var temp = {};
+        temp["NOT_EVALUATED"] = true
+        angular.forEach(categories, function(category){
+            temp[category] = true;
+        });
+        $scope.userDefinedCategoriesFilters = temp;
+    };
+
+    $scope.userDefinedCategoriesSelected= function(){
+        if($scope.usingCategoryFilters){
+            var temp = [];
+            angular.forEach($scope.userDefinedCategoriesFilters, function(v, k){
+                if(v){
+                    temp.push(k);
+                }
+            });
+            return temp;
+        }
+        else{
+            return null;
+        }
+
+    };
 
 
-
-    $scope.userDefinedCategoriesSelected=[];
     function getSeedUrls(){
         $scope.loading = true;
         $scope.errorMessage = "";
         $scope.crawlStatusBusy=true;
-        labelUserDefinedCategoriesFactory.get($scope.workspaceId, $scope.userDefinedCategoriesSelected, $scope.lastId)
+        labelUserDefinedCategoriesFactory.get($scope.workspaceId, $scope.userDefinedCategoriesSelected(), $scope.lastId)
         .success(function (data) {
             console.log("finish fetching seed Urls");
             var tempResults = data;
@@ -96,7 +125,8 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
             $scope.loading = false;
         })
         .error(function (error) {
-            $scope.errorMessage = error.message;
+            console.log(error)
+            if(error.message){$scope.errorMessage = error.message;}
             $scope.crawlStatusBusy=false;
             $scope.loading = false;
         })
@@ -140,7 +170,12 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
         getSeedUrls();
     }
 
+    $scope.usingCategoryFilters=false;
     $scope.reloadResults = function(){
+        $scope.usingCategoryFilters=true;
+        // restart the loading
+        $scope.seedUrls = [];
+        $scope.lastId = null;
         getSeedUrls();
     }
 
@@ -156,6 +191,33 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
     $scope.deletedFilter = function(seedUrl){
         return !seedUrl.deleted; //|| seedUrl.deleted == true;
     }
+
+	$scope.categoryFilter = function(seedUrl) {
+
+        if($scope.usingCategoryFilters){
+            // at least one filter has to match
+
+            var found = false;
+            angular.forEach($scope.userDefinedCategoriesSelected(), function(category){
+
+                if(category=="NOT_EVALUATED"){
+                    if(Object.size(seedUrl.userDefinedCategorySelected)==0){
+                        found = true;
+                        return;
+                    }
+                }
+                else if(seedUrl.userDefinedCategorySelected[category] == true){
+                    found = true;
+                    return;
+                }
+            });
+            return found;
+        }
+        else{
+            return true;
+        }
+	}
+
 
     $scope.onWordScoreUpdated = function(word){
         seedFactory.save($scope.workspaceId, word.name, word.score)
@@ -183,7 +245,7 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
 
 
     $scope.onSeedUrlLabelChanged = function(id, category, isChecked){
-    console.log(isChecked);
+        console.log(isChecked);
         labelUserDefinedCategoriesFactory.update($scope.workspaceId, id, category, isChecked)
         .success(function (data) {
             console.log('updated');
@@ -235,38 +297,31 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
 
     getUserDefinedCategories();
 
-    getSeeds();
+//    getSeeds();
 
 //	getSeedUrls();
 
-    checkFetchDo();
+//    checkFetchDo();
 
 }]);
+
+
+
 
 var labelUserDefinedCategoriesFactory = ngApp.factory('labelUserDefinedCategoriesFactory',['$http', function($http){
 
     var urlBase = '/api/workspace/{0}/label-user-defined-categories';
     var dataFactory = {};
 
-/*
-    dataFactory.get = function (workspaceId, source, relevance, lastId) {
-        var url =  String.format(urlBase, workspaceId);
-        po = {};
-        po.relevance = relevance;
-        po.lastId = lastId;
-        return $http.post(url + '/' + source, po);
-    };
-*/
-
     dataFactory.get = function (workspaceId, categories, lastId) {
         var url =  String.format(urlBase, workspaceId);
-        if (categories.length>0){
+        if (categories!= null){
             url = url +"?categories=" + categories;
         }
 
         var glue ="";
         if (lastId){
-            if(categories.length>0){
+            if(categories!= null){
                 glue = "&";
             }
             else{
@@ -299,16 +354,6 @@ var labelUserDefinedCategoriesFactory = ngApp.factory('labelUserDefinedCategorie
         return $http.delete(url + "/url/" + id + "/" + category);
     };
 
-/*
-    dataFactory.generate = function(workspaceId, nResults, crawlProvider, crawlSources) {
-        var url =  String.format(urlBase, workspaceId);
-        var po = {};
-        po.nResults = nResults;
-        po.crawlProvider = crawlProvider;
-        po.crawlSources = crawlSources;
-        return $http.post(url + '/generation', po);
-    };
-*/
     dataFactory.delete = function(workspaceId, id){
         var url =  String.format(urlBase, workspaceId);
         return $http.delete(url + "/url/" + id);

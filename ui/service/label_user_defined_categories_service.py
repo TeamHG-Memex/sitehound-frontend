@@ -5,11 +5,15 @@ from ui.singleton import Singleton
 __author__ = 'tomas'
 
 
-def get_seeds_urls(workspace_id, categories, last_id, limit, _source_exclude=["result.crawlResultDto.image", "result.crawlResultDto.html"]):
+def get_seeds_urls(workspace_id, categories_as_string, last_id, limit, _source_exclude=["result.crawlResultDto.image", "result.crawlResultDto.html"]):
 
     categories_search_condition = {}
-    if categories is not None:
-        categories_search_condition = {'userDefinedCategory': {'$in': categories}}
+    if categories_as_string is not None:
+        categories = categories_as_string.split(",")
+        if "NOT_EVALUATED" in categories:
+            categories_search_condition = {'$or': [{'userDefinedCategories': {'$exists': False}}, {'userDefinedCategories': {'$in': categories}}]}
+        else:
+            categories_search_condition = {'userDefinedCategories': {'$in': categories}}
 
     page_search_object = {}
     if last_id is not None:

@@ -154,16 +154,10 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 		reload(url);
 	}
 
-
-///api/workspace/583da61cd11ff30007931b6d/label-user-defined-categories
-	domFactory.navigateToUserDefinedCategoriesDownload = function(){
-		var url = "api/workspace/" + $routeParams.workspaceId + "/label-user-defined-categories/all";
+	domFactory.navigateToUserDefinedCategoriesDownload = function(qs){
+		var url = "api/workspace/" + $routeParams.workspaceId + "/label-user-defined-categories/all" + qs;
         window.location.assign(url);
 	}
-
-
-
-
 
 
     $(".navbar-deep-crawl").bind("click", function(e){
