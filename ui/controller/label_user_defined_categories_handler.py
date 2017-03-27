@@ -18,9 +18,9 @@ handler_path = "label-user-defined-categories"
 @login_required
 def get_label_user_defined_categories_api(workspace_id):
     last_id = request.args.get('lastid')
-    categories = request.args.get('categories')
+    categories_as_string = request.args.get('categories')
     limit = 3
-    in_doc = get_seeds_urls(workspace_id, categories, last_id, limit)
+    in_doc = get_seeds_urls(workspace_id, categories_as_string, last_id, limit)
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 
@@ -29,9 +29,10 @@ def get_label_user_defined_categories_api(workspace_id):
 @login_required
 def get_all_label_user_defined_categories_api(workspace_id):
     try:
+        categories_as_string = request.args.get('categories')
         limit = 10000
         _source_exclude = ["result.crawlResultDto.image"]
-        in_doc = get_seeds_urls(workspace_id, None, None, limit=limit, _source_exclude=_source_exclude)
+        in_doc = get_seeds_urls(workspace_id, categories_as_string, None, limit=limit, _source_exclude=_source_exclude)
         logging.info("all found" + str(len(in_doc)) + "docs")
         out_doc = JSONEncoder().encode(in_doc)
         logging.info("making response")

@@ -26,11 +26,6 @@
 
 
 
-						<!--<div id="loading" ng-show="loading==true">-->
-						<!--DISABLED; NO NEED-->
-						<!--<div id="loading" ng-show="loading==true">-->
-							<!--<div class="alert alert-loading" role="alert">Loading... </div>-->
-						<!--</div>-->
 						<div class="panel panel-default" >
 							<div class="panel-heading">
 								<h3 class="panel-title" style="display:inline;">Evaluate related URL's </h3>
@@ -50,67 +45,26 @@
 
 										</h3>
 									</div>
-
-									<hr>
-									<!--<div ng-hide='source=="imported"'>-->
-										<!--<div ng-hide='source=="deepdeep"'>-->
-											<!--<br/>-->
-											<!--<button class="btn btn-primary" ng-click="generateSeedUrls()" >-->
-												<!--Launch-->
-											<!--</button>-->
-											<!--<hr>-->
-										<!--</div>-->
-										<div ng-show='source=="deepdeep"'>
-											<!--<br/>-->
-											<!--<button class="btn btn-primary" ng-click="startDdModeler()" >-->
-												<!--Build Initial Model-->
-											<!--</button>-->
-											<!--<div style="padding:20px">-->
-												<!--<div ng-hide='modelerProgress==[]'>-->
-													<!--<h4>Quality:</h4>-->
-													<!--<div>-->
-														<!--<ul>-->
-															<!--<li ng-repeat="elem in modelerProgress">{{elem[0]}}:&nbsp;{{elem[1]}}</li>-->
-														<!--</ul>-->
-														<!--&lt;!&ndash;<span ng-bind="modelerProgress"></span>&ndash;&gt;-->
-													<!--</div>-->
-												<!--</div>-->
-												<!--<div ng-show='modelerProgress==[]' >-->
-													<!--<h4>Important</h4>-->
-													<!--<span>Requires a prior training using the SearchEngines to gather some URLs</span>-->
-												<!--</div>-->
-											<!--</div>-->
-											<!--<hr>-->
-											<!--<button class="btn btn-primary" ng-click="startDdTrainer()" >-->
-												<!--Start Deep Deep Trainer-->
-											<!--</button>-->
-											<!--<button class="btn btn-primary" ng-click="stopDdTrainer()" >-->
-												<!--Stop Deep Deep Trainer-->
-											<!--</button>-->
-											<div style="padding:20px" ng-hide='trainerProgress==""'>
-												<div >
-													<h4>Progress:</h4>
-													<span ng-bind="trainerProgress"></span>
-												</div>
-												<!--<div ng-show='trainerProgress==""' >-->
-													<!--<h4>Important</h4>-->
-													<!--<span>Requires a prior training using the SearchEngines to gather some URLs</span>-->
-												<!--</div>-->
+									<div ng-show='source=="deepdeep"'>
+										<div style="padding-left:20px" ng-hide='trainerProgress==""'>
+											<div >
+												<h4>Progress:</h4>
+												<span ng-bind="trainerProgress"></span>
 											</div>
-											<hr>
 										</div>
-									<!--</div>-->
+										<hr>
+										<br>
+									</div>
+									<div style="clear:both"></div>
 									<br>
-									<div style="float:left; font-size:13px">
+									<div style="float:left; font-size:14px">
 										<label style="margin-right:15px">Showing</label>
 										Not Evaluated <input type="checkbox" value="NEUTRAL" ng-click="reloadResults()" ng-model="relevancyFilter_Neutral" style="margin-right:10px; margin-left:5px">
 										Relevant<input type="checkbox" value="RELEVANT" ng-click="reloadResults()" ng-model="relevancyFilter_Relevant" style="margin-right:10px; margin-left:5px">
 										Irrelevant<input type="checkbox" value="IRRELEVANT" ng-click="reloadResults()" ng-model="relevancyFilter_Irrelevant" style="margin-right:10px; margin-left:5px">
 									</div>
-									<!--<div style="float:right">-->
-										<!--<button class="btn btn-danger" ng-click="resetResults()">Reset Results</button>-->
-									<!--</div>-->
-									<div style="clear:both"></div>
+									<br/>
+									<hr>
 									<br/>
 								</div>
 								<accordion close-others="false">
@@ -144,7 +98,6 @@
 														</a>
 													</p>
 													<p><b>{{elem.title}}</b></p>
-													<!--<p style="font-size:12px; overflow: hidden;">{{elem.desc}}</p>-->
 													<p style="font-size:12px; overflow: hidden;text-align: justify;">{{elem.desc | ellipsis:true:850:' ...'}}</p>
 												</div>
 												<div style="float:right; text-align: right">
@@ -175,21 +128,6 @@
 													  </div>
 													</div>
 												</div>
-											<!--<div style="clear:both">-->
-												<!--<div section="lower-icons" style="text-align:center;padding-top: 15px; ">-->
-													<!--<nz-toggle width="150" tri-toggle-->
-														<!--on-toggle="onSeedUrlUpdated(elem._id, elem.relevant)"-->
-														<!--ng-model="elem.relevant"-->
-														<!--val-true="true"-->
-														<!--val-false="false"-->
-														<!--val-null="null"-->
-														<!--tip-false="'Irrelevant'"-->
-														<!--tip-null="'Neutral'"-->
-														<!--tip-true="'Relevant'"-->
-														<!--&gt;-->
-													<!--</nz-toggle>-->
-												<!--</div>-->
-											<!--</div>-->
 										</accordion-body>
 									</accordion-group>
 									</div>
