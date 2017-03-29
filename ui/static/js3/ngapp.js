@@ -104,8 +104,18 @@ ngApp.config(function ($routeProvider) {
 	$routeProvider
 		.when('/',
 			{
-				controller: 'workspaceController',
-				templateUrl: '/static/partials/workspace.html'
+				controller: 'welcomeController',
+				templateUrl: '/static/partials/welcome-md.html'
+			})
+		.when('/welcome2',
+			{
+				controller: 'welcomeController',
+				templateUrl: '/static/partials/welcome2-md.html'
+			})
+		.when('/welcome',
+			{
+				controller: 'welcomeController',
+				templateUrl: '/static/partials/welcome-md.html'
 			})
 		.when('/user',
 			{

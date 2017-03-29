@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ngApp">
 <head lang="en">
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<meta name="lang" value="en">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-	<title>Headless Horseman</title>
+	<title>Sitehound</title>
 
 	<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
@@ -17,54 +18,50 @@
 	<script src="{{ url_for('static', filename='js/URI.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/pinterest_grid.js') }}"></script>
 
-	<!--<link href="{{ url_for('static', filename='css/jquery-ui.css') }}" rel=stylesheet>-->
-
-	<!-- Latest compiled and minified CSS -->
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
-	<!--<link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap.min.css') }}" rel=stylesheet>-->
-	<!-- Optional theme -->
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">-->
-	<!--<link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap-theme.min.css') }}" rel=stylesheet>-->
-	<!-- Latest compiled and minified JavaScript -->
-	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>-->
-	<!--<script src="{{ url_for('static', filename='lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script>-->
-
-	<!--&lt;!&ndash;<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel=stylesheet>&ndash;&gt;-->
-	<!--<link href="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch-bootstrap-3.css') }}" rel=stylesheet>-->
-	<!--<link href="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.css') }}" rel=stylesheet>-->
-
-	<!--<link href="{{ url_for('static', filename='css/d3.slider.css') }}" rel=stylesheet>-->
-	<!--<link href="{{ url_for('static', filename='css/hg.css') }}" rel=stylesheet>-->
-	<!--<link href="{{ url_for('static', filename='css/security.css') }}" rel=stylesheet>-->
-	<!--<link href="{{ url_for('static', filename='css/tooltipster.css') }}" rel=stylesheet>-->
-
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
 
 	  <!-- Angular Material style sheet -->
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <!--<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">-->
+	<link href="{{ url_for('static', filename='css/mdl/1.3/material.deep_purple-pink.min.css') }}" rel=stylesheet>
+
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
   <link rel="stylesheet" href="https://getmdl.io/templates/text-only/styles.css">
-
+    <style>
+    #view-source {
+      position: fixed;
+      display: block;
+      right: 0;
+      bottom: 0;
+      margin-right: 40px;
+      margin-bottom: 40px;
+      z-index: 900;
+    }
+    </style>
 </head>
 
-  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" >
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" >
+    <!--<div class="mdl-layout mdl-js-layout mdl-layout&#45;&#45;fixed-header">-->
+
       <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">
         </div>
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-          <h3>Name &amp; Title</h3>
+          <h3>Site Hound</h3>
         </div>
         <div class="mdl-layout--large-screen-only mdl-layout__header-row">
         </div>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-          <a href="#overview" class="mdl-layout__tab is-active">Overview</a>
-          <a href="#features" class="mdl-layout__tab">Features</a>
-          <a href="#features" class="mdl-layout__tab">Details</a>
-          <a href="#features" class="mdl-layout__tab">Technology</a>
-          <a href="#features" class="mdl-layout__tab">FAQ</a>
+          <a href="#overview" class="mdl-layout__tab  is-active">Users</a>
+          <a href="/#/workspace" class="mdl-layout__tab">Workspaces</a>
+          <!--<a href="#features" class="mdl-layout__tab">Workspaces</a>-->
+          <a href="#features" class="mdl-layout__tab">Dashboard</a>
+          <a href="#features" class="mdl-layout__tab">Deep Web</a>
+          <a href="#features" class="mdl-layout__tab">Training</a>
+          <a href="#workspace2" class="mdl-layout__tab">Crawling</a>
           <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
             <i class="material-icons" role="presentation">add</i>
             <span class="visuallyhidden">Add</span>
@@ -72,6 +69,10 @@
         </div>
       </header>
       <main class="mdl-layout__content">
+		  <!--<div  class="mdl-layout__tab-panel is-active" id="overview" ng-view=""></div>-->
+        <div class="mdl-layout__tab-panel is-active" id="workspace">
+
+		</div>
         <div class="mdl-layout__tab-panel is-active" id="overview">
           <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
             <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
@@ -95,6 +96,8 @@
               <li class="mdl-menu__item">Dolor</li>
             </ul>
           </section>
+
+
           <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
             <div class="mdl-card mdl-cell mdl-cell--12-col">
               <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
@@ -170,6 +173,7 @@
             </div>
           </section>
         </div>
+
         <div class="mdl-layout__tab-panel" id="features">
           <section class="section--center mdl-grid mdl-grid--no-spacing">
             <div class="mdl-cell mdl-cell--12-col">
@@ -225,65 +229,65 @@
             </div>
           </section>
         </div>
-        <footer class="mdl-mega-footer">
-          <div class="mdl-mega-footer--middle-section">
-            <div class="mdl-mega-footer--drop-down-section">
-              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
-              <h1 class="mdl-mega-footer--heading">Features</h1>
-              <ul class="mdl-mega-footer--link-list">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Terms</a></li>
-                <li><a href="#">Partners</a></li>
-                <li><a href="#">Updates</a></li>
-              </ul>
-            </div>
-            <div class="mdl-mega-footer--drop-down-section">
-              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
-              <h1 class="mdl-mega-footer--heading">Details</h1>
-              <ul class="mdl-mega-footer--link-list">
-                <li><a href="#">Spec</a></li>
-                <li><a href="#">Tools</a></li>
-                <li><a href="#">Resources</a></li>
-              </ul>
-            </div>
-            <div class="mdl-mega-footer--drop-down-section">
-              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
-              <h1 class="mdl-mega-footer--heading">Technology</h1>
-              <ul class="mdl-mega-footer--link-list">
-                <li><a href="#">How it works</a></li>
-                <li><a href="#">Patterns</a></li>
-                <li><a href="#">Usage</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">Contracts</a></li>
-              </ul>
-            </div>
-            <div class="mdl-mega-footer--drop-down-section">
-              <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
-              <h1 class="mdl-mega-footer--heading">FAQ</h1>
-              <ul class="mdl-mega-footer--link-list">
-                <li><a href="#">Questions</a></li>
-                <li><a href="#">Answers</a></li>
-                <li><a href="#">Contact us</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="mdl-mega-footer--bottom-section">
-            <div class="mdl-logo">
-              More Information
-            </div>
-            <ul class="mdl-mega-footer--link-list">
-              <li><a href="https://developers.google.com/web/starter-kit/">Web Starter Kit</a></li>
-              <li><a href="#">Help</a></li>
-              <li><a href="#">Privacy and Terms</a></li>
-            </ul>
-          </div>
-        </footer>
+		  <!--<ng-include src="footer-md.html"></ng-include>-->
+        <!--&lt;!&ndash;<footer class="mdl-mega-footer">&ndash;&gt;-->
+          <!--&lt;!&ndash;<div class="mdl-mega-footer&#45;&#45;middle-section">&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mdl-mega-footer&#45;&#45;drop-down-section">&ndash;&gt;-->
+              <!--&lt;!&ndash;<input class="mdl-mega-footer&#45;&#45;heading-checkbox" type="checkbox" checked>&ndash;&gt;-->
+              <!--&lt;!&ndash;<h1 class="mdl-mega-footer&#45;&#45;heading">Features</h1>&ndash;&gt;-->
+              <!--&lt;!&ndash;<ul class="mdl-mega-footer&#45;&#45;link-list">&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">About</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Terms</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Partners</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Updates</a></li>&ndash;&gt;-->
+              <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mdl-mega-footer&#45;&#45;drop-down-section">&ndash;&gt;-->
+              <!--&lt;!&ndash;<input class="mdl-mega-footer&#45;&#45;heading-checkbox" type="checkbox" checked>&ndash;&gt;-->
+              <!--&lt;!&ndash;<h1 class="mdl-mega-footer&#45;&#45;heading">Details</h1>&ndash;&gt;-->
+              <!--&lt;!&ndash;<ul class="mdl-mega-footer&#45;&#45;link-list">&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Spec</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Tools</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Resources</a></li>&ndash;&gt;-->
+              <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mdl-mega-footer&#45;&#45;drop-down-section">&ndash;&gt;-->
+              <!--&lt;!&ndash;<input class="mdl-mega-footer&#45;&#45;heading-checkbox" type="checkbox" checked>&ndash;&gt;-->
+              <!--&lt;!&ndash;<h1 class="mdl-mega-footer&#45;&#45;heading">Technology</h1>&ndash;&gt;-->
+              <!--&lt;!&ndash;<ul class="mdl-mega-footer&#45;&#45;link-list">&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">How it works</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Patterns</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Usage</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Products</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Contracts</a></li>&ndash;&gt;-->
+              <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mdl-mega-footer&#45;&#45;drop-down-section">&ndash;&gt;-->
+              <!--&lt;!&ndash;<input class="mdl-mega-footer&#45;&#45;heading-checkbox" type="checkbox" checked>&ndash;&gt;-->
+              <!--&lt;!&ndash;<h1 class="mdl-mega-footer&#45;&#45;heading">FAQ</h1>&ndash;&gt;-->
+              <!--&lt;!&ndash;<ul class="mdl-mega-footer&#45;&#45;link-list">&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Questions</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Answers</a></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="#">Contact us</a></li>&ndash;&gt;-->
+              <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--&lt;!&ndash;<div class="mdl-mega-footer&#45;&#45;bottom-section">&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="mdl-logo">&ndash;&gt;-->
+              <!--&lt;!&ndash;More Information&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<ul class="mdl-mega-footer&#45;&#45;link-list">&ndash;&gt;-->
+              <!--&lt;!&ndash;<li><a href="https://developers.google.com/web/starter-kit/">Web Starter Kit</a></li>&ndash;&gt;-->
+              <!--&lt;!&ndash;<li><a href="#">Help</a></li>&ndash;&gt;-->
+              <!--&lt;!&ndash;<li><a href="#">Privacy and Terms</a></li>&ndash;&gt;-->
+            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</footer>&ndash;&gt;-->
+    	<ng-include src="'/static/partials/footer-md.html'"></ng-include>
       </main>
     </div>
     <a href="https://github.com/google/material-design-lite/blob/mdl-1.x/templates/text-only/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-
-
 
 
   <!-- Angular Material requires Angular.js Libraries -->
@@ -349,7 +353,8 @@
 	<script src="{{ url_for('static', filename='js3/job.js') }}"></script>
 	<script src="{{ url_for('static', filename='js3/navbar.js') }}"></script>
 	<script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/languages.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/welcome.js') }}"></script>
 
+	<script src="{{ url_for('static', filename='lib/languages.js') }}"></script>
 </body>
 </html>
