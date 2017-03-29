@@ -4,6 +4,7 @@ var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bo
 	'toggle-switch', 'infinite-scroll','nzToggle', 'ngSilent', 'ngCookies', 'xeditable', 'checklist-model'
 	,'lightGrid','lightGridDataProviders','lightGridControls'
 //	, 'ngSanitize'
+    , 'ngMaterial'
 	, 'ngCsv'])
 
 

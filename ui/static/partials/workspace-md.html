@@ -1,0 +1,114 @@
+<!--<div class="alert alert-success" role="alert">...</div>-->
+<!--<div class="alert alert-info" role="alert">...</div>-->
+<!--<div class="alert alert-warning" role="alert">...</div>-->
+<!--<div class="alert alert-danger" role="alert">...</div>-->
+
+<!--
+<div class="alert alert-success alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>Success!</strong> Better check yourself, you're not looking too good.
+</div>
+<div class="alert alert-info alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>Info!</strong> Better check yourself, you're not looking too good.
+</div>
+<div class="alert alert-warning alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>Warning!</strong> Better check yourself, you're not looking too good.
+</div>
+<div class="alert alert-danger alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong>Danger!</strong> Better check yourself, you're not looking too good.
+</div>
+-->
+
+
+						<div id="loading" ng-show="loading==true">
+							<div class="alert alert-loading" role="alert">Processing, please wait... </div>
+						</div>
+						<div id="notificationArea">
+							<!--TODO -->
+						</div>
+						<div class="panel panel-default" >
+							<div class="panel-heading">
+								<h3 class="panel-title" style="display:inline;">Workspace Dashboard</h3>
+								<a id="memtool" class="glyphicon glyphicon-question-sign"></a>
+								<a class="navbar-seed" ng-click="next()">
+									<span class="next-step">
+										Next step
+										<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
+									</span>
+								</a>
+							</div>
+							<div class="panel-body">
+								<div id="wsList" class="list-group">
+									<div width="60%">
+										<table class="table" width="70%" style="font-size:13px">
+											<thead>
+											  <tr>
+												<th width="2%">&nbsp;</th>
+												  <th width="2%">#</th>
+												  <th>Name</th>
+												<th>Date created</th>
+												<th># Keywords</th>
+												<!--<th>Excluded keywords</th>-->
+												<th>&nbsp;</th>
+												<!--<th>&nbsp;</th>-->
+											  </tr>
+											</thead>
+											<tbody>
+											<!--<tr ng-repeat="workspace in workspaces track by workspace._id"  ng-class-even="{{ workspace.selected ? '':'workspace-row-even'}}" class='{{ workspace.selected ? "workspace-row-selected" : ""}}'>-->
+											<tr ng-repeat="workspace in workspaces track by workspace._id"  ng-class-even="workspace.selected ? '':'workspace-row-even'" class='{{ workspace.selected ? "workspace-row-selected" : ""}}'>
+												<td>
+													<!--<span class='{{ workspace.selected ? "glyphicon glyphicon-arrow-right" : ""}}'></span>-->
+													<!--<a>-->
+														<!--<span class='{{ workspace.selected ? "" : "glyphicon glyphicon-circle-arrow-right"}}' ng-click="selectWorkspace(workspace._id)" title="select"></span>-->
+													<!--</a>-->
+													&nbsp;
+												</td>
+												<th scope="row" class="selectionable" ng-click="selectWorkspace(workspace._id)">{{ $index + 1 }}</th>
+												<td ng-click="selectWorkspace(workspace._id)">{{ workspace.name }}</td>
+												<td ng-click="selectWorkspace(workspace._id)">{{ workspace.created }}</td>
+												<td ng-click="selectWorkspace(workspace._id)">{{ getLength(workspace.words) }}</td>
+												<!--<td ng-click="selectWorkspace(workspace._id)">{{ workspace.keyword.excludedKeywords.length }}</td>-->
+												<!--<td>-->
+													<!--<a>-->
+														<!--<span class='{{ workspace.selected ? "" : "glyphicon glyphicon-circle-arrow-left"}}' ng-click="selectWorkspace(workspace._id)" title="select"></span>-->
+													<!--</a>-->
+												<!--</td>-->
+												<td>
+													<a>
+														<!--<span class='{{ workspace.selected ? "" : "glyphicon glyphicon-trash"}}' ng-click="deleteWorkspace(workspace._id, workspace.name)" title="remove"></span>-->
+														<span class="glyphicon glyphicon-trash" ng-click="deleteWorkspace(workspace._id, workspace.name)" title="remove"></span>
+													</a>
+												</td>
+											  </tr>
+											  <tr>
+												<td></td>
+												<td>&nbsp;</td>
+												<td><input type="text" ng-model="workspace.name" ng-keyup="$event.keyCode == 13 && addWorkspace()" placeholder="Add a new workspace"></td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<!--<td>&nbsp;</td>-->
+												<!--<td>&nbsp;</td>-->
+												<td>
+													<a ng-click="addWorkspace()">
+														<span class="glyphicon glyphicon-plus-sign"></span>
+													</a>
+												</td>
+											  </tr>
+												<tr>
+													<td colspan="8" style="text-alignment:right">
+														<br>
+														<button type="button" class="btn btn-primary btn-md" ng-click="navigateToDashboard(workspace._id)">
+															Continue
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										  </table>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer"></div>
+						</div>
