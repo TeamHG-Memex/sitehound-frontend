@@ -1,0 +1,128 @@
+
+<md-content flex md-scroll-y class="md-default-theme" id="homeContent">
+	<!--<ui-view layout="column" layout-fill layout-padding>-->
+		<div layout="column" flex>
+
+			<!--<md-toolbar class="md-table-toolbar md-default">-->
+				<!--<div class="md-toolbar-tools">-->
+					<!--<div flex></div>-->
+					<!--<h4>Show only domains submitted by me &nbsp;</h4>-->
+					  <!--<md-switch ng-model="filter.showOnlyMines" aria-label="Switch 6" ng-change="toggleShowOnlyMines()">-->
+					  <!--</md-switch>-->
+				<!--</div>-->
+			<!--</md-toolbar>-->
+
+			<!--<md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">-->
+			<md-toolbar class="md-table-toolbar md-default">
+				<div class="md-toolbar-tools">
+					<h2 class="md-title">Select a Workspace</h2>
+					<div flex></div>
+					<!--<md-button class="md-icon-button" ng-click="filter.show = true">-->
+						<!--<md-icon>filter_list</md-icon>-->
+					<!--</md-button>-->
+					<!--<md-button class="md-icon-button" ng-click="addItem($event)">-->
+						<!--<md-icon>local_dining</md-icon>-->
+					<!--</md-button>-->
+								   <!--ng-click="$mdAddDialog.large(options);"-->
+						<md-button class="md-primary md-raised" style="color:white"
+						ng-click="addItem($event)"
+						>New</md-button>
+				</div>
+			</md-toolbar>
+
+			<!--<md-toolbar class="md-table-toolbar md-default" ng-show="filter.show && !selected.length">-->
+				<!--<div class="md-toolbar-tools">-->
+					<!--<md-icon>search</md-icon>-->
+					<!--<form flex name="filter.form">-->
+						<!--<input type="text" ng-model="query.filter" ng-model-options="filter.options" md-minlength="20" placeholder="search">-->
+					<!--</form>-->
+					<!--<md-button class="md-icon-button" ng-click="removeFilter()">-->
+						<!--<md-icon>close</md-icon>-->
+					<!--</md-button>-->
+				<!--</div>-->
+			<!--</md-toolbar>-->
+
+			<!--<md-toolbar class="md-table-toolbar alternate" ng-show="selected.length">-->
+			<!--&lt;!&ndash;<md-toolbar class="md-table-toolbar" ng-show="selected.length">&ndash;&gt;-->
+				<!--<div class="md-toolbar-tools" layout-align="space-between"  layout-padding>-->
+					<!--<div>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</div>-->
+					<!--<md-button class="md-icon-button" ng-click="delete($event)">-->
+						<!--<md-icon class="delete">delete</md-icon>-->
+					<!--</md-button>-->
+				<!--</div>-->
+			<!--</md-toolbar>-->
+
+
+			<!--ADMIN'S VIEW-->
+			<md-table-container>
+				<table md-table md-auto-select md-row-select ng-model="selected" md-progress="promise">
+
+					<thead md-head md-order="query.order" md-on-reorder="onReorder">
+					<tr md-row>
+						<th md-column md-order-by="_id"><span>Id</span></th>
+						<th md-column md-order-by="name"><span>Name</span></th>
+						<th md-column md-order-by="created">Date Created</th>
+						<th md-column >Keywords</th>
+						<!--<th md-column md-order-by="scanTimestamp">Scan Timestamp</th>-->
+						<!--<th md-column 							>Seeds</th>-->
+						<!--<th md-column 							>Comments</th>-->
+					</tr>
+					</thead>
+					<tbody md-body>
+
+					<!--<tr md-row md-select="domain" md-select-id="{{domain._id}}" ng-repeat="domain in domains.data">-->
+					<tr md-row md-select="workspace" md-select-id="_id" ng-repeat="workspace in workspaces" md-on-select="mdOnSelect">
+
+						<!--<td class="md-cell md-checkbox-cell">-->
+							<!--<md-checkbox aria-label="Select Row" ng-click="$mdSelect.toggle($event)" ng-checked="$mdSelect.isSelected()"-->
+										 <!--ng-disabled="$mdSelect.disabled" tabindex="0" type="checkbox" role="checkbox" class="ng-scope md-checked" aria-disabled="false" aria-checked="true" checked="checked">-->
+								<!--&lt;!&ndash;<div class="md-container md-ink-ripple" md-ink-ripple="" md-ink-ripple-checkbox="">&ndash;&gt;-->
+									<!--&lt;!&ndash;<div class="md-icon"></div><div class="md-ripple-container">&ndash;&gt;-->
+
+									<!--&lt;!&ndash;</div>&ndash;&gt;-->
+								<!--&lt;!&ndash;</div>&ndash;&gt;-->
+								<!--&lt;!&ndash;<div ng-transclude="" class="md-label">&ndash;&gt;-->
+								<!--&lt;!&ndash;</div>&ndash;&gt;-->
+								<!--</md-checkbox>-->
+						<!--</td>-->
+
+
+						<td md-cell >{{workspace._id}}</td>
+						<td md-cell ng-click="editComment($event, workspace)">{{workspace.name}} &nbsp;
+							<!--<i class="material-icons md-18">mode-edit</i>-->
+							<!--<i class="material-icons md-18">edit</i>-->
+						</td>
+						<!--<td md-cell > <i class="material-icons">pencil</i>-->
+
+						</td>						<!--<td md-cell>-->
+							<!--&lt;!&ndash;{{domain.status}}&ndash;&gt;-->
+							<!--<md-select ng-model="domain.status" placeholder="Select a state" ng-change="onStatusChange(domain._id, domain.status)">-->
+								<!--<md-option ng-value="opt" ng-repeat="opt in status">{{ opt }}</md-option>-->
+							<!--</md-select>-->
+						<!--</td>-->
+						<!--<td md-cell>{{domain.isBlacklisted}}</td>-->
+						<!--<td md-cell ng-show="domain.isBlacklisted"><span style="margin:8px">Blacklisted</span></td>-->
+
+						<td md-cell>{{workspace.created}}</td>
+						<!--<td md-cell>{{getLength(workspace.words)}}</td>-->
+						<td md-cell>{{prettyPrintWords(workspace.words)}}</td>
+						<td md-cell>
+							<md-button class="md-warn md-raised md-hue-1" ng-click="deleteWorkspace(workspace._id, workspace.name)"> Delete</md-button>
+						</td>
+
+					</tr>
+					</tbody>
+					<tfoot md-foot>
+					<tr md-row>
+						<td md-cell></td>
+						<td md-cell><strong>Total: &nbsp;&nbsp;&nbsp;{{workspaces.length}}</strong></td>
+						<td md-cell colspan="10"></td>
+					</tr>
+					</tfoot>
+				</table>
+			</md-table-container>
+
+			<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{workspaces.length}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+		</div>
+	<!--</ui-view>-->
+</md-content>

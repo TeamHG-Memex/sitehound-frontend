@@ -1,19 +1,184 @@
-ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','workspaceFactory', 'domFactory', 'workspaceStateFactory',
-	function ($scope, $filter, $timeout, workspaceFactory, domFactory, workspaceStateFactory) {
+ngApp.controller('addWorkspaceController', ['$mdDialog', '$scope', 'workspaceFactory', 'workspaceSelectedService',
+function ($mdDialog, $scope, workspaceFactory, workspaceSelectedService) {
+    'use strict';
+
+    this.cancel = $mdDialog.cancel;
+
+    this.addItem = function () {
+      $scope.item.form.$setSubmitted();
+
+      if($scope.item.form.$valid) {
+        workspaceFactory.add($scope.workspace.name)
+        			.success(function (data) {
+                        $mdDialog.hide();
+                    })
+                    .error(function (err){
+                        console.log(err);
+                    });
+      }
+    };
+
+}]);
+
+ngApp.controller('deleteWorkspaceController', ['desserts', '$mdDialog', '$domainResource', '$scope', '$q', function (desserts, $mdDialog, $domainResource, $scope, $q) {
+    'use strict';
 
 
-	$scope.workspaceId = workspaceStateFactory.get();
-	domFactory.setWorkspaceName($scope.workspaceId);
+    $scope.self = this;
+    $scope.self.scope = $scope;
+    $scope.self.desserts = desserts;
 
-	domFactory.highlightNavbar(".navbar-workspace");
+    this.cancel = $mdDialog.cancel;
 
-	$scope.next = function(){
-		domFactory.navigateToSeed();
-	}
+    this.bulkDelete= function(){
+        $q.all(desserts.forEach(deleteDessert)).then(onComplete);
+    };
 
-	$scope.navigateToDashboard = function(){
-		domFactory.navigateToDashboard();
-	}
+    function deleteDessert(dessert, index) {
+      var deferred = $domainResource.domains.remove({id: dessert._id});
+      return deferred.$promise;
+    }
+
+    function onComplete() {
+      $mdDialog.hide();
+    }
+
+    function error() {
+      $scope.error = 'Invalid secret.';
+    }
+
+    function success() {
+      $q.all(desserts.forEach(deleteDessert)).then(onComplete);
+    }
+
+}]);
+
+
+ngApp.controller('workspaceController',
+         ['$scope', '$filter', '$timeout','workspaceFactory', 'domFactory', 'workspaceStateFactory', 'myAppFactory', '$mdDialog', '$mdEditDialog', 'workspaceSelectedService'
+, function ($scope, $filter, $timeout, workspaceFactory, domFactory, workspaceStateFactory, myAppFactory, $mdDialog, $mdEditDialog, workspaceSelectedService) {
+    'use strict';
+
+	$scope.workspace = null;
+
+    $scope.workspaces = [];
+     $scope.selected=[];
+     $scope.filter = {}
+    $scope.filter.showOnlyMines = false;
+
+    $scope.query = {
+        filter: '',
+        limit: '10',
+        order: 'created',
+        page: 1
+    };
+
+    $scope.onReorder = function (order) {
+//      getDesserts(angular.extend({}, $scope.query, {order: order}));
+      getDesserts(angular.extend({}, $scope.query, {order: order}));
+    };
+
+    $scope.onPaginate = function (page, limit) {
+      getDesserts(angular.extend({}, $scope.query, {page: page, limit: limit}));
+    };
+
+    $scope.mdOnSelect = function (workspace){
+//        alert("you just selected" + id);
+        workspaceSelectedService.setSelectedWorkspace(workspace);
+//        $scope.selected = [];
+//        $scope.selected.push(workspace._id);
+        console.log($scope.selected);
+    }
+
+
+    $scope.addItem = function (event) {
+      $mdDialog.show({
+        clickOutsideToClose: true,
+        controller: 'addDomainController',
+        controllerAs: 'ctrl',
+        focusOnOpen: true,
+        targetEvent: event,
+        templateUrl: '/static/partials/workspace/add-item-dialog.html',
+      }).then(getWorkspaces);
+    };
+
+
+    $scope.editComment = function (event, workspace) {
+      // if auto selection is enabled you will want to stop the event
+      // from propagating and selecting the row
+      event.stopPropagation();
+      /*
+       * messages is commented out because there is a bug currently
+       * with ngRepeat and ngMessages were the messages are always
+       * displayed even if the error property on the ngModelController
+       * is not set, I've included it anyway so you get the idea
+       */
+
+      var promise = $mdEditDialog.small({
+        // messages: {
+        //   test: 'I don\'t like tests!'
+        // },
+        modelValue: workspace.name,
+        placeholder: 'Rename',
+        save: function (input) {
+          workspace.name = input.$modelValue;
+          debugger;
+        },
+        targetEvent: event,
+        validators: {
+          'md-maxlength': 30
+        }
+      });
+
+      promise.then(function (ctrl) {
+        var input = ctrl.getInput();
+
+        input.$viewChangeListeners.push(function () {
+          input.$setValidity('test', input.$modelValue !== 'test');
+        });
+      });
+    };
+/*
+
+    $scope.$watch('query.filter', function (newValue, oldValue) {
+      if(!oldValue) {
+        bookmark = $scope.query.page;
+      }
+
+      if(newValue !== oldValue) {
+        $scope.query.page = 1;
+      }
+
+      if(!newValue) {
+        $scope.query.page = bookmark;
+      }
+
+      getDesserts();
+    });
+
+
+*/
+
+
+
+    function getDesserts(query) {
+      $scope.selected = [];
+      var qry = query || $scope.query;
+        return [];
+//      $scope.promise = $domainResource.domains.get(qry, success).$promise;
+    }
+
+
+//
+//	domFactory.highlightNavbar(".navbar-workspace");
+//
+//	$scope.next = function(){
+//		domFactory.navigateToSeed();
+//	}
+//
+//	$scope.navigateToDashboard = function(){
+//		domFactory.navigateToDashboard();
+//	}
 
 
 	$scope.status = "";
@@ -29,14 +194,17 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 		$scope.loading = false;
 	}
 
-	function getWorkspaces(callback) {
+	function getWorkspaces(callback, order) {
+	    console.log("getting workspaces!")
 		var tOut = $scope.startLoading();
-		workspaceFactory.getWorkspaces()
+		workspaceFactory.getWorkspaces(order)
 			.success(function (data) {
 				$scope.endLoading(tOut);
 //				$scope.workspaces = $.parseJSON(data);
 				$scope.workspaces = data;
-				workspaceStateFactory.setSelectedWorkspace($scope.workspaceId, $scope.workspaces);
+//				workspaceStateFactory.setSelectedWorkspace($scope.workspaceId, $scope.workspaces);
+
+                $scope.selected[0] = workspaceSelectedService.getSelectedWorkspace();
 //				if(callback){
 //					callback.apply();
 //				}
@@ -47,6 +215,13 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 			});
 	}
 
+    $scope.prettyPrintWords = function(words) {
+        var keywords = [];
+        angular.forEach(words, function(v,k){
+            keywords.push(" " + v.word + "("  + v.score + ")");
+        })
+        return keywords.join();
+    }
 
 	$scope.addWorkspace = function(){
 		if($scope.workspace && $scope.workspace.name != ""){
@@ -63,6 +238,7 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 			})
 			.finally(function(){
 //				$scope.loading = false;
+                $scope.workspace = null;
 			});
 		}
 		else{
@@ -91,17 +267,26 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 //			$scope.loading = false;
 		});
 	}
-
-	$scope.selectWorkspace = function (id){
-		$scope.workspaceId = id;
-		workspaceStateFactory.set(id, $scope.workspaces);
-	}
-
-	$scope.getLength = function(obj) {
-		if(obj == undefined)
-			return 0;
-		return Object.keys(obj).length;
-	}
+//
+//	$scope.selectWorkspace = function (id){
+//		$scope.workspaceId = id;
+//		workspaceStateFactory.set(id, $scope.workspaces);
+//	}
+//
+//	$scope.getLength = function(obj) {
+////		if(obj == undefined)
+////			return 0;
+////		return Object.keys(obj).length;
+//        return size(obj)
+//	}
+//
+//    Object.size = function(obj) {
+//        var size = 0, key;
+//        for (key in obj) {
+//            if (obj.hasOwnProperty(key)) size++;
+//        }
+//        return size;
+//    };
 
 	getWorkspaces();
 
@@ -136,7 +321,7 @@ var workspaceFactory = ngApp.factory('workspaceFactory',['$http', function($http
 		return $http.get(urlBase + '/' + id);
 	};
 
-	dataFactory.insertWorkspace = function (workspace) {
+	dataFactory.add = function (workspace) {
 		return $http.post(urlBase, workspace);
 	};
 
@@ -152,12 +337,11 @@ var workspaceStateFactory = ngApp.factory('workspaceStateFactory',['$routeParams
 
 	var dataFactory = {}
 
-	dataFactory.set = function(workspaceId, workspaces){
-		dataFactory.setSelectedWorkspace(workspaceId, workspaces);
-		$ngSilentLocation.silent('workspace/' + workspaceId);
-		$routeParams.workspaceId = workspaceId;
-		$cookies.put("workspaceId", workspaceId);
-	}
+//	dataFactory.set = function(workspaceId, workspaces){
+//		dataFactory.setSelectedWorkspace(workspaceId, workspaces);
+//		$ngSilentLocation.silent('workspace/' + workspaceId);
+//		$routeParams.workspaceId = workspaceId;
+//	}
 
 
 	dataFactory.setSelectedWorkspace = function(id, workspaces){
@@ -198,4 +382,44 @@ var workspaceStateFactory = ngApp.factory('workspaceStateFactory',['$routeParams
 
 	return dataFactory;
 
+}]);
+
+
+var myAppFactory = ngApp.factory('myAppFactory', ['$http', function ($http) {
+
+	var dataFactory = {}
+
+    dataFactory.getData = function () {
+        return $http({
+            method: 'GET',
+            url: 'http://angular-data-grid.github.io/demo/data.json'
+        });
+    }
+    return dataFactory;
+
+}]);
+
+
+
+var workspaceSelectedService =  ngApp.factory('workspaceSelectedService', [ '$cookies', function($cookies){
+
+    var dataFactory = {}
+    var selectedWorkspace = null;
+
+    dataFactory.setSelectedWorkspace = function(workspace){
+        selectedWorkspace = workspace;
+        $cookies.put("workspaceId", workspace._id);
+    }
+
+    dataFactory.getSelectedWorkspace = function(){
+        if(selectedWorkspace==null){
+            workspaceId = $cookies.get("workspaceId");
+        }
+        else{
+
+        }
+        return selectedWorkspace;
+    }
+
+    return dataFactory;
 }]);

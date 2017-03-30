@@ -4,7 +4,7 @@ var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bo
 	'toggle-switch', 'infinite-scroll','nzToggle', 'ngSilent', 'ngCookies', 'xeditable', 'checklist-model'
 	,'lightGrid','lightGridDataProviders','lightGridControls'
 //	, 'ngSanitize'
-    , 'ngMaterial'
+    , 'ngMaterial', 'md.data.table',
 	, 'ngCsv'])
 
 
@@ -100,12 +100,12 @@ ngApp.config(function ($routeProvider) {
 //	};
 //
 //	$httpProvider.defaults.transformRequest.push(spinnerFunction);
-
+/*
 	$routeProvider
 		.when('/',
 			{
 				controller: 'welcomeController',
-				templateUrl: '/static/partials/welcome-md.html'
+				templateUrl: '/static/partials/welcome.html'
 			})
 		.when('/welcome2',
 			{
@@ -126,6 +126,11 @@ ngApp.config(function ($routeProvider) {
 			{
 				controller: 'registerController',
 				templateUrl: '/static/partials/auth-register.html'
+			})
+		.when('/workspace',
+			{
+				controller: 'workspaceController',
+				templateUrl: '/static/partials/workspace-md.html'
 			})
 		.when('/workspace/:workspaceId',
 			{
@@ -206,6 +211,7 @@ ngApp.config(function ($routeProvider) {
 		.otherwise({
 			redirectTo: '/'
 			})
+*/
 });
 
 
