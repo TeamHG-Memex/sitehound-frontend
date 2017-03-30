@@ -2,9 +2,9 @@ ngApp.controller('addWorkspaceController', ['$mdDialog', '$scope', 'workspaceFac
 function ($mdDialog, $scope, workspaceFactory, workspaceSelectedService) {
     'use strict';
 
-    this.cancel = $mdDialog.cancel;
+    $scope.cancel = $mdDialog.cancel;
 
-    this.addItem = function () {
+    $scope.addItem = function () {
         $scope.item.form.$setSubmitted();
 
         if($scope.item.form.$valid) {
@@ -29,13 +29,7 @@ ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', 
     $scope.deletedWorkspace = deletedWorkspace;
     $scope.cancel = $mdDialog.cancel;
 
-//    this.bulkDelete= function(){
-//        $q.all(desserts.forEach(deleteDessert)).then(onComplete);
-//    };
-
     $scope.deleteWorkspace = function(id) {
-//      var deferred = $domainResource.domains.remove({id: dessert._id});
-//      return deferred.$promise;
 
         workspaceFactory.deleteWorkspace(id)
             .success(function (data) {
@@ -51,15 +45,6 @@ ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', 
 
     function onComplete() {
       $mdDialog.hide();
-    }
-
-//    function error() {
-//      $scope.error = 'Invalid secret.';
-//    }
-
-    function success() {
-//      $q.all(desserts.forEach(deleteDessert)).then(onComplete);
-
     }
 
 }]);
@@ -94,11 +79,7 @@ ngApp.controller('workspaceController',
     };
 
     $scope.mdOnSelect = function (workspace){
-//        alert("you just selected" + id);
         workspaceSelectedService.setSelectedWorkspace(workspace);
-//        $scope.selected = [];
-//        $scope.selected.push(workspace._id);
-        console.log($scope.selected);
     }
 
     function getDesserts(query) {
@@ -112,7 +93,6 @@ ngApp.controller('workspaceController',
       $mdDialog.show({
         clickOutsideToClose: true,
         controller: 'addWorkspaceController',
-        controllerAs: 'ctrl',
         focusOnOpen: true,
         targetEvent: event,
         templateUrl: '/static/partials/workspace/add-item-dialog.html',
@@ -130,7 +110,6 @@ ngApp.controller('workspaceController',
        * displayed even if the error property on the ngModelController
        * is not set, I've included it anyway so you get the idea
        */
-
       var promise = $mdEditDialog.small({
         // messages: {
         //   test: 'I don\'t like tests!'
@@ -139,7 +118,6 @@ ngApp.controller('workspaceController',
         placeholder: 'Rename',
         save: function (input) {
           workspace.name = input.$modelValue;
-          debugger;
         },
         targetEvent: event,
         validators: {
@@ -194,17 +172,6 @@ ngApp.controller('workspaceController',
 
 
 
-//
-//	domFactory.highlightNavbar(".navbar-workspace");
-//
-//	$scope.next = function(){
-//		domFactory.navigateToSeed();
-//	}
-//
-//	$scope.navigateToDashboard = function(){
-//		domFactory.navigateToDashboard();
-//	}
-
 
 	$scope.status = "";
 	$scope.loading = false;
@@ -248,71 +215,6 @@ ngApp.controller('workspaceController',
         return keywords.join();
     }
 
-	$scope.addWorkspace = function(){
-		if($scope.workspace && $scope.workspace.name != ""){
-//			$scope.loading=true;
-			workspaceFactory.insertWorkspace($scope.workspace.name)
-			.success(function (data) {
-				$scope.workspace.name = "";
-				getWorkspaces();
-			})
-			.error(function (error) {
-				alert(error.message);
-				$scope.status = 'Unable to create workspace: ' + error.message;
-				getWorkspaces();
-			})
-			.finally(function(){
-//				$scope.loading = false;
-                $scope.workspace = null;
-			});
-		}
-		else{
-			alert('The name of the workspace is required');
-		}
-	}
-
-	$scope.deleteWorkspace = function (id, name){
-		if (!confirm('Are you sure you want to delete the workspace '+ name +' ?')) {
-			return;
-		}
-//		$scope.loading = true;
-		var selectWorkspaceId = $scope.workspaceId;
-		workspaceFactory.deleteWorkspace(id)
-		.success(function (data) {
-			if(id==selectWorkspaceId){
-				$scope.workspaceId = null;
-				workspaceStateFactory.clear();
-			}
-			getWorkspaces();
-		})
-		.error(function (error) {
-			$scope.status = 'Unable to delete workspace: ' + error.message;
-		})
-		.finally(function(){
-//			$scope.loading = false;
-		});
-	}
-//
-//	$scope.selectWorkspace = function (id){
-//		$scope.workspaceId = id;
-//		workspaceStateFactory.set(id, $scope.workspaces);
-//	}
-//
-//	$scope.getLength = function(obj) {
-////		if(obj == undefined)
-////			return 0;
-////		return Object.keys(obj).length;
-//        return size(obj)
-//	}
-//
-//    Object.size = function(obj) {
-//        var size = 0, key;
-//        for (key in obj) {
-//            if (obj.hasOwnProperty(key)) size++;
-//        }
-//        return size;
-//    };
-
 	getWorkspaces();
 
 
@@ -330,7 +232,6 @@ ngApp.controller('workspaceController',
 		}
 	}
 });
-
 
 
 var workspaceFactory = ngApp.factory('workspaceFactory',['$http', function($http){
@@ -437,14 +338,20 @@ var workspaceSelectedService =  ngApp.factory('workspaceSelectedService', [ '$co
     }
 
     dataFactory.getSelectedWorkspace = function(){
+        return selectedWorkspace;
+    }
+
+    dataFactory.getSelectedWorkspaceId = function(){
+        var workspaceId;
         if(selectedWorkspace==null){
             workspaceId = $cookies.get("workspaceId");
         }
         else{
-
+            workspaceId = selectedWorkspace._id
         }
-        return selectedWorkspace;
+        return workspaceId;
     }
+
 
     return dataFactory;
 }]);

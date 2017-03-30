@@ -4,9 +4,9 @@ var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bo
 	'toggle-switch', 'infinite-scroll','nzToggle', 'ngSilent', 'ngCookies', 'xeditable', 'checklist-model'
 	,'lightGrid','lightGridDataProviders','lightGridControls'
 //	, 'ngSanitize'
+    , 'ngMessages'
     , 'ngMaterial', 'md.data.table',
 	, 'ngCsv'])
-
 
 ngApp.run(function(editableOptions, editableThemes) {
 	editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'. This is for xeditable

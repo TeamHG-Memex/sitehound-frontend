@@ -1,19 +1,52 @@
-ngApp.controller('seedController', ['$scope', '$filter', '$routeParams', 'domFactory', 'seedFactory',
-function ($scope, $filter, $routeParams, domFactory, seedFactory) {
-
-	$scope.workspaceId = $routeParams.workspaceId;
-	domFactory.setWorkspaceName($scope.workspaceId);
-
-	domFactory.highlightNavbar(".navbar-seed");
-	$scope.next = function(){
-		domFactory.navigateToImportUrl();
-	}
-
-	$scope.navigateToDashboard = function(){
-		domFactory.navigateToDashboard();
-	}
 
 
+ngApp.config(function($mdIconProvider) {
+    $mdIconProvider
+      .iconSet("call", 'static/img/icons/sets/communication-icons.svg', 24)
+      .iconSet("social", '/static/img/icons/sets/social-icons.svg', 24);
+  })
+
+
+ngApp.controller('seedController', ['$scope', '$filter', 'workspaceSelectedService', 'seedFactory',
+function ($scope, $filter, workspaceSelectedService, seedFactory, $mdDialog) {
+
+//	$scope.workspaceId = $routeParams.workspaceId;
+
+//	domFactory.setWorkspaceName($scope.workspaceId);
+
+//	domFactory.highlightNavbar(".navbar-seed");
+//	$scope.next = function(){
+//		domFactory.navigateToImportUrl();
+//	}
+//
+//	$scope.navigateToDashboard = function(){
+//		domFactory.navigateToDashboard();
+//	}
+
+    var originatorEv;
+    $scope.openMenu = function($mdMenu, ev) {
+      originatorEv = ev;
+      $mdMenu.open(ev);
+    };
+
+    $scope.notificationsEnabled = true;
+    $scope.toggleNotifications = function() {
+      $scope.notificationsEnabled = !$scope.notificationsEnabled;
+    };
+
+       $scope.redial = function() {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .targetEvent(originatorEv)
+          .clickOutsideToClose(true)
+          .parent('body')
+          .title('Suddenly, a redial')
+          .textContent('You just called a friend; who told you the most amazing story. Have a cookie!')
+          .ok('That was easy')
+      );
+
+      originatorEv = null;
+    };
 
 
 /**
@@ -25,8 +58,17 @@ function ($scope, $filter, $routeParams, domFactory, seedFactory) {
 	}
 **/
 
-	function getSeeds(){
-		seedFactory.get($scope.workspaceId)
+    function getSeeds(){
+        $scope.getSeeds();
+    }
+
+    $scope.relevantKeywords=[];
+    $scope.irrelevantKeywords=[];
+
+	$scope.getSeeds = function(){
+        $scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
+    	var workspaceId = $scope.workspaceId;
+		seedFactory.get(workspaceId)
 		.success(function (data) {
 			var words = data;
 			$scope.words = words || [];
