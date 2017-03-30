@@ -5,50 +5,61 @@ function ($mdDialog, $scope, workspaceFactory, workspaceSelectedService) {
     this.cancel = $mdDialog.cancel;
 
     this.addItem = function () {
-      $scope.item.form.$setSubmitted();
+        $scope.item.form.$setSubmitted();
 
-      if($scope.item.form.$valid) {
-        workspaceFactory.add($scope.workspace.name)
-        			.success(function (data) {
-                        $mdDialog.hide();
-                    })
-                    .error(function (err){
-                        console.log(err);
-                    });
-      }
+        if($scope.item.form.$valid) {
+            workspaceFactory.add($scope.workspace.name)
+            .success(function (data) {
+                $mdDialog.hide();
+            })
+            .error(function (err){
+                console.log(err);
+                if(err.message){
+                    alert(err.message);
+                }
+            });
+        }
     };
 
 }]);
 
-ngApp.controller('deleteWorkspaceController', ['desserts', '$mdDialog', '$domainResource', '$scope', '$q', function (desserts, $mdDialog, $domainResource, $scope, $q) {
+ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', '$scope', '$q', 'workspaceFactory', function (deletedWorkspace, $mdDialog, $scope, $q, workspaceFactory) {
     'use strict';
 
+    $scope.deletedWorkspace = deletedWorkspace;
+    $scope.cancel = $mdDialog.cancel;
 
-    $scope.self = this;
-    $scope.self.scope = $scope;
-    $scope.self.desserts = desserts;
+//    this.bulkDelete= function(){
+//        $q.all(desserts.forEach(deleteDessert)).then(onComplete);
+//    };
 
-    this.cancel = $mdDialog.cancel;
+    $scope.deleteWorkspace = function(id) {
+//      var deferred = $domainResource.domains.remove({id: dessert._id});
+//      return deferred.$promise;
 
-    this.bulkDelete= function(){
-        $q.all(desserts.forEach(deleteDessert)).then(onComplete);
-    };
-
-    function deleteDessert(dessert, index) {
-      var deferred = $domainResource.domains.remove({id: dessert._id});
-      return deferred.$promise;
+        workspaceFactory.deleteWorkspace(id)
+            .success(function (data) {
+                $mdDialog.hide();
+            })
+            .error(function (err){
+                console.log(err);
+                if(err.message){
+                    alert(err.message);
+                }
+            });
     }
 
     function onComplete() {
       $mdDialog.hide();
     }
 
-    function error() {
-      $scope.error = 'Invalid secret.';
-    }
+//    function error() {
+//      $scope.error = 'Invalid secret.';
+//    }
 
     function success() {
-      $q.all(desserts.forEach(deleteDessert)).then(onComplete);
+//      $q.all(desserts.forEach(deleteDessert)).then(onComplete);
+
     }
 
 }]);
@@ -90,11 +101,17 @@ ngApp.controller('workspaceController',
         console.log($scope.selected);
     }
 
+    function getDesserts(query) {
+      $scope.selected = [];
+      var qry = query || $scope.query;
+        return [];
+//      $scope.promise = $domainResource.domains.get(qry, success).$promise;
+    }
 
     $scope.addItem = function (event) {
       $mdDialog.show({
         clickOutsideToClose: true,
-        controller: 'addDomainController',
+        controller: 'addWorkspaceController',
         controllerAs: 'ctrl',
         focusOnOpen: true,
         targetEvent: event,
@@ -159,14 +176,22 @@ ngApp.controller('workspaceController',
 
 */
 
+    $scope.delete = function (id, name) {
+        var workspace = {};
+        workspace.id = id;
+        workspace.name = name;
 
+        $mdDialog.show({
+            clickOutsideToClose: true,
+            controller: 'deleteWorkspaceController',
+            controllerAs: 'ctrl',
+            focusOnOpen: true,
+            targetEvent: event,
+            locals: { deletedWorkspace: workspace},
+            templateUrl: '/static/partials/workspace/delete-dialog.html',
+        }).then(getWorkspaces);
+    };
 
-    function getDesserts(query) {
-      $scope.selected = [];
-      var qry = query || $scope.query;
-        return [];
-//      $scope.promise = $domainResource.domains.get(qry, success).$promise;
-    }
 
 
 //
