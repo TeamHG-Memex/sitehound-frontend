@@ -34,8 +34,8 @@
         <div class="mdl-card__actions">
             <!--<a href="#" class="mdl-button">Read our features</a>-->
             <a href="#" class="mdl-button">How do we use this?</a>
-            {{relevantKeywords}}
-            {{irrelevantKeywords}}
+            <!--{{relevantKeywords}}-->
+            <!--{{irrelevantKeywords}}-->
         </div>
     </div>
     <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
@@ -60,13 +60,13 @@
             <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse.-->
             <p>Select the sources:</p>
             <div flex-gt-sm="50">
-                <md-checkbox ng-model="data.cb1" aria-label="Google">
+                <md-checkbox ng-model="se.cb1" aria-label="Google">
                     Google
                 </md-checkbox>
-                <md-checkbox ng-model="data.cb2" aria-label="Bing">
+                <md-checkbox ng-model="se.cb2" aria-label="Bing">
                     Bing
                 </md-checkbox>
-                <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                <md-checkbox ng-model="se.cb3" aria-label="Twitter">
                     Twitter
                 </md-checkbox>
             </div>
@@ -108,16 +108,16 @@
                 <h5>Current training</h5>
                 Training results can be filtered according to the following predfined set:
                 <div style="padding:15px">
-                    <md-checkbox ng-model="data.cb1" aria-label="Google">
+                    <md-checkbox ng-model="relevance.cb1" aria-label="Google">
                         Relevant
                     </md-checkbox>
-                    <md-checkbox ng-model="data.cb2" aria-label="Bing">
+                    <md-checkbox ng-model="relevance.cb2" aria-label="Bing">
                         Irrelevant
                     </md-checkbox>
-                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                    <md-checkbox ng-model="relevance.cb3" aria-label="Twitter">
                         Neutral
                     </md-checkbox>
-                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                    <md-checkbox ng-model="relevance.cb4" aria-label="Twitter">
                         Failed
                     </md-checkbox>
                 </div>
@@ -131,16 +131,16 @@
                 <h5>Page type classification</h5>
                 URL's are classified and can be filtered according to the following predefined set:
                 <div style="padding:15px">
-                    <md-checkbox ng-model="data.cb1" aria-label="Google">
+                    <md-checkbox ng-model="pageType.cb1" aria-label="Google">
                         Forum
                     </md-checkbox>
-                    <md-checkbox ng-model="data.cb2" aria-label="Bing">
+                    <md-checkbox ng-model="pageType.cb2" aria-label="Bing">
                         Blogs
                     </md-checkbox>
-                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                    <md-checkbox ng-model="pageType.cb3" aria-label="Twitter">
                         News
                     </md-checkbox>
-                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                    <md-checkbox ng-model="pageType.cb4" aria-label="Twitter">
                         Classified
                     </md-checkbox>
                 </div>
@@ -154,13 +154,13 @@
                 <h5>User Defined Categories</h5>
                 URL's are classified and be filtered according to tags created by the user:
                 <div style="padding:15px">
-                    <md-checkbox ng-model="data.cb1" aria-label="Google">
+                    <md-checkbox ng-model="udc.cb1" aria-label="Google">
                         Local
                     </md-checkbox>
-                    <md-checkbox ng-model="data.cb2" aria-label="Bing">
+                    <md-checkbox ng-model="udc.cb2" aria-label="Bing">
                         Offshore
                     </md-checkbox>
-                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                    <md-checkbox ng-model="udc.cb3" aria-label="Twitter">
                         International
                     </md-checkbox>
                 </div>

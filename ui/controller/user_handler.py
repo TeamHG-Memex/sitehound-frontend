@@ -23,8 +23,10 @@ __author__ = 'tomas'
 @roles_required('admin')
 def get_all_roles_api():
     in_doc = get_all_roles()
+    # out_doc = MyEncoder(JSONEncoder()).encode(in_doc)
+    # return Response(json.dumps(out_doc, cls = MyEncoder), mimetype="application/json")
     out_doc = MyEncoder(JSONEncoder()).encode(in_doc)
-    return Response(json.dumps(out_doc, cls = MyEncoder), mimetype="application/json")
+    return Response(out_doc, mimetype="application/json")
 
 
 @app.route("/api/user", methods=['GET'])
@@ -32,8 +34,10 @@ def get_all_roles_api():
 @roles_required('admin')
 def get_all_api():
     in_doc = get_all()
+    # out_doc = MyEncoder(JSONEncoder()).encode(in_doc)
+    # return Response(json.dumps(out_doc, cls = MyEncoder), mimetype="application/json")
     out_doc = MyEncoder(JSONEncoder()).encode(in_doc)
-    return Response(json.dumps(out_doc, cls = MyEncoder), mimetype="application/json")
+    return Response(out_doc, mimetype="application/json")
 
 
 @app.route("/api/user/<id>", methods=['PUT'])

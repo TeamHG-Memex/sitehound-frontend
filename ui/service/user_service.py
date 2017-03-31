@@ -23,6 +23,8 @@ def get_all():
 
     for user in users:
         user["password"] = None # blanked for security
+        user["current_login"] = str(user["current_login"])
+        user["last_login_at"] = str(user["last_login_at"])
         roleEntities = []
         for role in user["roles"]:
             # roleEntity = {}

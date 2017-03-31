@@ -1,7 +1,7 @@
 //Angular
 
 var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bootstrap',
-	'toggle-switch',
+//	'toggle-switch',
 	'infinite-scroll',
 //	'nzToggle',
 	 'ngSilent',
@@ -12,7 +12,7 @@ var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bo
 	'ngSanitize',
      'ngMessages',
      'ngMaterial',
-     'md.data.table',
+     'md.data.table', // used in workspace/table.html!
 	 'ngCsv'
 	 ])
 

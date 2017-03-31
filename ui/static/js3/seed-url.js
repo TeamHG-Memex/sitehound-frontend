@@ -1,9 +1,9 @@
 ngApp.controller('seedUrlController', ['$scope', '$filter', '$modal', 'domFactory', 'seedFactory', 'seedUrlFactory', 'deepcrawlerFactory', function ($scope, $filter, $modal, domFactory, seedFactory, seedUrlFactory, deepcrawlerFactory){
 
-	$scope.workspaceId = $routeParams.workspaceId;
-	domFactory.setWorkspaceName($scope.workspaceId);
+//	$scope.workspaceId = $routeParams.workspaceId;
+//	domFactory.setWorkspaceName($scope.workspaceId);
 
-	domFactory.highlightNavbar("#navbar-seed-url");
+//	domFactory.highlightNavbar("#navbar-seed-url");
 
 //	$scope.status = {};
 //	$scope.status.open=true;

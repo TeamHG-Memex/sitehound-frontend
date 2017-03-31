@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html ng-app="ngApp">
 <head lang="en">
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-	<meta name="lang" value="en">
-    <meta name="turbolinks-cache-control" content="no-cache">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="lang" value="en">
+    <!--<meta name="turbolinks-cache-control" content="no-cache">-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-	<title>Sitehound</title>
+    <title>Sitehound</title>
 
-	<!--<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='js/jquery.tooltipster.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='js/d3.v3.min.js') }}" charset=utf-8></script>-->
-	<!--<script src="{{ url_for('static', filename='js/StackBlur.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='js/URI.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='js/pinterest_grid.js') }}"></script>-->
+    <!--<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>-->
+    <!--<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>-->
+    <!--<script src="{{ url_for('static', filename='js/jquery.tooltipster.min.js') }}"></script>-->
+    <!--<script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>-->
+    <!--<script src="{{ url_for('static', filename='js/d3.v3.min.js') }}" charset=utf-8></script>-->
+    <!--<script src="{{ url_for('static', filename='js/StackBlur.js') }}"></script>-->
+    <!--<script src="{{ url_for('static', filename='js/URI.js') }}"></script>-->
+    <!--<script src="{{ url_for('static', filename='js/pinterest_grid.js') }}"></script>-->
 
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
 
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
-	<!--<link href="{{ url_for('static', filename='css/mdl/1.3/material.deep_purple-pink.min.css') }}" rel=stylesheet>-->
+    <!--<link href="{{ url_for('static', filename='css/mdl/1.3/material.deep_purple-pink.min.css') }}" rel=stylesheet>-->
 
-  	<link rel="stylesheet" href="https://getmdl.io/templates/text-only/styles.css">
+    <link rel="stylesheet" href="https://getmdl.io/templates/text-only/styles.css">
     <style>
     #view-source {
       position: fixed;
@@ -45,303 +45,232 @@
 
 </head>
 
-  <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" >
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" >
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" >
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" >
     <!--<div class="mdl-layout mdl-js-layout mdl-layout&#45;&#45;fixed-header">-->
 
-      <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+    <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="height:10px">
         </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-          <h3>Site Hound</h3>
+        <div>
+            <div layout="row" >
+                <div flex="15">
+                    <img src="{{ url_for('static', filename='images/sitehounds-transparent-256x182.png') }}"/>
+                </div>
+                <div flex="70" layout="row" layout-align="center center">
+                    <h1>Site Hound</h1>
+                </div>
+                <div flex hide-sm hide-xs layout="row" layout-align="center end">
+                    <!--<h3>Users Area</h3>-->
+                </div>
+            </div>
         </div>
-        <div class="mdl-layout--large-screen-only mdl-layout__header-row">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="height:10px">
         </div>
-       <!--<div layout="column" layout-fill>-->
-          <!--<md-toolbar layout="row" layout-align="right right">-->
-              <!--<md-menu md-position-mode="target-right target">-->
-                <!--<md-button ng-click="$mdOpenMenu($event)">-->
-                    <!--<span layout="row" layout-align="center center">-->
-                    <!--Workspace: current_workspace-->
-                    <!--<i class="material-icons">arrow_drop_down</i>-->
-                    <!--</span>-->
-                <!--</md-button>-->
-                <!--<md-menu-content>-->
-                    <!--<md-menu-item>-->
-                        <!--<a href="../bootstrap/index.html">Bootstrap Design</a>-->
-                    <!--</md-menu-item>-->
-                    <!--<md-menu-item>-->
-                        <!--<a href="index.html"><strong>Material Design</strong></a>-->
-                    <!--</md-menu-item>-->
-                <!--</md-menu-content>-->
-            <!--</md-menu>-->
-          <!--</md-toolbar>-->
+        <!--<div class="mdl-layout&#45;&#45;large-screen-only mdl-layout__header-row" layout="row" layout-align="start center">-->
+            <!--<div>-->
+                <!--<img src="{{ url_for('static', filename='images/sitehounds-transparent-256x182.png') }}"/>-->
+            <!--</div>-->
+            <!--<div layout="row" layout-align="end center">-->
+                <!--<div>&nbsp;</div>-->
+                <!--<div>-->
+                    <!--<h3>Site Hound</h3>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="mdl-layout&#45;&#45;large-screen-only mdl-layout__header-row">-->
+        <!--</div>-->
+        <!--<div layout="column" layout-fill>-->
+        <!--<md-toolbar layout="row" layout-align="right right">-->
+        <!--<md-menu md-position-mode="target-right target">-->
+        <!--<md-button ng-click="$mdOpenMenu($event)">-->
+        <!--<span layout="row" layout-align="center center">-->
+        <!--Workspace: current_workspace-->
+        <!--<i class="material-icons">arrow_drop_down</i>-->
+        <!--</span>-->
+        <!--</md-button>-->
+        <!--<md-menu-content>-->
+        <!--<md-menu-item>-->
+        <!--<a href="../bootstrap/index.html">Bootstrap Design</a>-->
+        <!--</md-menu-item>-->
+        <!--<md-menu-item>-->
+        <!--<a href="index.html"><strong>Material Design</strong></a>-->
+        <!--</md-menu-item>-->
+        <!--</md-menu-content>-->
+        <!--</md-menu>-->
+        <!--</md-toolbar>-->
         <!--</div>-->
 
 
-          <!--USER LOGO SUPRA MENU-->
-         <!--<div class="demo-drawer mdl-layout__drawer mdl-color&#45;&#45;blue-grey-900 mdl-color-text&#45;&#45;blue-grey-50">-->
-            <!--<header class="demo-drawer-header">-->
-              <!--<img src="images/user.jpg" class="demo-avatar">-->
-              <!--<div class="demo-avatar-dropdown">-->
-                <!--<span>hello@example.com</span>-->
-                <!--<div class="mdl-layout-spacer"></div>-->
-                <!--<button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon">-->
-                  <!--<i class="material-icons" role="presentation">arrow_drop_down</i>-->
-                  <!--<span class="visuallyhidden">Accounts</span>-->
-                <!--</button>-->
-                <!--<ul class="mdl-menu mdl-menu&#45;&#45;bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">-->
-                  <!--<li class="mdl-menu__item">hello@example.com</li>-->
-                  <!--<li class="mdl-menu__item">info@example.com</li>-->
-                  <!--<li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>-->
-                <!--</ul>-->
-              <!--</div>-->
-            <!--</header>-->
-        <!--</div>-->
+        <!--USER LOGO SUPRA MENU-->
+
 
 
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-          <a href="#features" class="mdl-layout__tab">Welcome</a>
-          <a href="#overview" class="mdl-layout__tab">Users</a>
-          <a href="#workspace" class="mdl-layout__tab">Workspaces</a>
-          <!--<a href="#features" class="mdl-layout__tab">Workspaces</a>-->
-          <a href="#features" class="mdl-layout__tab">Dashboard</a>
-          <a href="#trainByKeywords" class="mdl-layout__tab  is-active">Training by keywords</a>
-          <a href="#features" class="mdl-layout__tab">Training by urls</a>
-          <a href="#features" class="mdl-layout__tab">User Defined Categories</a>
-          <a href="#features" class="mdl-layout__tab">Crawling</a>
-          <a href="#features" class="mdl-layout__tab">Deep Web</a>
-          <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
-            <i class="material-icons" role="presentation">add</i>
-            <span class="visuallyhidden">Add</span>
-          </button>
+            <a href="#features" class="mdl-layout__tab">Welcome</a>
+            <a href="#user" class="mdl-layout__tab">Users</a>
+            <a href="#workspace" class="mdl-layout__tab">Workspaces</a>
+            <!--<a href="#features" class="mdl-layout__tab">Workspaces</a>-->
+            <a href="#dashboard" class="mdl-layout__tab">Dashboard</a>
+            <a href="#trainingByKeyword" class="mdl-layout__tab  is-active">Training by keywords</a>
+            <a href="#trainingByUrl" class="mdl-layout__tab">Training by urls</a>
+            <!--<a href="#features" class="mdl-layout__tab">User Defined Categories</a>-->
+            <a href="#features" class="mdl-layout__tab">Crawling</a>
+            <a href="#trainingDeepWeb" class="mdl-layout__tab">Deep Web</a>
+
+            <!--BALL WITH THE PLUS SIGN-->
+            <!--<button class="mdl-button mdl-js-button mdl-button&#45;&#45;fab mdl-js-ripple-effect mdl-button&#45;&#45;colored mdl-shadow&#45;&#45;4dp mdl-color&#45;&#45;accent" id="add">-->
+                <!--<i class="material-icons" role="presentation">add</i>-->
+                <!--<span class="visuallyhidden">Add</span>-->
+            <!--</button>-->
         </div>
 
-      </header>
+    </header>
 
 
-      <main class="mdl-layout__content">
+    <main class="mdl-layout__content">
 
-		  <!--<div  class="mdl-layout__tab-panel is-active" id="overview" ng-view=""></div>-->
+        <!--<div  class="mdl-layout__tab-panel is-active" id="overview" ng-view=""></div>-->
         <div class="mdl-layout__tab-panel" id="welcome" ng-controller="welcomeController" ng-cloack>
-			<ng-include src="'/static/partials-md/overview-md.html'"></ng-include>
-		</div>
+            <ng-include src="'/static/partials-md/overview-md.html'"></ng-include>
+        </div>
+
+
+        <div class="mdl-layout__tab-panel" id="user" ng-controller="userController" ng-cloack>
+            <ng-include src="'/static/partials-md/user/table.html'"></ng-include>
+        </div>
 
         <div class="mdl-layout__tab-panel" id="workspace" ng-controller="workspaceController" ng-cloack>
-			<ng-include src="'/static/partials-md/workspace/table.html'"></ng-include>
-		</div>
+            <ng-include src="'/static/partials-md/workspace/table.html'"></ng-include>
+        </div>
 
-          <div class="mdl-layout__tab-panel" id="trainByKeywords"
-              ng-controller="seedController" ng-cloack>
+        <div class="mdl-layout__tab-panel" id="dashboard" ng-controller="dashboardController" ng-cloack>
+            <ng-include src="'/static/partials-md/dashboard-md.html'"></ng-include>
+        </div>
+        <div class="mdl-layout__tab-panel" id="trainingByKeyword" ng-controller="trainingByKeywordController" ng-cloack>
+            <ng-include src="'/static/partials-md/training-by-keyword-md.html'"></ng-include>
+        </div>
 
-              <!--<section class="section&#45;&#45;center mdl-grid mdl-grid&#45;&#45;no-spacing mdl-shadow&#45;&#45;2dp">-->
-                <!--<header class="section__play-btn mdl-cell mdl-cell&#45;&#45;3-col-desktop mdl-cell&#45;&#45;2-col-tablet mdl-cell&#45;&#45;4-col-phone mdl-color&#45;&#45;teal-100 mdl-color-text&#45;&#45;white">-->
-                    <!--<i class="material-icons">play_circle_filled</i>-->
-                <!--</header>-->
-                <!--<div class="mdl-card mdl-cell mdl-cell&#45;&#45;9-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;4-col-phone">-->
-                    <!--<div class="mdl-card__supporting-text">-->
-                        <!--<h4>Features</h4>-->
-                        <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse.-->
-                    <!--</div>-->
-                    <!--<div class="mdl-card__actions">-->
-                        <!--<a href="#" class="mdl-button">Read our features</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn1">-->
-                    <!--<i class="material-icons">more_vert</i>-->
-                <!--</button>-->
-                <!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn1">-->
-                    <!--<li class="mdl-menu__item">Loremafadfadfaf</li>-->
-                    <!--<li class="mdl-menu__item" disabled>Ipsum</li>-->
-                    <!--<li class="mdl-menu__item">Dolor</li>-->
-                <!--</ul>-->
-            <!--</section>-->
+        <div class="mdl-layout__tab-panel" id="trainingByUrl" ng-controller="trainingByUrlController" ng-cloack>
+            <ng-include src="'/static/partials-md/training-by-url-md.html'"></ng-include>
+        </div>
 
-            <!--<section class="section&#45;&#45;center mdl-grid mdl-grid&#45;&#45;no-spacing mdl-shadow&#45;&#45;2dp">-->
-                <!--<div class="mdl-card mdl-cell mdl-cell&#45;&#45;12-col">-->
-                    <!--<div class="mdl-card__supporting-text mdl-grid mdl-grid&#45;&#45;no-spacing">-->
-                        <!--<h4 class="mdl-cell mdl-cell&#45;&#45;12-col">Details</h4>-->
-                        <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-                            <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
-                        <!--</div>-->
-                        <!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
-                            <!--<h5>Lorem ipsum dolor sit amet</h5>-->
-                            <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
-                        <!--</div>-->
-                        <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-                            <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
-                        <!--</div>-->
-                        <!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
-                            <!--<h5>Lorem ipsum dolor sit amet</h5>-->
-                            <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
-                        <!--</div>-->
-                        <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-                            <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
-                        <!--</div>-->
-                        <!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
-                            <!--<h5>Lorem ipsum dolor sit amet</h5>-->
-                            <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="mdl-card__actions">-->
-                        <!--<a href="#" class="mdl-button">Read our features</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn2">-->
-                    <!--<i class="material-icons">more_vert</i>-->
-                <!--</button>-->
-                <!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn2">-->
-                    <!--<li class="mdl-menu__item">Lorem</li>-->
-                    <!--<li class="mdl-menu__item" disabled>Ipsum</li>-->
-                    <!--<li class="mdl-menu__item">Dolor</li>-->
-                <!--</ul>-->
-            <!--</section>-->
-
-            <!--<section class="section&#45;&#45;center mdl-grid mdl-grid&#45;&#45;no-spacing mdl-shadow&#45;&#45;2dp">-->
-                <!--<div class="mdl-card mdl-cell mdl-cell&#45;&#45;12-col">-->
-                    <!--<div class="mdl-card__supporting-text">-->
-                        <!--<h4>Technology</h4>-->
-                        <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
-                    <!--</div>-->
-                    <!--<div class="mdl-card__actions">-->
-                        <!--<a href="#" class="mdl-button">Read our features</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn3">-->
-                    <!--<i class="material-icons">more_vert</i>-->
-                <!--</button>-->
-                <!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn3">-->
-                    <!--<li class="mdl-menu__item">Lorem</li>-->
-                    <!--<li class="mdl-menu__item" disabled>Ipsum</li>-->
-                    <!--<li class="mdl-menu__item">Dolor</li>-->
-                <!--</ul>-->
-            <!--</section>-->
-
-            <!--<section class="section&#45;&#45;footer mdl-color&#45;&#45;white mdl-grid">-->
-                <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-                    <!--<div class="section__circle-container__circle mdl-color&#45;&#45;accent section__circle&#45;&#45;big"></div>-->
-                <!--</div>-->
-                <!--<div class="section__text mdl-cell mdl-cell&#45;&#45;4-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
-                    <!--<h5>Lorem ipsum dolor sit amet</h5>-->
-                    <!--Qui sint ut et qui nisi cupidatat. Reprehenderit nostrud proident officia exercitation anim et pariatur ex.-->
-                <!--</div>-->
-                <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-                    <!--<div class="section__circle-container__circle mdl-color&#45;&#45;accent section__circle&#45;&#45;big"></div>-->
-                <!--</div>-->
-                <!--<div class="section__text mdl-cell mdl-cell&#45;&#45;4-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
-                    <!--<h5>Lorem ipsum dolor sit amet</h5>-->
-                    <!--Qui sint ut et qui nisi cupidatat. Reprehenderit nostrud proident officia exercitation anim et pariatur ex.-->
-                <!--</div>-->
-            <!--</section>-->
-
-			<ng-include src="'/static/partials-md/training-by-keywords-md.html'"></ng-include>
-		</div>
+        <div class="mdl-layout__tab-panel" id="trainingDeepWeb" ng-controller="trainingDeepWebController" ng-cloack>
+            <ng-include src="'/static/partials-md/training-deep-web-md.html'"></ng-include>
+        </div>
 
 
 
-          <div class="mdl-layout__tab-panel is-active" id="overview" >
-              <ng-include src="'/static/partials-md/overview-md.html'"></ng-include>
+        <div class="mdl-layout__tab-panel is-active" id="overview" >
+            <ng-include src="'/static/partials-md/overview-md.html'"></ng-include>
         </div>
 
         <div class="mdl-layout__tab-panel" id="features">
             <ng-include src="'/static/partials-md/features-md.html'"></ng-include>
         </div>
 
-    	<ng-include src="'/static/partials-md/footer-md.html'"></ng-include>
-      </main>
-    </div>
-    <a href="https://github.com/google/material-design-lite/blob/mdl-1.x/templates/text-only/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a>
+        <ng-include src="'/static/partials-md/footer-mini-md.html'"></ng-include>
+    </main>
+</div>
+
+<!--PINK SCRIPT TAG in  ABSOLUTE POSITION-->
+<!--<a href="https://github.com/google/material-design-lite/blob/mdl-1.x/templates/text-only/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-js-ripple-effect mdl-color&#45;&#45;accent mdl-color-text&#45;&#45;accent-contrast">View Source</a>-->
 
 
-  <!-- Angular Material requires Angular.js Libraries -->
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-route.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-resource.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-animate.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-cookies.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-aria.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-messages.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-sanitize.min.js"></script>
+<!-- Angular Material requires Angular.js Libraries -->
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-route.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-resource.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-cookies.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-aria.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-messages.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-sanitize.min.js"></script>
 
-  <!-- Angular Material Library -->
-	  <!-- Angular Material style sheet -->
-  <!--<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.3/angular-material.min.js"></script>-->
-  <!--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.3/angular-material.min.css">-->
-
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js"></script>-->
-  <!--<link  href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.css" rel="stylesheet" >-->
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js"></script>-->
+<script src="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.js') }}"></script>
+<link  href="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.css') }}" rel="stylesheet" >
+<!--<link  href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.css" rel="stylesheet" >-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js"></script>-->
 
 
-    <script src="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.js') }}"></script>
-    <link  href="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.css') }}" rel="stylesheet" >
-  <!--<link  href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.css" rel="stylesheet" >-->
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js"></script>-->
+<script src="{{ url_for('static', filename='lib/angular-ui/bootstrap/v0.13.4/ui-bootstrap-tpls-0.13.4.min.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='lib/bootstrap/v3.3.5/bootstrap.min.js') }}"></script>-->
+
+
+<!--<script src="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch.min.js') }}"></script>-->
+<script src="{{ url_for('static', filename='lib/angular-ui/ng-infinite-scroll.min.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.js') }}"></script>-->
+<script src="{{ url_for('static', filename='lib/angular/ngSilent/ngSilent.js') }}"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css"/>
+<script src="{{ url_for('static', filename='lib/angular/ng-csv/ng-csv.min.js') }}"></script>
+
+
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+<!--datagrid-->
+<!--<script src="http://angular-data-grid.github.io/dist/pagination.js"></script>-->
+<!--<script src="http://angular-data-grid.github.io/dist/dataGrid.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.9/md-data-table.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.9/md-data-table.min.css" rel=stylesheet>
+<!--<script src="{{ url_for('static', filename='lib/angular/angular-material-data-table/0.10.9/md-data-table.min.css') }}"></script>-->
+
+
+<script src="{{ url_for('static', filename='js3/ngapp.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/index.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/user.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/user.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/auth-register.js') }}"></script>
+
+<!--<script src="{{ url_for('static', filename='js3/workspace.js') }}"></script>-->
+<script src="{{ url_for('static', filename='js3/datafactory/workspace.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/workspace.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js3/seed.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/service/seed.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/seed.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js3/user-defined-categories.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/label-user-defined-categories.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/seed-url.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/seed-url-source.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/service/seed-url.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/seed-url.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js3/dd-training.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/event-factory.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/progress-factory.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/import-url.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/import-url.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/broadcrawler.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/broadcrawler-results.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/broadcrawler-results-summary.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/deep-crawler.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/job.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/navbar.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/dashboard.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/welcome.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/controller/training-by-keyword.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/training-by-url.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/training-deep-web.js') }}"></script>
 
 
 
-	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-route.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-resource.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-animate.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-cookies.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-sanitize.min.js') }}"></script>-->
-
-	<script src="{{ url_for('static', filename='lib/angular-ui/bootstrap/v0.13.4/ui-bootstrap-tpls-0.13.4.min.js') }}"></script>
-	<!--<script src="{{ url_for('static', filename='lib/bootstrap/v3.3.5/bootstrap.min.js') }}"></script>-->
 
 
-	<script src="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular-ui/ng-infinite-scroll.min.js') }}"></script>
-	<!--<script src="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.js') }}"></script>-->
-	<script src="{{ url_for('static', filename='lib/angular/ngSilent/ngSilent.js') }}"></script>
-
-
-	<!--<script src="{{ url_for('static', filename='lib/angular-ui/xeditable/js/xeditable.min.js') }}"></script>-->
-	<!--<script src="{{ url_for('static', filename='lib/angular-ui/xeditable/js/checklist-model.js') }}"></script>-->
-	<!--<link src="{{ url_for('static', filename='lib/angular-ui/xeditable/css/xeditable.css') }}" rel="stylesheet">-->
-
-	<!--<script src="{{ url_for('static', filename='lib/angular-ui/light-grid/light-grid.js') }}"></script>-->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css"/>
-	<!--<link href="{{ url_for('static', filename='lib/angular-ui/light-grid/font-awesome.css') }}" rel="stylesheet">-->
-	<!--<link href="{{ url_for('static', filename='lib/angular-ui/light-grid/light-grid-custom.css') }}" rel="stylesheet">-->
-
-	<script src="{{ url_for('static', filename='lib/angular/ng-csv/ng-csv.min.js') }}"></script>
-
-
-	<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-	<!--datagrid-->
-	<!--<script src="http://angular-data-grid.github.io/dist/pagination.js"></script>-->
-	<!--<script src="http://angular-data-grid.github.io/dist/dataGrid.js"></script>-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.9/md-data-table.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.9/md-data-table.min.css" rel=stylesheet>
-	<!--<script src="{{ url_for('static', filename='lib/angular/angular-material-data-table/0.10.9/md-data-table.min.css') }}"></script>-->
-
-
-	<script src="{{ url_for('static', filename='js3/ngapp.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/index.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/user.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/auth-register.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/workspace.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/seed.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/user-defined-categories.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/label-user-defined-categories.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/seed-url.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/seed-url-source.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/dd-training.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/event-factory.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/progress-factory.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/import-url.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/broadcrawler.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/broadcrawler-results.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/broadcrawler-results-summary.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/deep-crawler.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/job.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/navbar.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>
-	<script src="{{ url_for('static', filename='js3/welcome.js') }}"></script>
-	<!--<script src="{{ url_for('static', filename='js3/workspace-md.js') }}"></script>-->
-
-	<script src="{{ url_for('static', filename='lib/languages.js') }}"></script>
+<script src="{{ url_for('static', filename='lib/languages.js') }}"></script>
 </body>
 </html>

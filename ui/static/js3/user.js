@@ -1,6 +1,8 @@
 ngApp.controller('userController', ['$scope', '$filter', '$modal', '$timeout','userFactory', 'roleFactory', 'domFactory',
 	function ($scope, $filter, $modal, $timeout, userFactory, roleFactory, domFactory) {
 
+    $scope.selected = []
+
 	$scope.status = "";
 	$scope.loading = false;
 	$scope.submittedOk = false;
@@ -42,30 +44,35 @@ ngApp.controller('userController', ['$scope', '$filter', '$modal', '$timeout','u
 	};
 
 	$scope.getAll = function(){
-		userFactory.getAll()
-			.success(function (data) {
-				$scope.users = $.parseJSON(data);
+
+
+		var onSuccess = function (response) {
+//				$scope.users = $.parseJSON(response.data);
+debugger;
+				$scope.users = response.data;
 				angular.forEach($scope.users, function(user) {
 					user.isAdmin = $scope.isUserAdmin(user);
 				})
-			})
-			.error(function (error) {
+			};
+        var onError = function (error) {
 				$scope.status = 'Unable to load user data';
-			});
+			};
+		userFactory.getAll().then(onSuccess, onError);
 	}
 
 	$scope.roles = [];
 	$scope.getAllRoles = function(callback){
-		roleFactory.getAll()
-			.success(function (data) {
-				$scope.roles = $.parseJSON(data);
-				if(callback){
-					callback.invoke();
-				}
-			})
-			.error(function (error) {
+
+		var onSuccess = function (response) {
+//				$scope.roles = $.parseJSON(data.response);
+                debugger;
+				$scope.roles = response.data;
+                $scope.getAll()
+			};
+		var onError = function (error) {
 				$scope.status = 'Unable to load customer data: ' + error.message;
-			});
+        };
+		roleFactory.getAll().then(onSuccess, onError);
 	}
 
 
@@ -174,58 +181,7 @@ ngApp.controller('userController', ['$scope', '$filter', '$modal', '$timeout','u
 
 
 
-	$scope.getAllRoles($scope.getAll());
-
+//	$scope.getAllRoles();
+//
 }])
 
-
-var userFactory = ngApp.factory('userFactory',['$http', function($http){
-
-	var urlBase = '/api/user';
-	var dataFactory = {}
-
-	dataFactory.getAll = function () {
-		return $http.get(urlBase);
-	};
-
-	dataFactory.get = function (id) {
-		return $http.get(urlBase + '/' + id);
-	};
-
-	dataFactory.update = function (id, isActive, roles) {
-		var po = {};
-		if(isActive != null){
-			po.isActive = isActive;
-		}
-		if(roles != null){
-			po.roles = roles;
-		}
-
-		return $http.put(urlBase + '/' + id, po);
-	};
-
-	dataFactory.delete = function (id) {
-		return $http.delete(urlBase + '/' + id);
-	};
-
-	dataFactory.save = function (username, password) {
-		var po = {};
-		po.password = password;
-		return $http.post(urlBase+ '/' + username, po);
-	};
-
-	return dataFactory;
-}]);
-
-
-var roleFactory = ngApp.factory('roleFactory',['$http', function($http){
-
-	var urlBase = '/api/role';
-	var dataFactory = {}
-
-	dataFactory.getAll = function () {
-		return $http.get(urlBase);
-	};
-
-	return dataFactory;
-}]);

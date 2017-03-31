@@ -1,0 +1,698 @@
+
+
+
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text">
+            <h4>Keywords</h4>
+            <p> Add keywords to include and exclude relevant to the domain you want to discover</p>
+            <!--<form name="udcForm">-->
+            <!--<h6>User DEffined keys</h6>-->
+            <!--<md-chips ng-model="udcList" name="udc" readonly="false" md-removable="true" md-max-chips="15"></md-chips>-->
+            <!--<div class="errors" ng-messages="udcForm.udc.$error">-->
+            <!--<div ng-message="md-max-chips">Maximum number of tags reached.</div>-->
+            <!--</div>-->
+            <!--</form>-->
+            <!--<br/>-->
+            <form name="relevantKeywordsForm">
+                <h6>Including</h6>
+                <md-chips ng-model="relevantKeywords" name="relevantKeywords" readonly="false" md-removable="true" md-max-chips="15"></md-chips>
+                <div class="errors" ng-messages="relevantKeywordsForm.relevantKeywords.$error">
+                    <div ng-message="md-max-chips">Maximum number of tags reached.</div>
+                </div>
+            </form>
+            <br/>
+            <form name="irrelevantKeywordsForm">
+                <h6>Excluding</h6>
+                <md-chips ng-model="irrelevantKeywords" name="irrelevantKeywords" readonly="false" md-removable="true" md-max-chips="15"></md-chips>
+                <div class="errors" ng-messages="irrelevantKeywordsForm.irrelevantKeywords.$error">
+                    <div ng-message="md-max-chips">Maximum number of tags reached.</div>
+                </div>
+            </form>
+            <br/>
+        </div>
+        <div class="mdl-card__actions">
+            <!--<a href="#" class="mdl-button">Read our features</a>-->
+            <a href="#" class="mdl-button">How do we use this?</a>
+            <!--{{relevantKeywords}}-->
+            <!--{{irrelevantKeywords}}-->
+        </div>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
+        <i class="material-icons">more_vert</i>
+    </button>
+    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
+        <li class="mdl-menu__item">Collapse</li>
+        <li class="mdl-menu__item" disabled>Expand</li>
+        <!--<li class="mdl-menu__item">Dolor</li>-->
+    </ul>
+</section>
+
+
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+        <i class="material-icons">play_circle_filled</i>
+    </header>
+    <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+        <div class="mdl-card__supporting-text">
+            <h4>Fetch</h4>
+            <p>Start gathering URLs from <font style="italic">the deep web</font>.</p>
+            <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse.-->
+            <p>Select the sources:</p>
+            <div flex-gt-sm="50">
+                <md-checkbox ng-model="data.cb1" aria-label="Google">
+                    (cough)SRI(cough) Index
+                </md-checkbox>
+                <md-checkbox ng-model="data.cb2" aria-label="Onion Index">
+                    Our onion index
+                </md-checkbox>
+            </div>
+        </div>
+        <div class="mdl-card__actions">
+            <!--<a href="#" class="mdl-button">Read our features</a>-->
+            <md-button class="md-primary md-raised" ng-click="addItem()" >Run</md-button>
+        </div>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn1">
+        <i class="material-icons">more_vert</i>
+    </button>
+    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn1">
+        <li class="mdl-menu__item">Lorem</li>
+        <li class="mdl-menu__item" disabled>Ipsum</li>
+        <li class="mdl-menu__item">Dolor</li>
+    </ul>
+</section>
+
+
+
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+            <h4 class="mdl-cell mdl-cell--12-col">Filters</h4>
+            <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                <div class="section__circle-container__circle mdl-color--primary"></div>
+            </div>
+
+            <!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
+            <!--<h5>Total URLs fetched</h5>-->
+            <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+            <!--</div>-->
+            <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+            <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
+            <!--</div>-->
+
+            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                <h5>Current training</h5>
+                Training results can be filtered according to the following predfined set:
+                <div style="padding:15px">
+                    <md-checkbox ng-model="data.cb1" aria-label="Google">
+                        Relevant
+                    </md-checkbox>
+                    <md-checkbox ng-model="data.cb2" aria-label="Bing">
+                        Irrelevant
+                    </md-checkbox>
+                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                        Neutral
+                    </md-checkbox>
+                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                        Failed
+                    </md-checkbox>
+                </div>
+
+                <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+            </div>
+            <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                <div class="section__circle-container__circle mdl-color--primary"></div>
+            </div>
+            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                <h5>Page type classification</h5>
+                URL's are classified and can be filtered according to the following predefined set:
+                <div style="padding:15px">
+                    <md-checkbox ng-model="data.cb1" aria-label="Google">
+                        Forum
+                    </md-checkbox>
+                    <md-checkbox ng-model="data.cb2" aria-label="Bing">
+                        Blogs
+                    </md-checkbox>
+                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                        News
+                    </md-checkbox>
+                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                        Classified
+                    </md-checkbox>
+                </div>
+
+                <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+            </div>
+            <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                <div class="section__circle-container__circle mdl-color--primary"></div>
+            </div>
+            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                <h5>User Defined Categories</h5>
+                URL's are classified and be filtered according to tags created by the user:
+                <div style="padding:15px">
+                    <md-checkbox ng-model="data.cb1" aria-label="Google">
+                        Local
+                    </md-checkbox>
+                    <md-checkbox ng-model="data.cb2" aria-label="Bing">
+                        Offshore
+                    </md-checkbox>
+                    <md-checkbox ng-model="data.cb3" aria-label="Twitter">
+                        International
+                    </md-checkbox>
+                </div>
+
+                <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+            </div>
+        </div>
+        <div class="mdl-card__actions">
+            <a href="#" class="mdl-button">Read our features</a>
+        </div>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn2">
+        <i class="material-icons">more_vert</i>
+    </button>
+    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn2">
+        <li class="mdl-menu__item">Lorem</li>
+        <li class="mdl-menu__item" disabled>Ipsum</li>
+        <li class="mdl-menu__item">Dolor</li>
+    </ul>
+</section>
+
+
+<style>
+
+.portfolio-max-width {
+    max-width: 1174px;
+    margin: auto;
+}
+</style>
+<section>
+    <div class="mdl-grid portfolio-max-width" >
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <div class="mdl-card__media">
+                <img class="article-image" src="https://getmdl.io/templates/portfolio/images/example-work01.jpg" border="0" alt="">
+            </div>
+            <div class="mdl-card__title" layout="row" layout-align="space-between start" >
+                <div layout="column">
+                    <h2 class="mdl-card__title-text">February 2015 Hacking News Posts Archive — The Hacker News</h2>
+                </div>
+                <div layout="column">
+                    <md-menu >
+                        <md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">
+                            <!--<md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>-->
+                            <i class="material-icons">more_vert</i>
+                            <!--<i class="material-icons">face</i>-->
+                            <!--<md-icon md-font-icon="phone"></md-icon>fadafadsfadfasdfadf-->
+                        </md-button>
+                        <md-menu-content width="4">
+                            <md-menu-item>
+                                <md-button ng-click="redial($event)">
+                                    <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
+                                    <md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>
+                                    <!--<md-icon md-menu-origin>face</md-icon>-->
+                                    Redial
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="redial($event)">
+                                    <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
+                                    <md-icon md-menu-origin md-svg-icon="call:dialpad"></md-icon>
+                                    <!--<md-icon md-menu-origin>face</md-icon>-->
+                                    Redial
+                                </md-button>
+                            </md-menu-item>
+
+                        </md-menu-content>
+                    </md-menu>
+                </div>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <div class="mdl-card__media">
+                <img class="article-image" src="https://getmdl.io/templates/portfolio/images/example-work07.jpg" border="0" alt="">
+            </div>
+            <div class="mdl-card__title" layout="row" layout-align="space-between start" >
+                <div layout="column">
+                    <h2 class="mdl-card__title-text">Sunt nulla</h2>
+                </div>
+                <div layout="column">
+                    <md-menu >
+                        <md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">
+                            <!--<md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>-->
+                            <i class="material-icons">more_vert</i>
+                            <!--<i class="material-icons">face</i>-->
+                            <!--<md-icon md-font-icon="phone"></md-icon>fadafadsfadfasdfadf-->
+                        </md-button>
+                        <md-menu-content width="4">
+                            <md-menu-item>
+                                <md-button ng-click="redial($event)">
+                                    <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
+                                    <md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>
+                                    <!--<md-icon md-menu-origin>face</md-icon>-->
+                                    Redial
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="redial($event)">
+                                    <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
+                                    <md-icon md-menu-origin md-svg-icon="call:dialpad"></md-icon>
+                                    <!--<md-icon md-menu-origin>face</md-icon>-->
+                                    Redial
+                                </md-button>
+                            </md-menu-item>
+
+                        </md-menu-content>
+                    </md-menu>
+                </div>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <div layout="row" layout-align="space-around center" style="margin-top:10px">
+                    <div layout="column" >
+                        <md-radio-group ng-model="data.group1" >
+                            <md-radio-button value="Relevant" aria-label="Google">
+                                Relevant
+                            </md-radio-button>
+                            <md-radio-button value="Neutral" aria-label="Twitter">
+                                Neutral
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div layout="column">
+                        <md-radio-group ng-model="data.group1"  >
+                            <md-radio-button value="Irrelevant" aria-label="Bing">
+                                Irrelevant
+                            </md-radio-button>
+                            <md-radio-button value="Failed" aria-label="Twitter">
+                                Failed
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <!--<div layout="row" layout-align="end center">-->
+
+                <!--<md-menu >-->
+                    <!--<md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">-->
+                        <!--&lt;!&ndash;<md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>&ndash;&gt;-->
+                        <!--<md-icon md-menu-origin >more_vert</md-icon>-->
+                        <!--&lt;!&ndash;<i class="material-icons">more_vert</i>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<i class="material-icons">face</i>&ndash;&gt;-->
+                    <!--</md-button>-->
+                    <!--<md-menu-content width="4">-->
+                        <!--<md-menu-item>-->
+                            <!--<md-button ng-click="redial($event)">-->
+                                <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<md-icon md-menu-align-target md-svg-icon="call:phone"></md-icon>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
+                                <!--<md-icon md-menu-align-target >open_in_new</md-icon>-->
+                                <!--Visit Link-->
+                            <!--</md-button>-->
+                        <!--</md-menu-item>-->
+                        <!--<md-menu-item>-->
+                            <!--<md-button ng-click="redial($event)">-->
+                                <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
+                                <!--<md-icon md-menu-align-target >bookmark_border</md-icon>-->
+                                <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
+                                <!--Bookmark-->
+                            <!--</md-button>-->
+                        <!--</md-menu-item>-->
+                        <!--<md-menu-item>-->
+                            <!--<md-button ng-click="redial($event)">-->
+                                <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
+                                <!--<md-icon md-menu-align-target >delete</md-icon>-->
+                                <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
+                                <!--Delete-->
+                            <!--</md-button>-->
+                        <!--</md-menu-item>-->
+
+                    <!--</md-menu-content>-->
+                <!--</md-menu>-->
+            <!--</div>-->
+
+            <div class="mdl-card__media">
+                <img class="article-image" src=" https://getmdl.io/templates/portfolio/images/example-work02.jpg" border="0" alt="">
+            </div>
+            <div class="mdl-card__title" layout="row" layout-align="space-between start" >
+                <div layout="column">
+                    <h2 class="mdl-card__title-text">Android.com website</h2>
+                    <!--<h2 class="mdl-card__title-text">Sunt nulla</h2>-->
+                </div>
+                <div layout="column">
+                  <md-menu >
+                    <md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">
+                        <!--<md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>-->
+                        <md-icon md-menu-origin >more_vert</md-icon>
+                        <!--<i class="material-icons">more_vert</i>-->
+                        <!--<i class="material-icons">face</i>-->
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button ng-click="redial($event)">
+                                <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
+                                <!--<md-icon md-menu-align-target md-svg-icon="call:phone"></md-icon>-->
+                                <!--<md-icon md-menu-origin>face</md-icon>-->
+                                <md-icon md-menu-align-target >open_in_new</md-icon>
+                                Visit Link
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="redial($event)">
+                                <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
+                                <md-icon md-menu-align-target >bookmark_border</md-icon>
+                                <!--<md-icon md-menu-origin>face</md-icon>-->
+                                Bookmark
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="redial($event)">
+                                <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
+                                <md-icon md-menu-align-target >delete</md-icon>
+                                <!--<md-icon md-menu-origin>face</md-icon>-->
+                                Delete
+                            </md-button>
+                        </md-menu-item>
+
+                    </md-menu-content>
+                </md-menu>
+                </div>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <!--Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.-->
+
+
+                Botnets – zombies get smarter This page uses JavaScript to progressively load the article content as a user scrolls. Screen reader users, click the load entire article button to bypass dynamically loaded article content. Please note that Internet Explorer version 8.x will not be supported as of January 1, 2016. Please refer to for more information. Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution   Direct export     Export file  RIS (for EndNote, Reference Manager, ProCite)  BibTeX  Text  RefWorks Direct Export Content   Citation Only   Citation and Abstract Article outline Show full outline Figures and tables ADVERTISEMENT , June 2006, Pages 18–20 Botnets Botnets – zombies get ...
+            </div>
+
+            <div class="mdl-card__actions mdl-card--border">
+                <div layout="row" layout-align="space-around center" style="margin-top:10px">
+                    <div layout="column" >
+                        <md-checkbox ng-model="data.cb1" aria-label="Forum">
+                            Forum
+                        </md-checkbox>
+                        <md-checkbox ng-model="data.cb1" aria-label="Blog">
+                            Blogs
+                        </md-checkbox>
+                    </div>
+                    <div layout="column">
+                        <md-checkbox ng-model="data.cb1" aria-label="News">
+                            News
+                        </md-checkbox>
+                        <md-checkbox ng-model="data.cb1" aria-label="Classified">
+                            Classified
+                        </md-checkbox>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mdl-card__actions mdl-card--border">
+                <div layout="row" layout-align="space-around center" style="margin-top:10px">
+                    <div layout="column" >
+                        <md-radio-group ng-model="data.group1" >
+                            <md-radio-button value="Relevant" aria-label="Google">
+                                Relevant
+                            </md-radio-button>
+                            <md-radio-button value="Neutral" aria-label="Twitter">
+                                Neutral
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                    <div layout="column">
+                        <md-radio-group ng-model="data.group1"  >
+                            <md-radio-button value="Irrelevant" aria-label="Bing">
+                                Irrelevant
+                            </md-radio-button>
+                            <md-radio-button value="Failed" aria-label="Twitter">
+                                Failed
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mdl-card__actions mdl-card--border">
+                <div>
+                    <form name="udcForm">
+                        <!--<h6>User defined tags</h6>-->
+                        <md-chips ng-model="udcList" name="udc" readonly="false" placeholder="Tag user defined category" md-removable="true" md-max-chips="15"></md-chips>
+                        <div class="errors" ng-messages="udcForm.udc.$error">
+                            <div ng-message="md-max-chips">Maximum number of tags reached.</div>
+                        </div>
+                    </form>
+                </div>
+
+                    <!--<md-chips ng-model="selectedVegetables" md-autocomplete-snap-->
+                              <!--md-transform-chip="transformChip($chip)"-->
+                              <!--md-require-match="autocompleteDemoRequireMatch">-->
+                        <!--<md-autocomplete-->
+                                <!--md-selected-item="selectedItem"-->
+                                <!--md-search-text="searchText"-->
+                                <!--md-items="item in querySearch(searchText)"-->
+                                <!--md-item-text="item.name"-->
+                                <!--placeholder="Search for a vegetable">-->
+                            <!--<span md-highlight-text="searchText">{{item.name}} :: {{item.type}}</span>-->
+                        <!--</md-autocomplete>-->
+                        <!--<md-chip-template>-->
+                        <!--<span>-->
+                          <!--<strong>{{$chip.name}}</strong>-->
+                          <!--<em>({{$chip.type}})</em>-->
+                        <!--</span>-->
+                        <!--</md-chip-template>-->
+                    <!--</md-chips>-->
+                <!--</div>-->
+            </div>
+
+
+            <div class="mdl-card__actions mdl-card--border" layout="row" layout-align="space-between center">
+
+                <div layout="column">
+                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">See more</a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <div class="mdl-card__media">
+                <img class="article-image" src="http://thh-dd:5081/api/workspace/583d9ccad11ff30005d95834/keywords/screenshot/583d9d5e1e9d980001d7d92e" border="0" alt="">
+            </div>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Dashboard template</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <div class="mdl-card__media">
+                <img class="article-image" src="http://thh-dd:5081/api/workspace/583d9ccad11ff30005d95834/keywords/screenshot/583d9d5c1e9d980001d7d928" border="0" alt="">
+            </div>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Text-heavy website</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <div class="mdl-card__media">
+                <img class="article-image" src=" https://getmdl.io/templates/portfolio/images/example-work08.jpg" border="0" alt="">
+            </div>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Ex officia laborum</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <div class="mdl-card__media">
+                <img class="article-image" src=" https://getmdl.io/templates/portfolio/images/example-work05.jpg" border="0" alt="">
+            </div>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Stand-alone article</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <div class="mdl-card__media">
+                <img class="article-image" src=" https://getmdl.io/templates/portfolio/images/example-work06.jpg" border="0" alt="">
+            </div>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">MDL website</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+            <div class="mdl-card__media">
+                <img class="article-image" src=" https://getmdl.io/templates/portfolio/images/example-work09.jpg" border="0" alt="">
+            </div>
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Consequat ut quis</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<section class="section&#45;&#45;center mdl-grid mdl-grid&#45;&#45;no-spacing mdl-shadow&#45;&#45;2dp">-->
+<!--<header class="section__play-btn mdl-cell mdl-cell&#45;&#45;3-col-desktop mdl-cell&#45;&#45;2-col-tablet mdl-cell&#45;&#45;4-col-phone mdl-color&#45;&#45;teal-100 mdl-color-text&#45;&#45;white">-->
+<!--<i class="material-icons">play_circle_filled</i>-->
+<!--</header>-->
+<!--<div class="mdl-card mdl-cell mdl-cell&#45;&#45;9-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;4-col-phone">-->
+<!--<div class="mdl-card__supporting-text">-->
+<!--<h4>Features</h4>-->
+<!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse.-->
+<!--</div>-->
+<!--<div class="mdl-card__actions">-->
+<!--<a href="#" class="mdl-button">Read our features</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn1">-->
+<!--<i class="material-icons">more_vert</i>-->
+<!--</button>-->
+<!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn1">-->
+<!--<li class="mdl-menu__item">Lorem</li>-->
+<!--<li class="mdl-menu__item" disabled>Ipsum</li>-->
+<!--<li class="mdl-menu__item">Dolor</li>-->
+<!--</ul>-->
+<!--</section>-->
+
+
+<!--<section class="section&#45;&#45;center mdl-grid mdl-grid&#45;&#45;no-spacing mdl-shadow&#45;&#45;2dp">-->
+<!--<div class="mdl-card mdl-cell mdl-cell&#45;&#45;12-col">-->
+<!--<div class="mdl-card__supporting-text mdl-grid mdl-grid&#45;&#45;no-spacing">-->
+<!--<h4 class="mdl-cell mdl-cell&#45;&#45;12-col">Details</h4>-->
+<!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+<!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
+<!--</div>-->
+<!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
+<!--<h5>Lorem ipsum dolor sit amet</h5>-->
+<!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+<!--</div>-->
+<!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+<!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
+<!--</div>-->
+<!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
+<!--<h5>Lorem ipsum dolor sit amet</h5>-->
+<!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+<!--</div>-->
+<!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+<!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
+<!--</div>-->
+<!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
+<!--<h5>Lorem ipsum dolor sit amet</h5>-->
+<!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="mdl-card__actions">-->
+<!--<a href="#" class="mdl-button">Read our features</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn2">-->
+<!--<i class="material-icons">more_vert</i>-->
+<!--</button>-->
+<!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn2">-->
+<!--<li class="mdl-menu__item">Lorem</li>-->
+<!--<li class="mdl-menu__item" disabled>Ipsum</li>-->
+<!--<li class="mdl-menu__item">Dolor</li>-->
+<!--</ul>-->
+<!--</section>-->
+
+<!--<section class="section&#45;&#45;center mdl-grid mdl-grid&#45;&#45;no-spacing mdl-shadow&#45;&#45;2dp">-->
+<!--<div class="mdl-card mdl-cell mdl-cell&#45;&#45;12-col">-->
+<!--<div class="mdl-card__supporting-text">-->
+<!--<h4>Technology</h4>-->
+<!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
+<!--</div>-->
+<!--<div class="mdl-card__actions">-->
+<!--<a href="#" class="mdl-button">Read our features</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn3">-->
+<!--<i class="material-icons">more_vert</i>-->
+<!--</button>-->
+<!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn3">-->
+<!--<li class="mdl-menu__item">Lorem</li>-->
+<!--<li class="mdl-menu__item" disabled>Ipsum</li>-->
+<!--<li class="mdl-menu__item">Dolor</li>-->
+<!--</ul>-->
+<!--</section>-->
+
+<!--<section class="section&#45;&#45;footer mdl-color&#45;&#45;white mdl-grid">-->
+<!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+<!--<div class="section__circle-container__circle mdl-color&#45;&#45;accent section__circle&#45;&#45;big"></div>-->
+<!--</div>-->
+<!--<div class="section__text mdl-cell mdl-cell&#45;&#45;4-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
+<!--<h5>Lorem ipsum dolor sit amet</h5>-->
+<!--Qui sint ut et qui nisi cupidatat. Reprehenderit nostrud proident officia exercitation anim et pariatur ex.-->
+<!--</div>-->
+<!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+<!--<div class="section__circle-container__circle mdl-color&#45;&#45;accent section__circle&#45;&#45;big"></div>-->
+<!--</div>-->
+<!--<div class="section__text mdl-cell mdl-cell&#45;&#45;4-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
+<!--<h5>Lorem ipsum dolor sit amet</h5>-->
+<!--Qui sint ut et qui nisi cupidatat. Reprehenderit nostrud proident officia exercitation anim et pariatur ex.-->
+<!--</div>-->
+<!--</section>-->
+
+<!--<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>-->
+<!--<script>-->
+<!--componentHandler.upgradeAllRegistered();-->
+<!--</script>-->
