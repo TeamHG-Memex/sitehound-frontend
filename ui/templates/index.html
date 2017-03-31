@@ -111,7 +111,6 @@
           <a href="#features" class="mdl-layout__tab">User Defined Categories</a>
           <a href="#features" class="mdl-layout__tab">Crawling</a>
           <a href="#features" class="mdl-layout__tab">Deep Web</a>
-          <a href="#chips" class="mdl-layout__tab">Chips</a>
           <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
             <i class="material-icons" role="presentation">add</i>
             <span class="visuallyhidden">Add</span>
@@ -122,10 +121,6 @@
 
 
       <main class="mdl-layout__content">
-
-        <div class="mdl-layout__tab-panel" id="chips" ng-controller="BasicDemoCtrl as ctrl" ng-cloack>
-			<ng-include src="'/static/partials-md/chips-md.html'"></ng-include>
-		</div>
 
 		  <!--<div  class="mdl-layout__tab-panel is-active" id="overview" ng-view=""></div>-->
         <div class="mdl-layout__tab-panel" id="welcome" ng-controller="welcomeController" ng-cloack>
@@ -298,12 +293,12 @@
 
 	<script src="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='lib/angular-ui/ng-infinite-scroll.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.js') }}"></script>
+	<!--<script src="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.js') }}"></script>-->
 	<script src="{{ url_for('static', filename='lib/angular/ngSilent/ngSilent.js') }}"></script>
 
 
-	<script src="{{ url_for('static', filename='lib/angular-ui/xeditable/js/xeditable.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular-ui/xeditable/js/checklist-model.js') }}"></script>
+	<!--<script src="{{ url_for('static', filename='lib/angular-ui/xeditable/js/xeditable.min.js') }}"></script>-->
+	<!--<script src="{{ url_for('static', filename='lib/angular-ui/xeditable/js/checklist-model.js') }}"></script>-->
 	<!--<link src="{{ url_for('static', filename='lib/angular-ui/xeditable/css/xeditable.css') }}" rel="stylesheet">-->
 
 	<!--<script src="{{ url_for('static', filename='lib/angular-ui/light-grid/light-grid.js') }}"></script>-->
@@ -346,7 +341,6 @@
 	<script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>
 	<script src="{{ url_for('static', filename='js3/welcome.js') }}"></script>
 	<!--<script src="{{ url_for('static', filename='js3/workspace-md.js') }}"></script>-->
-	<script src="{{ url_for('static', filename='js3/chips.js') }}"></script>
 
 	<script src="{{ url_for('static', filename='lib/languages.js') }}"></script>
 </body>

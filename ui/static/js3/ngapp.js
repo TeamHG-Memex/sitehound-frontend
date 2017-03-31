@@ -1,18 +1,26 @@
 //Angular
 
 var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bootstrap',
-	'toggle-switch', 'infinite-scroll','nzToggle', 'ngSilent', 'ngCookies', 'xeditable', 'checklist-model'
+	'toggle-switch',
+	'infinite-scroll',
+//	'nzToggle',
+	 'ngSilent',
+	 'ngCookies',
+//	 'xeditable',
+//	 'checklist-model',
 //	,'lightGrid','lightGridDataProviders','lightGridControls'
-//	, 'ngSanitize'
-    , 'ngMessages'
-    , 'ngMaterial', 'md.data.table',
-	, 'ngCsv'])
+	'ngSanitize',
+     'ngMessages',
+     'ngMaterial',
+     'md.data.table',
+	 'ngCsv'
+	 ])
 
-ngApp.run(function(editableOptions, editableThemes) {
-	editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'. This is for xeditable
-	editableThemes.bs3.inputClass = 'input-sm';
-	editableThemes.bs3.buttonsClass = 'btn-sm small-custom-button';
-});
+//ngApp.run(function(editableOptions, editableThemes) {
+//	editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'. This is for xeditable
+//	editableThemes.bs3.inputClass = 'input-sm';
+//	editableThemes.bs3.buttonsClass = 'btn-sm small-custom-button';
+//});
 
 
 ngApp.filter('objectFilterByVal', function () {
