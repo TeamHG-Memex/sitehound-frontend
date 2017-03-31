@@ -2,7 +2,7 @@
 
 var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bootstrap',
 	'toggle-switch', 'infinite-scroll','nzToggle', 'ngSilent', 'ngCookies', 'xeditable', 'checklist-model'
-	,'lightGrid','lightGridDataProviders','lightGridControls'
+//	,'lightGrid','lightGridDataProviders','lightGridControls'
 //	, 'ngSanitize'
     , 'ngMessages'
     , 'ngMaterial', 'md.data.table',

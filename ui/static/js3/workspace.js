@@ -186,25 +186,19 @@ ngApp.controller('workspaceController',
 		$scope.loading = false;
 	}
 
-	function getWorkspaces(callback, order) {
-	    console.log("getting workspaces!")
-		var tOut = $scope.startLoading();
-		workspaceFactory.getWorkspaces(order)
-			.success(function (data) {
-				$scope.endLoading(tOut);
-//				$scope.workspaces = $.parseJSON(data);
-				$scope.workspaces = data;
-//				workspaceStateFactory.setSelectedWorkspace($scope.workspaceId, $scope.workspaces);
+	function getWorkspaces(order) {
 
-                $scope.selected[0] = workspaceSelectedService.getSelectedWorkspace();
-//				if(callback){
-//					callback.apply();
-//				}
-			})
-			.error(function (error) {
-				$scope.endLoading(tOut);
-				$scope.status = 'Unable to load customer data: ' + error.message;
-			});
+        var onSuccess = function (response) {
+            $scope.workspaces = response.data;
+            $scope.selected[0] = workspaceSelectedService.getSelectedWorkspace();
+        };
+        var onError = function(response) {
+            $scope.endLoading(tOut);
+            var error = response.data;
+            $scope.status = 'Unable to load customer data: ' + error.message;
+        };
+
+		workspaceFactory.getWorkspaces(order).then(onSuccess, onError);
 	}
 
     $scope.prettyPrintWords = function(words) {
@@ -269,18 +263,18 @@ var workspaceStateFactory = ngApp.factory('workspaceStateFactory',['$routeParams
 //		$routeParams.workspaceId = workspaceId;
 //	}
 
-
-	dataFactory.setSelectedWorkspace = function(id, workspaces){
-		angular.forEach(workspaces, function(elem, index){
-			if(elem._id == id){
-				elem.selected = true;
-				$("#workspace-name").text(elem.name);
-			}
-			else{
-				elem.selected = false;
-			}
-		});
-	}
+//
+//	dataFactory.setSelectedWorkspace = function(id, workspaces){
+//		angular.forEach(workspaces, function(elem, index){
+//			if(elem._id == id){
+//				elem.selected = true;
+//				$("#workspace-name").text(elem.name);
+//			}
+//			else{
+//				elem.selected = false;
+//			}
+//		});
+//	}
 
 	dataFactory.get = function(){
 		var workspaceId = $routeParams.workspaceId;
@@ -299,12 +293,12 @@ var workspaceStateFactory = ngApp.factory('workspaceStateFactory',['$routeParams
 		return workspaceId;
 	}
 
-	dataFactory.clear = function(){
-		$ngSilentLocation.silent('/');
-		$("#workspace-name").text('');
-		$routeParams.workspaceId = null;
-		$cookies.remove("workspaceId");
-	}
+//	dataFactory.clear = function(){
+//		$ngSilentLocation.silent('/');
+//		$("#workspace-name").text('');
+//		$routeParams.workspaceId = null;
+//		$cookies.remove("workspaceId");
+//	}
 
 	return dataFactory;
 

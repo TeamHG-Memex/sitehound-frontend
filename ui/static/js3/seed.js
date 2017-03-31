@@ -8,6 +8,7 @@ ngApp.config(function($mdIconProvider) {
 
 
 ngApp.controller('seedController', ['$scope', '$filter', 'workspaceSelectedService', 'seedFactory',
+//ngApp.controller('seedController', ['$scope', '$filter', 'workspaceSelectedService', 'seedFactory',
 function ($scope, $filter, workspaceSelectedService, seedFactory, $mdDialog) {
 
 //	$scope.workspaceId = $routeParams.workspaceId;
@@ -29,24 +30,24 @@ function ($scope, $filter, workspaceSelectedService, seedFactory, $mdDialog) {
       $mdMenu.open(ev);
     };
 
-    $scope.notificationsEnabled = true;
-    $scope.toggleNotifications = function() {
-      $scope.notificationsEnabled = !$scope.notificationsEnabled;
-    };
-
-       $scope.redial = function() {
-      $mdDialog.show(
-        $mdDialog.alert()
-          .targetEvent(originatorEv)
-          .clickOutsideToClose(true)
-          .parent('body')
-          .title('Suddenly, a redial')
-          .textContent('You just called a friend; who told you the most amazing story. Have a cookie!')
-          .ok('That was easy')
-      );
-
-      originatorEv = null;
-    };
+//    $scope.notificationsEnabled = true;
+//    $scope.toggleNotifications = function() {
+//      $scope.notificationsEnabled = !$scope.notificationsEnabled;
+//    };
+//
+//       $scope.redial = function() {
+//      $mdDialog.show(
+//        $mdDialog.alert()
+//          .targetEvent(originatorEv)
+//          .clickOutsideToClose(true)
+//          .parent('body')
+//          .title('Suddenly, a redial')
+//          .textContent('You just called a friend; who told you the most amazing story. Have a cookie!')
+//          .ok('That was easy')
+//      );
+//
+//      originatorEv = null;
+//    };
 
 
 /**
@@ -58,12 +59,118 @@ function ($scope, $filter, workspaceSelectedService, seedFactory, $mdDialog) {
 	}
 **/
 
+/* User defined categories logic*/
+//
+//
+//    $scope.readonly = false;
+//    $scope.selectedItem = null;
+//    $scope.searchText = null;
+////    self.querySearch = querySearch;
+//    $scope.selectedVegetables = [];
+//    $scope.numberChips = [];
+//    $scope.numberChips2 = [];
+//    $scope.numberBuffer = '';
+//    $scope.autocompleteDemoRequireMatch = false;
+////    self.transformChip = transformChip;
+//
+//    /*
+//     * Return the proper object when the append is called.
+//     */
+//    $scope.transformChip = function(chip) {
+//      // If it is an object, it's already a known chip
+//      if (angular.isObject(chip)) {
+//        return chip;
+//      }
+//
+//      // Otherwise, create a new one
+//      return { name: chip, type: 'new' }
+//    }
+//
+//    /**
+//     * Search for vegetables.
+//     */
+//    $scope.querySearch = function(query) {
+//      var results = query ? $scope.vegetables.filter($scope.createFilterFor(query)) : [];
+//      return results;
+//    }
+//
+//    /**
+//     * Create filter function for a query string
+//     */
+//    $scope.createFilterFor = function(query) {
+//      var lowercaseQuery = angular.lowercase(query);
+//
+//      return function filterFn(vegetable) {
+//        return (vegetable._lowername.indexOf(lowercaseQuery) === 0) ||
+//            (vegetable._lowertype.indexOf(lowercaseQuery) === 0);
+//      };
+//
+//    }
+//
+//
+//    $scope.loadVegetables = function() {
+//      var veggies = [
+//        {
+//          'name': 'Broccoli',
+//          'type': 'Brassica'
+//        },
+//        {
+//          'name': 'Cabbage',
+//          'type': 'Brassica'
+//        },
+//        {
+//          'name': 'Carrot',
+//          'type': 'Umbelliferous'
+//        },
+//        {
+//          'name': 'Lettuce',
+//          'type': 'Composite'
+//        },
+//        {
+//          'name': 'Spinach',
+//          'type': 'Goosefoot'
+//        }
+//      ];
+//
+//      var vegs = veggies.map(function (veg) {
+//        veg._lowername = veg.name.toLowerCase();
+//        veg._lowertype = veg.type.toLowerCase();
+//        return veg;
+//      });
+//      return vegs;
+//    }
+//
+//    var vegs = $scope.loadVegetables()
+//    $scope.vegetables = vegs;
+//
+//
+////     Lists of fruit names and Vegetable objects
+//    $scope.readonly = false;
+//
+//    $scope.selectedChip=null;
+//
+//    self.newVeg = function(chip) {
+//      return {
+//        name: chip,
+//        type: 'unknown'
+//      };
+//    };
+
+
+
+
+
+
     function getSeeds(){
         $scope.getSeeds();
     }
 
     $scope.relevantKeywords=[];
+    $scope.relevantKeywords2=[];
     $scope.irrelevantKeywords=[];
+    $scope.udcList=["bla"];
+
+
 
 	$scope.getSeeds = function(){
         $scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
@@ -122,7 +229,8 @@ function ($scope, $filter, workspaceSelectedService, seedFactory, $mdDialog) {
 		}
 	}
 
-	getSeeds();
+    //FIXME
+//	getSeeds();
 }]);
 
 
