@@ -3,21 +3,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="lang" value="en">
-    <!--<meta name="turbolinks-cache-control" content="no-cache">-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>Site Hound</title>
-
-    <!--<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>-->
-    <!--<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>-->
-    <!--<script src="{{ url_for('static', filename='js/jquery.tooltipster.min.js') }}"></script>-->
-    <!--<script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>-->
-    <!--<script src="{{ url_for('static', filename='js/d3.v3.min.js') }}" charset=utf-8></script>-->
-    <!--<script src="{{ url_for('static', filename='js/StackBlur.js') }}"></script>-->
-    <!--<script src="{{ url_for('static', filename='js/URI.js') }}"></script>-->
-    <!--<script src="{{ url_for('static', filename='js/pinterest_grid.js') }}"></script>-->
 
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -39,15 +28,15 @@
     }
     </style>
 
-
-
-
-
 </head>
 
 <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" >
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" >
     <!--<div class="mdl-layout mdl-js-layout mdl-layout&#45;&#45;fixed-header">-->
+
+<!--<div >-->
+  <!--<md-content class="md-padding">-->
+    <!--<md-nav-bar id="custom-nav-bar" md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">-->
 
     <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
         <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="height:10px">
@@ -102,11 +91,127 @@
         <!--</div>-->
 
 
-        <!--USER LOGO SUPRA MENU-->
+        <style>
+
+        #custom-nav-bar .md-button._md-nav-button {
+            line-height: 24px;
+            margin: 0 0px;
+            /*padding: 12px 16px;*/
+            padding: 0px;
+            -webkit-transition: background-color .35s cubic-bezier(.35,0,.25,1);
+            transition: background-color .35s cubic-bezier(.35,0,.25,1)
+        }
+
+        #custom-nav-bar .md-nav-item:first-of-type{
+            /* margin-left: 8px; */
+            margin-left: 0px;
+        }
+
+        #custom-nav-bar .md-button {
+            <!--/* letter-spacing: .01em; */-->
+            letter-spacing: .00em;
+            }
+
+        #custom-nav-bar .md-selected {
+            margin: 120px;
+            }
+
+
+            #custom-nav-bar .custom-mdl-layout__tab .mdl-layout__tab-ripple-container {
+                display: block;
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                left: 0;
+                top: 0;
+                z-index: 1;
+                overflow: hidden
+            }
+
+            #custom-nav-bar .custom-mdl-layout__tab {
+                margin: 0;
+                border: none;
+                padding: 0 24px;
+                float: left;
+                position: relative;
+                display: block;
+                 -webkit-flex-grow: 0;
+                 -ms-flex-positive: 0;
+                flex-grow: 0;
+                 -webkit-flex-shrink: 0;
+                 -ms-flex-negative: 0;
+                flex-shrink: 0;
+                text-decoration: none;
+                height: 48px;
+                line-height: 48px;
+                text-align: center;
+                font-weight: 500;
+                font-size: 14px;
+                text-transform: uppercase;
+                color: rgba(255,255,255,.6);
+                overflow: hidden;
+            }
+
+
+            #custom-nav-bar .mdl-demo .custom-mdl-layout__tab-bar .mdl-layout__tab {
+                    height: 64px;
+                    line-height: 64px;
+                }
+
+        </style>
+
+          <!--<md-content class="md-padding">-->
+            <md-nav-bar id="custom-nav-bar" md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" >
+                        <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color&#45;&#45;primary-dark">-->
+                        <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color&#45;&#45;primary-dark mdl-layout__tab-manual-switch" >-->
+                        <div class="mdl-layout__tab-bar  mdl-color--primary-dark mdl-layout__tab-manual-switch" >
+
+                              <md-nav-item md-nav-click="goto('page1')"  name="page1">
+                                <!--Page One-->
+                                    <a class="custom-mdl-layout__tab" href="#/welcome"ng-click="alert('343242')" class="mdl-layout__tab">Welcome</a>
+                              </md-nav-item>
+                              <md-nav-item md-nav-click="goto('page2')" name="page2"  style="padding:0">
+                                    <a class="custom-mdl-layout__tab">Users</a>
+                              </md-nav-item>
+                              <md-nav-item md-nav-click="goto('page3')" name="page3" style="padding:0">
+                                    <a class="custom-mdl-layout__tab">Workspaces</a>
+                              </md-nav-item>
+                              <md-nav-item md-nav-click="goto('page4')" name="page4" style="padding:0">
+                                    <a class="custom-mdl-layout__tab">DASHBOARD</a>
+                              </md-nav-item>
+                              <md-nav-item md-nav-click="goto('page5')" name="page5" style="padding:0">
+                                    <a class="custom-mdl-layout__tab">Training by keywords</a>
+                              </md-nav-item>
+                              <md-nav-item md-nav-click="goto('page6')" name="page6" style="padding:0">
+                                    <a class="custom-mdl-layout__tab">Training by URLs</a>
+                              </md-nav-item>
+                              <md-nav-item md-nav-click="goto('page7')" name="page7" style="padding:0">
+                                    <a class="custom-mdl-layout__tab">crawling</a>
+                              </md-nav-item>
+                              <md-nav-item md-nav-click="goto('page8')" name="page8" style="padding:0">
+                                    <a class="custom-mdl-layout__tab">deep web</a>
+                              </md-nav-item>
+                              <md-nav-item md-nav-click="goto('page9')" name="page9" style="padding:0">
+                                    <a class="custom-mdl-layout__tab">FEATURE extraction</a>
+                              </md-nav-item>
+                              <!-- these require actual routing with ui-router or ng-route, so they
+                              won't work in the demo
+                              <md-nav-item md-nav-href="#page4" name="page5">Page Four</md-nav-item>
+                              <md-nav-item md-nav-sref="app.page5" name="page4">Page Five</md-nav-item>
+                              You can also add options for the <code>ui-sref-opts</code> attribute.
+                              <md-nav-item md-nav-sref="page6" sref-opts="{reload:true, notify:true}">
+                                Page Six
+                              </md-nav-item>
+                              -->
+                        </div>
+
+            </md-nav-bar>
+
 
 
 
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+
             <a href="#features" class="mdl-layout__tab is-active">Welcome</a>
             <a href="#user" class="mdl-layout__tab">Users</a>
             <a href="#workspace" class="mdl-layout__tab">Workspaces</a>
@@ -115,21 +220,54 @@
             <a href="#trainingByUrl" class="mdl-layout__tab">Training by urls</a>
             <a href="#features" class="mdl-layout__tab">Crawling</a>
             <a href="#trainingDeepWeb" class="mdl-layout__tab">Deep Web</a>
+            <a href="#features" class="mdl-layout__tab">Feature Extraction</a>
 
             <!--BALL WITH THE PLUS SIGN-->
-            <!--<button class="mdl-button mdl-js-button mdl-button&#45;&#45;fab mdl-js-ripple-effect mdl-button&#45;&#45;colored mdl-shadow&#45;&#45;4dp mdl-color&#45;&#45;accent" id="add">-->
+            <!--<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">-->
                 <!--<i class="material-icons" role="presentation">add</i>-->
                 <!--<span class="visuallyhidden">Add</span>-->
             <!--</button>-->
         </div>
 
     </header>
+    <!--<main class="mdl-layout__content" ng-cloack>-->
+
+
+        <!--<div class="mdl-layout__tab-panel" id="features3">afadffd</div>-->
+        <!--<div class="mdl-layout__tab-panel" id="user3">adfafd</div>-->
+        <!--<div class="mdl-layout__tab-panel" id="workspace3">-->
+            <!--showing features-->
+        <!--</div>-->
+    <!--</main>-->
+
+    <!--</md-nav-bar>-->
+  <!--</md-content>-->
+<!--</div>-->
+    <!--<main class="mdl-layout__content" ng-cloack>-->
+
+
+        <!--<div class="mdl-layout__tab-panel" id="features">-->
+            <!--showing features-->
+        <!--</div>-->
+    <!--</main>-->
 
 
     <main class="mdl-layout__content" ng-cloack>
 
-        <!--<div  class="mdl-layout__tab-panel is-active" id="overview" ng-view=""></div>-->
+
+        <!--<div class="mdl-layout__tab-panel" id="features3">-->
+            <!--showing features-->
+        <!--</div>-->
+
         <div class="mdl-layout__tab-panel" id="welcome" ng-controller="welcomeController" ng-cloack>
+            showing welcome!
+        </div>
+
+        <div class="mdl-layout__tab-panel" id="features2">
+            <ng-include src="'/static/partials-md/features-md.html'"></ng-include>
+        </div>
+
+        <div class="mdl-layout__tab-panel" id="welcome2" ng-controller="welcomeController" ng-cloack>
             <ng-include src="'/static/partials-md/overview-md.html'"></ng-include>
         </div>
 
@@ -163,9 +301,6 @@
             <ng-include src="'/static/partials-md/overview-md.html'"></ng-include>
         </div>
 
-        <div class="mdl-layout__tab-panel" id="features">
-            <ng-include src="'/static/partials-md/features-md.html'"></ng-include>
-        </div>
 
         <ng-include src="'/static/partials-md/footer-mini-md.html'"></ng-include>
     </main>
@@ -272,3 +407,40 @@
 <script src="{{ url_for('static', filename='lib/languages.js') }}"></script>
 </body>
 </html>
+
+
+        <!--USER LOGO SUPRA MENU-->
+
+        <!--<div>-->
+          <!--<md-content class="md-padding">-->
+            <!--<md-nav-bar-->
+              <!--md-selected-nav-item="currentNavItem"-->
+              <!--nav-bar-aria-label="navigation links">-->
+              <!--<md-nav-item md-nav-click="goto('page1')" name="page1">-->
+                <!--Page One-->
+              <!--</md-nav-item>-->
+              <!--<md-nav-item md-nav-click="goto('page2')" name="page2">-->
+                <!--Page Two-->
+              <!--</md-nav-item>-->
+              <!--<md-nav-item md-nav-click="goto('page3')" name="page3">-->
+                <!--Page Three-->
+              <!--</md-nav-item>-->
+              <!--&lt;!&ndash; these require actual routing with ui-router or ng-route, so they-->
+              <!--won't work in the demo-->
+              <!--<md-nav-item md-nav-href="#page4" name="page5">Page Four</md-nav-item>-->
+              <!--<md-nav-item md-nav-sref="app.page5" name="page4">Page Five</md-nav-item>-->
+              <!--You can also add options for the <code>ui-sref-opts</code> attribute.-->
+              <!--<md-nav-item md-nav-sref="page6" sref-opts="{reload:true, notify:true}">-->
+                <!--Page Six-->
+              <!--</md-nav-item>-->
+              <!--&ndash;&gt;-->
+            <!--</md-nav-bar>-->
+            <!--<div class="ext-content">-->
+              <!--External content for `<span>{{currentNavItem}}</span>`.-->
+            <!--</div>-->
+
+            <!--<md-checkbox ng-model="disableInkBar">Disable Ink Bar</md-checkbox>-->
+
+          <!--</md-content>-->
+        <!--</div>-->
+

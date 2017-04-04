@@ -10,6 +10,11 @@ function ($scope, $filter, workspaceSelectedService, seedUrlFactory, $mdDialog) 
       $mdMenu.open(ev);
     };
 
+    $scope.postConstructTimes = 0;
+    $scope.postConstruct = function(){
 
+        console.log("postConstruct - executed");
+        $scope.postConstructTimes = $scope.postConstructTimes + 1;
+    }
 
 }]);
