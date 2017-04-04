@@ -96,7 +96,11 @@ def get_seeds_urls_by_workspace(workspace_id, drop_png=False):
 
 
 def get_seeds_urls_by_source(workspace_id, source, relevance, last_id):
-    mongo_result = get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id)
+    try:
+        mongo_result = get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id)
+    except Exception, e:
+        print e
+        logging.info("item failed")
     for item in mongo_result:
         try:
             es_result = Singleton.getInstance().es_client.get_open_crawled_index_results(item['url'])

@@ -6,6 +6,8 @@ from ui.singleton import Singleton
 
 def get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id):
 
+    and_condition_list = []
+
     source_search_conditions = []
     if source == "searchengine":
         source_search_conditions.append({'crawlEntityType': "BING"})
@@ -21,6 +23,7 @@ def get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id):
     else:
         print("no valid source was provided:" + source)
     source_search_object = {'$or': source_search_conditions}
+    and_condition_list.append(source_search_object)
 
     relevance_search_conditions = []
     if "neutral" in relevance and relevance['neutral']:
@@ -29,15 +32,22 @@ def get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id):
         relevance_search_conditions.append({'relevant': True})
     if "irrelevant" in relevance and relevance['irrelevant']:
         relevance_search_conditions.append({'relevant': False})
-    relevance_search_object = {'$or': relevance_search_conditions}
+
+    if len(relevance_search_conditions)> 0:
+        relevance_search_object = {'$or': relevance_search_conditions}
+        and_condition_list.append(relevance_search_object)
 
     page_search_object = {}
     if last_id is not None:
         # page_search_object = {'_id' > input_search_query['last_id']}
         page_search_object = {"_id": {"$gt": ObjectId(last_id)}}
+        and_condition_list.append(page_search_object)
 
     deleted_search_object = {'deleted': None}
+    and_condition_list.append(deleted_search_object)
+
     workspace_search_object = {'workspaceId': workspace_id}
+    and_condition_list.append(workspace_search_object)
 
     # field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'urlDesc', 'categories', 'language', 'relevant']
     # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant', 'words']
@@ -46,9 +56,9 @@ def get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id):
 
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     res = collection\
-        .find({'$and': [source_search_object, relevance_search_object, page_search_object, deleted_search_object, workspace_search_object]}, field_names_to_include)\
+        .find({'$and': and_condition_list}, field_names_to_include)\
         .sort('_id', pymongo.ASCENDING)\
-        .limit(3)
+        .limit(21)
 
     docs = list(res)
     return docs

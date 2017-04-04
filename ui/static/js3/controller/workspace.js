@@ -8,16 +8,17 @@ function ($mdDialog, $scope, workspaceFactory, workspaceSelectedService) {
         $scope.item.form.$setSubmitted();
 
         if($scope.item.form.$valid) {
-            workspaceFactory.add($scope.workspace.name)
-            .success(function (data) {
-                $mdDialog.hide();
-            })
-            .error(function (err){
-                console.log(err);
-                if(err.message){
-                    alert(err.message);
+            workspaceFactory.add($scope.workspace.name).then(
+                function (data) {
+                    $mdDialog.hide();
+                },
+                function (err){
+                    console.log(err);
+                    if(err.message){
+                        alert(err.message);
+                    }
                 }
-            });
+            );
         }
     };
 
@@ -31,16 +32,17 @@ ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', 
 
     $scope.deleteWorkspace = function(id) {
 
-        workspaceFactory.deleteWorkspace(id)
-            .success(function (data) {
+        workspaceFactory.deleteWorkspace(id).then(
+            function (data) {
                 $mdDialog.hide();
-            })
-            .error(function (err){
+            },
+            function (err){
                 console.log(err);
                 if(err.message){
                     alert(err.message);
                 }
-            });
+            }
+        )
     }
 
     function onComplete() {
@@ -95,7 +97,7 @@ ngApp.controller('workspaceController',
         controller: 'addWorkspaceController',
         focusOnOpen: true,
         targetEvent: event,
-        templateUrl: '/static/partials/workspace/add-item-dialog.html',
+        templateUrl: '/static/partials-md/workspace/add-item-dialog.html',
       }).then(getWorkspaces);
     };
 
@@ -166,7 +168,7 @@ ngApp.controller('workspaceController',
             focusOnOpen: true,
             targetEvent: event,
             locals: { deletedWorkspace: workspace},
-            templateUrl: '/static/partials/workspace/delete-dialog.html',
+            templateUrl: '/static/partials-md/workspace/delete-dialog.html',
         }).then(getWorkspaces);
     };
 

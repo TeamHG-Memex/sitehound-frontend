@@ -1,5 +1,5 @@
-ngApp.controller('trainingByUrlController', ['$scope', '$filter', 'workspaceSelectedService',
-function ($scope, $filter, workspaceSelectedService, $mdDialog) {
+ngApp.controller('trainingByUrlController', ['$scope', '$filter', 'workspaceSelectedService', 'seedUrlFactory',
+function ($scope, $filter, workspaceSelectedService, seedUrlFactory, $mdDialog) {
 
     $scope.relevantKeywords=[];
     $scope.irrelevantKeywords=[];
@@ -9,6 +9,7 @@ function ($scope, $filter, workspaceSelectedService, $mdDialog) {
       originatorEv = ev;
       $mdMenu.open(ev);
     };
+
 
 
 }]);

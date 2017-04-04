@@ -48,7 +48,6 @@ ngApp.controller('userController', ['$scope', '$filter', '$modal', '$timeout','u
 
 		var onSuccess = function (response) {
 //				$scope.users = $.parseJSON(response.data);
-debugger;
 				$scope.users = response.data;
 				angular.forEach($scope.users, function(user) {
 					user.isAdmin = $scope.isUserAdmin(user);
@@ -65,7 +64,6 @@ debugger;
 
 		var onSuccess = function (response) {
 //				$scope.roles = $.parseJSON(data.response);
-                debugger;
 				$scope.roles = response.data;
                 $scope.getAll()
 			};

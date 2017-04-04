@@ -8,7 +8,7 @@
     <meta name="lang" value="en">
     <!--<meta name="turbolinks-cache-control" content="no-cache">-->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <title>Sitehound</title>
+    <title>Site Hound</title>
 
     <!--<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>-->
     <!--<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>-->
@@ -107,14 +107,12 @@
 
 
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-            <a href="#features" class="mdl-layout__tab">Welcome</a>
+            <a href="#features" class="mdl-layout__tab is-active">Welcome</a>
             <a href="#user" class="mdl-layout__tab">Users</a>
             <a href="#workspace" class="mdl-layout__tab">Workspaces</a>
-            <!--<a href="#features" class="mdl-layout__tab">Workspaces</a>-->
             <a href="#dashboard" class="mdl-layout__tab">Dashboard</a>
-            <a href="#trainingByKeyword" class="mdl-layout__tab  is-active">Training by keywords</a>
+            <a href="#trainingByKeyword" class="mdl-layout__tab">Training by keywords</a>
             <a href="#trainingByUrl" class="mdl-layout__tab">Training by urls</a>
-            <!--<a href="#features" class="mdl-layout__tab">User Defined Categories</a>-->
             <a href="#features" class="mdl-layout__tab">Crawling</a>
             <a href="#trainingDeepWeb" class="mdl-layout__tab">Deep Web</a>
 
@@ -128,7 +126,7 @@
     </header>
 
 
-    <main class="mdl-layout__content">
+    <main class="mdl-layout__content" ng-cloack>
 
         <!--<div  class="mdl-layout__tab-panel is-active" id="overview" ng-view=""></div>-->
         <div class="mdl-layout__tab-panel" id="welcome" ng-controller="welcomeController" ng-cloack>
