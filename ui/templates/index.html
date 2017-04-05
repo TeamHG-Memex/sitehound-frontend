@@ -93,7 +93,7 @@
 
 
 
-        <div id="custom-nav-bar" ng-cloak class=" mdl-color--primary-dark" class=" custom-mdl-layout__tab-bar" >
+        <div id="custom-nav-bar" ng-cloak class=" mdl-color--primary-dark custom-mdl-layout__tab-bar" >
           <!--<md-content class="md-padding">-->
             <md-nav-bar
               md-selected-nav-item="currentNavItem"
@@ -177,7 +177,8 @@
             #custom-nav-bar .custom-mdl-layout__tab {
                 margin: 0;
                 border: none;
-                padding: 0 24px;
+                /*padding: 0 24px;*/
+                padding: 0 20px;
                 float: left;
                 position: relative;
                 display: block;
@@ -212,7 +213,7 @@
 
 
             /*styles.css:41*/
-            #custom-nav-bar .custom-mdl-layout__tab-bar {
+            .custom-mdl-layout__tab-bar {
                 padding: 0;
                 padding-left: 16px;
                 box-sizing: border-box;
@@ -234,29 +235,32 @@
                 /* background: rgb(255,64,129); */
                            background-color: white;
                             height: 4px;
-             }
+/*                    -webkit-animation: border-expand .2s cubic-bezier(.4,0,.4,1).01s alternate forwards; */
+ /*                   animation: border-expand .2s cubic-bezier(.4,0,.4,1).01s alternate forwards; */
+                    transition: all 1s cubic-bezier(.4,0,1,1) ;
+               }
 
         </style>
 
 
-        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
+        <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color&#45;&#45;primary-dark">-->
 
-            <a href="#features" class="mdl-layout__tab is-active">Welcome</a>
-            <a href="#user" class="mdl-layout__tab">Users</a>
-            <a href="#workspace" class="mdl-layout__tab">Workspaces</a>
-            <a href="#dashboard" class="mdl-layout__tab">Dashboard</a>
-            <a href="#trainingByKeyword" class="mdl-layout__tab">Training by keywords</a>
-            <a href="#trainingByUrl" class="mdl-layout__tab">Training by urls</a>
-            <a href="#features" class="mdl-layout__tab">Crawling</a>
-            <a href="#trainingDeepWeb" class="mdl-layout__tab">Deep Web</a>
-            <a href="#features" class="mdl-layout__tab">Feature Extraction</a>
+            <!--<a href="#features" class="mdl-layout__tab is-active">Welcome</a>-->
+            <!--<a href="#user" class="mdl-layout__tab">Users</a>-->
+            <!--<a href="#workspace" class="mdl-layout__tab">Workspaces</a>-->
+            <!--<a href="#dashboard" class="mdl-layout__tab">Dashboard</a>-->
+            <!--<a href="#trainingByKeyword" class="mdl-layout__tab">Training by keywords</a>-->
+            <!--<a href="#trainingByUrl" class="mdl-layout__tab">Training by urls</a>-->
+            <!--<a href="#features" class="mdl-layout__tab">Crawling</a>-->
+            <!--<a href="#trainingDeepWeb" class="mdl-layout__tab">Deep Web</a>-->
+            <!--<a href="#features" class="mdl-layout__tab">Feature Extraction</a>-->
 
-            <!--BALL WITH THE PLUS SIGN-->
-            <!--<button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">-->
-                <!--<i class="material-icons" role="presentation">add</i>-->
-                <!--<span class="visuallyhidden">Add</span>-->
-            <!--</button>-->
-        </div>
+            <!--&lt;!&ndash;BALL WITH THE PLUS SIGN&ndash;&gt;-->
+            <!--&lt;!&ndash;<button class="mdl-button mdl-js-button mdl-button&#45;&#45;fab mdl-js-ripple-effect mdl-button&#45;&#45;colored mdl-shadow&#45;&#45;4dp mdl-color&#45;&#45;accent" id="add">&ndash;&gt;-->
+                <!--&lt;!&ndash;<i class="material-icons" role="presentation">add</i>&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="visuallyhidden">Add</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+        <!--</div>-->
 
     </header>
     <!--<main class="mdl-layout__content" ng-cloack>-->
