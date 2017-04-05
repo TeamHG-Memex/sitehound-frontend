@@ -8,25 +8,15 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>Site Hound</title>
 
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
 
+    <link rel="stylesheet" href="https://getmdl.io/templates/text-only/styles.css">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">
     <!--<link href="{{ url_for('static', filename='css/mdl/1.3/material.deep_purple-pink.min.css') }}" rel=stylesheet>-->
 
-    <link rel="stylesheet" href="https://getmdl.io/templates/text-only/styles.css">
-    <style>
-    #view-source {
-      position: fixed;
-      display: block;
-      right: 0;
-      bottom: 0;
-      margin-right: 40px;
-      margin-bottom: 40px;
-      z-index: 900;
-    }
-    </style>
+    <link  href="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.css') }}" rel="stylesheet" >
+    <link  href="{{ url_for('static', filename='css3/sitehound.css') }}" rel="stylesheet" >
 
 </head>
 
@@ -100,7 +90,8 @@
               nav-bar-aria-label="navigation links" >
                               <md-nav-item md-nav-click="goto('page1')"  name="page1">
                                 <!--Page One-->
-                                    <a class="custom-mdl-layout__tab" href="#/welcome">Welcome</a>
+                                    <!--<a class="custom-mdl-layout__tab md-active" href="#/welcome">Welcome</a>-->
+                                    <span class="custom-mdl-layout__tab md-active" href="#/welcome">Welcome</span>
                               </md-nav-item>
                               <md-nav-item md-nav-click="goto('page2')" name="page2"  style="padding:0">
                                     <a class="custom-mdl-layout__tab">Users</a>
@@ -112,10 +103,10 @@
                                     <a class="custom-mdl-layout__tab">DASHBOARD</a>
                               </md-nav-item>
                               <md-nav-item md-nav-click="goto('page5')" name="page5" style="padding:0">
-                                    <a class="custom-mdl-layout__tab">Training by keywords</a>
+                                    <a class="custom-mdl-layout__tab">Train by keywords</a>
                               </md-nav-item>
                               <md-nav-item md-nav-click="goto('page6')" name="page6" style="padding:0">
-                                    <a class="custom-mdl-layout__tab">Training by URLs</a>
+                                    <a class="custom-mdl-layout__tab">Train by URLs</a>
                               </md-nav-item>
                               <md-nav-item md-nav-click="goto('page7')" name="page7" style="padding:0">
                                     <a class="custom-mdl-layout__tab">crawling</a>
@@ -139,108 +130,6 @@
           <!--</md-content>-->
         </div>
 
-
-        <style>
-
-        #custom-nav-bar .md-button._md-nav-button {
-            line-height: 24px;
-            margin: 0 0px;
-            /*padding: 12px 16px;*/
-            padding: 0px;
-            -webkit-transition: background-color .35s cubic-bezier(.35,0,.25,1);
-            transition: background-color .35s cubic-bezier(.35,0,.25,1)
-        }
-
-        #custom-nav-bar .md-nav-item:first-of-type{
-             margin-left: 0px;
-            /*margin-left: 8px;*/
-        }
-
-        #custom-nav-bar .md-button {
-            <!--/* letter-spacing: .01em; */-->
-            letter-spacing: .00em;
-            }
-
-
-
-            #custom-nav-bar .custom-mdl-layout__tab ._md-nav-button-text{
-                display: block;
-                position: absolute;
-                height: 100%;
-                width: 100%;
-                left: 0;
-                top: 0;
-                z-index: 1;
-                overflow: hidden
-            }
-
-            #custom-nav-bar .custom-mdl-layout__tab {
-                margin: 0;
-                border: none;
-                /*padding: 0 24px;*/
-                padding: 0 20px;
-                float: left;
-                position: relative;
-                display: block;
-                 -webkit-flex-grow: 0;
-                 -ms-flex-positive: 0;
-                flex-grow: 0;
-                 -webkit-flex-shrink: 0;
-                 -ms-flex-negative: 0;
-                flex-shrink: 0;
-                text-decoration: none;
-                height: 64px;
-                line-height: 64px;
-                text-align: center;
-                font-weight: 500;
-                font-size: 14px;
-                text-transform: uppercase;
-                color: rgba(255,255,255,.6);
-                overflow: hidden;
-            }
-
-            #custom-nav-bar .md-nav-bar {
-                /*border-style: solid;*/
-                /*border-width: 0 0 1px;*/
-                height: 64px;
-                /*position: relative;*/
-            }
-
-            #custom-nav-bar .custom-mdl-layout__tab-bar .custom-mdl-layout__tab {
-                    height: 64px;
-                    line-height: 64px;
-                }
-
-
-            /*styles.css:41*/
-            .custom-mdl-layout__tab-bar {
-                padding: 0;
-                padding-left: 16px;
-                box-sizing: border-box;
-                height: 100%;
-                width: 100%;
-            }
-
-            <!--#custom-nav-bar .mdl-demo .custom-mdl-layout__tab-bar .mdl-layout__tab {-->
-                    <!--height: 64px;-->
-                    <!--line-height: 64px;-->
-                <!--}-->
-
-            #custom-nav-bar  .md-active .custom-mdl-layout__tab{
-              color: rgb(255,255,255);
-            }
-
-            #custom-nav-bar  md-nav-bar.md-default-theme md-nav-ink-bar, md-nav-bar md-nav-ink-bar {
-                /* color: rgb(255,64,129); */
-                /* background: rgb(255,64,129); */
-                           background-color: white;
-                            height: 4px;
-/*                    -webkit-animation: border-expand .2s cubic-bezier(.4,0,.4,1).01s alternate forwards; */
- /*                   animation: border-expand .2s cubic-bezier(.4,0,.4,1).01s alternate forwards; */
-                    transition: all 1s cubic-bezier(.4,0,1,1) ;
-               }
-
-        </style>
 
 
         <!--<div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color&#45;&#45;primary-dark">-->
@@ -354,7 +243,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-sanitize.min.js"></script>
 
 <script src="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.js') }}"></script>
-<link  href="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.css') }}" rel="stylesheet" >
+
 <!--<link  href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.css" rel="stylesheet" >-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js"></script>-->
 

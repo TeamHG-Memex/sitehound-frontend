@@ -1,0 +1,112 @@
+/*MENU BAR*/
+
+#custom-nav-bar .md-button._md-nav-button {
+    line-height: 24px;
+    margin: 0 0px;
+    /*padding: 12px 16px;*/
+    padding: 0px;
+    -webkit-transition: background-color .35s cubic-bezier(.35,0,.25,1);
+    transition: background-color .35s cubic-bezier(.35,0,.25,1)
+}
+
+#custom-nav-bar .md-nav-item:first-of-type{
+     margin-left: 0px;
+    /*margin-left: 8px;*/
+}
+
+#custom-nav-bar .md-button {
+    <!--/* letter-spacing: .01em; */-->
+    letter-spacing: .00em;
+    }
+
+
+
+    #custom-nav-bar .custom-mdl-layout__tab ._md-nav-button-text{
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: 1;
+        overflow: hidden
+    }
+
+    #custom-nav-bar .custom-mdl-layout__tab {
+        margin: 0;
+        border: none;
+        /*padding: 0 24px;*/
+        padding: 0 20px;
+        float: left;
+        position: relative;
+        display: block;
+         -webkit-flex-grow: 0;
+         -ms-flex-positive: 0;
+        flex-grow: 0;
+         -webkit-flex-shrink: 0;
+         -ms-flex-negative: 0;
+        flex-shrink: 0;
+        text-decoration: none;
+        height: 64px;
+        line-height: 64px;
+        text-align: center;
+        font-weight: 500;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.6);
+        overflow: hidden;
+    }
+
+    #custom-nav-bar .md-nav-bar {
+        /*border-style: solid;*/
+        /*border-width: 0 0 1px;*/
+        height: 64px;
+        /*position: relative;*/
+        margin-left: 8px;
+    }
+
+    #custom-nav-bar .custom-mdl-layout__tab-bar .custom-mdl-layout__tab {
+            height: 64px;
+            line-height: 64px;
+        }
+
+
+    /*styles.css:41*/
+    .custom-mdl-layout__tab-bar {
+        padding: 0;
+        padding-left: 16px;
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+    }
+
+    <!--#custom-nav-bar .mdl-demo .custom-mdl-layout__tab-bar .mdl-layout__tab {-->
+            <!--height: 64px;-->
+            <!--line-height: 64px;-->
+        <!--}-->
+
+    #custom-nav-bar  .md-active .custom-mdl-layout__tab{
+      color: rgb(255,255,255);
+    }
+
+    #custom-nav-bar  md-nav-bar.md-default-theme md-nav-ink-bar, md-nav-bar md-nav-ink-bar {
+        /* color: rgb(255,64,129); */
+        /* background: rgb(255,64,129); */
+                   background-color: white;
+                    height: 4px;
+/*                    -webkit-animation: border-expand .2s cubic-bezier(.4,0,.4,1).01s alternate forwards; */
+/*                   animation: border-expand .2s cubic-bezier(.4,0,.4,1).01s alternate forwards; */
+            transition: all 1s cubic-bezier(.4,0,1,1) ;
+       }
+
+/* end MENU BAR */
+
+#view-source {
+  position: fixed;
+  display: block;
+  right: 0;
+  bottom: 0;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  z-index: 900;
+}
