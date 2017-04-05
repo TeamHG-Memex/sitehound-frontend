@@ -1,6 +1,7 @@
 ngApp.controller('welcomeController', ['$scope', '$filter', '$routeParams', '$location', '$interval', 'jobFactory', 'domFactory',
 	function ($scope, $filter, $routeParams, $location, $interval, jobFactory, domFactory) {
 
+debugger;
 	$scope.workspaceId = $routeParams.workspaceId;
 
   this.name = 'John Smith';

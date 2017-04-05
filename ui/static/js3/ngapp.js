@@ -98,7 +98,9 @@ ngApp.factory('myHttpInterceptor', function ($q, $window) {
 */
 
 //ngApp.config(function ($routeProvider, $httpProvider) {
-ngApp.config(function ($routeProvider) {
+//ngApp.config(function ($routeProvider, $locationProvider) {
+
+ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routeProvider, $locationProvider) {
 
 //	$httpProvider.responseInterceptors.push('myHttpInterceptor');
 //
@@ -108,121 +110,134 @@ ngApp.config(function ($routeProvider) {
 //	};
 //
 //	$httpProvider.defaults.transformRequest.push(spinnerFunction);
-/*
+
 	$routeProvider
-		.when('/',
+		.when('/workspace',
 			{
 				controller: 'welcomeController',
-				templateUrl: '/static/partials/welcome.html'
+				templateUrl: '/static/partials-md/overview-md.html'
 			})
 		.when('/welcome2',
 			{
 				controller: 'welcomeController',
-				templateUrl: '/static/partials/welcome2-md.html'
+				templateUrl: '/static/partials-md/overview-md.html'
 			})
-		.when('/welcome',
-			{
-				controller: 'welcomeController',
-				templateUrl: '/static/partials/welcome-md.html'
-			})
+//		.when('/welcome',
+//			{
+//				controller: 'welcomeController',
+//				templateUrl: '/static/partials/welcome-md.html'
+//			})
 		.when('/user',
 			{
 				controller: 'userController',
 				templateUrl: '/static/partials/user.html'
 			})
-		.when('/register',
-			{
-				controller: 'registerController',
-				templateUrl: '/static/partials/auth-register.html'
-			})
+//		.when('/register',
+//			{
+//				controller: 'registerController',
+//				templateUrl: '/static/partials/auth-register.html'
+//			})
 		.when('/workspace',
 			{
 				controller: 'workspaceController',
-				templateUrl: '/static/partials/workspace-md.html'
+				templateUrl: '/static/partials-md/workspace/table.html'
 			})
-		.when('/workspace/:workspaceId',
-			{
-				controller: 'workspaceController',
-				templateUrl: '/static/partials/workspace.html'
-			})
-		.when('/workspace/:workspaceId/seed',
-			{
-				controller: 'seedController',
-				templateUrl: '/static/partials/seed.html'
-			})
-		.when('/workspace/:workspaceId/user-defined-categories',
-			{
-				controller: 'userDefinedCategoriesController',
-				templateUrl: '/static/partials/user-defined-categories.html'
-			})
-		.when('/workspace/:workspaceId/label-user-defined-categories',
-			{
-				controller: 'labelUserDefinedCategoriesController',
-				templateUrl: '/static/partials/label-user-defined-categories.html'
-			})
-		.when('/workspace/:workspaceId/import-url',
-			{
-				controller: 'importUrlController',
-				templateUrl: '/static/partials/import-url.html'
-			})
-		.when('/workspace/:workspaceId/seed-url',
-			{
-//				controller: 'seedUrlController',
-//				templateUrl: '/static/partials/seed-url.html'
-				redirectTo: '/seed-url/searchengine'
-			})
-		.when('/workspace/:workspaceId/seed-url/:source',
-			{
-				controller: 'seedUrlSourceController',
-				templateUrl: '/static/partials/seed-url-source.html'
-			})
-		.when('/workspace/:workspaceId/dd-training',
-			{
-				controller: 'ddTrainingController',
-				templateUrl: '/static/partials/dd-training.html'
-			})
-		.when('/workspace/:workspaceId/broad-crawl',
-			{
-				controller: 'broadcrawlerController',
-				templateUrl: '/static/partials/broad-crawler.html'
-			})
-		.when('/workspace/:workspaceId/broad-crawl-results',
-			{
-				controller: 'broadcrawlerResultsController',
-				templateUrl: '/static/partials/broad-crawler-results.html'
-			})
-		.when('/workspace/:workspaceId/broad-crawl-results/:jobId',
-			{
-				controller: 'broadcrawlerResultsController',
-				templateUrl: '/static/partials/broad-crawler-results.html'
-			})
-		.when('/workspace/:workspaceId/broad-crawl-results-summary',
-			{
-				controller: 'broadcrawlerResultsSummaryController',
-				templateUrl: '/static/partials/broad-crawler-results-summary.html'
-			})
-		.when('/workspace/:workspaceId/job',
-			{
-				controller: 'jobController',
-				templateUrl: '/static/partials/job.html'
-			})
-		.when('/workspace/:workspaceId/job/:jobId',
-			{
-				controller: 'jobController',
-				templateUrl: '/static/partials/job.html'
-			})
-		.when('/workspace/:workspaceId/dashboard',
-			{
-				controller: 'dashboardController',
-				templateUrl: '/static/partials/dashboard.html'
-			})
+//		.when('/workspace/:workspaceId',
+//			{
+//				controller: 'workspaceController',
+//				templateUrl: '/static/partials/workspace.html'
+//			})
+//		.when('/workspace/:workspaceId/seed',
+//			{
+//				controller: 'seedController',
+//				templateUrl: '/static/partials/seed.html'
+//			})
+//		.when('/workspace/:workspaceId/user-defined-categories',
+//			{
+//				controller: 'userDefinedCategoriesController',
+//				templateUrl: '/static/partials/user-defined-categories.html'
+//			})
+//		.when('/workspace/:workspaceId/label-user-defined-categories',
+//			{
+//				controller: 'labelUserDefinedCategoriesController',
+//				templateUrl: '/static/partials/label-user-defined-categories.html'
+//			})
+//		.when('/workspace/:workspaceId/import-url',
+//			{
+//				controller: 'importUrlController',
+//				templateUrl: '/static/partials/import-url.html'
+//			})
+//		.when('/workspace/:workspaceId/seed-url',
+//			{
+////				controller: 'seedUrlController',
+////				templateUrl: '/static/partials/seed-url.html'
+//				redirectTo: '/seed-url/searchengine'
+//			})
+//		.when('/workspace/:workspaceId/seed-url/:source',
+//			{
+//				controller: 'seedUrlSourceController',
+//				templateUrl: '/static/partials/seed-url-source.html'
+//			})
+//		.when('/workspace/:workspaceId/dd-training',
+//			{
+//				controller: 'ddTrainingController',
+//				templateUrl: '/static/partials/dd-training.html'
+//			})
+//		.when('/workspace/:workspaceId/broad-crawl',
+//			{
+//				controller: 'broadcrawlerController',
+//				templateUrl: '/static/partials/broad-crawler.html'
+//			})
+//		.when('/workspace/:workspaceId/broad-crawl-results',
+//			{
+//				controller: 'broadcrawlerResultsController',
+//				templateUrl: '/static/partials/broad-crawler-results.html'
+//			})
+//		.when('/workspace/:workspaceId/broad-crawl-results/:jobId',
+//			{
+//				controller: 'broadcrawlerResultsController',
+//				templateUrl: '/static/partials/broad-crawler-results.html'
+//			})
+//		.when('/workspace/:workspaceId/broad-crawl-results-summary',
+//			{
+//				controller: 'broadcrawlerResultsSummaryController',
+//				templateUrl: '/static/partials/broad-crawler-results-summary.html'
+//			})
+//		.when('/workspace/:workspaceId/job',
+//			{
+//				controller: 'jobController',
+//				templateUrl: '/static/partials/job.html'
+//			})
+//		.when('/workspace/:workspaceId/job/:jobId',
+//			{
+//				controller: 'jobController',
+//				templateUrl: '/static/partials/job.html'
+//			})
+//		.when('/workspace/:workspaceId/dashboard',
+//			{
+//				controller: 'dashboardController',
+//				templateUrl: '/static/partials/dashboard.html'
+//			})
 		.otherwise({
 			redirectTo: '/'
 			})
-*/
-});
 
+    // enable html5Mode for pushstate ('#'-less URLs)
+//    $locationProvider.html5Mode({
+//     enabled: true,
+//     requireBase: false
+//    });
+////    $locationProvider.hashPrefix('!');
+//    $locationProvider.hashPrefix('');
 
+    $locationProvider.html5Mode(false).hashPrefix('');
+}]);
+
+// Initialize the application
+ngApp.run(['$location', function AppRun($location) {
+//    debugger; // -->> here i debug the $location object to see what angular see's as URL
+    console.log($location);
+}]);
 
 ngApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
