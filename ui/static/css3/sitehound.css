@@ -1,5 +1,9 @@
 /*MENU BAR*/
 
+.mdl-layout.is-upgraded .mdl-layout__tab-panel {
+    display: block;
+}
+
 #custom-nav-bar .md-button._md-nav-button {
     line-height: 24px;
     margin: 0 0px;

@@ -234,10 +234,10 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 }]);
 
 // Initialize the application
-ngApp.run(['$location', function AppRun($location) {
-//    debugger; // -->> here i debug the $location object to see what angular see's as URL
-    console.log($location);
-}]);
+//ngApp.run(['$location', function AppRun($location) {
+////    debugger; // -->> here i debug the $location object to see what angular see's as URL
+//    console.log($location);
+//}]);
 
 ngApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
