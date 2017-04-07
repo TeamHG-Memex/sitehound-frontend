@@ -112,36 +112,65 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 //	$httpProvider.defaults.transformRequest.push(spinnerFunction);
 
 	$routeProvider
-		.when('/workspace',
+		.when('/',
 			{
 				controller: 'welcomeController',
 				templateUrl: '/static/partials-md/overview-md.html'
 			})
-		.when('/welcome2',
+		.when('/overview',
 			{
 				controller: 'welcomeController',
 				templateUrl: '/static/partials-md/overview-md.html'
 			})
-//		.when('/welcome',
-//			{
-//				controller: 'welcomeController',
-//				templateUrl: '/static/partials/welcome-md.html'
-//			})
+		.when('/features',
+			{
+				controller: 'welcomeController',
+				templateUrl: '/static/partials-md/features-md.html'
+			})
 		.when('/user',
 			{
 				controller: 'userController',
-				templateUrl: '/static/partials/user.html'
+//				templateUrl: '/static/partials/user.html'
+				templateUrl: '/static/partials-md/user/table.html'
 			})
-//		.when('/register',
-//			{
-//				controller: 'registerController',
-//				templateUrl: '/static/partials/auth-register.html'
-//			})
+		.when('/register',
+			{
+				controller: 'registerController',
+				templateUrl: '/static/partials/auth-register.html'
+			})
 		.when('/workspace',
 			{
 				controller: 'workspaceController',
 				templateUrl: '/static/partials-md/workspace/table.html'
 			})
+		.when('/dashboard',
+			{
+				controller: 'dashboardController',
+				templateUrl: '/static/partials-md/dashboard-md.html'
+			})
+		.when('/training-by-keyword',
+			{
+				controller: 'trainingByKeywordController',
+				templateUrl: '/static/partials-md/training-by-keyword-md.html'
+			})
+		.when('/training-by-url',
+			{
+				controller: 'trainingByUrlController',
+				templateUrl: '/static/partials-md/training-by-url-md.html'
+			})
+		.when('/deep-web',
+			{
+				controller: 'trainingDeepWebController',
+				templateUrl: '/static/partials-md/training-deep-web-md.html'
+			})
+		.when('/feature-extraction',
+			{
+				controller: 'trainingDeepWebController',
+				templateUrl: '/static/partials-md/features-md.html'
+			})
+
+
+
 //		.when('/workspace/:workspaceId',
 //			{
 //				controller: 'workspaceController',
