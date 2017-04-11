@@ -12,14 +12,19 @@ var userFactory = ngApp.factory('userFactory',['$http', function($http){
 		return $http.get(urlBase + '/' + id);
 	};
 
-	dataFactory.update = function (id, isActive, roles) {
+	dataFactory.editAccountState = function(user){
 		var po = {};
-		if(isActive != null){
-			po.isActive = isActive;
-		}
-		if(roles != null){
-			po.roles = roles;
-		}
+		po.isActive = user.active;
+		return $http.put(urlBase + '/' + user._id +'/account-status',  po);
+	}
+
+
+
+	dataFactory.update = function (user) {
+		id = user._id;
+		var po = {};
+		po.active = user.active;
+		po.roles = user.roles;
 
 		return $http.put(urlBase + '/' + id, po);
 	};
@@ -28,7 +33,7 @@ var userFactory = ngApp.factory('userFactory',['$http', function($http){
 		return $http.delete(urlBase + '/' + id);
 	};
 
-	dataFactory.save = function (username, password) {
+	dataFactory.add = function (username, password) {
 		var po = {};
 		po.password = password;
 		return $http.post(urlBase+ '/' + username, po);

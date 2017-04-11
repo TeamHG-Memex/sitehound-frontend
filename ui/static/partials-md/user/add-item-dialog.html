@@ -1,24 +1,50 @@
 <md-dialog add-item-dialog>
   <md-dialog-content class="md-dialog-content">
 
-    <h2 class="md-title">Add Workspace</h2>
+    <h2 class="md-title">Add user</h2>
 
-    <p ng-if="item.form.$submitted && item.form.$invalid" class="md-warn" layout="row" layout-align="start center">
+    <p ng-if="registerForm.$submitted && registerForm.$invalid" class="md-warn" layout="row" layout-align="start center">
       <i class="material-icons">error_outline</i>
-      <span>&nbsp; All fields are required.</span>
+      <span>&nbsp; There are errors in the inputs</span>
     </p>
 
-    <form name="item.form" ng-submit="addItem()">
+    <!--<form name="item.form" ng-submit="addItem()">-->
+    <form name="registerForm">
       <div layout="row" class="input-row">
         <md-input-container flex>
-          <label>Name</label>
-          <input name="name" ng-model="workspace.name" md-maxlength="30" required>
+          <label>Email</label>
+          <input name="email" type="email" ng-model="user.email" required>
+        </md-input-container>
+        <md-input-container flex>
+          <label>Password</label>
+          <input type="password" name="user_password" ng-model="user.password" md-minlength="8"  minlength="8"  maxlength="32" required password-verify="{{user.confirmPassword}}">
+          <div class="help-block" ng-messages="registerForm.user_password.$error" ng-if="registerForm.user_password.$dirty && registerForm.user_confirm_password.$dirty">
+              <p ng-message="required">This field is required</p>
+              <p ng-message="minlength">This field is too short</p>
+              <p ng-message="maxlength">This field is too long</p>
+              <p ng-message="required">This field is required</p>
+              <p ng-message="passwordVerify">No match!</p>
+          </div>
+          <!--<span class="error-span" ng-show="registerForm.user_password.$dirty && registerForm.confirm_password.$dirty">-->
+              <!--The passwords do not match-->
+          <!--</span>-->
+        </md-input-container>
+        <md-input-container flex>
+          <label>Repeat password</label>
+          <input type="password" name="user_confirm_password" ng-model="user.confirmPassword"  md-minlength="8" required password-verify="{{user.password}}">
+          <!--<span class="help-block" ng-messages="registerForm.confirm_password.$error" ng-if="registerForm.user_password.$dirty && registerForm.confirm_password.$dirty">-->
+            <!--<p ng-message="required">This field is required</p>-->
+            <!--<p ng-message="minlength">This field is too short</p>-->
+            <!--<p ng-message="maxlength">This field is too long</p>-->
+            <!--<p ng-message="required">This field is required</p>-->
+            <!--<p ng-message="passwordVerify">No match!</p>-->
+          <!--</span>-->
         </md-input-container>
       </div>
     </form>
 
     <div class="md-dialog-actions">
-      <md-button class="md-primary md-raised" ng-click="addItem()" ng-disabled="item.form.$invalid">Add</md-button>
+      <md-button class="md-primary md-raised" ng-click="addItem()" ng-disabled="registerForm.$invalid">Add</md-button>
       <md-button class="md-primary " ng-click="cancel()">Cancel</md-button>
     </div>
   </md-dialog-content>

@@ -13,7 +13,9 @@ from flask_security import roles_required, utils
 from mongoengine import NotUniqueError
 
 from controller.InvalidException import InvalidUsage
-from service.user_service import get_all, delete, updateUser, get_all_roles
+from service.user_service import get_all, delete, get_all_roles
+
+from ui.service.user_service import update_user
 
 __author__ = 'tomas'
 
@@ -40,24 +42,45 @@ def get_all_api():
     return Response(out_doc, mimetype="application/json")
 
 
+@app.route("/api/user/<id>/account-status", methods=['PUT'])
+@app.errorhandler(InvalidUsage)
+@login_required
+@roles_required('admin')
+def account_status_api(id):
+
+    # roles = None
+    isActive = None
+    # if 'roles' in request.json:
+    #     roles = request.json['roles']
+    #
+    if 'isActive' in request.json:
+        isActive = bool(request.json['isActive'])
+
+    # if isActive is None and roles is None:
+    #     raise InvalidUsage("no update provided", status_code=409)
+
+    dao_update_user_account_status(id, isActive)
+    return Response("{}", mimetype="application/json")
+
+
 @app.route("/api/user/<id>", methods=['PUT'])
 @app.errorhandler(InvalidUsage)
 @login_required
 @roles_required('admin')
-def activate_api(id):
+def edit_api(id):
 
     roles = None
-    isActive = None
+    active = None
     if 'roles' in request.json:
         roles = request.json['roles']
 
-    if 'isActive' in request.json:
-        isActive = bool(request.json['isActive'])
+    if 'active' in request.json:
+        active = bool(request.json['active'])
 
-    if isActive is None and roles is None:
+    if active is None and roles is None:
         raise InvalidUsage("no update provided", status_code=409)
 
-    updateUser(id, isActive, roles)
+    update_user(id, active, roles)
     return Response("{}", mimetype="application/json")
 
 

@@ -21,7 +21,6 @@ function ($mdDialog, $scope, workspaceFactory, workspaceSelectedService) {
             );
         }
     };
-
 }]);
 
 ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', '$scope', '$q', 'workspaceFactory', function (deletedWorkspace, $mdDialog, $scope, $q, workspaceFactory) {
@@ -102,39 +101,39 @@ ngApp.controller('workspaceController',
     };
 
 
-    $scope.editComment = function (event, workspace) {
-      // if auto selection is enabled you will want to stop the event
-      // from propagating and selecting the row
-      event.stopPropagation();
-      /*
-       * messages is commented out because there is a bug currently
-       * with ngRepeat and ngMessages were the messages are always
-       * displayed even if the error property on the ngModelController
-       * is not set, I've included it anyway so you get the idea
-       */
-      var promise = $mdEditDialog.small({
-        // messages: {
-        //   test: 'I don\'t like tests!'
-        // },
-        modelValue: workspace.name,
-        placeholder: 'Rename',
-        save: function (input) {
-          workspace.name = input.$modelValue;
-        },
-        targetEvent: event,
-        validators: {
-          'md-maxlength': 30
-        }
-      });
-
-      promise.then(function (ctrl) {
-        var input = ctrl.getInput();
-
-        input.$viewChangeListeners.push(function () {
-          input.$setValidity('test', input.$modelValue !== 'test');
-        });
-      });
-    };
+//    $scope.editComment = function (event, workspace) {
+//      // if auto selection is enabled you will want to stop the event
+//      // from propagating and selecting the row
+//      event.stopPropagation();
+//      /*
+//       * messages is commented out because there is a bug currently
+//       * with ngRepeat and ngMessages were the messages are always
+//       * displayed even if the error property on the ngModelController
+//       * is not set, I've included it anyway so you get the idea
+//       */
+//      var promise = $mdEditDialog.small({
+//        // messages: {
+//        //   test: 'I don\'t like tests!'
+//        // },
+//        modelValue: workspace.name,
+//        placeholder: 'Rename',
+//        save: function (input) {
+//          workspace.name = input.$modelValue;
+//        },
+//        targetEvent: event,
+//        validators: {
+//          'md-maxlength': 30
+//        }
+//      });
+//
+//      promise.then(function (ctrl) {
+//        var input = ctrl.getInput();
+//
+//        input.$viewChangeListeners.push(function () {
+//          input.$setValidity('test', input.$modelValue !== 'test');
+//        });
+//      });
+//    };
 /*
 
     $scope.$watch('query.filter', function (newValue, oldValue) {

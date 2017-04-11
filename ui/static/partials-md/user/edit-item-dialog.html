@@ -1,0 +1,49 @@
+<md-dialog add-item-dialog>
+  <md-dialog-content class="md-dialog-content">
+
+
+    <p ng-if="editForm.$submitted && editForm.$invalid" class="md-warn" layout="row" layout-align="start center">
+      <i class="material-icons">error_outline</i>
+      <span>&nbsp; There are errors in the inputs</span>
+    </p>
+      <!--<h2 class="md-title">Edit user</h2>-->
+    <span md-title ng-bind="editUser.email"></span>
+
+
+    <!--<form name="item.form" ng-submit="addItem()">-->
+    <form name="editForm">
+      <div layout="row" class="input-row">
+        <md-input-container flex>
+          <h3 class="md-subhead">Account Status</h3>
+          <md-radio-group ng-model="editUser.active" ng-click="editAccountState(user)" layout="row">
+            <md-radio-button ng-value=true class="md-primary">Active</md-radio-button>
+            <md-radio-button ng-value=false> Locked </md-radio-button>
+          </md-radio-group>
+        </md-input-container>
+      </div>
+      <div layout="row" class="input-row">
+        <md-input-container flex>
+          <h3 class="md-subhead">Role</h3>
+          <!--<md-radio-group ng-model="editUser.isAdmin" ng-click="editRole(editUser)" layout="row">-->
+            <!--<md-radio-button ng-value=true ng-checked= "editUser.isAdmin" class="md-primary">Admin</md-radio-button>-->
+            <!--<md-radio-button ng-value=false ng-checked= "!editUser.isAdmin"> User </md-radio-button>-->
+          <!--</md-radio-group>-->
+            <div flex-gt-sm="50" layout="row">
+                <md-checkbox ng-model="editUser.isAdmin" aria-label="Admin">
+                    Admin
+                </md-checkbox>
+            </div>
+        </md-input-container>
+      </div>
+    </form>
+
+    <div class="md-dialog-actions">
+      <md-button class="md-primary md-raised" ng-click="saveUser(editUser)" ng-disabled="editForm.$invalid">Save</md-button>
+      <md-button class="md-primary " ng-click="cancel()">Cancel</md-button>
+    </div>
+           <!--<div class="md-dialog-actions">-->
+        <!--<span class="glyphicon glyphicon-trash" title="remove" ng-click="loadDeleteModal(user)"></span>-->
+    <!--</div>-->
+
+  </md-dialog-content>
+</md-dialog>

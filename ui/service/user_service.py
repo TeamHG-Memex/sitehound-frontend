@@ -23,8 +23,16 @@ def get_all():
 
     for user in users:
         user["password"] = None # blanked for security
-        user["current_login"] = str(user["current_login"])
-        user["last_login_at"] = str(user["last_login_at"])
+        if "current_login_at" in user:
+            user["current_login"] = str(user["current_login_at"])
+        else:
+            user["current_login"] = ""
+
+        if "last_login_at" in user:
+            user["last_login_at"] = str(user["last_login_at"])
+        else:
+            user["last_login_at"] = ""
+
         roleEntities = []
         for role in user["roles"]:
             # roleEntity = {}
@@ -53,8 +61,23 @@ def get_admin_role():
 
 
 
-def updateUser(id, isAdmin, isActive):
-    dao_updateUser(id, isAdmin, isActive)
+def update_user(id, active, user_roles):
+    roleIds = []
+    if len(user_roles) >    0:
+        db_roles = get_all_roles()
+
+        for user_role in user_roles:
+            for db_role in db_roles:
+                if db_role["name"] == user_role:
+                    roleIds.append(db_role["_id"])
+                    break;
+
+
+    dao_update_user(id, active, roleIds)
+
+
+# def update_user_account_status(id, isActive):
+#     dao_updateUser(id, isActive)
 
 
 def delete(id):
@@ -68,20 +91,27 @@ def dao_get_all():
     return list(docs)
 
 
-def dao_updateUser(id, isActive, roles):
+def dao_update_user_account_status(id, is_active):
 
     update_object = {}
 
-    if isActive != None:
-        update_object['active'] = isActive
+    if is_active is not None:
+        update_object['active'] = is_active
+        Singleton.getInstance().mongo_instance.get_user_collection().update({'_id': ObjectId(id)}, {'$set': update_object})
 
-    if roles != None:
+
+def dao_update_user(id, active, roleIds):
+
+    update_object = {}
+
+    if active != None:
+        update_object['active'] = active
+
+    if roleIds != None:
         new_roles = []
-        for role in roles:
+        for role in roleIds:
             new_roles.append(ObjectId(role))
         update_object['roles'] = new_roles
-    # else:
-    #     update_object['roles'] = []
 
     Singleton.getInstance().mongo_instance.get_user_collection().update({'_id': ObjectId(id)}, {'$set': update_object})
 
