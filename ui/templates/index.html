@@ -29,7 +29,7 @@
 
     <!--<ng-include src="'/static/partials-md/header-md.html'"></ng-include>-->
 
-          <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+    <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary" ng-controller="headerController">
         <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="height:10px">
         </div>
         <div>
@@ -91,9 +91,10 @@
         <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="height:10px">
         </div>
 
+                    <!--md-selected-nav-item="currentNavItem"-->
         <div id="custom-nav-bar" ng-cloak class=" mdl-color--primary-dark custom-mdl-layout__tab-bar" >
             <md-nav-bar
-                    md-selected-nav-item="currentNavItem"
+                    md-selected-nav-item="getTabName()"
                     nav-bar-aria-label="navigation links" >
                 <md-nav-item md-nav-href="#welcome"  name="welcome">
                     <!--Page One-->
@@ -221,6 +222,8 @@
 
 <script src="{{ url_for('static', filename='js3/ngapp.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/header.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/header.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js3/user.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/service/user.js') }}"></script>
@@ -230,6 +233,7 @@
 
 <script src="{{ url_for('static', filename='js3/datafactory/workspace.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/workspace.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/service/workspace-selected-service.js') }}"></script>
 
 
 <script src="{{ url_for('static', filename='js3/seed.js') }}"></script>

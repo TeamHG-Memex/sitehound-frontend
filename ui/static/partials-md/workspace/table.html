@@ -59,7 +59,7 @@
 
 					<thead md-head md-order="query.order" md-on-reorder="onReorder">
 					<tr md-row>
-						<th md-column md-order-by="_id"><span>Id</span></th>
+						<!--<th md-column md-order-by="_id"><span>Id</span></th>-->
 						<th md-column md-order-by="name"><span>Name</span></th>
 						<th md-column md-order-by="created">Date Created</th>
 						<th md-column >Keywords</th>
@@ -71,7 +71,7 @@
 					<tbody md-body>
 
 					<!--<tr md-row md-select="domain" md-select-id="{{domain._id}}" ng-repeat="domain in domains.data">-->
-					<tr md-row md-select="workspace" md-select-id="_id" ng-repeat="workspace in workspaces" md-on-select="mdOnSelect">
+					<tr md-row md-select="workspace._id" md-select-id="_id" ng-repeat="workspace in workspaces" md-on-select="mdOnSelect"   >
 
 						<!--<td class="md-cell md-checkbox-cell">-->
 							<!--<md-checkbox aria-label="Select Row" ng-click="$mdSelect.toggle($event)" ng-checked="$mdSelect.isSelected()"-->
@@ -87,7 +87,7 @@
 						<!--</td>-->
 
 
-						<td md-cell >{{workspace._id}}</td>
+						<!--<td md-cell >{{workspace._id}}</td>-->
 						<td md-cell ng-click="editComment($event, workspace)">{{workspace.name}} &nbsp;
 							<!--<i class="material-icons md-18">mode-edit</i>-->
 							<!--<i class="material-icons md-18">edit</i>-->

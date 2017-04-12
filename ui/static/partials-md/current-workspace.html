@@ -1,0 +1,37 @@
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+  <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+    <i class="material-icons">play_circle_filled</i>
+  </header>
+  <div ng-show="workspaceName!=null" class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__supporting-text">
+      <h4>Current workspace</h4>
+      <span ng-bind="workspaceName" ></span>
+    </div>
+    <div class="mdl-card__actions" >
+      <a href="#/workspace" class="mdl-button" ng-click="navToWorkspace()">Change</a>
+    </div>
+  </div>
+  <div ng-show="workspaceName==null" class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+    <div class="mdl-card__supporting-text">
+      <h4>No workspace!</h4>
+      <span ng-hide="workspaceName==''">
+	      Please select a workspace to work on
+      </span>
+    </div>
+    <div class="mdl-card__actions" >
+      <a href="#/workspace" class="mdl-button">Select workspace</a>
+    </div>
+  </div>
+
+
+  <!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn1">-->
+    <!--<i class="material-icons">more_vert</i>-->
+  <!--</button>-->
+  <!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn1">-->
+    <!--<li class="mdl-menu__item">Lorem</li>-->
+    <!--<li class="mdl-menu__item" disabled>Ipsum</li>-->
+    <!--<li class="mdl-menu__item">Dolor</li>-->
+  <!--</ul>-->
+</section>
+<br>
+<br>

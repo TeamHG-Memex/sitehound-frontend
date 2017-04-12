@@ -70,8 +70,7 @@ def update_user(id, active, user_roles):
             for db_role in db_roles:
                 if db_role["name"] == user_role:
                     roleIds.append(db_role["_id"])
-                    break;
-
+                    break
 
     dao_update_user(id, active, roleIds)
 

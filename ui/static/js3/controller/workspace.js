@@ -58,6 +58,7 @@ ngApp.controller('workspaceController',
 
 	$scope.workspace = null;
 
+//["58ed5b62132ad2235def6de8"]
     $scope.workspaces = [];
      $scope.selected=[];
      $scope.filter = {}
@@ -79,8 +80,8 @@ ngApp.controller('workspaceController',
       getDesserts(angular.extend({}, $scope.query, {page: page, limit: limit}));
     };
 
-    $scope.mdOnSelect = function (workspace){
-        workspaceSelectedService.setSelectedWorkspace(workspace);
+    $scope.mdOnSelect = function (workspaceId){
+        workspaceSelectedService.setSelectedWorkspaceId(workspaceId);
     }
 
     function getDesserts(query) {
@@ -190,8 +191,9 @@ ngApp.controller('workspaceController',
 	function getWorkspaces(order) {
 
         var onSuccess = function (response) {
+        debugger
             $scope.workspaces = response.data;
-            $scope.selected[0] = workspaceSelectedService.getSelectedWorkspace();
+            $scope.selected[0] = workspaceSelectedService.getSelectedWorkspaceId();
         };
         var onError = function(response) {
             $scope.endLoading(tOut);

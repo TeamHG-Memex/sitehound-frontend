@@ -137,6 +137,14 @@ function (deletedUser, $mdDialog, $scope, $q, userFactory) {
 ngApp.controller('userController', ['$mdDialog', '$scope', '$filter', '$modal', '$timeout','userFactory', 'roleFactory', 'domFactory',
 	function ($mdDialog, $scope, $filter, $modal, $timeout, userFactory, roleFactory, domFactory) {
 
+
+    $scope.query = {
+        filter: '',
+        limit: '10',
+        order: 'created',
+        page: 1
+    };
+
 	$scope.selected = []
 
 	$scope.status = "";
