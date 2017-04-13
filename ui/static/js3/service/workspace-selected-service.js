@@ -21,7 +21,6 @@ var workspaceSelectedService =  ngApp.factory('workspaceSelectedService', [ '$co
 //    }
 
     dataFactory.getSelectedWorkspaceId = function(){
-        debugger;
         var workspaceId;
         if(selectedWorkspaceId==null){
             workspaceId = $cookies.get("workspaceId");

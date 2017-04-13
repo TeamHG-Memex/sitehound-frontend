@@ -1,66 +1,66 @@
-ngApp.controller('trainingByKeywordController', ['$scope', '$filter', 'workspaceSelectedService', 'seedUrlFactory',
-function ($scope, $filter, workspaceSelectedService, seedUrlFactory, $mdDialog) {
-
+ngApp.controller('trainingByKeywordController', ['$scope', '$filter', 'workspaceSelectedService', 'seedFactory', '$mdConstant',
+function ($scope, $filter, workspaceSelectedService, seedFactory, $mdConstant, $mdDialog) {
 
     $scope.relevantKeywords=[];
     $scope.irrelevantKeywords=[];
 
-    var originatorEv;
-    $scope.openMenu = function($mdMenu, ev) {
-      originatorEv = ev;
-      $mdMenu.open(ev);
-    };
+    $scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
+    $scope.maxChips = 15;
+
+    $scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
+
+// check that any workspace was selected
+    workspaceSelectedService.getSelectedWorkspaceAsync().then(
+    function(response){
+        $scope.workspaceName = response.data.name;
+        $scope.getSeeds();
+    },
+    function(response){
+        console.log(response)
+        $scope.workspaceName = null;
+    });
+
+	/// START KEYWORD SEEDS
 
 
-///
+    $scope.getSeeds = function(){
+        seedFactory.get($scope.workspaceId).then(
+        function (response) {
+            var words = response.data || [];
+            angular.forEach(words, function(v,k){
+                if(v.score>3){
+                    $scope.relevantKeywords.push(v.word);
+                }
+                else{
+                    $scope.irrelevantKeywords.push(v.word);
+                }
+            })
+        },
+        function(){}
+        )
+    }
 
-//    from seed-url-source.js
-	//pagination
-	$scope.seedUrls = [];
-	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
-	$scope.crawlStatusBusy = false;
-    $scope.source="searchengine";
+    function save(word, score){
+        var onSuccess = function (response) {};
+        var onError = function (response) {};
+        seedFactory.save($scope.workspaceId, word, score).then(onSuccess, onError);
+    }
 
-	function getRelevanceSearchObject(){
-		var relevanceSearchObject = {};
-		relevanceSearchObject.neutral = $scope.relevancyFilter_Neutral;
-		relevanceSearchObject.relevant = $scope.relevancyFilter_Relevant;
-		relevanceSearchObject.irrelevant = $scope.relevancyFilter_Irrelevant;
-		return relevanceSearchObject;
-	}
+    $scope.add = function(type, chip){
+        var score = 0;
+        if(type=="relevant"){
+            score = 5;
+        } else if (type=="irrelevant"){
+            score = 1;
+        }
+        save(chip, score);
+    }
+
+    $scope.remove = function(chip){
+        seedFactory.delete($scope.workspaceId, chip).then(function(){}, function(){})
+    }
+
+	/// END KEYWORD SEEDS
 
 
-	function getSeedUrls(){
-        //FIXME until can start this function after the workspae is set
-        $scope.workspaceId = "5836ef08166f1c63b47693ff"; //workspaceSelectedService.getSelectedWorkspace()
-		$scope.loading = true;
-		$scope.errorMessage = "";
-		$scope.crawlStatusBusy=true;
-
-		var onSuccess = function (response) {
-			console.log("finish fetching seed Urls");
-//			$scope.seedUrls = $.parseJSON(data);
-			var tempResults = response.data;
-			angular.forEach(tempResults, function(v){
-			    v.udcList=[];
-			});
-			Array.prototype.push.apply($scope.seedUrls, tempResults);
-			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-//			loadWordScore();
-			$scope.crawlStatusBusy=false;
-			$scope.loading = false;
-		};
-		var onError = function (response) {
-		    var error = response.data;
-			$scope.errorMessage = error.message;
-			$scope.crawlStatusBusy=false;
-			$scope.loading = false;
-		};
-//		.finally(function(){
-//		});
-		seedUrlFactory.get($scope.workspaceId, $scope.source, getRelevanceSearchObject(), $scope.lastId).then(onSuccess, onError);
-	}
-
-	getSeedUrls();
 }]);

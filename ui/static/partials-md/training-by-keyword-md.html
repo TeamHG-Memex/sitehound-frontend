@@ -1,3 +1,4 @@
+<ng-include src="'/static/partials-md/current-workspace.html'"></ng-include>
 
 
 
@@ -16,7 +17,16 @@
             <!--<br/>-->
             <form name="relevantKeywordsForm">
                 <h6>Including</h6>
-                <md-chips ng-model="relevantKeywords" name="relevantKeywords" readonly="false" md-removable="true" md-max-chips="15"></md-chips>
+                <md-chips ng-model="relevantKeywords"
+                          name="relevantKeywords"
+                          md-separator-keys="splitKeys"
+                          readonly="false"
+                          md-removable="true"
+                          md-max-chips="15"
+                          md-on-add="add('relevant', $chip)"
+                          md-on-remove="remove($chip)"
+                >
+                </md-chips>
                 <div class="errors" ng-messages="relevantKeywordsForm.relevantKeywords.$error">
                     <div ng-message="md-max-chips">Maximum number of tags reached.</div>
                 </div>
@@ -24,7 +34,16 @@
             <br/>
             <form name="irrelevantKeywordsForm">
                 <h6>Excluding</h6>
-                <md-chips ng-model="irrelevantKeywords" name="irrelevantKeywords" readonly="false" md-removable="true" md-max-chips="15"></md-chips>
+                <md-chips ng-model="irrelevantKeywords"
+                          name="irrelevantKeywords"
+                          md-separator-keys="splitKeys"
+                          readonly="false"
+                          md-removable="true"
+                          md-max-chips="maxChips"
+                          md-on-add="add('irrelevant', $chip)"
+                          md-on-remove="remove($chip)"
+                >
+                </md-chips>
                 <div class="errors" ng-messages="irrelevantKeywordsForm.irrelevantKeywords.$error">
                     <div ng-message="md-max-chips">Maximum number of tags reached.</div>
                 </div>

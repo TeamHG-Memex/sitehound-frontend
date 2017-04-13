@@ -13,16 +13,5 @@ function ($scope, $filter, workspaceSelectedService, headerFactory, $mdDialog) {
 		$scope.workspaceName = null;
 	});
 
-//	$scope.workspaceName = "Workspace one!"
-
-    $scope.relevantKeywords=[];
-    $scope.irrelevantKeywords=[];
-
-    var originatorEv;
-    $scope.openMenu = function($mdMenu, ev) {
-      originatorEv = ev;
-      $mdMenu.open(ev);
-    };
-
 
 }]);

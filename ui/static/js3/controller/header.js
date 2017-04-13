@@ -12,9 +12,9 @@ function ($scope, $filter, $location) {
 //    });
 
 	$scope.$on('$locationChangeSuccess', function(event, newUrl, oldUrl){
-		console.log("newUrl: " + newUrl);
-		console.log("oldUrl: " + oldUrl);
-		console.log("$scope.currentNavItem: " + $scope.currentNavItem);
+//		console.log("newUrl: " + newUrl);
+//		console.log("oldUrl: " + oldUrl);
+//		console.log("$scope.currentNavItem: " + $scope.currentNavItem);
 		$scope.currentNavItem = $scope.getTabName();
 //		debugger;
 //		$scope.currentNavItem = "welcome";
