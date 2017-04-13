@@ -21,6 +21,7 @@ def get_home():
 def get_index_view():
     return render_template("index.html")
 
+
 @app.route("/partials", methods=["GET"])
 def get_partials_relative_path(real_path):
     try:

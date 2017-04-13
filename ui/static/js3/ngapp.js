@@ -117,6 +117,11 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'welcomeController',
 				templateUrl: '/static/partials-md/overview-md.html'
 			})
+		.when('/welcome',
+			{
+				controller: 'welcomeController',
+				templateUrl: '/static/partials-md/overview-md.html'
+			})
 		.when('/overview',
 			{
 				controller: 'welcomeController',
@@ -157,6 +162,11 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 			{
 				controller: 'trainingByUrlController',
 				templateUrl: '/static/partials-md/training-by-url-md.html'
+			})
+		.when('/crawling',
+			{
+				controller: 'welcomeController',
+				templateUrl: '/static/partials-md/overview-md.html'
 			})
 		.when('/deep-web',
 			{

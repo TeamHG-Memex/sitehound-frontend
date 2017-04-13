@@ -91,10 +91,10 @@
         <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="height:10px">
         </div>
 
-                    <!--md-selected-nav-item="currentNavItem"-->
+                    <!--md-selected-nav-item="getTabName()"-->
         <div id="custom-nav-bar" ng-cloak class=" mdl-color--primary-dark custom-mdl-layout__tab-bar" >
             <md-nav-bar
-                    md-selected-nav-item="getTabName()"
+                    md-selected-nav-item="currentNavItem"
                     nav-bar-aria-label="navigation links" >
                 <md-nav-item md-nav-href="#welcome"  name="welcome">
                     <!--Page One-->
@@ -110,10 +110,10 @@
                 <md-nav-item md-nav-href="#dashboard" name="dashboard">
                     <span class="custom-mdl-layout__tab">Dashboard</span>
                 </md-nav-item>
-                <md-nav-item md-nav-href="#training-by-keyword" name="train-by-keyword">
+                <md-nav-item md-nav-href="#training-by-keyword" name="training-by-keyword">
                     <span class="custom-mdl-layout__tab">Train by keywords</span>
                 </md-nav-item>
-                <md-nav-item md-nav-href="#training-by-url" name="train-by-url">
+                <md-nav-item md-nav-href="#training-by-url" name="training-by-url">
                     <span class="custom-mdl-layout__tab">Train by URLs</span>
                 </md-nav-item>
                 <md-nav-item md-nav-href="#crawling" name="crawling">
