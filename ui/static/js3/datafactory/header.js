@@ -1,4 +1,4 @@
-
+//DEPRECATED
 var headerFactory = ngApp.factory('headerFactory', ['$rootScope', function($rootScope){
 
 	var dataFactory = {}
@@ -7,7 +7,7 @@ var headerFactory = ngApp.factory('headerFactory', ['$rootScope', function($root
 
 
 	dataFactory.setMenuItem= function(menuItem) {
-	debugger;
+
 		dataFactory.menuItem = menuItem;
 		$rootScope.menuItem = menuItem;
 	};

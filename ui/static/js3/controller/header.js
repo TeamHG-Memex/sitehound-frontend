@@ -1,5 +1,5 @@
-ngApp.controller('headerController', ['$rootScope', '$scope', '$filter', '$location', 'headerFactory',
-function ($rootScope, $scope, $filter, $location, headerFactory) {
+ngApp.controller('headerController', ['$scope', '$filter', '$location',
+function ($scope, $filter, $location) {
 
 //	$scope.currentNavItem = "welcome";
 
@@ -13,20 +13,20 @@ function ($rootScope, $scope, $filter, $location, headerFactory) {
 
 	$scope.getTabName = function() {
 //	    var res = $location.path().replace(/(^#\/|\/$)/g, '');
-
-		var res = $location.path().replace(/\//g, '');
-	    debugger;
-	    return res;
+		var path = $location.path();
+		var res = path.replace(/\//g, '');
+//		console.log("path:" + path + " ,res: " + res);
+		return res;
 	}
-
-	$scope.navToWorkspace = function(){
-//		headerController.setCurrentNavItem("workspace");
-//		headerFactory.setMenuItem("workspace");
-		debugger;
-		$scope.currentNavItem = "workspace";
-	}
-
-	$scope.currentNavItem = $rootScope.menuItem;
+//
+//	$scope.navToWorkspace = function(){
+////		headerController.setCurrentNavItem("workspace");
+////		headerFactory.setMenuItem("workspace");
+//		debugger;
+//		$scope.currentNavItem = "workspace";
+//	}
+//
+//	$scope.currentNavItem = $rootScope.menuItem;
 
 }]);
 

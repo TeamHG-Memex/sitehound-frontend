@@ -41,7 +41,16 @@ var workspaceSelectedService =  ngApp.factory('workspaceSelectedService', [ '$co
             workspaceId = selectedWorkspaceId;
         }
 
-        return workspaceFactory.getWorkspace(workspaceId)
+		if(workspaceId!=null){
+	        return workspaceFactory.getWorkspace(workspaceId)
+		}
+		else{
+			var res ={};
+			res.then = function(a, b){
+				console.log("No workspace defined!");
+			}
+			return res;
+		}
     }
 
     return dataFactory;

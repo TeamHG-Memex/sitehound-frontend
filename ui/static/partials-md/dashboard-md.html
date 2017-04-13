@@ -1,6 +1,6 @@
 <ng-include src="'/static/partials-md/current-workspace.html'"></ng-include>
 
-<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+<section ng-show="workspaceName!=null" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
         <div class="mdl-card__supporting-text">
             <h4>Training Stats</h4>
@@ -59,7 +59,7 @@
 
 
 
-<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+<section ng-show="workspaceName!=null" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
         <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
             <h4 class="mdl-cell mdl-cell--12-col">Training Stats</h4>
