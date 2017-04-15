@@ -7,25 +7,23 @@
         <div class="mdl-card__supporting-text">
             <h4>Keywords</h4>
             <p> Add keywords to include and exclude relevant to the domain you want to discover</p>
-            <!--<form name="udcForm">-->
-            <!--<h6>User DEffined keys</h6>-->
-            <!--<md-chips ng-model="udcList" name="udc" readonly="false" md-removable="true" md-max-chips="15"></md-chips>-->
-            <!--<div class="errors" ng-messages="udcForm.udc.$error">-->
-            <!--<div ng-message="md-max-chips">Maximum number of tags reached.</div>-->
-            <!--</div>-->
-            <!--</form>-->
-            <!--<br/>-->
             <form name="relevantKeywordsForm">
                 <h6>Including</h6>
-                <md-chips ng-model="relevantKeywords"
+                <md-chips ng-model="relevantKeywordsObj"
                           name="relevantKeywords"
                           md-separator-keys="splitKeys"
                           readonly="false"
                           md-removable="true"
                           md-max-chips="15"
-                          md-on-add="add('relevant', $chip)"
+                          md-on-add="add($chip)"
                           md-on-remove="remove($chip)"
+                          md-transform-chip="keywordHash($chip, null, 5)"
                 >
+                <md-chip-template>
+                    <span>
+                      <strong>{{$chip.word}}</strong>
+                    </span>
+                </md-chip-template>
                 </md-chips>
                 <div class="errors" ng-messages="relevantKeywordsForm.relevantKeywords.$error">
                     <div ng-message="md-max-chips">Maximum number of tags reached.</div>
@@ -34,15 +32,21 @@
             <br/>
             <form name="irrelevantKeywordsForm">
                 <h6>Excluding</h6>
-                <md-chips ng-model="irrelevantKeywords"
+                <md-chips ng-model="irrelevantKeywordsObj"
                           name="irrelevantKeywords"
                           md-separator-keys="splitKeys"
                           readonly="false"
                           md-removable="true"
                           md-max-chips="maxChips"
-                          md-on-add="add('irrelevant', $chip)"
+                          md-on-add="add($chip)"
                           md-on-remove="remove($chip)"
+                          md-transform-chip="keywordHash($chip, null, 1)"
                 >
+                <md-chip-template>
+                    <span>
+                      <strong>{{$chip.word}}</strong>
+                    </span>
+                </md-chip-template>
                 </md-chips>
                 <div class="errors" ng-messages="irrelevantKeywordsForm.irrelevantKeywords.$error">
                     <div ng-message="md-max-chips">Maximum number of tags reached.</div>
@@ -53,8 +57,6 @@
         <div class="mdl-card__actions">
             <!--<a href="#" class="mdl-button">Read our features</a>-->
             <a href="#" class="mdl-button">How do we use this?</a>
-            <!--{{relevantKeywords}}-->
-            <!--{{irrelevantKeywords}}-->
         </div>
     </div>
     <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
@@ -63,7 +65,6 @@
     <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
         <li class="mdl-menu__item">Collapse</li>
         <li class="mdl-menu__item" disabled>Expand</li>
-        <!--<li class="mdl-menu__item">Dolor</li>-->
     </ul>
 </section>
 

@@ -20,8 +20,10 @@ def get_keyword_api(workspace_id):
 @login_required
 def update_keyword_api(workspace_id):
     scored_word = request.json
-    id = update_keyword(workspace_id, scored_word['word'], scored_word['score'])
-    return Response("{}", mimetype="application/json")
+    hash = update_keyword(workspace_id, scored_word['word'], scored_word['score'])
+    response = {"hash": hash}
+    response_str = JSONEncoder().encode(response)
+    return Response(response_str, mimetype="application/json")
 
 
 @app.route("/api/workspace/<workspace_id>/seed/<hash>", methods=['DELETE'])

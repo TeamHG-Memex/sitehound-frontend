@@ -10,7 +10,7 @@ var seedFactory = ngApp.factory('seedFactory',['$http', function($http){
 
 	dataFactory.save = function (workspaceId, word, score) {
 		var url =  String.format(urlBase, workspaceId);
-		var word = word.replace(',', '');
+//		var word = word.replace(',', '');
 		var po = {};
 		po.word = word;
 		po.score = score;

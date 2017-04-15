@@ -62,6 +62,7 @@ def dao_get_keywords_by_relevance(workspace_id):
     keywords['related'] = related
     return keywords
 
+
 def dao_update_keywords(workspace_id, word, score):
 
     # hash = hashlib.sha224(word.encode('utf_8')).hexdigest()
