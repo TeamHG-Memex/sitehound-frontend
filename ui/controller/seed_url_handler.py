@@ -78,7 +78,8 @@ def reset_results_api(workspace_id, source):
 def post_add_known_urls(workspace_id):
     json_payload = request.json
     urls_raw = json_payload['urls']
-    add_known_urls_handler(workspace_id, urls_raw)
+    relevance = json_payload['relevance']
+    add_known_urls_handler(workspace_id, urls_raw, relevance)
     return Response(json.dumps({}), mimetype="application/json")
 
 

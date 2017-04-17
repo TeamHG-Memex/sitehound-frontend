@@ -25,14 +25,15 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', function($http){
 		return $http.put(url + "/url/" + id, po);
 	};
 
-	dataFactory.generate = function(workspaceId, nResults, crawlProvider, crawlSources) {
-		var url =  String.format(urlBase, workspaceId);
-		var po = {};
-		po.nResults = nResults;
-		po.crawlProvider = crawlProvider;
-		po.crawlSources = crawlSources;
-		return $http.post(url + '/generation', po);
-	};
+// Moved to fetch-service
+//	dataFactory.generate = function(workspaceId, nResults, crawlProvider, crawlSources) {
+//		var url =  String.format(urlBase, workspaceId);
+//		var po = {};
+//		po.nResults = nResults;
+//		po.crawlProvider = crawlProvider;
+//		po.crawlSources = crawlSources;
+//		return $http.post(url + '/generation', po);
+//	};
 
 	dataFactory.delete = function(workspaceId, id){
 		var url =  String.format(urlBase, workspaceId);
@@ -50,13 +51,15 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', function($http){
 //	var dataFactory = {};
 
 
-	dataFactory.resetResults = function(workspaceId, source){
-		var url =  String.format(urlBase, workspaceId);
-		return $http.delete(url + '/generation/' + source);
-	}
+// Moved to fetch-service
+//	dataFactory.resetResults = function(workspaceId, source){
+//		var url =  String.format(urlBase, workspaceId);
+//		return $http.delete(url + '/generation/' + source);
+//	}
 
 
 
+// Moved to fetch-service
 	dataFactory.getAggregated = function (workspaceId) {
 		var url =  String.format(urlBase+'/aggregated', workspaceId);
 		return $http.get(url);

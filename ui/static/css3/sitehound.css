@@ -114,3 +114,10 @@
   margin-bottom: 40px;
   z-index: 900;
 }
+
+
+
+.portfolio-max-width {
+    max-width: 1174px;
+    margin: auto;
+}

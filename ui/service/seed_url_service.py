@@ -16,17 +16,32 @@ from service.seed_service import dao_get_keywords_by_relevance
 from mongoutils.validate import validate_url
 from ui.singleton import Singleton
 
-
 __author__ = 'tomas'
 
 
-#################### services #########################
-def add_known_urls_handler(workspace_id, urls_raw):
+class Relevance:
+    NEUTRAL = "neutral"
+    RELEVANT = "relevant"
+    IRRELEVANT = "irrelevant"
+    FAILED = "failed"
+
+
+def add_known_urls_handler(workspace_id, urls_raw, relevance):
+
+    if relevance == Relevance.NEUTRAL:
+        is_relevant = None
+    elif relevance == Relevance.RELEVANT:
+        is_relevant = True
+    elif relevance == Relevance.IRRELEVANT:
+        is_relevant = False
+    else:
+        print("UNSUPPORTED relevance: " + relevance)
+        return
     for url in urls_raw.splitlines():
         url = validate_url(url)
         try:
             # dao_insert_url(url=url, is_relevant=True)
-            publish_to_import_url_queue(workspace_id, url, is_relevant=True)
+            publish_to_import_url_queue(workspace_id, url, is_relevant=is_relevant)
         except:
             logging.info(traceback.print_exc())
             print "Existing URL attempted to be uploaded, skipping it..."
