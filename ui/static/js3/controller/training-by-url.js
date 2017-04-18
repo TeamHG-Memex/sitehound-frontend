@@ -1,20 +1,20 @@
-ngApp.controller('trainingByUrlController', ['$scope', '$filter', 'workspaceSelectedService', 'seedUrlFactory', 'importUrlFactory',
-function ($scope, $filter, workspaceSelectedService, seedUrlFactory, importUrlFactory, $mdDialog) {
+ngApp.controller('trainingByUrlController', ['$scope', '$filter', 'seedUrlFactory', 'importUrlFactory',
+function ($scope, $filter, seedUrlFactory, importUrlFactory, $mdDialog) {
 
 	// BEGIN WORKSPACE AREA
-	$scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
+//	$scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
 
-// check that any workspace was selected
-	workspaceSelectedService.getSelectedWorkspaceAsync().then(
-	function(response){
-		$scope.workspaceName = response.data.name;
-		$scope.getSeeds();
-	},
-	function(response){
-		console.log(response)
-		$scope.workspaceName = null;
-	});
-	// END WORKSPACE AREA
+//// check that any workspace was selected
+//	workspaceSelectedService.getSelectedWorkspaceAsync().then(
+//	function(response){
+//		$scope.workspaceName = response.data.name;
+////		$scope.getSeeds();
+//	},
+//	function(response){
+//		console.log(response)
+//		$scope.workspaceName = null;
+//	});
+//	// END WORKSPACE AREA
 
     $scope.relevantKeywords=[];
     $scope.irrelevantKeywords=[];
@@ -35,21 +35,21 @@ function ($scope, $filter, workspaceSelectedService, seedUrlFactory, importUrlFa
 
 ///
 
-//    from seed-url-source.js
-	//pagination
-	$scope.seedUrls = [];
-	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
-	$scope.crawlStatusBusy = false;
-    $scope.source="searchengine";
-
-	function getRelevanceSearchObject(){
-		var relevanceSearchObject = {};
-		relevanceSearchObject.neutral = $scope.relevancyFilter_Neutral;
-		relevanceSearchObject.relevant = $scope.relevancyFilter_Relevant;
-		relevanceSearchObject.irrelevant = $scope.relevancyFilter_Irrelevant;
-		return relevanceSearchObject;
-	}
-
+////    from seed-url-source.js
+//	//pagination
+//	$scope.seedUrls = [];
+//	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
+//	$scope.crawlStatusBusy = false;
+//    $scope.source="searchengine";
+//
+//	function getRelevanceSearchObject(){
+//		var relevanceSearchObject = {};
+//		relevanceSearchObject.neutral = $scope.relevancyFilter_Neutral;
+//		relevanceSearchObject.relevant = $scope.relevancyFilter_Relevant;
+//		relevanceSearchObject.irrelevant = $scope.relevancyFilter_Irrelevant;
+//		return relevanceSearchObject;
+//	}
+//
 
 //TODO get seeds with source manual
 //	function getSeedUrls(){
@@ -94,7 +94,7 @@ function ($scope, $filter, workspaceSelectedService, seedUrlFactory, importUrlFa
 			return;
 		}
 //		var tOut = $scope.startLoading();
-		importUrlFactory.save($scope.workspaceId, $scope.upload.urlsToAdd, $scope.upload.relevance).then(
+		importUrlFactory.save($scope.master.workspaceId, $scope.upload.urlsToAdd, $scope.upload.relevance).then(
 			function(){},
 			function(){}
 		)

@@ -1,5 +1,5 @@
-ngApp.controller('addWorkspaceController', ['$mdDialog', '$scope', 'workspaceFactory', 'workspaceSelectedService',
-function ($mdDialog, $scope, workspaceFactory, workspaceSelectedService) {
+ngApp.controller('addWorkspaceController', ['$mdDialog', '$scope', 'workspaceFactory',
+function ($mdDialog, $scope, workspaceFactory) {
     'use strict';
 
     $scope.cancel = $mdDialog.cancel;
@@ -23,7 +23,8 @@ function ($mdDialog, $scope, workspaceFactory, workspaceSelectedService) {
     };
 }]);
 
-ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', '$scope', '$q', 'workspaceFactory', function (deletedWorkspace, $mdDialog, $scope, $q, workspaceFactory) {
+ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', '$scope', '$q', 'workspaceFactory',
+function (deletedWorkspace, $mdDialog, $scope, $q, workspaceFactory) {
     'use strict';
 
     $scope.deletedWorkspace = deletedWorkspace;
@@ -52,8 +53,8 @@ ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', 
 
 
 ngApp.controller('workspaceController',
-         ['$scope', '$filter', '$timeout','workspaceFactory', 'domFactory', '$mdDialog', '$mdEditDialog', 'workspaceSelectedService'
-, function ($scope, $filter, $timeout, workspaceFactory, domFactory, $mdDialog, $mdEditDialog, workspaceSelectedService) {
+         ['$scope', '$filter', '$timeout','workspaceFactory', 'domFactory', '$mdDialog', '$mdEditDialog'
+, function ($scope, $filter, $timeout, workspaceFactory, domFactory, $mdDialog, $mdEditDialog) {
     'use strict';
 
 	$scope.workspace = null;
@@ -81,7 +82,10 @@ ngApp.controller('workspaceController',
     };
 
     $scope.mdOnSelect = function (workspaceId){
-        workspaceSelectedService.setSelectedWorkspaceId(workspaceId);
+//        $scope.master.workspaceId = workspaceId;
+//        workspaceSelectedService.setSelectedWorkspaceId(workspaceId);
+			debugger;
+		$scope.master.setWorkspace(workspaceId);
     }
 
     function getDesserts(query) {
@@ -161,6 +165,11 @@ ngApp.controller('workspaceController',
         workspace.id = id;
         workspace.name = name;
 
+		function onDeleteSuccess(){
+            $scope.master.onRemovedWorkspaceId(id);
+			getWorkspaces();
+		}
+
         $mdDialog.show({
             clickOutsideToClose: true,
             controller: 'deleteWorkspaceController',
@@ -169,9 +178,8 @@ ngApp.controller('workspaceController',
             targetEvent: event,
             locals: { deletedWorkspace: workspace},
             templateUrl: '/static/partials-md/workspace/delete-dialog.html',
-        }).then(getWorkspaces);
+        }).then(onDeleteSuccess);
     };
-
 
 
 
@@ -191,9 +199,11 @@ ngApp.controller('workspaceController',
 	function getWorkspaces(order) {
 
         var onSuccess = function (response) {
-        debugger
             $scope.workspaces = response.data;
-            $scope.selected[0] = workspaceSelectedService.getSelectedWorkspaceId();
+//            $scope.selected[0] = workspaceSelectedService.getSelectedWorkspaceId();
+			if($scope.master.workspaceId){
+				$scope.selected[0] = $scope.master.workspaceId;
+			}
         };
         var onError = function(response) {
             $scope.endLoading(tOut);

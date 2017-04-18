@@ -7,10 +7,10 @@ var workspaceSelectedService =  ngApp.factory('workspaceSelectedService', [ '$co
         selectedWorkspaceId = id;
         $cookies.put("workspaceId", id);
     }
-    dataFactory.setSelectedWorkspace = function(workspace){
-        selectedWorkspace = workspace;
-        $cookies.put("workspace", workspace);
-    }
+//    dataFactory.setSelectedWorkspace = function(workspace){
+//        selectedWorkspace = workspace;
+//        $cookies.put("workspace", workspace);
+//    }
 //    dataFactory.setSelectedWorkspaceId = function(workspace){
 //        selectedWorkspace = workspace;
 //        $cookies.put("workspaceId", workspace._id);
@@ -19,6 +19,17 @@ var workspaceSelectedService =  ngApp.factory('workspaceSelectedService', [ '$co
 //    dataFactory.getSelectedWorkspace = function(){
 //        return selectedWorkspace;
 //    }
+
+    dataFactory.getCookieSelectedWorkspaceId = function(){
+        var workspaceId;
+        if(selectedWorkspaceId==null){
+            workspaceId = $cookies.get("workspaceId");
+        }
+        else{
+            workspaceId = selectedWorkspaceId;
+        }
+        return workspaceId;
+    }
 
     dataFactory.getSelectedWorkspaceId = function(){
         var workspaceId;

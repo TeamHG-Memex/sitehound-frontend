@@ -2,19 +2,19 @@
   <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
     <i class="material-icons">play_circle_filled</i>
   </header>
-  <div ng-show="workspaceName!=null" class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+  <div ng-show="master.workspaceName!=null" class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
     <div class="mdl-card__supporting-text">
       <h4>Current workspace</h4>
-      <span ng-bind="workspaceName" ></span>
+      <span ng-bind="master.workspaceName" ></span>
     </div>
     <div class="mdl-card__actions" >
-      <a href="#/workspace" class="mdl-button" ng-click="navToWorkspace()">Change</a>
+      <a href="#/workspace" class="mdl-button">Change</a>
     </div>
   </div>
-  <div ng-show="workspaceName==null" class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+  <div ng-show="master.workspaceName==null" class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
     <div class="mdl-card__supporting-text">
       <h4>No workspace!</h4>
-      <span ng-hide="workspaceName==''">
+      <span ng-hide="master.workspaceName==''">
 	      Please select a workspace to work on
       </span>
     </div>

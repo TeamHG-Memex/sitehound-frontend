@@ -1,20 +1,20 @@
-ngApp.controller('trainingByKeywordController', ['$scope', '$filter', '$mdConstant',
-'workspaceSelectedService', 'seedFactory', 'fetchService','seedUrlFactory',
-function ($scope, $filter, $mdConstant, workspaceSelectedService, seedFactory, fetchService, seedUrlFactory, $mdDialog) {
+ngApp.controller('trainingByKeywordController', ['$scope', '$filter', '$mdConstant', 'seedFactory', 'fetchService','seedUrlFactory',
+function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, $mdDialog) {
 
-	$scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
-
-// check that any workspace was selected
-	workspaceSelectedService.getSelectedWorkspaceAsync().then(
-	function(response){
-		$scope.workspaceName = response.data.name;
-		$scope.getSeeds();
-	},
-	function(response){
-		console.log(response)
-		$scope.workspaceName = null;
-	});
-
+//	$scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
+//	console.log($scope.master.workspaceId)
+//	console.log($scope.master.workspaceName)
+//	debugger
+//// check that any workspace was selected
+//	workspaceSelectedService.getSelectedWorkspaceAsync().then(
+//	function(response){
+//		$scope.workspaceName = response.data.name;
+//	},
+//	function(response){
+//		console.log(response)
+//		$scope.workspaceName = null;
+//	});
+//
 
 	/// BEGIN KEYWORD SEEDS
 
@@ -31,8 +31,11 @@ function ($scope, $filter, $mdConstant, workspaceSelectedService, seedFactory, f
 	  };
 	};
 
-	$scope.getSeeds = function(){
-		seedFactory.get($scope.workspaceId).then(
+	$scope.getSeeds = function(workspaceId){
+		if(!workspaceId){
+			return;
+		}
+		seedFactory.get(workspaceId).then(
 		function (response) {
 			$scope.relevantKeywordsObj=[];
 			$scope.irrelevantKeywordsObj=[];
@@ -62,20 +65,22 @@ function ($scope, $filter, $mdConstant, workspaceSelectedService, seedFactory, f
 
 	$scope.add = function(chip){
 		var onSuccess = function (response) {
-			$scope.getSeeds();
+			$scope.getSeeds($scope.master.workspaceId);
 		};
 
 		var onError = function (response) {};
 
-		seedFactory.save($scope.workspaceId, chip.word, chip.score).then(onSuccess, onError);
+		seedFactory.save($scope.master.workspaceId, chip.word, chip.score).then(onSuccess, onError);
 	}
 
 	$scope.remove = function(chip){
-		seedFactory.delete($scope.workspaceId, chip.hash).then(function(){
+		seedFactory.delete($scope.master.workspaceId, chip.hash).then(function(){
 //		$scope.getSeeds()
 		},
 		function(){})
 	}
+
+	$scope.getSeeds($scope.master.workspaceId);
 
 	/** END KEYWORD SEEDS  **/
 
@@ -113,7 +118,7 @@ function ($scope, $filter, $mdConstant, workspaceSelectedService, seedFactory, f
 //			crawlSources.push('DD');
 //		}
 
-		fetchService.generate($scope.workspaceId, nResults, crawlProvider, crawlSources)
+		fetchService.generate($scope.master.workspaceId, nResults, crawlProvider, crawlSources)
 		.then(function (response) {
 			$scope.submittedOk = true;
 			$scope.submittedError = false;
@@ -127,57 +132,6 @@ function ($scope, $filter, $mdConstant, workspaceSelectedService, seedFactory, f
 			$scope.loading = false;
 		});
 	}
-
-
-	/** FETCH PAges */
-	$scope.seedUrls = [];
-	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
-	$scope.crawlStatusBusy = false;
-    $scope.source="searchengine";
-
-
-	$scope.relevancyFilter = {};
-	$scope.relevancyFilter.neutral = true;
-	$scope.relevancyFilter.relevant = true;
-	$scope.relevancyFilter.irrelevant = true;
-	$scope.relevancyFilter.failed = true;
-	function getRelevanceSearchObject(){
-		var relevanceSearchObject = {};
-		relevanceSearchObject.neutral = $scope.relevancyFilter.neutral;
-		relevanceSearchObject.relevant = $scope.relevancyFilter.relevant;
-		relevanceSearchObject.irrelevant = $scope.relevancyFilter.irrelevant;
-		relevanceSearchObject.failed = $scope.relevancyFilter.failed;
-		return relevanceSearchObject;
-	}
-
-	$scope.pageTypeFilter = {};
-	$scope.pageTypeFilter.forum = true;
-	$scope.pageTypeFilter.blog = true;
-	$scope.pageTypeFilter.news = true;
-	$scope.pageTypeFilter.classified = true;
-	$scope.pageTypeFilter.ads = true;
-
-
-	$scope.getSeedUrls = function(){
-		debugger;
-		seedUrlFactory.get($scope.workspaceId, $scope.source, getRelevanceSearchObject(), $scope.lastId)
-		.then(function (response) {
-			console.log("finish fetching seed Urls");
-			var tempResults = response.data;
-			Array.prototype.push.apply($scope.seedUrls, tempResults);
-			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-		},
-		function (response) {
-		});
-	}
-
-	$scope.fetchFiltered = function(){
-		$scope.getSeedUrls();
-	}
-
-
-
 
 
 }]);

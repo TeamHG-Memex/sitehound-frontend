@@ -24,7 +24,7 @@
     <base href="/">
 </head>
 
-<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" >
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" ng-controller="masterController">
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" >
 
     <!--<ng-include src="'/static/partials-md/header-md.html'"></ng-include>-->
@@ -70,13 +70,14 @@
 
 				       <!--<img src="https://getmdl.io/templates/dashboard/images/user.jpg" class="demo-avatar">-->
 				        <div class="demo-avatar-dropdown">
-				            <span>hello@example.com</span>
+				            <span>{{current_user}}</span>
 				            <!--<div class="mdl-layout-spacer"></div>-->
 				            <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
 				                <i class="material-icons" role="presentation">arrow_drop_down</i>
 				                <span class="visuallyhidden">Accounts</span>
 				            </button>
 				            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+				                <li class="mdl-menu__item"><a ng-href="/change">Change password</a></li>
 				                <li class="mdl-menu__item">Log off</li>
 				                <!--<li class="mdl-menu__item">info@example.com</li>-->
 				                <!--<li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>-->
@@ -101,9 +102,11 @@
                     <!--<a class="custom-mdl-layout__tab md-active" href="#/welcome">Welcome</a>-->
                     <span class="custom-mdl-layout__tab md-active" >Welcome</span>
                 </md-nav-item>
+        		{% if is_admin %}
                 <md-nav-item md-nav-href="#user" name="user">
                     <span class="custom-mdl-layout__tab">Users</span>
                 </md-nav-item>
+                {% endif %}
                 <md-nav-item md-nav-href="#workspace" name="workspace">
                     <span class="custom-mdl-layout__tab">Workspaces</span>
                 </md-nav-item>
@@ -222,6 +225,9 @@
 
 <script src="{{ url_for('static', filename='js3/ngapp.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/master.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='js3/controller/current-workspace.js') }}"></script>-->
+<script src="{{ url_for('static', filename='js3/controller/filter-train-results.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/header.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/datafactory/header.js') }}"></script>
 
@@ -233,7 +239,7 @@
 
 <script src="{{ url_for('static', filename='js3/datafactory/workspace.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/workspace.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/service/workspace-selected-service.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='js3/service/workspace-selected-service.js') }}"></script>-->
 
 
 <script src="{{ url_for('static', filename='js3/seed.js') }}"></script>

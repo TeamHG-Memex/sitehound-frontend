@@ -1,4 +1,3 @@
-
 var importUrlFactory = ngApp.factory('importUrlFactory',['$http', function($http){
 
 	var urlBase = '/api/workspace/{0}/import-url';
