@@ -1,88 +1,167 @@
 ngApp.controller('trainingByKeywordController', ['$scope', '$filter', '$mdConstant', 'seedFactory', 'fetchService','seedUrlFactory',
 function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, $mdDialog) {
 
-//	$scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
-//	console.log($scope.master.workspaceId)
-//	console.log($scope.master.workspaceName)
-//	debugger
-//// check that any workspace was selected
-//	workspaceSelectedService.getSelectedWorkspaceAsync().then(
-//	function(response){
-//		$scope.workspaceName = response.data.name;
-//	},
-//	function(response){
-//		console.log(response)
-//		$scope.workspaceName = null;
-//	});
-//
+	/** Fetch pages */
+	$scope.seedUrls = [];
+	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
+	$scope.crawlStatusBusy = false;
+    $scope.source = "searchengine";
 
-	/// BEGIN KEYWORD SEEDS
+	$scope.fetchFiltered = function(){
+		$scope.getSeedUrls();
+	}
 
-	$scope.relevantKeywordsObj=[];
-	$scope.irrelevantKeywordsObj=[];
-	$scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
-	$scope.maxChips = 15;
+	$scope.getSeedUrls = function(){
+		seedUrlFactory.get($scope.master.workspaceId, $scope.source, getRelevanceSearchObject(), $scope.lastId)
+		.then(function (response) {
+			console.log("finish fetching seed Urls");
+			var tempResults = response.data;
 
-	$scope.keywordHash = function(word, hash, score) {
-	  return {
-		word: word,
-		hash: hash,
-		score: score
-	  };
-	};
+			angular.forEach(tempResults, function(tempResult){
 
-	$scope.getSeeds = function(workspaceId){
-		if(!workspaceId){
-			return;
-		}
-		seedFactory.get(workspaceId).then(
+                //FIXME
+                //remove the desc for testing
+
+                tempResult.desc = "yara-yara-yara";
+
+			    if(tempResult.udc == null || tempResult.udc== undefined){
+			        tempResult.udc = [];
+			    }
+
+			    // temporary fix for backward compatibility hack to keep the labeled data. Old model was boolean, now is a constant
+                if(tempResult.relevance == null || tempResult.relevance == undefined){
+
+                    if(tempResult.relevant === true){
+                        tempResult.relevance = "RELEVANT";
+                    }
+                    else if(tempResult.relevant === false){
+                        tempResult.relevance = "IRRELEVANT";
+                    }
+                    else if(tempResult.relevant === null){
+                        tempResult.relevance = "NEUTRAL";
+                    }
+                    else{
+                        tempResult.relevance = "NEUTRAL";
+                    }
+                }
+			})
+
+            var currentLength = $scope.seedUrls.length;
+
+			Array.prototype.push.apply($scope.seedUrls, tempResults);
+
+            for (var i = currentLength; i < $scope.seedUrls.length; i++) {
+               $scope.$watch('seedUrls[' + i + ']', function (newValue, oldValue) {
+//                    debugger;
+//                  console.log(newValue + ":::" + oldValue);
+
+                    if(
+                        newValue.relevance != oldValue.relevance ||
+                        newValue.categories != oldValue.categories ||
+                        newValue.udc != oldValue.udc
+                    ){
+                        $scope.updateSeedUrl(newValue);
+                    }
+                    else{
+                        console.log("unsupported change");
+                    }
+
+               }, true);
+            }
+
+			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
+		},
 		function (response) {
-			$scope.relevantKeywordsObj=[];
-			$scope.irrelevantKeywordsObj=[];
-
-			var words = response.data || [];
-			angular.forEach(words, function(v,k){
-				if(v.score>3){
-					$scope.relevantKeywordsObj.push(new $scope.keywordHash(v.word, k, v.score));
-				}
-				else{
-					$scope.irrelevantKeywordsObj.push(new $scope.keywordHash(v.word, k, v.score));
-				}
-			});
-
-			$scope.relevantKeywordsObj.sort(function(a, b){
-				return a.word == b.word ? 0 : +(a.word> b.word) || -1;
-			});
-
-			$scope.irrelevantKeywordsObj.sort(function(a, b){
-				return a.word == b.word ? 0 : +(a.word> b.word) || -1;
-			});
-		},
-		function(){}
-		)
+		});
 	}
 
 
-	$scope.add = function(chip){
-		var onSuccess = function (response) {
-			$scope.getSeeds($scope.master.workspaceId);
-		};
+    $scope.updateSeedUrl = function(seedUrl){
+        seedUrlFactory.update($scope.master.workspaceId, seedUrl._id, seedUrl.relevance, seedUrl.categories, seedUrl.udc)
+        .then(function(){}, function(){})
+    }
 
-		var onError = function (response) {};
 
-		seedFactory.save($scope.master.workspaceId, chip.word, chip.score).then(onSuccess, onError);
+
+
+/* filters */
+
+	$scope.relevancyFilter = {};
+	$scope.relevancyFilter.neutral = true;
+	$scope.relevancyFilter.relevant = true;
+	$scope.relevancyFilter.irrelevant = true;
+	$scope.relevancyFilter.failed = true;
+	function getRelevanceSearchObject(){
+		var relevanceSearchObject = {};
+		relevanceSearchObject.neutral = $scope.relevancyFilter.neutral;
+		relevanceSearchObject.relevant = $scope.relevancyFilter.relevant;
+		relevanceSearchObject.irrelevant = $scope.relevancyFilter.irrelevant;
+		relevanceSearchObject.failed = $scope.relevancyFilter.failed;
+		return relevanceSearchObject;
 	}
 
-	$scope.remove = function(chip){
-		seedFactory.delete($scope.master.workspaceId, chip.hash).then(function(){
-//		$scope.getSeeds()
-		},
-		function(){})
-	}
+	$scope.pageTypeFilter = {};
+	$scope.pageTypeFilter.forum = true;
+	$scope.pageTypeFilter.blog = true;
+	$scope.pageTypeFilter.news = true;
+	$scope.pageTypeFilter.classified = true;
+	$scope.pageTypeFilter.ads = true;
 
-	$scope.getSeeds($scope.master.workspaceId);
+/* end filters */
+//    $scope.relevance
 
-	/** END KEYWORD SEEDS  **/
+//    $scope.radioRelevanceCatalog = [
+//      { label: 'Neutral', value: 'NEUTRAL' },
+//      { label: 'Relevant', value: 'RELEVANT' },
+////      { label: 'irrelevant', value: 'irrelevant', isDisabled: true },
+//      { label: 'Irrelevant', value: 'IRRELEVANT'},
+//      { label: 'Failed', value: 'FAILED' }
+//    ];
+
+
+/////    RELEVANCE /////
+
+    $scope.radioRelevanceCatalog = [
+      { label: 'Relevant', value: 'RELEVANT' },
+      { label: 'Neutral', value: 'NEUTRAL' },
+      { label: 'Irrelevant', value: 'IRRELEVANT'},
+    ];
+
+//    $scope.radioRelevanceCatalog2 = [
+//      { label: 'Failed', value: 'FAILED' }
+//    ];
+
+
+    //PAGE TYPE
+    $scope.checkboxPageTypeCatalog1 = [
+        'FORUM', 'NEWS',
+//        'BLOG', 'SHOPPING'
+    ]
+    $scope.checkboxPageTypeCatalog2 = [
+//        'FORUM', 'NEWS',
+        'BLOG', 'SHOPPING'
+    ]
+
+
+     $scope.toggleSelection = function toggleSelection(site, categories) {
+        var idx = categories.indexOf(site);
+
+        // is currently selected
+        if (idx > -1) {
+          categories.splice(idx, 1);
+        }
+
+        // is newly selected
+        else {
+          categories.push(site);
+        }
+      };
+
+    // USER DEFINED CATEGORIES //
+
+    $scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
+
 
 
 

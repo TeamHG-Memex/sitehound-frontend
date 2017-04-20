@@ -51,14 +51,13 @@ def get_role_by_id(id, roles):
 
     return None
 
+
 def get_admin_role():
     roles = dao_get_roles_all()
     for role in roles:
         if role["name"] == "admin":
             return role
-
     return None
-
 
 
 def update_user(id, active, user_roles):

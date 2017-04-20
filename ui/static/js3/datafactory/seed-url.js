@@ -17,13 +17,26 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', function($http){
 	};
 
 
-	dataFactory.update = function(workspaceId, id, relevance){
+//	dataFactory.update = function(workspaceId, id, relevance){
+//		var url =  String.format(urlBase, workspaceId);
+//		var po = {};
+//		po.relevance = relevance
+//		console.log("id: " + id + " , relevance: " + relevance);
+//		return $http.put(url + "/url/" + id, po);
+//	};
+//
+
+	dataFactory.update = function(workspaceId, id, relevance, categories, udc){
 		var url =  String.format(urlBase, workspaceId);
 		var po = {};
-		po.relevance = relevance
-		console.log("id: " + id + " , relevance: " + relevance);
+		po.relevance = relevance;
+		po.categories = categories;
+		po.udc = udc;
+//		console.log("id: " + id + " , relevance: " + relevance);
 		return $http.put(url + "/url/" + id, po);
 	};
+
+
 
 // Moved to fetch-service
 //	dataFactory.generate = function(workspaceId, nResults, crawlProvider, crawlSources) {

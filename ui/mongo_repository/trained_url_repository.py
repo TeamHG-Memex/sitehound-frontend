@@ -119,10 +119,12 @@ def dao_update_relevance(url, obj):
     collection.update({"url": url}, {'$set': update_object}, True)
 
 
-def dao_update_relevanceByid(workspace_id, id, relevance):
+def dao_update_relevanceByid(workspace_id, id, relevance, categories, udc):
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     update_object= {}
-    update_object['relevant'] = relevance
+    update_object['relevance'] = relevance
+    update_object['categories'] = categories
+    update_object['udc'] = udc
     collection.update({"_id": ObjectId(id)}, {'$set': update_object}, True)
 
 

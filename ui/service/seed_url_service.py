@@ -55,8 +55,8 @@ def update_seeds_urls_relevance(evaluated_seeds_urls):
             dao_update_relevance(evaluated_seeds_url['url'], evaluated_seeds_url)
 
 
-def update_seeds_url_relevancy(workspace_id, id, relevance):
-    dao_update_relevanceByid(workspace_id, id, relevance)
+def update_seeds_url_relevancy(workspace_id, id, relevance, categories, udc):
+    dao_update_relevanceByid(workspace_id, id, relevance, categories, udc)
 
 
 def delete_seeds_url(workspace_id, id):

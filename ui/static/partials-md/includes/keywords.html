@@ -1,0 +1,65 @@
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-controller="keywordsController">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text">
+            <h4>Keywords</h4>
+            <p> Will be used as search terms in the main search engines to provide a initial set of URLs.</p>
+            <form name="relevantKeywordsForm">
+                <h6>Including</h6>
+                <md-chips ng-model="relevantKeywordsObj"
+                          name="relevantKeywords"
+                          md-separator-keys="splitKeys"
+                          readonly="false"
+                          md-removable="true"
+                          md-max-chips="15"
+                          md-on-add="add($chip)"
+                          md-on-remove="remove($chip)"
+                          md-transform-chip="keywordHash($chip, null, 5)"
+                >
+                <md-chip-template>
+                    <span>
+                      <strong>{{$chip.word}}</strong>
+                    </span>
+                </md-chip-template>
+                </md-chips>
+                <div class="errors" ng-messages="relevantKeywordsForm.relevantKeywords.$error">
+                    <div ng-message="md-max-chips">Maximum number of tags reached.</div>
+                </div>
+            </form>
+            <br/>
+            <form name="irrelevantKeywordsForm">
+                <h6>Excluding</h6>
+                <md-chips ng-model="irrelevantKeywordsObj"
+                          name="irrelevantKeywords"
+                          md-separator-keys="splitKeys"
+                          readonly="false"
+                          md-removable="true"
+                          md-max-chips="maxChips"
+                          md-on-add="add($chip)"
+                          md-on-remove="remove($chip)"
+                          md-transform-chip="keywordHash($chip, null, 1)"
+                >
+                <md-chip-template>
+                    <span>
+                      <strong>{{$chip.word}}</strong>
+                    </span>
+                </md-chip-template>
+                </md-chips>
+                <div class="errors" ng-messages="irrelevantKeywordsForm.irrelevantKeywords.$error">
+                    <div ng-message="md-max-chips">Maximum number of tags reached.</div>
+                </div>
+            </form>
+            <br/>
+        </div>
+        <div class="mdl-card__actions">
+            <!--<a href="#" class="mdl-button">Read our features</a>-->
+            <a href="#" class="mdl-button">How do we use this?</a>
+        </div>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
+        <i class="material-icons">more_vert</i>
+    </button>
+    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
+        <li class="mdl-menu__item">Collapse</li>
+        <li class="mdl-menu__item" disabled>Expand</li>
+    </ul>
+</section>

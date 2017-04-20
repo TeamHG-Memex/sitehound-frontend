@@ -37,7 +37,9 @@ def get_seed_urls_by_source_api(workspace_id, source):
 @login_required
 def update_seeds_url_relevancy_api(workspace_id, id):
     relevance = request.json['relevance']
-    update_seeds_url_relevancy(workspace_id, id, relevance)
+    categories = request.json['categories']
+    udc = request.json['udc']
+    update_seeds_url_relevancy(workspace_id, id, relevance, categories, udc)
     return Response("{}", mimetype="application/json")
 
 
