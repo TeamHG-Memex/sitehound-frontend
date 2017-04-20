@@ -6,20 +6,8 @@
         <!--</div>-->
 
         <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in seedUrls"> <!--ng-repeat here-->
-            <div class="mdl-card__media">
-                <!--<img class="article-image" src="https://getmdl.io/templates/portfolio/images/example-work02.jpg" border="0" alt="">-->
-                <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210" border="0" alt="">-->
-                <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" border="0" alt="">
-            </div>
-            <div class="mdl-card__title" layout="row" layout-align="space-between start"  style="padding:20px">
-                <div layout="column">
-                    <!--<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify"> </span></h3>-->
-                    <h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; font-size:16px; padding:20px; padding-right:0px"> </span></h3>
-                    <!--<h2 class="mdl-card__title-text">Sunt nulla</h2>-->
-                </div>
-
-                <div layout="column">
-                    <md-menu >
+            <div style="position:relative;">
+                    <md-menu style="float:right">
                         <md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">
                             <!--<md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>-->
                             <md-icon md-menu-origin >more_vert</md-icon>
@@ -55,7 +43,21 @@
 
                         </md-menu-content>
                     </md-menu>
+            </div>
+
+            <div class="mdl-card__media">
+                <!--<img class="article-image" src="https://getmdl.io/templates/portfolio/images/example-work02.jpg" border="0" alt="">-->
+                <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210" border="0" alt="">-->
+                <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" border="0" alt="">
+            </div>
+
+            <div class="mdl-card__title" layout="row" layout-align="space-between start"  style="padding:20px; padding-top:0px; padding-bottom:0px">
+                <div layout="column">
+                    <!--<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify"> </span></h3>-->
+                    <h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; font-size:16px; padding:20px; "> </span></h3>
+                    <!--<h2 class="mdl-card__title-text">Sunt nulla</h2>-->
                 </div>
+
             </div>
             <div class="mdl-card__supporting-text" style="margin-top:0px;margin-bottom:20px">
                 <!--Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.-->
