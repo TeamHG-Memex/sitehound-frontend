@@ -19,31 +19,30 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
 			angular.forEach(tempResults, function(tempResult){
 
-                //FIXME
-                //remove the desc for testing
-
-                tempResult.desc = "yara-yara-yara";
+//                FIXME
+//                remove the desc for testing
+//                tempResult.desc = "yara-yara-yara";
 
 			    if(tempResult.udc == null || tempResult.udc== undefined){
 			        tempResult.udc = [];
 			    }
 
 			    // temporary fix for backward compatibility hack to keep the labeled data. Old model was boolean, now is a constant
-                if(tempResult.relevance == null || tempResult.relevance == undefined){
-
-                    if(tempResult.relevant === true){
-                        tempResult.relevance = "RELEVANT";
-                    }
-                    else if(tempResult.relevant === false){
-                        tempResult.relevance = "IRRELEVANT";
-                    }
-                    else if(tempResult.relevant === null){
-                        tempResult.relevance = "NEUTRAL";
-                    }
-                    else{
-                        tempResult.relevance = "NEUTRAL";
-                    }
-                }
+//                if(tempResult.relevance == null || tempResult.relevance == undefined){
+//
+//                    if(tempResult.relevant === true){
+//                        tempResult.relevance = "RELEVANT";
+//                    }
+//                    else if(tempResult.relevant === false){
+//                        tempResult.relevance = "IRRELEVANT";
+//                    }
+//                    else if(tempResult.relevant === null){
+//                        tempResult.relevance = "NEUTRAL";
+//                    }
+//                    else{
+//                        tempResult.relevance = "NEUTRAL";
+//                    }
+//                }
 			})
 
             var currentLength = $scope.seedUrls.length;
@@ -52,8 +51,6 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
             for (var i = currentLength; i < $scope.seedUrls.length; i++) {
                $scope.$watch('seedUrls[' + i + ']', function (newValue, oldValue) {
-//                    debugger;
-//                  console.log(newValue + ":::" + oldValue);
 
                     if(
                         newValue.relevance != oldValue.relevance ||
@@ -78,7 +75,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
 
     $scope.updateSeedUrl = function(seedUrl){
-        seedUrlFactory.update($scope.master.workspaceId, seedUrl._id, seedUrl.relevance, seedUrl.categories, seedUrl.udc)
+        seedUrlFactory.update($scope.master.workspaceId, seedUrl._id, seedUrl.relevant, seedUrl.categories, seedUrl.udc)
         .then(function(){}, function(){})
     }
 
@@ -123,9 +120,9 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 /////    RELEVANCE /////
 
     $scope.radioRelevanceCatalog = [
-      { label: 'Relevant', value: 'RELEVANT' },
-      { label: 'Neutral', value: 'NEUTRAL' },
-      { label: 'Irrelevant', value: 'IRRELEVANT'},
+      { label: 'Relevant', value: true },
+      { label: 'Neutral', value: null },
+      { label: 'Irrelevant', value: false},
     ];
 
 //    $scope.radioRelevanceCatalog2 = [
@@ -144,6 +141,9 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
     ]
 
 
+    // CATEGORIES //
+
+
      $scope.toggleSelection = function toggleSelection(site, categories) {
         var idx = categories.indexOf(site);
 
@@ -158,11 +158,10 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
         }
       };
 
-    // USER DEFINED CATEGORIES //
-
     $scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
 
 
+    // USER DEFINED CATEGORIES //
 
 
 

@@ -36,7 +36,12 @@ def get_seed_urls_by_source_api(workspace_id, source):
 @app.route("/api/workspace/<workspace_id>/seed-url/url/<id>", methods=["PUT"])
 @login_required
 def update_seeds_url_relevancy_api(workspace_id, id):
-    relevance = request.json['relevance']
+
+    if "relevance" in request.json:
+        relevance = request.json['relevance']
+    else:
+        relevance = None
+
     categories = request.json['categories']
     udc = request.json['udc']
     update_seeds_url_relevancy(workspace_id, id, relevance, categories, udc)

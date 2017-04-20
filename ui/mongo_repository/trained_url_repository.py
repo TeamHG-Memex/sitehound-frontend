@@ -52,7 +52,7 @@ def get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id):
     # field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'urlDesc', 'categories', 'language', 'relevant']
     # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant', 'words']
     # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant']
-    field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'title', 'categories', 'language', 'relevant']
+    field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'title', 'language', 'relevant', 'categories', 'udc']
 
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     res = collection\
@@ -122,7 +122,7 @@ def dao_update_relevance(url, obj):
 def dao_update_relevanceByid(workspace_id, id, relevance, categories, udc):
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     update_object= {}
-    update_object['relevance'] = relevance
+    update_object['relevant'] = relevance
     update_object['categories'] = categories
     update_object['udc'] = udc
     collection.update({"_id": ObjectId(id)}, {'$set': update_object}, True)

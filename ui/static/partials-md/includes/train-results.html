@@ -11,11 +11,13 @@
                 <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210" border="0" alt="">-->
                 <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" border="0" alt="">
             </div>
-            <div class="mdl-card__title" layout="row" layout-align="space-between start" >
+            <div class="mdl-card__title" layout="row" layout-align="space-between start"  style="padding:20px">
                 <div layout="column">
-                    <h2 class="mdl-card__title-text"> <span ng-bind="elem.title"> </span></h2>
+                    <!--<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify"> </span></h3>-->
+                    <h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; font-size:16px; padding:20px; padding-right:0px"> </span></h3>
                     <!--<h2 class="mdl-card__title-text">Sunt nulla</h2>-->
                 </div>
+
                 <div layout="column">
                     <md-menu >
                         <md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">
@@ -55,17 +57,19 @@
                     </md-menu>
                 </div>
             </div>
-            <div class="mdl-card__supporting-text">
+            <div class="mdl-card__supporting-text" style="margin-top:0px;margin-bottom:20px">
                 <!--Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.-->
                 <!--Botnets – zombies get smarter This page uses JavaScript to progressively load the article content as a user scrolls. Screen reader users, click the load entire article button to bypass dynamically loaded article content. Please note that Internet Explorer version 8.x will not be supported as of January 1, 2016. Please refer to for more information. Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution   Direct export     Export file  RIS (for EndNote, Reference Manager, ProCite)  BibTeX  Text  RefWorks Direct Export Content   Citation Only   Citation and Abstract Article outline Show full outline Figures and tables ADVERTISEMENT , June 2006, Pages 18–20 Botnets Botnets – zombies get ...-->
-                <span ng-bind="elem.desc"></span>
+                <!--<span ng-bind="elem.desc" style="text-align:justify"></span>-->
+                <p style="font-size:12px; overflow: hidden;text-align: justify;">{{elem.desc | ellipsis:true:850:' ...'}}</p>
+
             </div>
 
 
             <div class="mdl-card__actions mdl-card--border">
                 <div layout="row" layout-align="space-around center" style="margin-top:10px">
                     <div layout="row" style="margin-bottom:10px">
-                           <md-radio-group ng-model="elem.relevance" layout="row" >
+                           <md-radio-group ng-model="elem.relevant" layout="row" >
                                            <!--class="md-primary" -->
                                 <md-radio-button ng-repeat="d in radioRelevanceCatalog"
                                                  ng-value="d.value"
@@ -213,7 +217,7 @@
                 </div>
             </div>
 
-            {{elem}}
+            <!--{{elem}}-->
         </div>
 
 
