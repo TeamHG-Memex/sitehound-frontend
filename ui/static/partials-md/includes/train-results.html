@@ -1,11 +1,8 @@
 <section ng-controller="trainResultsController">
     <div class="mdl-grid portfolio-max-width" >
 
-        <!--<div class="mdl-cell mdl-card mdl-shadow&#45;&#45;4dp portfolio-card" ng-repeat="elem in seedUrls"> &lt;!&ndash;ng-repeat here&ndash;&gt;-->
-            <!--{{elem}}-->
-        <!--</div>-->
+        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in seedUrls">
 
-        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in seedUrls"> <!--ng-repeat here-->
             <div style="position:relative;">
                     <md-menu style="float:right">
                         <md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">
@@ -45,6 +42,22 @@
                     </md-menu>
             </div>
 
+
+            <!--<div class="mdl-card__title" layout="row" layout-align="space-between start"  style="padding:20px; padding-top:0px; padding-bottom:20px; ">-->
+                <!--<div layout="column">-->
+                    <!--&lt;!&ndash;<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify"> </span></h3>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<h2 class="mdl-card__title-text"> <span ng-bind="elem.host" style="text-align:justify; font-size:16px; padding:20px; "> </span></h2>&ndash;&gt;-->
+                    <!--<h2 class="mdl-card__title-text"> <span ng-bind="elem.host" style="text-align:center; font-weight: 400; padding-left:20px"> </span></h2>-->
+                    <!--&lt;!&ndash;<h2 class="mdl-card__title-text"> <span ng-bind="elem.host" > </span></h2>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<h2 class="mdl-card__title-text">Sunt nulla</h2>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="mdl-card__title">
+                        <h2 class="mdl-card__title-text"><span ng-bind="elem.host"></h2>
+            </div>
+
+
             <div class="mdl-card__media">
                 <!--<img class="article-image" src="https://getmdl.io/templates/portfolio/images/example-work02.jpg" border="0" alt="">-->
                 <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210" border="0" alt="">-->
@@ -57,8 +70,8 @@
                     <h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; font-size:16px; padding:20px; "> </span></h3>
                     <!--<h2 class="mdl-card__title-text">Sunt nulla</h2>-->
                 </div>
-
             </div>
+
             <div class="mdl-card__supporting-text" style="margin-top:0px;margin-bottom:20px">
                 <!--Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.-->
                 <!--Botnets – zombies get smarter This page uses JavaScript to progressively load the article content as a user scrolls. Screen reader users, click the load entire article button to bypass dynamically loaded article content. Please note that Internet Explorer version 8.x will not be supported as of January 1, 2016. Please refer to for more information. Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution   Direct export     Export file  RIS (for EndNote, Reference Manager, ProCite)  BibTeX  Text  RefWorks Direct Export Content   Citation Only   Citation and Abstract Article outline Show full outline Figures and tables ADVERTISEMENT , June 2006, Pages 18–20 Botnets Botnets – zombies get ...-->

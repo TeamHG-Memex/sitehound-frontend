@@ -12,7 +12,9 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 	}
 
 	$scope.getSeedUrls = function(){
-		seedUrlFactory.get($scope.master.workspaceId, $scope.source, getRelevanceSearchObject(), $scope.lastId)
+	    var filters =  getRelevanceSearchObject();
+	    debugger;
+		seedUrlFactory.get($scope.master.workspaceId, $scope.source, filters, $scope.lastId)
 		.then(function (response) {
 			console.log("finish fetching seed Urls");
 			var tempResults = response.data;
@@ -130,7 +132,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 //    ];
 
 
-    //PAGE TYPE
+    // CATEGORIES //
     $scope.checkboxPageTypeCatalog1 = [
         'FORUM', 'NEWS',
 //        'BLOG', 'SHOPPING'
@@ -141,20 +143,17 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
     ]
 
 
-    // CATEGORIES //
-
-
-     $scope.toggleSelection = function toggleSelection(site, categories) {
-        var idx = categories.indexOf(site);
+     $scope.toggleSelection = function toggleSelection(elem, list) {
+        var idx = list.indexOf(elem);
 
         // is currently selected
         if (idx > -1) {
-          categories.splice(idx, 1);
+          list.splice(idx, 1);
         }
 
         // is newly selected
         else {
-          categories.push(site);
+          list.push(elem);
         }
       };
 
