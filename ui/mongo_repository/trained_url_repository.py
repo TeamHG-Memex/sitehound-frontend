@@ -4,7 +4,7 @@ from bson import ObjectId
 from ui.singleton import Singleton
 
 
-def get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id):
+def get_seeds_urls_by_source_dao(workspace_id, source, relevances, categories, udcs, last_id):
 
     and_condition_list = []
 
@@ -25,17 +25,46 @@ def get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id):
     source_search_object = {'$or': source_search_conditions}
     and_condition_list.append(source_search_object)
 
-    relevance_search_conditions = []
-    if "neutral" in relevance and relevance['neutral']:
-        relevance_search_conditions.append({'relevant': None})
-    if "relevant" in relevance and relevance['relevant']:
-        relevance_search_conditions.append({'relevant': True})
-    if "irrelevant" in relevance and relevance['irrelevant']:
-        relevance_search_conditions.append({'relevant': False})
+    # relevance_search_conditions = []
+    # if "neutral" in relevance and relevance['neutral']:
+    #     relevance_search_conditions.append({'relevant': None})
+    # if "relevant" in relevance and relevance['relevant']:
+    #     relevance_search_conditions.append({'relevant': True})
+    # if "irrelevant" in relevance and relevance['irrelevant']:
+    #     relevance_search_conditions.append({'relevant': False})
+    # if len(relevance_search_conditions) > 0:
+    #     relevance_search_object = {'$or': relevance_search_conditions}
+    #     and_condition_list.append(relevance_search_object)
+    #
 
-    if len(relevance_search_conditions)> 0:
-        relevance_search_object = {'$or': relevance_search_conditions}
-        and_condition_list.append(relevance_search_object)
+
+    #relevances
+    if len(relevances) > 0:
+        relevances_search_conditions = []
+        for relevance in relevances:
+            relevances_search_conditions.append({'relevant': relevance})
+
+        relevances_search_object = {'$or': relevances_search_conditions}
+        and_condition_list.append(relevances_search_object)
+
+
+    #page_types
+    if len(categories) > 0:
+        categories_search_conditions = []
+        for category in categories:
+            categories_search_conditions.append({'categories': category})
+
+        categories_search_object = {'$or': categories_search_conditions}
+        and_condition_list.append(categories_search_object)
+
+    #udcs
+    if len(udcs) > 0:
+        udcs_search_conditions = []
+        for udc in udcs:
+            udcs_search_conditions.append({'udc': udc.lower()})
+
+        udcs_search_object = {'$or': udcs_search_conditions}
+        and_condition_list.append(udcs_search_object)
 
     page_search_object = {}
     if last_id is not None:
@@ -64,7 +93,48 @@ def get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id):
     return docs
 
 
+def get_seeds_udcs_by_source_dao(workspace_id, source):
+
+    and_condition_list = []
+
+    source_search_conditions = []
+    if source == "searchengine":
+        source_search_conditions.append({'crawlEntityType': "BING"})
+        source_search_conditions.append({'crawlEntityType': "GOOGLE"})
+    elif source == "twitter":
+        source_search_conditions.append({'crawlEntityType': "TWITTER"})
+    elif source == "tor":
+        source_search_conditions.append({'crawlEntityType': "TOR"})
+    elif source == "imported":
+        source_search_conditions.append({'crawlEntityType': "MANUAL"})
+    elif source == "deepdeep":
+        source_search_conditions.append({'crawlEntityType': "DD"})
+    else:
+        print("no valid source was provided:" + source)
+    source_search_object = {'$or': source_search_conditions}
+    and_condition_list.append(source_search_object)
+
+    deleted_search_object = {'deleted': None}
+    and_condition_list.append(deleted_search_object)
+
+    workspace_search_object = {'workspaceId': workspace_id}
+    and_condition_list.append(workspace_search_object)
+
+    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+    res = collection\
+        .find({'$and': and_condition_list})\
+        .distinct("udc")
+
+    docs = list(res)
+    return docs
+
+
 def get_seeds_urls_by_workspace_dao(workspace_id):
+    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+    return list(collection.find({'workspaceId': workspace_id}))
+
+
+def get_seeds_udcs_by_workspace_dao(workspace_id):
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     return list(collection.find({'workspaceId': workspace_id}))
 

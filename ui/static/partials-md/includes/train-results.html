@@ -73,8 +73,6 @@
             </div>
 
             <div class="mdl-card__supporting-text" style="margin-top:0px;margin-bottom:20px">
-                <!--Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.-->
-                <!--Botnets – zombies get smarter This page uses JavaScript to progressively load the article content as a user scrolls. Screen reader users, click the load entire article button to bypass dynamically loaded article content. Please note that Internet Explorer version 8.x will not be supported as of January 1, 2016. Please refer to for more information. Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution   Direct export     Export file  RIS (for EndNote, Reference Manager, ProCite)  BibTeX  Text  RefWorks Direct Export Content   Citation Only   Citation and Abstract Article outline Show full outline Figures and tables ADVERTISEMENT , June 2006, Pages 18–20 Botnets Botnets – zombies get ...-->
                 <!--<span ng-bind="elem.desc" style="text-align:justify"></span>-->
                 <p style="font-size:12px; overflow: hidden;text-align: justify;">{{elem.desc | ellipsis:true:850:' ...'}}</p>
 
@@ -86,7 +84,7 @@
                     <div layout="row" style="margin-bottom:10px">
                            <md-radio-group ng-model="elem.relevant" layout="row" >
                                            <!--class="md-primary" -->
-                                <md-radio-button ng-repeat="d in radioRelevanceCatalog"
+                                <md-radio-button ng-repeat="d in catalog.relevances"
                                                  ng-value="d.value"
                                                  ng-disabled=" d.isDisabled ">
                                                  <!--ng-class="{'md-align-top-left': $index==1}" -->
@@ -94,115 +92,31 @@
                                 </md-radio-button>
                             </md-radio-group>
                     </div>
-                    <!--<div layout="column" >-->
-                           <!--<md-radio-group ng-model="elem.relevance">-->
-                                           <!--&lt;!&ndash;class="md-primary"&ndash;&gt;-->
-                                <!--<md-radio-button ng-repeat="d in radioRelevanceCatalog2"-->
-                                                 <!--ng-value="d.value"-->
-                                                 <!--ng-disabled=" d.isDisabled ">-->
-                                                 <!--&lt;!&ndash;ng-class="{'md-align-top-left': $index==1}" &ndash;&gt;-->
-                                    <!--{{ d.label }}-->
-                                <!--</md-radio-button>-->
-                            <!--</md-radio-group>-->
-                    <!--</div>-->
                 </div>
             </div>
-
-            <!--<div class="mdl-card__actions mdl-card&#45;&#45;border">-->
-                <!--<div layout="row" layout-align="space-around center" style="margin-top:10px">-->
-                    <!--<div layout="column" >-->
-                        <!--<md-radio-group ng-model="data.group1" >-->
-                            <!--<md-radio-button value="Relevant" aria-label="Google">-->
-                                <!--Relevant-->
-                            <!--</md-radio-button>-->
-                            <!--<md-radio-button value="Neutral" aria-label="Twitter">-->
-                                <!--Neutral-->
-                            <!--</md-radio-button>-->
-                        <!--</md-radio-group>-->
-                    <!--</div>-->
-                    <!--<div layout="column">-->
-                        <!--<md-radio-group ng-model="data.group1"  >-->
-                            <!--<md-radio-button value="Irrelevant" aria-label="Bing">-->
-                                <!--Irrelevant-->
-                            <!--</md-radio-button>-->
-                            <!--<md-radio-button value="Failed" aria-label="Twitter">-->
-                                <!--Failed-->
-                            <!--</md-radio-button>-->
-                        <!--</md-radio-group>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-
-            <!--<div class="mdl-card__actions mdl-card&#45;&#45;border">-->
-                <!--<div layout="row" layout-align="space-around center" style="margin-top:10px">-->
-                    <!--<md-checkbox-->
-                        <!--ng-repeat="site in checkboxPageTypeCatalog"-->
-                        <!--value="{{site}}"-->
-                        <!--ng-checked="elem.categories.indexOf(site) > -1"-->
-                        <!--ng-click="toggleSelection(site, elem.categories)">-->
-                        <!--{{site | capitalize}}-->
-                    <!--</md-checkbox>-->
-                <!--</div>-->
-            <!--</div>-->
 
             <div class="mdl-card__actions mdl-card--border">
                 <div layout="row" layout-align="space-around center" style="margin-top:10px">
                     <div layout="column" >
                         <md-checkbox
-                            ng-repeat="site in checkboxPageTypeCatalog1"
-                            value="{{site}}"
-                            ng-checked="elem.categories.indexOf(site) > -1"
-                            ng-click="toggleSelection(site, elem.categories)">
-                            {{site | capitalize}}
+                            ng-repeat="category in catalog.categories1"
+                            value="{{category}}"
+                            ng-checked="elem.categories.indexOf(category) > -1"
+                            ng-click="toggleSelection(category, elem.categories)">
+                            {{category | capitalize}}
                         </md-checkbox>
                     </div>
                     <div layout="column">
                         <md-checkbox
-                            ng-repeat="site in checkboxPageTypeCatalog2"
-                            value="{{site}}"
-                            ng-checked="elem.categories.indexOf(site) > -1"
-                            ng-click="toggleSelection(site, elem.categories)">
-                            {{site | capitalize}}
+                            ng-repeat="category in catalog.categories2"
+                            value="{{category}}"
+                            ng-checked="elem.categories.indexOf(category) > -1"
+                            ng-click="toggleSelection(category, elem.categories)">
+                            {{category | capitalize}}
                         </md-checkbox>
                     </div>
                 </div>
             </div>
-
-
-            <!--<div class="mdl-card__actions mdl-card&#45;&#45;border">-->
-                <!--<div layout="row" layout-align="space-around center" style="margin-top:10px">-->
-                    <!--<div layout="column" >-->
-                        <!--<md-checkbox ng-model="data.cb1" aria-label="Forum">-->
-                            <!--Forum-->
-                        <!--</md-checkbox>-->
-                        <!--<md-checkbox ng-model="data.cb1" aria-label="Blog">-->
-                            <!--Blogs-->
-                        <!--</md-checkbox>-->
-                    <!--</div>-->
-                    <!--<div layout="column">-->
-                        <!--<md-checkbox ng-model="data.cb1" aria-label="News">-->
-                            <!--News-->
-                        <!--</md-checkbox>-->
-                        <!--<md-checkbox ng-model="data.cb1" aria-label="Classified">-->
-                            <!--Classified-->
-                        <!--</md-checkbox>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
-
-            <!--<div class="mdl-card__actions mdl-card&#45;&#45;border">-->
-                <!--<div>-->
-                    <!--<form name="udcForm">-->
-                        <!--&lt;!&ndash;<h6>User defined tags</h6>&ndash;&gt;-->
-                        <!--<md-chips ng-model="udcList" name="udc" readonly="false" placeholder="Tag user defined category" md-removable="true" md-max-chips="15"></md-chips>-->
-                        <!--<div class="errors" ng-messages="udcForm.udc.$error">-->
-                            <!--<div ng-message="md-max-chips">Maximum number of tags reached.</div>-->
-                        <!--</div>-->
-                    <!--</form>-->
-                <!--</div>-->
-            <!--</div>-->
 
 
             <div class="mdl-card__actions mdl-card--border">
@@ -232,7 +146,6 @@
                 </div>
             </div>
 
-            <!--{{elem}}-->
         </div>
 
 
@@ -245,127 +158,127 @@
 
 
 
-        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in seedUrls"> <!--ng-repeat here-->
-            <div class="mdl-card__media">
-                <img class="article-image" src="https://getmdl.io/templates/portfolio/images/example-work02.jpg" border="0" alt="">
-            </div>
-            <div class="mdl-card__title" layout="row" layout-align="space-between start" >
-                <div layout="column">
-                    <h2 class="mdl-card__title-text">Android.com website</h2>
-                    <!--<h2 class="mdl-card__title-text">Sunt nulla</h2>-->
-                </div>
-                <div layout="column">
-                    <md-menu >
-                        <md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">
-                            <!--<md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>-->
-                            <md-icon md-menu-origin >more_vert</md-icon>
-                            <!--<i class="material-icons">more_vert</i>-->
-                            <!--<i class="material-icons">face</i>-->
-                        </md-button>
-                        <md-menu-content width="4">
-                            <md-menu-item>
-                                <md-button ng-click="redial($event)">
-                                    <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
-                                    <!--<md-icon md-menu-align-target md-svg-icon="call:phone"></md-icon>-->
-                                    <!--<md-icon md-menu-origin>face</md-icon>-->
-                                    <md-icon md-menu-align-target >open_in_new</md-icon>
-                                    Visit Link
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button ng-click="redial($event)">
-                                    <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
-                                    <md-icon md-menu-align-target >bookmark_border</md-icon>
-                                    <!--<md-icon md-menu-origin>face</md-icon>-->
-                                    Bookmark
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button ng-click="redial($event)">
-                                    <!--<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>-->
-                                    <md-icon md-menu-align-target >delete</md-icon>
-                                    <!--<md-icon md-menu-origin>face</md-icon>-->
-                                    Delete
-                                </md-button>
-                            </md-menu-item>
+        <!--<div class="mdl-cell mdl-card mdl-shadow&#45;&#45;4dp portfolio-card" ng-repeat="elem in seedUrls"> &lt;!&ndash;ng-repeat here&ndash;&gt;-->
+            <!--<div class="mdl-card__media">-->
+                <!--<img class="article-image" src="https://getmdl.io/templates/portfolio/images/example-work02.jpg" border="0" alt="">-->
+            <!--</div>-->
+            <!--<div class="mdl-card__title" layout="row" layout-align="space-between start" >-->
+                <!--<div layout="column">-->
+                    <!--<h2 class="mdl-card__title-text">Android.com website</h2>-->
+                    <!--&lt;!&ndash;<h2 class="mdl-card__title-text">Sunt nulla</h2>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<div layout="column">-->
+                    <!--<md-menu >-->
+                        <!--<md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">-->
+                            <!--&lt;!&ndash;<md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>&ndash;&gt;-->
+                            <!--<md-icon md-menu-origin >more_vert</md-icon>-->
+                            <!--&lt;!&ndash;<i class="material-icons">more_vert</i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i class="material-icons">face</i>&ndash;&gt;-->
+                        <!--</md-button>-->
+                        <!--<md-menu-content width="4">-->
+                            <!--<md-menu-item>-->
+                                <!--<md-button ng-click="redial($event)">-->
+                                    <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<md-icon md-menu-align-target md-svg-icon="call:phone"></md-icon>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
+                                    <!--<md-icon md-menu-align-target >open_in_new</md-icon>-->
+                                    <!--Visit Link-->
+                                <!--</md-button>-->
+                            <!--</md-menu-item>-->
+                            <!--<md-menu-item>-->
+                                <!--<md-button ng-click="redial($event)">-->
+                                    <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
+                                    <!--<md-icon md-menu-align-target >bookmark_border</md-icon>-->
+                                    <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
+                                    <!--Bookmark-->
+                                <!--</md-button>-->
+                            <!--</md-menu-item>-->
+                            <!--<md-menu-item>-->
+                                <!--<md-button ng-click="redial($event)">-->
+                                    <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
+                                    <!--<md-icon md-menu-align-target >delete</md-icon>-->
+                                    <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
+                                    <!--Delete-->
+                                <!--</md-button>-->
+                            <!--</md-menu-item>-->
 
-                        </md-menu-content>
-                    </md-menu>
-                </div>
-            </div>
-            <div class="mdl-card__supporting-text">
-                <!--Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.-->
-                Botnets – zombies get smarter This page uses JavaScript to progressively load the article content as a user scrolls. Screen reader users, click the load entire article button to bypass dynamically loaded article content. Please note that Internet Explorer version 8.x will not be supported as of January 1, 2016. Please refer to for more information. Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution   Direct export     Export file  RIS (for EndNote, Reference Manager, ProCite)  BibTeX  Text  RefWorks Direct Export Content   Citation Only   Citation and Abstract Article outline Show full outline Figures and tables ADVERTISEMENT , June 2006, Pages 18–20 Botnets Botnets – zombies get ...
-            </div>
+                        <!--</md-menu-content>-->
+                    <!--</md-menu>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="mdl-card__supporting-text">-->
+                <!--&lt;!&ndash;Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.&ndash;&gt;-->
+                <!--Botnets – zombies get smarter This page uses JavaScript to progressively load the article content as a user scrolls. Screen reader users, click the load entire article button to bypass dynamically loaded article content. Please note that Internet Explorer version 8.x will not be supported as of January 1, 2016. Please refer to for more information. Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution Sign in using your ScienceDirect credentials Username Password Remember me Sign in via your institution   Direct export     Export file  RIS (for EndNote, Reference Manager, ProCite)  BibTeX  Text  RefWorks Direct Export Content   Citation Only   Citation and Abstract Article outline Show full outline Figures and tables ADVERTISEMENT , June 2006, Pages 18–20 Botnets Botnets – zombies get ...-->
+            <!--</div>-->
 
-            <div class="mdl-card__actions mdl-card--border">
-                <div layout="row" layout-align="space-around center" style="margin-top:10px">
-                    <div layout="column" >
-                        <md-checkbox ng-model="data.cb1" aria-label="Forum">
-                            Forum
-                        </md-checkbox>
-                        <md-checkbox ng-model="data.cb1" aria-label="Blog">
-                            Blogs
-                        </md-checkbox>
-                    </div>
-                    <div layout="column">
-                        <md-checkbox ng-model="data.cb1" aria-label="News">
-                            News
-                        </md-checkbox>
-                        <md-checkbox ng-model="data.cb1" aria-label="Classified">
-                            Classified
-                        </md-checkbox>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="mdl-card__actions mdl-card--border">
-                <div layout="row" layout-align="space-around center" style="margin-top:10px">
-                    <div layout="column" >
-                        <md-radio-group ng-model="data.group1" >
-                            <md-radio-button value="Relevant" aria-label="Google">
-                                Relevant
-                            </md-radio-button>
-                            <md-radio-button value="Neutral" aria-label="Twitter">
-                                Neutral
-                            </md-radio-button>
-                        </md-radio-group>
-                    </div>
-                    <div layout="column">
-                        <md-radio-group ng-model="data.group1"  >
-                            <md-radio-button value="Irrelevant" aria-label="Bing">
-                                Irrelevant
-                            </md-radio-button>
-                            <md-radio-button value="Failed" aria-label="Twitter">
-                                Failed
-                            </md-radio-button>
-                        </md-radio-group>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="mdl-card__actions mdl-card&#45;&#45;border">-->
+                <!--<div layout="row" layout-align="space-around center" style="margin-top:10px">-->
+                    <!--<div layout="column" >-->
+                        <!--<md-checkbox ng-model="data.cb1" aria-label="Forum">-->
+                            <!--Forum-->
+                        <!--</md-checkbox>-->
+                        <!--<md-checkbox ng-model="data.cb1" aria-label="Blog">-->
+                            <!--Blogs-->
+                        <!--</md-checkbox>-->
+                    <!--</div>-->
+                    <!--<div layout="column">-->
+                        <!--<md-checkbox ng-model="data.cb1" aria-label="News">-->
+                            <!--News-->
+                        <!--</md-checkbox>-->
+                        <!--<md-checkbox ng-model="data.cb1" aria-label="Classified">-->
+                            <!--Classified-->
+                        <!--</md-checkbox>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
 
-            <div class="mdl-card__actions mdl-card--border">
-                <div>
-                    <form name="udcForm">
-                        <!--<h6>User defined tags</h6>-->
-                        <md-chips ng-model="udcList" name="udc" readonly="false" placeholder="Tag user defined category" md-removable="true" md-max-chips="15"></md-chips>
-                        <div class="errors" ng-messages="udcForm.udc.$error">
-                            <div ng-message="md-max-chips">Maximum number of tags reached.</div>
-                        </div>
-                    </form>
-                </div>
+            <!--<div class="mdl-card__actions mdl-card&#45;&#45;border">-->
+                <!--<div layout="row" layout-align="space-around center" style="margin-top:10px">-->
+                    <!--<div layout="column" >-->
+                        <!--<md-radio-group ng-model="data.group1" >-->
+                            <!--<md-radio-button value="Relevant" aria-label="Google">-->
+                                <!--Relevant-->
+                            <!--</md-radio-button>-->
+                            <!--<md-radio-button value="Neutral" aria-label="Twitter">-->
+                                <!--Neutral-->
+                            <!--</md-radio-button>-->
+                        <!--</md-radio-group>-->
+                    <!--</div>-->
+                    <!--<div layout="column">-->
+                        <!--<md-radio-group ng-model="data.group1"  >-->
+                            <!--<md-radio-button value="Irrelevant" aria-label="Bing">-->
+                                <!--Irrelevant-->
+                            <!--</md-radio-button>-->
+                            <!--<md-radio-button value="Failed" aria-label="Twitter">-->
+                                <!--Failed-->
+                            <!--</md-radio-button>-->
+                        <!--</md-radio-group>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
-            </div>
+
+            <!--<div class="mdl-card__actions mdl-card&#45;&#45;border">-->
+                <!--<div>-->
+                    <!--<form name="udcForm">-->
+                        <!--&lt;!&ndash;<h6>User defined tags</h6>&ndash;&gt;-->
+                        <!--<md-chips ng-model="udcList" name="udc" readonly="false" placeholder="Tag user defined category" md-removable="true" md-max-chips="15"></md-chips>-->
+                        <!--<div class="errors" ng-messages="udcForm.udc.$error">-->
+                            <!--<div ng-message="md-max-chips">Maximum number of tags reached.</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</div>-->
+
+            <!--</div>-->
 
 
-            <div class="mdl-card__actions mdl-card--border" layout="row" layout-align="space-between center">
+            <!--<div class="mdl-card__actions mdl-card&#45;&#45;border" layout="row" layout-align="space-between center">-->
 
-                <div layout="column">
-                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">See more</a>
-                </div>
-            </div>
-        </div>
+                <!--<div layout="column">-->
+                    <!--<a class="mdl-button mdl-button&#45;&#45;colored mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;accent" href="portfolio-example01.html">See more</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </section>

@@ -11,139 +11,50 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 		$scope.getSeedUrls();
 	}
 
-	$scope.getSeedUrls = function(){
-	    var filters =  getRelevanceSearchObject();
-	    debugger;
-		seedUrlFactory.get($scope.master.workspaceId, $scope.source, filters, $scope.lastId)
-		.then(function (response) {
-			console.log("finish fetching seed Urls");
-			var tempResults = response.data;
-
-			angular.forEach(tempResults, function(tempResult){
-
-//                FIXME
-//                remove the desc for testing
-//                tempResult.desc = "yara-yara-yara";
-
-			    if(tempResult.udc == null || tempResult.udc== undefined){
-			        tempResult.udc = [];
-			    }
-
-			    // temporary fix for backward compatibility hack to keep the labeled data. Old model was boolean, now is a constant
-//                if(tempResult.relevance == null || tempResult.relevance == undefined){
-//
-//                    if(tempResult.relevant === true){
-//                        tempResult.relevance = "RELEVANT";
-//                    }
-//                    else if(tempResult.relevant === false){
-//                        tempResult.relevance = "IRRELEVANT";
-//                    }
-//                    else if(tempResult.relevant === null){
-//                        tempResult.relevance = "NEUTRAL";
-//                    }
-//                    else{
-//                        tempResult.relevance = "NEUTRAL";
-//                    }
-//                }
-			})
-
-            var currentLength = $scope.seedUrls.length;
-
-			Array.prototype.push.apply($scope.seedUrls, tempResults);
-
-            for (var i = currentLength; i < $scope.seedUrls.length; i++) {
-               $scope.$watch('seedUrls[' + i + ']', function (newValue, oldValue) {
-
-                    if(
-                        newValue.relevance != oldValue.relevance ||
-                        newValue.categories != oldValue.categories ||
-                        newValue.udc != oldValue.udc
-                    ){
-                        $scope.updateSeedUrl(newValue);
-                    }
-                    else{
-                        console.log("unsupported change");
-                    }
-
-               }, true);
-            }
-
-			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-		},
-		function (response) {
-		});
-	}
 
 
-    $scope.updateSeedUrl = function(seedUrl){
-        seedUrlFactory.update($scope.master.workspaceId, seedUrl._id, seedUrl.relevant, seedUrl.categories, seedUrl.udc)
-        .then(function(){}, function(){})
-    }
+/* Filters */
+
+    $scope.filters = {};
+	$scope.filters.relevances = [];
+	$scope.filters.categories = [];
+	$scope.filters.udcs = [];
 
 
+/* Catalogs */
 
+    $scope.catalog = {};
 
-/* filters */
-
-	$scope.relevancyFilter = {};
-	$scope.relevancyFilter.neutral = true;
-	$scope.relevancyFilter.relevant = true;
-	$scope.relevancyFilter.irrelevant = true;
-	$scope.relevancyFilter.failed = true;
-	function getRelevanceSearchObject(){
-		var relevanceSearchObject = {};
-		relevanceSearchObject.neutral = $scope.relevancyFilter.neutral;
-		relevanceSearchObject.relevant = $scope.relevancyFilter.relevant;
-		relevanceSearchObject.irrelevant = $scope.relevancyFilter.irrelevant;
-		relevanceSearchObject.failed = $scope.relevancyFilter.failed;
-		return relevanceSearchObject;
-	}
-
-	$scope.pageTypeFilter = {};
-	$scope.pageTypeFilter.forum = true;
-	$scope.pageTypeFilter.blog = true;
-	$scope.pageTypeFilter.news = true;
-	$scope.pageTypeFilter.classified = true;
-	$scope.pageTypeFilter.ads = true;
-
-/* end filters */
-//    $scope.relevance
-
-//    $scope.radioRelevanceCatalog = [
-//      { label: 'Neutral', value: 'NEUTRAL' },
-//      { label: 'Relevant', value: 'RELEVANT' },
-////      { label: 'irrelevant', value: 'irrelevant', isDisabled: true },
-//      { label: 'Irrelevant', value: 'IRRELEVANT'},
-//      { label: 'Failed', value: 'FAILED' }
-//    ];
-
-
-/////    RELEVANCE /////
-
-    $scope.radioRelevanceCatalog = [
-      { label: 'Relevant', value: true },
-      { label: 'Neutral', value: null },
-      { label: 'Irrelevant', value: false},
+    $scope.catalog.relevances = [
+      { label: 'relevant', value: true },
+      { label: 'neutral', value: null },
+      { label: 'irrelevant', value: false},
     ];
 
-//    $scope.radioRelevanceCatalog2 = [
-//      { label: 'Failed', value: 'FAILED' }
-//    ];
+    $scope.catalog.categories1= ['FORUM', 'NEWS'];
+    $scope.catalog.categories2 = ['BLOG', 'SHOPPING'];
+    $scope.catalog.categories = $scope.catalog.categories1.concat($scope.catalog.categories2);
 
 
-    // CATEGORIES //
-    $scope.checkboxPageTypeCatalog1 = [
-        'FORUM', 'NEWS',
-//        'BLOG', 'SHOPPING'
-    ]
-    $scope.checkboxPageTypeCatalog2 = [
-//        'FORUM', 'NEWS',
-        'BLOG', 'SHOPPING'
-    ]
+    $scope.catalog.udcs = [];
+
+    $scope.refreshUdc = function(){
+        seedUrlFactory.getUdcs($scope.master.workspaceId, $scope.source).then(
+            function(response){
+                $scope.catalog.udcs = response.data;
+            },
+            function(){
+                console.log("fetch udcs failed");
+            }
+        );
+    };
 
 
-     $scope.toggleSelection = function toggleSelection(elem, list) {
+    $scope.refreshUdc();
+
+
+
+    $scope.toggleSelection = function toggleSelection(elem, list) {
         var idx = list.indexOf(elem);
 
         // is currently selected
@@ -158,10 +69,6 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
       };
 
     $scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
-
-
-    // USER DEFINED CATEGORIES //
-
 
 
 	/** BEGIN GENERATE SE FETCH**/
@@ -209,6 +116,73 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 			$scope.loading = false;
 		});
 	}
+
+
+    $scope.getSeedUrls = function(){
+        $scope.seedUrls = [];
+        $scope.lastId = null;
+        $scope.getMoreSeedUrls();
+    }
+
+
+	$scope.getMoreSeedUrls = function(){
+		seedUrlFactory.get($scope.master.workspaceId, $scope.source, $scope.filters, $scope.lastId)
+		.then(function (response) {
+			console.log("finish fetching seed Urls");
+			var tempResults = response.data;
+
+			angular.forEach(tempResults, function(tempResult){
+
+			    if(tempResult.udc == null || tempResult.udc== undefined){
+			        tempResult.udc = [];
+			    }
+
+			})
+
+            var currentLength = $scope.seedUrls.length;
+
+			Array.prototype.push.apply($scope.seedUrls, tempResults);
+
+            for (var i = currentLength; i < $scope.seedUrls.length; i++) {
+               $scope.$watch('seedUrls[' + i + ']', function (newValue, oldValue) {
+
+                    if(!newValue || !oldValue){
+                        console.log("empty objects change");
+                        return;
+                    }
+
+                    if(
+                        newValue.relevant != oldValue.relevant ||
+                        newValue.categories != oldValue.categories ||
+                        newValue.udc != oldValue.udc
+                    ){
+                        $scope.updateSeedUrl(newValue);
+                        if(newValue.udc != oldValue.udc){
+                            $scope.refreshUdc();
+                        }
+                    }
+                    else{
+                        debugger;
+                        console.log("unsupported change");
+                    }
+
+               }, true);
+            }
+
+			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
+            $scope.refreshUdc()
+		},
+		function (response) {
+		});
+	}
+
+
+    $scope.updateSeedUrl = function(seedUrl){
+        seedUrlFactory.update($scope.master.workspaceId, seedUrl._id, seedUrl.relevant, seedUrl.categories, seedUrl.udc)
+        .then(function(){}, function(){})
+    }
+
 
 
 }]);

@@ -8,12 +8,19 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', function($http){
 //		var url =  String.format(urlBase, workspaceId);
 //		return $http.get(url);
 //	};
-	dataFactory.get = function (workspaceId, source, relevance, lastId) {
+	dataFactory.get = function (workspaceId, source, filters, lastId) {
 		var url =  String.format(urlBase, workspaceId);
 		po = {};
-		po.relevance = relevance;
+		po.relevances = filters.relevances;
+		po.categories = filters.categories;
+		po.udcs = filters.udcs;
 		po.lastId = lastId;
 		return $http.post(url + '/' + source, po);
+	};
+
+	dataFactory.getUdcs = function (workspaceId, source) {
+		var url =  String.format(urlBase, workspaceId);
+		return $http.get(url + '/' + source + '/udcs');
 	};
 
 

@@ -5,7 +5,7 @@ import pymongo
 import json
 
 from mongo_repository.trained_url_repository import dao_reset_results, get_seeds_urls_by_source_dao, \
-    get_seeds_urls_by_workspace_dao
+    get_seeds_urls_by_workspace_dao, get_seeds_udcs_by_source_dao
 from mongo_repository.trained_url_repository import get_seeds_urls_url
 from mongo_repository.trained_url_repository import get_seeds_urls_categorized
 from mongo_repository.trained_url_repository import dao_delete_seed_url
@@ -110,9 +110,14 @@ def get_seeds_urls_by_workspace(workspace_id, drop_png=False):
     return mongo_result
 
 
-def get_seeds_urls_by_source(workspace_id, source, relevance, last_id):
+def get_seeds_udc_by_source(workspace_id, source):
+    mongo_result = get_seeds_udcs_by_source_dao(workspace_id, source)
+    return mongo_result
+
+
+def get_seeds_urls_by_source(workspace_id, source, relevances, categories, udcs, last_id):
     try:
-        mongo_result = get_seeds_urls_by_source_dao(workspace_id, source, relevance, last_id)
+        mongo_result = get_seeds_urls_by_source_dao(workspace_id, source, relevances, categories, udcs, last_id)
     except Exception, e:
         print e
         logging.info("item failed")
