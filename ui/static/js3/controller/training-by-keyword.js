@@ -1,10 +1,10 @@
-ngApp.controller('trainingByKeywordController', ['$scope', '$filter', '$mdConstant', 'seedFactory', 'fetchService','seedUrlFactory',
-function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, $mdDialog) {
+ngApp.controller('trainingByKeywordController', ['$scope', '$filter', '$mdConstant', 'seedFactory', 'fetchService','seedUrlFactory', 'trainingService',
+function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, trainingService, $mdDialog) {
 
 	/** Fetch pages */
 	$scope.seedUrls = [];
 	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
-	$scope.crawlStatusBusy = false;
+//	$scope.crawlStatusBusy = false;
     $scope.source = "searchengine";
 
 	$scope.fetchFiltered = function(){
@@ -22,7 +22,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
 
 /* Catalogs */
-
+/*
     $scope.catalog = {};
 
     $scope.catalog.relevances = [
@@ -37,48 +37,46 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
 
     $scope.catalog.udcs = [];
+*/
 
-    $scope.refreshUdc = function(){
-        seedUrlFactory.getUdcs($scope.master.workspaceId, $scope.source).then(
-            function(response){
-                $scope.catalog.udcs = response.data;
-            },
-            function(){
-                console.log("fetch udcs failed");
-            }
-        );
-    };
-
-
-    $scope.refreshUdc();
+//    $scope.refreshUdc = function(){
+//        seedUrlFactory.getUdcs($scope.master.workspaceId, $scope.source).then(
+//            function(response){
+//                $scope.catalog.udcs = response.data;
+//            },
+//            function(){
+//                console.log("fetch udcs failed");
+//            }
+//        );
+//    };
 
 
 
-    $scope.toggleSelection = function toggleSelection(elem, list) {
-        var idx = list.indexOf(elem);
+    $scope.catalog = {};
+    $scope.catalog.relevances = $scope.master.catalog.relevances;
+    $scope.catalog.categories1= $scope.master.catalog.categories1;
+    $scope.catalog.categories2 = $scope.master.catalog.categories2;
+    $scope.catalog.udcs = $scope.master.catalog.udcs;
 
-        // is currently selected
-        if (idx > -1) {
-          list.splice(idx, 1);
-        }
 
-        // is newly selected
-        else {
-          list.push(elem);
-        }
-      };
+    function refreshUdcOnSuccess(response){
+        $scope.catalog.udcs = response.data;
+    }
 
-    $scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
+    trainingService.refreshUdc($scope.master.workspaceId, $scope.source, refreshUdcOnSuccess);
+
 
 
 	/** BEGIN GENERATE SE FETCH**/
+//	$scope.selected = {};
+//	$scope.selected.sources = [];
 
-	$scope.sources = {};
-	$scope.sources.searchengine= {};
-	$scope.sources.twitter = {};
-
-	$scope.sources.searchengine.checked = true;
-	$scope.sources.twitter.checked = true;
+//	$scope.sources = {};
+//	$scope.sources.searchengine= {};
+//	$scope.sources.twitter = {};
+//
+//	$scope.sources.searchengine.checked = true;
+//	$scope.sources.twitter.checked = true;
 
 	$scope.generateSeedUrls = function(){
 		$scope.errorMessage = "";
@@ -125,20 +123,16 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
     }
 
 
-    $scope.udcsDirty = false;
 
 	$scope.getMoreSeedUrls = function(){
 		seedUrlFactory.get($scope.master.workspaceId, $scope.source, $scope.filters, $scope.lastId)
 		.then(function (response) {
 			console.log("finish fetching seed Urls");
 			var tempResults = response.data;
-
 			angular.forEach(tempResults, function(tempResult){
-
 			    if(tempResult.udc == null || tempResult.udc== undefined){
 			        tempResult.udc = [];
 			    }
-
 			})
 
             var currentLength = $scope.seedUrls.length;
@@ -160,12 +154,10 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
                     ){
                         $scope.updateSeedUrl(newValue);
                         if(newValue.udc != oldValue.udc){
-//                            $scope.refreshUdc();
-                            $scope.udcsDirty = true;
+                            trainingService.udcsDirty = true;
                         }
                     }
                     else{
-                        debugger;
                         console.log("unsupported change");
                     }
 
@@ -174,7 +166,6 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
 			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-//            $scope.refreshUdc()
 		},
 		function (response) {
 		});
@@ -182,13 +173,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
 
     $scope.updateSeedUrl = function(seedUrl){
-        seedUrlFactory.update($scope.master.workspaceId, seedUrl._id, seedUrl.relevant, seedUrl.categories, seedUrl.udc)
-        .then(function(){
-            if($scope.udcsDirty){
-                $scope.refreshUdc();
-               $scope.udcsDirty = false;
-            }
-        }, function(){})
+        trainingService.updateSeedUrl($scope.master.workspaceId, seedUrl, $scope.source, refreshUdcOnSuccess);
     }
 
 

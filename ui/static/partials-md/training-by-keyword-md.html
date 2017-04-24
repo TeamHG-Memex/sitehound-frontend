@@ -7,19 +7,31 @@
         <i class="material-icons">play_circle_filled</i>
     </header>
     <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+
+        <!--Different sources would have separated templates-->
         <div class="mdl-card__supporting-text">
             <h4>Fetch</h4>
-            <p>Select the sources for more pages relevant to the domain, based on the keywords previously defined and start the getting results.
+            <!--<p>Select the sources for more pages relevant to the domain, based on the keywords previously defined and start the getting results.-->
+            <p>Search Google and Bing for pages relevant to the domain, based on the keywords previously defined and start the getting results.
             </p>
-            <p>Select the sources:</p>
-            <div flex-gt-sm="50">
-                <md-checkbox ng-model="sources.searchengine.checked" aria-label="Google">
-                    Google + Bing
-                </md-checkbox>
-                <md-checkbox ng-model="sources.twitter.checked" aria-label="Twitter">
-                    Twitter API
-                </md-checkbox>
-            </div>
+            <!--<p>Select the sources:</p>-->
+            <!--<div flex-gt-sm="50">-->
+                <!--&lt;!&ndash;<md-checkbox ng-model="sources.searchengine.checked" aria-label="Google">&ndash;&gt;-->
+                    <!--&lt;!&ndash;Google + Bing&ndash;&gt;-->
+                <!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+                <!--&lt;!&ndash;<md-checkbox ng-model="sources.twitter.checked" aria-label="Twitter">&ndash;&gt;-->
+                    <!--&lt;!&ndash;Twitter API&ndash;&gt;-->
+                <!--&lt;!&ndash;</md-checkbox>&ndash;&gt;-->
+                <!--<md-checkbox-->
+                    <!--ng-repeat="source in master.catalog.sources"-->
+                    <!--value="{{source.label}}"-->
+                    <!--aria-label="{{source.label}}"-->
+                    <!--ng-checked="selected.sources.indexOf(source.value) > -1"-->
+                    <!--ng-click="toggleSelection(source.value, selected.sources)">-->
+                    <!--{{source.label | capitalize}}-->
+                <!--</md-checkbox>-->
+
+            <!--</div>-->
         </div>
         <div class="mdl-card__actions" mdl-card--border>
             <div layout="row" layout-align="space-between center">
