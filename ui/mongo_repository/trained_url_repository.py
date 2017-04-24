@@ -126,7 +126,7 @@ def get_seeds_udcs_by_source_dao(workspace_id, source):
         .distinct("udc")
 
     docs = list(res)
-    return docs
+    return sorted(docs)
 
 
 def get_seeds_urls_by_workspace_dao(workspace_id):

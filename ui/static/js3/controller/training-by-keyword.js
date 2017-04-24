@@ -125,6 +125,8 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
     }
 
 
+    $scope.udcsDirty = false;
+
 	$scope.getMoreSeedUrls = function(){
 		seedUrlFactory.get($scope.master.workspaceId, $scope.source, $scope.filters, $scope.lastId)
 		.then(function (response) {
@@ -158,7 +160,8 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
                     ){
                         $scope.updateSeedUrl(newValue);
                         if(newValue.udc != oldValue.udc){
-                            $scope.refreshUdc();
+//                            $scope.refreshUdc();
+                            $scope.udcsDirty = true;
                         }
                     }
                     else{
@@ -171,7 +174,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
 			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-            $scope.refreshUdc()
+//            $scope.refreshUdc()
 		},
 		function (response) {
 		});
@@ -180,7 +183,12 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
     $scope.updateSeedUrl = function(seedUrl){
         seedUrlFactory.update($scope.master.workspaceId, seedUrl._id, seedUrl.relevant, seedUrl.categories, seedUrl.udc)
-        .then(function(){}, function(){})
+        .then(function(){
+            if($scope.udcsDirty){
+                $scope.refreshUdc();
+               $scope.udcsDirty = false;
+            }
+        }, function(){})
     }
 
 
