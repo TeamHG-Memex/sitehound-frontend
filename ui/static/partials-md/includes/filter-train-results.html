@@ -32,7 +32,7 @@
                         <!--Failed-->
                     <!--</md-checkbox>-->
                      <md-checkbox
-                            ng-repeat="relevance in catalog.relevances"
+                            ng-repeat="relevance in master.catalog.relevances"
                             value="{{relevance.label}}"
                             aria-label="{{relevance.label}}"
                             ng-checked="filters.relevances.indexOf(relevance.value) > -1"
@@ -68,7 +68,7 @@
                     <!--<div layout="row" >-->
                 <div style="padding:15px">
                         <md-checkbox
-                            ng-repeat="category in catalog.categories"
+                            ng-repeat="category in master.catalog.categories"
                             value="{{category}}"
                             ng-checked="filters.categories.indexOf(category) > -1"
                             ng-click="toggleSelection(category, filters.categories)">
@@ -109,7 +109,7 @@
             <div layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
                 </div>
-                <md-button class="md-primary md-raised" ng-click="fetchFiltered()" >Apply</md-button>
+                <md-button class="md-primary md-raised" ng-click="getSeedUrls()" >Apply</md-button>
             </div>
         </div>
     </div>

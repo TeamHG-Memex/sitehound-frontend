@@ -163,15 +163,15 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'trainingByUrlController',
 				templateUrl: '/static/partials-md/training-by-url-md.html'
 			})
-		.when('/crawling',
-			{
-				controller: 'welcomeController',
-				templateUrl: '/static/partials-md/overview-md.html'
-			})
 		.when('/deep-web',
 			{
 				controller: 'trainingDeepWebController',
 				templateUrl: '/static/partials-md/training-deep-web-md.html'
+			})
+		.when('/ml-crawling',
+			{
+				controller: 'mlCrawlingController',
+				templateUrl: '/static/partials-md/ml-crawling-md.html'
 			})
 		.when('/feature-extraction',
 			{

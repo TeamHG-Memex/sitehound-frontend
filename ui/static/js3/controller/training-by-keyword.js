@@ -1,98 +1,41 @@
-ngApp.controller('trainingByKeywordController', ['$scope', '$filter', '$mdConstant', 'seedFactory', 'fetchService','seedUrlFactory', 'trainingService',
-function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, trainingService, $mdDialog) {
-
-	/** Fetch pages */
-	$scope.seedUrls = [];
-	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
-//	$scope.crawlStatusBusy = false;
-    $scope.source = "searchengine";
-
-	$scope.fetchFiltered = function(){
-		$scope.getSeedUrls();
-	}
+ngApp.controller('trainingByKeywordController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService',
+function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, $mdDialog) {
 
 
+    /* catalog */
+    $scope.catalog = {};
+    $scope.catalog.udcs = [];
 
-/* Filters */
-
+    /* Filters */
     $scope.filters = {};
 	$scope.filters.relevances = [];
 	$scope.filters.categories = [];
 	$scope.filters.udcs = [];
 
 
-/* Catalogs */
-/*
-    $scope.catalog = {};
-
-    $scope.catalog.relevances = [
-      { label: 'relevant', value: true },
-      { label: 'neutral', value: null },
-      { label: 'irrelevant', value: false},
-    ];
-
-    $scope.catalog.categories1= ['FORUM', 'NEWS'];
-    $scope.catalog.categories2 = ['BLOG', 'SHOPPING'];
-    $scope.catalog.categories = $scope.catalog.categories1.concat($scope.catalog.categories2);
-
-
-    $scope.catalog.udcs = [];
-*/
-
-//    $scope.refreshUdc = function(){
-//        seedUrlFactory.getUdcs($scope.master.workspaceId, $scope.source).then(
-//            function(response){
-//                $scope.catalog.udcs = response.data;
-//            },
-//            function(){
-//                console.log("fetch udcs failed");
-//            }
-//        );
-//    };
-
-
-
-    $scope.catalog = {};
-    $scope.catalog.relevances = $scope.master.catalog.relevances;
-    $scope.catalog.categories1= $scope.master.catalog.categories1;
-    $scope.catalog.categories2 = $scope.master.catalog.categories2;
-    $scope.catalog.udcs = $scope.master.catalog.udcs;
-
-
-    function refreshUdcOnSuccess(response){
-        $scope.catalog.udcs = response.data;
-    }
-
-    trainingService.refreshUdc($scope.master.workspaceId, $scope.source, refreshUdcOnSuccess);
-
-
-
-	/** BEGIN GENERATE SE FETCH**/
-//	$scope.selected = {};
-//	$scope.selected.sources = [];
-
-//	$scope.sources = {};
-//	$scope.sources.searchengine= {};
-//	$scope.sources.twitter = {};
-//
-//	$scope.sources.searchengine.checked = true;
-//	$scope.sources.twitter.checked = true;
+	/** BEGIN GENERATE SE**/
 
 	$scope.generateSeedUrls = function(){
 		$scope.errorMessage = "";
 		$scope.loading = true;
+
+    $scope.sources = {};
+    $scope.sources.searchengine = {}
+    $scope.sources.searchengine.checked = true;
+
 
 		var nResults = 30;
 		var crawlProvider = "HH_JOOGLE";
 
 		var crawlSources = [];
 
+
 		if($scope.sources.searchengine.checked){
 			crawlSources.push('SE');
 		}
-		if($scope.sources.twitter.checked){
-			crawlSources.push('TWITTER');
-		}
+//		if($scope.sources.twitter.checked){
+//			crawlSources.push('TWITTER');
+//		}
 //		else if($scope.source == 'tor'){
 //			crawlSources.push('TOR');
 //		}
@@ -116,12 +59,23 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 	}
 
 
+	/** Fetch pages */
+	$scope.seedUrls = [];
+    $scope.source = "searchengine";
+	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
+
     $scope.getSeedUrls = function(){
         $scope.seedUrls = [];
         $scope.lastId = null;
         $scope.getMoreSeedUrls();
     }
 
+
+    function refreshUdcOnSuccess(response){
+        $scope.catalog.udcs = response.data;
+    }
+
+    trainingService.refreshUdc($scope.master.workspaceId, $scope.source, refreshUdcOnSuccess);
 
 
 	$scope.getMoreSeedUrls = function(){

@@ -129,7 +129,7 @@
                     <div layout="row" style="margin-bottom:10px">
                            <md-radio-group ng-model="elem.relevant" layout="row" >
                                            <!--class="md-primary" -->
-                                <md-radio-button ng-repeat="d in catalog.relevances"
+                                <md-radio-button ng-repeat="d in master.catalog.relevances"
                                                  ng-value="d.value"
                                                  ng-disabled=" d.isDisabled ">
                                                  <!--ng-class="{'md-align-top-left': $index==1}" -->
@@ -144,7 +144,7 @@
                 <div layout="row" layout-align="space-around center" style="margin-top:10px">
                     <div layout="column" >
                         <md-checkbox
-                            ng-repeat="category in catalog.categories1"
+                            ng-repeat="category in master.catalog.categories1"
                             value="{{category}}"
                             ng-checked="elem.categories.indexOf(category) > -1"
                             ng-click="toggleSelection(category, elem.categories)">
@@ -153,7 +153,7 @@
                     </div>
                     <div layout="column">
                         <md-checkbox
-                            ng-repeat="category in catalog.categories2"
+                            ng-repeat="category in master.catalog.categories2"
                             value="{{category}}"
                             ng-checked="elem.categories.indexOf(category) > -1"
                             ng-click="toggleSelection(category, elem.categories)">

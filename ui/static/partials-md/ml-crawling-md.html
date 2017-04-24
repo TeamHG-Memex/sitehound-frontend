@@ -1,0 +1,362 @@
+<section ng-include src="'/static/partials-md/includes/current-workspace.html'" include-replace></section>
+
+
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+  <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <div class="mdl-card__supporting-text">
+      <h4>Machine Learning Assisted Crawling</h4>
+        <p>It takes 4 steps:</p>
+        <ul>
+            <li>Build a Model</li>
+            <li>Train with Deep-Deep</li>
+            <li>Crawl some more documents</li>
+            <li>Broad Crawl using Deep-Deep</li>
+        </ul>
+        <p>Then you can check the results<p>
+      <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
+    </div>
+    <div class="mdl-card__actions">
+      <a href="#" class="mdl-button">Read our features</a>
+    </div>
+  </div>
+  <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
+    <i class="material-icons">more_vert</i>
+  </button>
+  <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
+    <li class="mdl-menu__item">Lorem</li>
+    <li class="mdl-menu__item" disabled>Ipsum</li>
+    <li class="mdl-menu__item">Dolor</li>
+  </ul>
+</section>
+
+
+
+
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <!--<div class="mdl-card__supporting-text mdl-grid mdl-grid&#45;&#45;no-spacing">-->
+        <div class="mdl-card__supporting-text">
+            <h4>1. Build the model</h4>
+            <p>This will build the initial model based on the labeled data provided (either by keywords or by seed urls)</p>
+            <span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="color:red">
+                (Requires a prior training using imported URLs or the SearchEngines Fetch to gather some URLs)
+            </span>
+            <span ng-show='master.workspace.page_model.model' style="color:green; font-size:12px">
+                Initial model completed. You should update it if you label more results from 'Search URLs'.
+            </span>
+        </div>
+        <div class="mdl-card__supporting-text">
+											<div id="classifier-quality-container" style="padding-bottom:20px">
+
+												<div ng-repeat="adviceItem in modelerProgress.advice">
+													<div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
+														<b>{{adviceItem.kind}}!</b>
+															<span ng-repeat="message in adviceItem.messages">
+																{{message.text}}<span ng-show="message.tooltip"data-toggle="tooltip" data-placement="bottom" title="{{message.tooltip}}">
+																	<span class="question glyphicon glyphicon-question-sign"></span>
+																</span>
+																	<!--<script type="text/javascript">-->
+																			<!--$(function () {-->
+																				<!--$('[data-toggle="tooltip"]').tooltip();-->
+																			<!--})-->
+																	<!--</script>-->
+															</span>
+													</div>
+												</div>
+
+												<div style="padding:20px">
+													<a href="javascript:void(0);" ng-show="!showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show more &hellip;</a>
+													<a href="javascript:void(0);" ng-show="showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show less &hellip;</a>
+												</div>
+
+												<div ng-show="showMoreStatus">
+													<div>
+														<dl class="dl-horizontal">
+															<div  ng-repeat="descriptionItem in modelerProgress.description" >
+																<dt>{{descriptionItem.heading}}
+
+																	<span ng-show="['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1" tooltip-trigger data-toggle="tooltip" data-placement="bottom"
+																		  title="{{modelerProgress.tooltips[descriptionItem.heading]}}">
+																		<span class="question glyphicon glyphicon-question-sign"></span>
+																	</span>
+																</dt>
+																<dd>{{descriptionItem.text}}</dd>
+																	<!--<script type="text/javascript">-->
+																			<!--$(function () {-->
+																				<!--$('[data-toggle="tooltip"]').tooltip();-->
+																			<!--})-->
+																	<!--</script>-->
+															</div>
+														</dl>
+													</div>
+													<div style="padding:20px">
+														<a href="javascript:void(0);" ng-show="!showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Show feature weights &hellip;</a>
+														<a href="javascript:void(0);" ng-show="showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Hide feature weights &hellip;</a>
+													</div>
+													<!--<div id="clf-weights" class="collapse weights">-->
+													<div ng-show="showFeatureWeightsStatus" style="padding-left:40px">
+														<table class="eli5-weights" style="border-collapse: collapse; border: none;"
+															ng-show="modelerProgress.weights.pos.length + modelerProgress.weights.neg.length>0"
+														>
+														<thead>
+														<tr style="border: none;">
+															<th style="padding: 0 1em 0 0.5em; text-align: right; border: none;">Weight</th>
+															<th style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">Feature</th>
+														</tr>
+														</thead>
+														<tbody>
+															<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.pos">
+																<td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+																	+<span ng-bind='item["weight"] | number:3'></span>
+																</td>
+																<td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+																	<span ng-bind='item["feature"]'></span>
+																</td>
+															</tr>
+															<tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
+																ng-show="modelerProgress.weights.pos.length>0"
+															>
+																<td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+																	<i>&hellip; {{modelerProgress.weights.pos_remaining}} more positive &hellip;</i>
+																</td>
+															</tr>
+															<tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
+																ng-show="modelerProgress.weights.neg.length>0"
+															>
+																<td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+																	<i>&hellip;  {{modelerProgress.weights.neg_remaining}} more negative &hellip;</i>
+																</td>
+															</tr>
+															<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.neg">
+																<td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+																	<span ng-bind='item["weight"] | number:3'></span>
+																</td>
+																<td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+																	<span ng-bind='item["feature"]'></span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+													</div>
+												</div>
+											</div>
+
+
+        </div>
+
+
+
+        <div class="mdl-card__actions">
+          <!--<a href="#" class="mdl-button">Read our features</a>-->
+        </div>
+        <div class="mdl-card__actions" mdl-card--border>
+            <div layout="row" layout-align="end end">
+                <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
+                </div>
+
+                <md-button class="md-primary md-raised" ng-disabled='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)'
+                         ng-click="startDdModeler()" >
+                    Build Model
+                </md-button> &nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
+    <i class="material-icons">more_vert</i>
+    </button>
+    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
+    <li class="mdl-menu__item">Lorem</li>
+    <li class="mdl-menu__item" disabled>Ipsum</li>
+    <li class="mdl-menu__item">Dolor</li>
+    </ul>
+</section>
+
+
+
+<!--2nd step-->
+
+
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <!--<div class="mdl-card__supporting-text mdl-grid mdl-grid&#45;&#45;no-spacing">-->
+        <div class="mdl-card__supporting-text">
+            <h4>2. Crawl more documents</h4>
+            <p>This will run a crawl using Deep-Deep with the model generated in the step above.</p>
+            <p>You can stop it when you get enough results to label.</p>
+        </div>
+        <div class="mdl-card__supporting-text">
+                <h6><span ng-hide='master.workspace.page_model.model' style="color:red">(Requires an initial model)</span></h6>
+                <div style="padding:10px" ng-hide='trainerProgress==""'>
+                    <div >
+                        <h5>Crawler Progress:</h5>
+                        <h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>
+                    </div>
+                    <h5 ng-show='resultStruct["DD"]["total"]>0'><a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
+                    </h5>
+                </div>
+        </div>
+        <div class="mdl-card__actions">
+          <!--<a href="#" class="mdl-button">Read our features</a>-->
+        </div>
+        <div class="mdl-card__actions" mdl-card--border>
+            <div layout="row" layout-align="end end">
+                <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
+                </div>
+                    <md-button
+                            ng-disabled='!(master.workspace.page_model.model)'
+                            class="md-primary md-raised"
+                            ng-click="startDdTrainer()">
+                        Start Crawler
+                    </md-button>
+                    <md-button
+                            ng-disabled='!(master.workspace.page_model.model)'
+                            class="md-primary md-raised"
+                            ng-click="stopDdTrainer()">
+                        Stop Crawler
+                    </md-button>
+                    <md-button
+                             class="md-danger md-raised"
+                               ng-show='resultStruct["DD"]["total"]>0'
+                               ng-click="resetResults('DD')">
+                        Delete
+                    </md-button>
+            </div>
+        </div>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
+    <i class="material-icons">more_vert</i>
+    </button>
+    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
+    <li class="mdl-menu__item">Lorem</li>
+    <li class="mdl-menu__item" disabled>Ipsum</li>
+    <li class="mdl-menu__item">Dolor</li>
+    </ul>
+</section>
+
+
+
+<!--3er step-->
+
+
+
+
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <!--<div class="mdl-card__supporting-text mdl-grid mdl-grid&#45;&#45;no-spacing">-->
+        <div class="mdl-card__supporting-text">
+            <h4>3. Broad Crawl using Deep-Deep</h4>
+            <p>This will run a extensive and broad crawl using Deep-Deep with the trained set from the step above .</p>
+            <p>You can stop it when you get enough results.</p>
+        </div>
+        <div class="mdl-card__supporting-text">
+                <div style="padding-left:20px">
+                    <div style="padding:10px" ng-hide='broadcrawlerProgress==""'>
+                        <div >
+                            <h5>Broadcrawler Progress:</h5>
+                            <span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
+                        </div>
+                    </div>
+                    <h6><span ng-hide='master.workspace.link_model.model && resultStruct["DD"]["relevant"]>0'
+                            style="color:red">(Requires a previous training with Deep-Deep)</span></h6>
+                    <a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;
+                    <a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;
+                    <a href="" ng-click="navigateToJobs()">View jobs</a>
+                </div>
+        </div>
+        <div class="mdl-card__actions" mdl-card--border>
+            <div layout="row" layout-align="end end">
+                <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
+                </div>
+                    <div>
+                        <md-button
+                                ng-disabled='!(master.workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+                                class="md-primary md-raised"
+                                ng-click="navigateToBroadcrawlNew()">
+                            Start Crawler
+                        </md-button>
+                        <md-button
+                                ng-disabled='!(master.workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+                                class="md-primary md-raised"
+                                ng-click="stopBroadCrawl(master.workspace._id)">
+                            Stop Crawler
+                        </md-button>
+                        <md-button
+                                type="button"
+                                class="md-danger md-raised"
+                                ng-click="resetResults('deepdeep')"
+                                ng-hide="true">
+                            Delete
+                        </md-button>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
+    <i class="material-icons">more_vert</i>
+    </button>
+    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
+    <li class="mdl-menu__item">Lorem</li>
+    <li class="mdl-menu__item" disabled>Ipsum</li>
+    <li class="mdl-menu__item">Dolor</li>
+    </ul>
+</section>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+{{resultStruct}}
+{{master.workspace}}
+
+
+{{modelerProgress}}
+
+
+<!--<section class="section&#45;&#45;center mdl-grid mdl-grid&#45;&#45;no-spacing mdl-shadow&#45;&#45;2dp">-->
+    <!--<div ng-init="postConstruct()"></div>-->
+    <!--<div class="mdl-card mdl-cell mdl-cell&#45;&#45;12-col">-->
+        <!--<div class="mdl-card__supporting-text">-->
+            <!--<h4>Known URLs</h4>-->
+            <!--&lt;!&ndash;<p> Add keywords to include and exclude relevant to the domain you want to discover</p>&ndash;&gt;-->
+            <!--<p>Add known URLs from the subject that you want to discover</p>-->
+            <!--<md-input-container class="md-block">-->
+                <!--&lt;!&ndash;<label>Add known URLs from the domain you want to discover</label>&ndash;&gt;-->
+                <!--<textarea ng-model="upload.urlsToAdd" max-rows="15" md-select-on-focus placeholder="i.e. http://www.google.com"></textarea>-->
+            <!--</md-input-container>-->
+        <!--</div>-->
+        <!--<div class="mdl-card__actions" mdl-card&#45;&#45;border>-->
+            <!--<div layout="row" layout-align="space-between center">-->
+                <!--<div layout="row" layout-align="space-between center">-->
+                    <!--<label style="margin-right:10px">This training set is </label>-->
+                    <!--<md-select id="relevance-combo" ng-model="upload.relevance"  class="md-no-underline" aria-label="Relevance">-->
+                        <!--<md-option value="relevant" selected="selected">Relevant</md-option>-->
+                        <!--<md-option value="irrelevant">Irrelevant</md-option>-->
+                        <!--<md-option value="neutral">Neutral</md-option>-->
+                    <!--</md-select>-->
+                <!--</div>-->
+                <!--<md-button class="md-primary md-raised" ng-click="import()" >Import</md-button>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div class="mdl-card__actions" mdl-card&#45;&#45;border>&ndash;&gt;-->
+            <!--&lt;!&ndash;<a href="#" class="mdl-button">Read our features</a>&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<md-button class="md-primary md-raised" ng-click="import()" >Import</md-button>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn3">-->
+        <!--<i class="material-icons">more_vert</i>-->
+    <!--</button>-->
+    <!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn3">-->
+        <!--<li class="mdl-menu__item">Collapse</li>-->
+        <!--<li class="mdl-menu__item" disabled>Expand</li>-->
+        <!--&lt;!&ndash;<li class="mdl-menu__item">Dolor</li>&ndash;&gt;-->
+    <!--</ul>-->
+<!--</section>-->
+
+<!--<section ng-include src="'/static/partials-md/includes/filter-train-results.html'" ></section>-->
+
+<!--<section ng-include src="'/static/partials-md/includes/train-results.html'"></section>-->
+
+

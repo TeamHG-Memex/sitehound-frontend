@@ -2,7 +2,6 @@ var trainingService = ngApp.factory('trainingService',['seedUrlFactory', functio
 
 	var service = {};
 
-
     service.udcsDirty = false;
 
     service.updateSeedUrl = function(workspaceId, seedUrl, source, refreshUdcOnSuccess){

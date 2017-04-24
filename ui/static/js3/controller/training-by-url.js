@@ -1,90 +1,6 @@
-ngApp.controller('trainingByUrlController', ['$scope', '$filter', 'seedUrlFactory', 'importUrlFactory',
-function ($scope, $filter, seedUrlFactory, importUrlFactory, $mdDialog) {
+ngApp.controller('trainingByUrlController', ['$scope', '$filter', 'seedUrlFactory', 'importUrlFactory', 'fetchService', 'trainingService',
+function ($scope, $filter, seedUrlFactory, importUrlFactory, fetchService, trainingService, $mdDialog) {
 
-	// BEGIN WORKSPACE AREA
-//	$scope.workspaceId = workspaceSelectedService.getSelectedWorkspaceId();
-
-//// check that any workspace was selected
-//	workspaceSelectedService.getSelectedWorkspaceAsync().then(
-//	function(response){
-//		$scope.workspaceName = response.data.name;
-////		$scope.getSeeds();
-//	},
-//	function(response){
-//		console.log(response)
-//		$scope.workspaceName = null;
-//	});
-//	// END WORKSPACE AREA
-
-    $scope.relevantKeywords=[];
-    $scope.irrelevantKeywords=[];
-
-    var originatorEv;
-    $scope.openMenu = function($mdMenu, ev) {
-      originatorEv = ev;
-      $mdMenu.open(ev);
-    };
-
-    $scope.postConstructTimes = 0;
-    $scope.postConstruct = function(){
-
-        console.log("postConstruct - executed");
-        $scope.postConstructTimes = $scope.postConstructTimes + 1;
-    }
-
-
-///
-
-////    from seed-url-source.js
-//	//pagination
-//	$scope.seedUrls = [];
-//	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
-//	$scope.crawlStatusBusy = false;
-//    $scope.source="searchengine";
-//
-//	function getRelevanceSearchObject(){
-//		var relevanceSearchObject = {};
-//		relevanceSearchObject.neutral = $scope.relevancyFilter_Neutral;
-//		relevanceSearchObject.relevant = $scope.relevancyFilter_Relevant;
-//		relevanceSearchObject.irrelevant = $scope.relevancyFilter_Irrelevant;
-//		return relevanceSearchObject;
-//	}
-//
-
-//TODO get seeds with source manual
-//	function getSeedUrls(){
-//        //FIXME until can start this function after the workspae is set
-//        $scope.workspaceId = "5836ef08166f1c63b47693ff"; //workspaceSelectedService.getSelectedWorkspace()
-//		$scope.loading = true;
-//		$scope.errorMessage = "";
-//		$scope.crawlStatusBusy=true;
-//
-//		var onSuccess = function (response) {
-//			console.log("finish fetching seed Urls");
-////			$scope.seedUrls = $.parseJSON(data);
-//			var tempResults = response.data;
-//			angular.forEach(tempResults, function(v){
-//			    v.udcList=[];
-//			});
-//			Array.prototype.push.apply($scope.seedUrls, tempResults);
-//			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-//				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-////			loadWordScore();
-//			$scope.crawlStatusBusy=false;
-//			$scope.loading = false;
-//		};
-//		var onError = function (response) {
-//		    var error = response.data;
-//			$scope.errorMessage = error.message;
-//			$scope.crawlStatusBusy=false;
-//			$scope.loading = false;
-//		};
-////		.finally(function(){
-////		});
-//		seedUrlFactory.get($scope.workspaceId, $scope.source, getRelevanceSearchObject(), $scope.lastId).then(onSuccess, onError);
-//	}
-//
-//	getSeedUrls();
 
 	$scope.upload = {};
 
@@ -95,7 +11,9 @@ function ($scope, $filter, seedUrlFactory, importUrlFactory, $mdDialog) {
 		}
 //		var tOut = $scope.startLoading();
 		importUrlFactory.save($scope.master.workspaceId, $scope.upload.urlsToAdd, $scope.upload.relevance).then(
-			function(){},
+			function(){
+			    $scope.upload.urlsToAdd="";
+			},
 			function(){}
 		)
 //		.success(function (data) {
@@ -113,5 +31,93 @@ function ($scope, $filter, seedUrlFactory, importUrlFactory, $mdDialog) {
 //		})
 
 	}
+
+
+
+
+/* catalog */
+    $scope.catalog = {};
+    $scope.catalog.udcs = [];
+
+/* Filters */
+    $scope.filters = {};
+	$scope.filters.relevances = [];
+	$scope.filters.categories = [];
+	$scope.filters.udcs = [];
+
+
+
+	/** Fetch pages */
+	$scope.seedUrls = [];
+    $scope.source = "imported";
+	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
+
+    $scope.getSeedUrls = function(){
+        $scope.seedUrls = [];
+        $scope.lastId = null;
+        $scope.getMoreSeedUrls();
+    }
+
+
+    function refreshUdcOnSuccess(response){
+        $scope.catalog.udcs = response.data;
+    }
+
+    trainingService.refreshUdc($scope.master.workspaceId, $scope.source, refreshUdcOnSuccess);
+
+
+	$scope.getMoreSeedUrls = function(){
+		seedUrlFactory.get($scope.master.workspaceId, $scope.source, $scope.filters, $scope.lastId)
+		.then(function (response) {
+			console.log("finish fetching seed Urls");
+			var tempResults = response.data;
+			angular.forEach(tempResults, function(tempResult){
+			    if(tempResult.udc == null || tempResult.udc== undefined){
+			        tempResult.udc = [];
+			    }
+			})
+
+            var currentLength = $scope.seedUrls.length;
+
+			Array.prototype.push.apply($scope.seedUrls, tempResults);
+
+            for (var i = currentLength; i < $scope.seedUrls.length; i++) {
+               $scope.$watch('seedUrls[' + i + ']', function (newValue, oldValue) {
+
+                    if(!newValue || !oldValue){
+                        console.log("empty objects change");
+                        return;
+                    }
+
+                    if(
+                        newValue.relevant != oldValue.relevant ||
+                        newValue.categories != oldValue.categories ||
+                        newValue.udc != oldValue.udc
+                    ){
+                        $scope.updateSeedUrl(newValue);
+                        if(newValue.udc != oldValue.udc){
+                            trainingService.udcsDirty = true;
+                        }
+                    }
+                    else{
+                        console.log("unsupported change");
+                    }
+
+               }, true);
+            }
+
+			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
+		},
+		function (response) {
+		});
+	}
+
+
+    $scope.updateSeedUrl = function(seedUrl){
+        trainingService.updateSeedUrl($scope.master.workspaceId, seedUrl, $scope.source, refreshUdcOnSuccess);
+    }
+
+
 
 }]);

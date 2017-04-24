@@ -119,11 +119,11 @@
                 <md-nav-item md-nav-href="#training-by-url" name="training-by-url">
                     <span class="custom-mdl-layout__tab">Train by URLs</span>
                 </md-nav-item>
-                <md-nav-item md-nav-href="#crawling" name="crawling">
-                    <span class="custom-mdl-layout__tab">crawling</span>
-                </md-nav-item>
                 <md-nav-item md-nav-href="#deep-web" name="deep-web">
                     <span class="custom-mdl-layout__tab">deep web</span>
+                </md-nav-item>
+                <md-nav-item md-nav-href="#ml-crawling" name="ML crawling">
+                    <span class="custom-mdl-layout__tab">ML crawling</span>
                 </md-nav-item>
                 <md-nav-item md-nav-click="feature-extraction" name="feature-extraction">
                     <span class="custom-mdl-layout__tab">feature extraction</span>
@@ -147,7 +147,8 @@
             <div class="custom-mdl-layout__tab-panel" ng-view ng-cloack></div>
         </div>
 
-        <ng-include src="'/static/partials-md/footer-mini-md.html'"></ng-include>
+        <!--FIXME: Uncomment this-->
+        <!--<ng-include src="'/static/partials-md/footer-mini-md.html'"></ng-include>-->
 
     </main>
 </div>
@@ -283,6 +284,7 @@
 <script src="{{ url_for('static', filename='js3/controller/training-by-keyword.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/training-by-url.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/training-deep-web.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/ml-crawling.js') }}"></script>
 
 
 

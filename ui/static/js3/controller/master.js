@@ -3,12 +3,12 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 
 	$scope.master = {};
 	$scope.master.workspaceId = $cookies.get("workspaceId");
-
+    $scope.master.workspace = {};
 
 	$scope.master.setWorkspace = function(workspaceId){
 		$scope.master.workspaceId = workspaceId;
 		$cookies.put("workspaceId", workspaceId);
-		$scope.master.reloadWorkspaceName(workspaceId);
+		$scope.master.reloadWorkspace(workspaceId);
 	}
 
 	$scope.master.onRemovedWorkspaceId = function(removedWorkspaceId){
@@ -21,10 +21,11 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 
 
 	//use this when we allow the user to rename the workspace
-	$scope.master.reloadWorkspaceName = function(workspaceId){
+	$scope.master.reloadWorkspace= function(workspaceId){
 		workspaceFactory.getWorkspace(workspaceId).then(
 		function(response){
 			$scope.master.workspaceName = response.data.name;
+			$scope.master.workspace = response.data;
 		},
 		function(response){
 			console.log(response)
@@ -35,7 +36,7 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 
 	//main
 	if($scope.master.workspaceId){
-		$scope.master.reloadWorkspaceName($scope.master.workspaceId);
+		$scope.master.reloadWorkspace($scope.master.workspaceId);
 	}
 
     //catalogs
