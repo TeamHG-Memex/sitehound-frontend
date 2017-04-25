@@ -102,32 +102,41 @@
                     <!--<a class="custom-mdl-layout__tab md-active" href="#/welcome">Welcome</a>-->
                     <span class="custom-mdl-layout__tab md-active" >Welcome</span>
                 </md-nav-item>
+                <md-nav-item md-nav-href="#workspace" name="workspace">
+                    <span class="custom-mdl-layout__tab">Workspaces</span>
+                </md-nav-item>
+                <md-nav-item md-nav-href="#seed-input" name="seed-input">
+                    <span class="custom-mdl-layout__tab">Seed</span>
+                </md-nav-item>
+                <md-nav-item md-nav-href="#label" name="label">
+                    <span class="custom-mdl-layout__tab">Label</span>
+                </md-nav-item>
+                <!--<md-nav-item md-nav-href="#training-by-keyword" name="training-by-keyword">-->
+                    <!--<span class="custom-mdl-layout__tab">Train by keywords</span>-->
+                <!--</md-nav-item>-->
+                <!--<md-nav-item md-nav-href="#training-by-url" name="training-by-url">-->
+                    <!--<span class="custom-mdl-layout__tab">Train by URLs</span>-->
+                <!--</md-nav-item>-->
+                <!--<md-nav-item md-nav-href="#deep-web" name="deep-web">-->
+                    <!--<span class="custom-mdl-layout__tab">deep web</span>-->
+                <!--</md-nav-item>-->
+                <md-nav-item md-nav-href="#ml-crawling" name="ml-crawling">
+                    <span class="custom-mdl-layout__tab">ML crawling</span>
+                </md-nav-item>
+                <md-nav-item md-nav-href="#crawling-results" name="crawling-results">
+                    <span class="custom-mdl-layout__tab">Crawling results</span>
+                </md-nav-item>
+                <md-nav-item md-nav-click="feature-extraction" name="feature-extraction">
+                    <span class="custom-mdl-layout__tab">feature extraction</span>
+                </md-nav-item>
+                <md-nav-item md-nav-href="#dashboard" name="dashboard">
+                    <span class="custom-mdl-layout__tab">Dashboard</span>
+                </md-nav-item>
         		{% if is_admin %}
                 <md-nav-item md-nav-href="#user" name="user">
                     <span class="custom-mdl-layout__tab">Users</span>
                 </md-nav-item>
                 {% endif %}
-                <md-nav-item md-nav-href="#workspace" name="workspace">
-                    <span class="custom-mdl-layout__tab">Workspaces</span>
-                </md-nav-item>
-                <md-nav-item md-nav-href="#dashboard" name="dashboard">
-                    <span class="custom-mdl-layout__tab">Dashboard</span>
-                </md-nav-item>
-                <md-nav-item md-nav-href="#training-by-keyword" name="training-by-keyword">
-                    <span class="custom-mdl-layout__tab">Train by keywords</span>
-                </md-nav-item>
-                <md-nav-item md-nav-href="#training-by-url" name="training-by-url">
-                    <span class="custom-mdl-layout__tab">Train by URLs</span>
-                </md-nav-item>
-                <md-nav-item md-nav-href="#deep-web" name="deep-web">
-                    <span class="custom-mdl-layout__tab">deep web</span>
-                </md-nav-item>
-                <md-nav-item md-nav-href="#ml-crawling" name="ML crawling">
-                    <span class="custom-mdl-layout__tab">ML crawling</span>
-                </md-nav-item>
-                <md-nav-item md-nav-click="feature-extraction" name="feature-extraction">
-                    <span class="custom-mdl-layout__tab">feature extraction</span>
-                </md-nav-item>
                 <!-- these require actual routing with ui-router or ng-route, so they
 				won't work in the demo
 				<md-nav-item md-nav-href="#page4" name="page5">Page Four</md-nav-item>
@@ -281,10 +290,13 @@
 
 <script src="{{ url_for('static', filename='js3/welcome.js') }}"></script>
 
-<script src="{{ url_for('static', filename='js3/controller/training-by-keyword.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/training-by-url.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/training-deep-web.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='js3/controller/training-by-keyword.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/controller/training-by-url.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/controller/training-deep-web.js') }}"></script>-->
 <script src="{{ url_for('static', filename='js3/controller/ml-crawling.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/seed-input.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/label.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/crawling-results.js') }}"></script>
 
 
 

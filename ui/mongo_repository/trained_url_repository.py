@@ -4,38 +4,36 @@ from bson import ObjectId
 from ui.singleton import Singleton
 
 
-def get_seeds_urls_by_source_dao(workspace_id, source, relevances, categories, udcs, last_id):
+
+def get_seeds_urls_by_workspace_dao(workspace_id, sources, relevances, categories, udcs, last_id):
+
+    # collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+    # return list(collection.find({'workspaceId': workspace_id}))
+
+# def get_seeds_urls_by_source_dao(workspace_id, source, relevances, categories, udcs, last_id):
 
     and_condition_list = []
 
-    source_search_conditions = []
-    if source == "searchengine":
-        source_search_conditions.append({'crawlEntityType': "BING"})
-        source_search_conditions.append({'crawlEntityType': "GOOGLE"})
-    elif source == "twitter":
-        source_search_conditions.append({'crawlEntityType': "TWITTER"})
-    elif source == "tor":
-        source_search_conditions.append({'crawlEntityType': "TOR"})
-    elif source == "imported":
-        source_search_conditions.append({'crawlEntityType': "MANUAL"})
-    elif source == "deepdeep":
-        source_search_conditions.append({'crawlEntityType': "DD"})
-    else:
-        print("no valid source was provided:" + source)
-    source_search_object = {'$or': source_search_conditions}
-    and_condition_list.append(source_search_object)
+    #sources
+    if len(sources) > 0:
+        source_search_conditions = []
+        for source in sources:
+            if source == "searchengine":
+                source_search_conditions.append({'crawlEntityType': "BING"})
+                source_search_conditions.append({'crawlEntityType': "GOOGLE"})
+            elif source == "twitter":
+                source_search_conditions.append({'crawlEntityType': "TWITTER"})
+            elif source == "tor":
+                source_search_conditions.append({'crawlEntityType': "TOR"})
+            elif source == "imported":
+                source_search_conditions.append({'crawlEntityType': "MANUAL"})
+            elif source == "deepdeep":
+                source_search_conditions.append({'crawlEntityType': "DD"})
+            else:
+                print("no valid source was provided:" + source)
 
-    # relevance_search_conditions = []
-    # if "neutral" in relevance and relevance['neutral']:
-    #     relevance_search_conditions.append({'relevant': None})
-    # if "relevant" in relevance and relevance['relevant']:
-    #     relevance_search_conditions.append({'relevant': True})
-    # if "irrelevant" in relevance and relevance['irrelevant']:
-    #     relevance_search_conditions.append({'relevant': False})
-    # if len(relevance_search_conditions) > 0:
-    #     relevance_search_object = {'$or': relevance_search_conditions}
-    #     and_condition_list.append(relevance_search_object)
-    #
+        source_search_object = {'$or': source_search_conditions}
+        and_condition_list.append(source_search_object)
 
 
     #relevances
@@ -127,11 +125,6 @@ def get_seeds_udcs_by_source_dao(workspace_id, source):
 
     docs = list(res)
     return sorted(docs)
-
-
-def get_seeds_urls_by_workspace_dao(workspace_id):
-    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
-    return list(collection.find({'workspaceId': workspace_id}))
 
 
 def get_seeds_udcs_by_workspace_dao(workspace_id):

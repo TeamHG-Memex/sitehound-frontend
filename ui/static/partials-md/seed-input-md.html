@@ -1,0 +1,157 @@
+
+
+<div ng-cloak>
+  <md-content >
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="By Keywords">
+        <md-content class="md-padding" style="background-color:white">
+          <!--<h1 class="md-display-2">Tab One</h1>-->
+          <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>-->
+            <div style="padding:8px; padding-top:48px">
+
+                <section ng-include src="'/static/partials-md/includes/current-workspace.html'" include-replace></section>
+
+
+                <section ng-include src="'/static/partials-md/includes/keywords.html'" include-replace></section>
+
+
+                <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                    <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
+                        <i class="material-icons">play_circle_filled</i>
+                    </header>
+                    <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+
+                        <!--Different sources would have separated templates-->
+                        <div class="mdl-card__supporting-text">
+                            <h4>Fetch</h4>
+                             <span class="md-subhead">Select the sources for more pages relevant to the domain.
+                             </span>
+                            <!--<p>-->
+                                <!--Select the sources for more pages relevant to the domain, based on the keywords previously defined and start the getting results.-->
+                            <!--&lt;!&ndash;<p>Search Google and Bing for pages relevant to the domain, based on the keywords previously defined and start the getting results.&ndash;&gt;-->
+                            <!--</p>-->
+                            <div>
+                                 <md-input-container>
+                                    <p>Select the sources:</p>
+                                    <div flex-gt-sm="100">
+                                        <!--<md-checkbox ng-model="sources.searchengine.checked" aria-label="Google">-->
+                                            <!--Google + Bing-->
+                                        <!--</md-checkbox>-->
+                                        <!--<md-checkbox ng-model="sources.twitter.checked" aria-label="Twitter">-->
+                                            <!--Twitter API-->
+                                        <!--</md-checkbox>-->
+                                        <md-checkbox
+                                            ng-repeat="source in master.catalog.keywordSources"
+                                            value="{{source.label}}"
+                                            aria-label="{{source.label}}"
+                                            ng-checked="selected.sources.indexOf(source.value) > -1"
+                                            ng-click="toggleSelection(source.value, selected.sources)">
+                                            {{source.label }}
+                                        </md-checkbox>
+                                    </div>
+                                 </md-input-container>
+                            </div>
+                            <div>
+                                 <md-input-container>
+                                        <p>Number of results &nbsp;&nbsp;</p>
+                                        <md-select id="nResults" name="nResults" ng-model="nResults" aria-label="number of results" >
+                                            <md-option ng-value=50 ng-selected="selected">50</md-option>
+                                            <md-option ng-value=100>100</md-option>
+                                            <md-option ng-value=150>150</md-option>
+                                            <md-option ng-value=200>200</md-option>
+                                        </md-select>
+
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="mdl-card__actions" mdl-card--border>
+                            <div layout="row" layout-align="space-between center">
+                                <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
+                                </div>
+                                <md-button class="md-primary md-raised" ng-click="generateSeedUrls()" >Run</md-button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn1">
+                        <i class="material-icons">more_vert</i>
+                    </button>
+                    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn1">
+                        <li class="mdl-menu__item">Lorem</li>
+                        <li class="mdl-menu__item" disabled>Ipsum</li>
+                        <li class="mdl-menu__item">Dolor</li>
+                    </ul>
+                </section>
+
+
+                <section ng-include src="'/static/partials-md/includes/progress.html'" include-replace></section>
+
+
+                <!--<section ng-include src="'/static/partials-md/includes/filter-train-results.html'" ></section>-->
+
+
+                <!--<section ng-include src="'/static/partials-md/includes/train-results.html'"></section>-->
+
+
+            </div>
+        </md-content>
+      </md-tab>
+      <md-tab label="By URLs">
+        <md-content class="md-padding" style="background-color:white">
+
+            <div style="padding:8px; padding-top:48px">
+                <section ng-include src="'/static/partials-md/includes/current-workspace.html'" include-replace></section>
+
+
+                <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                    <div ng-init="postConstruct()"></div>
+                    <div class="mdl-card mdl-cell mdl-cell--12-col">
+                        <div class="mdl-card__supporting-text">
+                            <h4>Known URLs</h4>
+                            <!--<p> Add keywords to include and exclude relevant to the domain you want to discover</p>-->
+                            <p>Add known URLs from the subject that you want to discover</p>
+                            <md-input-container class="md-block">
+                                <!--<label>Add known URLs from the domain you want to discover</label>-->
+                                <textarea ng-model="upload.urlsToAdd" max-rows="15" md-select-on-focus placeholder="i.e. http://www.google.com"></textarea>
+                            </md-input-container>
+                        </div>
+                        <div class="mdl-card__actions" mdl-card--border>
+                            <div layout="row" layout-align="space-between center">
+                                <div layout="row" layout-align="space-between center">
+                                    <label style="margin-right:10px">This training set is </label>
+                                    <md-select id="relevance-combo" ng-model="upload.relevance"  class="md-no-underline" aria-label="Relevance">
+                                        <md-option value="relevant" selected="selected">Relevant</md-option>
+                                        <md-option value="irrelevant">Irrelevant</md-option>
+                                        <md-option value="neutral">Neutral</md-option>
+                                    </md-select>
+                                </div>
+                                <md-button class="md-primary md-raised" ng-click="import()" >Import</md-button>
+                            </div>
+                        </div>
+                        <!--<div class="mdl-card__actions" mdl-card&#45;&#45;border>-->
+                            <!--<a href="#" class="mdl-button">Read our features</a>-->
+                            <!--&lt;!&ndash;<md-button class="md-primary md-raised" ng-click="import()" >Import</md-button>&ndash;&gt;-->
+                        <!--</div>-->
+                    </div>
+                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
+                        <i class="material-icons">more_vert</i>
+                    </button>
+                    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
+                        <li class="mdl-menu__item">Collapse</li>
+                        <li class="mdl-menu__item" disabled>Expand</li>
+                        <!--<li class="mdl-menu__item">Dolor</li>-->
+                    </ul>
+                </section>
+
+                <section ng-include src="'/static/partials-md/includes/progress.html'" include-replace></section>
+
+                <!--<section ng-include src="'/static/partials-md/includes/filter-train-results.html'" ></section>-->
+
+                <!--<section ng-include src="'/static/partials-md/includes/train-results.html'"></section>-->
+
+            </div>
+
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>

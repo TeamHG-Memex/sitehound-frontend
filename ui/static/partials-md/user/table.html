@@ -1,146 +1,147 @@
+<div style="padding:8px; padding-top:48px">
+	<md-content flex md-scroll-y class="md-default-theme" id="homeContent">
+		<!--<ui-view layout="column" layout-fill layout-padding>-->
+			<div layout="column" flex>
 
-<md-content flex md-scroll-y class="md-default-theme" id="homeContent">
-	<!--<ui-view layout="column" layout-fill layout-padding>-->
-		<div layout="column" flex>
+				<!--<md-toolbar class="md-table-toolbar md-default">-->
+					<!--<div class="md-toolbar-tools">-->
+						<!--<div flex></div>-->
+						<!--<h4>Show only domains submitted by me &nbsp;</h4>-->
+						  <!--<md-switch ng-model="filter.showOnlyMines" aria-label="Switch 6" ng-change="toggleShowOnlyMines()">-->
+						  <!--</md-switch>-->
+					<!--</div>-->
+				<!--</md-toolbar>-->
 
-			<!--<md-toolbar class="md-table-toolbar md-default">-->
-				<!--<div class="md-toolbar-tools">-->
-					<!--<div flex></div>-->
-					<!--<h4>Show only domains submitted by me &nbsp;</h4>-->
-					  <!--<md-switch ng-model="filter.showOnlyMines" aria-label="Switch 6" ng-change="toggleShowOnlyMines()">-->
-					  <!--</md-switch>-->
-				<!--</div>-->
-			<!--</md-toolbar>-->
+				<!--<md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">-->
+				<md-toolbar class="md-table-toolbar md-default">
+					<div class="md-toolbar-tools">
+						<h2 class="md-title">Users</h2>
+						<div flex></div>
+						<!--<md-button class="md-icon-button" ng-click="filter.show = true">-->
+							<!--<md-icon>filter_list</md-icon>-->
+						<!--</md-button>-->
+						<!--<md-button class="md-icon-button" ng-click="addItem($event)">-->
+							<!--<md-icon>local_dining</md-icon>-->
+						<!--</md-button>-->
+									   <!--ng-click="$mdAddDialog.large(options);"-->
+							<md-button class="md-primary md-raised" style="color:white"
+							ng-click="openModalAdd($event)"
+							>New</md-button>
+					</div>
+				</md-toolbar>
 
-			<!--<md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">-->
-			<md-toolbar class="md-table-toolbar md-default">
-				<div class="md-toolbar-tools">
-					<h2 class="md-title">Users</h2>
-					<div flex></div>
-					<!--<md-button class="md-icon-button" ng-click="filter.show = true">-->
-						<!--<md-icon>filter_list</md-icon>-->
-					<!--</md-button>-->
-					<!--<md-button class="md-icon-button" ng-click="addItem($event)">-->
-						<!--<md-icon>local_dining</md-icon>-->
-					<!--</md-button>-->
-								   <!--ng-click="$mdAddDialog.large(options);"-->
-						<md-button class="md-primary md-raised" style="color:white"
-						ng-click="openModalAdd($event)"
-						>New</md-button>
-				</div>
-			</md-toolbar>
+				<!--<md-toolbar class="md-table-toolbar md-default" ng-show="filter.show && !selected.length">-->
+					<!--<div class="md-toolbar-tools">-->
+						<!--<md-icon>search</md-icon>-->
+						<!--<form flex name="filter.form">-->
+							<!--<input type="text" ng-model="query.filter" ng-model-options="filter.options" md-minlength="20" placeholder="search">-->
+						<!--</form>-->
+						<!--<md-button class="md-icon-button" ng-click="removeFilter()">-->
+							<!--<md-icon>close</md-icon>-->
+						<!--</md-button>-->
+					<!--</div>-->
+				<!--</md-toolbar>-->
 
-			<!--<md-toolbar class="md-table-toolbar md-default" ng-show="filter.show && !selected.length">-->
-				<!--<div class="md-toolbar-tools">-->
-					<!--<md-icon>search</md-icon>-->
-					<!--<form flex name="filter.form">-->
-						<!--<input type="text" ng-model="query.filter" ng-model-options="filter.options" md-minlength="20" placeholder="search">-->
-					<!--</form>-->
-					<!--<md-button class="md-icon-button" ng-click="removeFilter()">-->
-						<!--<md-icon>close</md-icon>-->
-					<!--</md-button>-->
-				<!--</div>-->
-			<!--</md-toolbar>-->
-
-			<!--<md-toolbar class="md-table-toolbar alternate" ng-show="selected.length">-->
-			<!--&lt;!&ndash;<md-toolbar class="md-table-toolbar" ng-show="selected.length">&ndash;&gt;-->
-				<!--<div class="md-toolbar-tools" layout-align="space-between"  layout-padding>-->
-					<!--<div>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</div>-->
-					<!--<md-button class="md-icon-button" ng-click="delete($event)">-->
-						<!--<md-icon class="delete">delete</md-icon>-->
-					<!--</md-button>-->
-				<!--</div>-->
-			<!--</md-toolbar>-->
+				<!--<md-toolbar class="md-table-toolbar alternate" ng-show="selected.length">-->
+				<!--&lt;!&ndash;<md-toolbar class="md-table-toolbar" ng-show="selected.length">&ndash;&gt;-->
+					<!--<div class="md-toolbar-tools" layout-align="space-between"  layout-padding>-->
+						<!--<div>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</div>-->
+						<!--<md-button class="md-icon-button" ng-click="delete($event)">-->
+							<!--<md-icon class="delete">delete</md-icon>-->
+						<!--</md-button>-->
+					<!--</div>-->
+				<!--</md-toolbar>-->
 
 
-			<!--ADMIN'S VIEW-->
-			<md-table-container>
-				<table md-table ng-model="selected" md-progress="promise">
+				<!--ADMIN'S VIEW-->
+				<md-table-container>
+					<table md-table ng-model="selected" md-progress="promise">
 
-					<thead md-head md-order="query.order" md-on-reorder="onReorder">
-					<!--<tr md-row>-->
-						<!--<th md-column md-order-by="_id"><span>Id</span></th>-->
-						<!--<th md-column md-order-by="name"><span>Name</span></th>-->
-						<!--<th md-column md-order-by="created">Date Created</th>-->
-						<!--<th md-column >Keywords</th>-->
-						<!--&lt;!&ndash;<th md-column md-order-by="scanTimestamp">Scan Timestamp</th>&ndash;&gt;-->
-						<!--&lt;!&ndash;<th md-column 							>Seeds</th>&ndash;&gt;-->
-						<!--&lt;!&ndash;<th md-column 							>Comments</th>&ndash;&gt;-->
-					<!--</tr>-->
-					<tr md-row>
-						<!--<th md-column md-order-by="_id" width="2%">#</th>-->
-						<th md-column>Email</th>
-						<th md-column>Role</th>
-						<th md-column>Login Count</th>
-						<th md-column>Login At</th>
-						<th md-column>Login IP</th>
-						<!--<th>Last Login At</th>-->
-						<!--<th>Last Login IP</th>-->
-						<th md-column>Active</th>
-						<th>&nbsp;</th>
-					</tr>
-					</thead>
-					<tbody md-body>
-					<!--<tr md-row md-select="user" md-select-id="_id" ng-repeat="user in users" md-on-select="mdOnSelect">-->
-						<!--<td md-cell >{{workspace._id}}</td>-->
-						<!--<td md-cell ng-click="editComment($event, workspace)">{{workspace.name}} &nbsp;</td>-->
-						<!--<td md-cell>{{workspace.created}}</td>-->
-						<!--<td md-cell>{{prettyPrintWords(workspace.words)}}</td>-->
-						<!--<td md-cell>-->
-							<!--<md-button class="md-warn md-raised md-hue-1" ng-click="delete(workspace._id, workspace.name)"> Delete</md-button>-->
-						<!--</td>-->
-					<!--</tr>-->
-					<tr md-row md-select="user" md-select-id="_id" ng-repeat="user in users track by $index"  md-on-select="mdOnSelect">
-						<!--<td scope="row" class="selectionable" >{{ $index + 1 }}</td>-->
-						<td md-cell>{{ user.email }}</td>
-						<td md-cell ng-click="editComment($event, user)">
-							{{user.isAdmin && "Admin" || "User" }}
-							&nbsp;</td>
-						<td md-cell>{{ user.login_count }}</td>
-						<td md-cell>{{ user.current_login_at }}</td>
-						<td md-cell>{{ user.current_login_ip }}</td>
-						<!--<td>-->
-							<!--<div>-->
-								<!--<a href="#" editable-checkbox="users[$index].active" e-title="Activate?"-->
-								<!--onaftersave="activate(user._id, user.email, users[$index].active)">-->
-									<!--{{ users[$index].active && "Active" || "Locked" }}-->
+						<thead md-head md-order="query.order" md-on-reorder="onReorder">
+						<!--<tr md-row>-->
+							<!--<th md-column md-order-by="_id"><span>Id</span></th>-->
+							<!--<th md-column md-order-by="name"><span>Name</span></th>-->
+							<!--<th md-column md-order-by="created">Date Created</th>-->
+							<!--<th md-column >Keywords</th>-->
+							<!--&lt;!&ndash;<th md-column md-order-by="scanTimestamp">Scan Timestamp</th>&ndash;&gt;-->
+							<!--&lt;!&ndash;<th md-column 							>Seeds</th>&ndash;&gt;-->
+							<!--&lt;!&ndash;<th md-column 							>Comments</th>&ndash;&gt;-->
+						<!--</tr>-->
+						<tr md-row>
+							<!--<th md-column md-order-by="_id" width="2%">#</th>-->
+							<th md-column>Email</th>
+							<th md-column>Role</th>
+							<th md-column>Login Count</th>
+							<th md-column>Login At</th>
+							<th md-column>Login IP</th>
+							<!--<th>Last Login At</th>-->
+							<!--<th>Last Login IP</th>-->
+							<th md-column>Active</th>
+							<th>&nbsp;</th>
+						</tr>
+						</thead>
+						<tbody md-body>
+						<!--<tr md-row md-select="user" md-select-id="_id" ng-repeat="user in users" md-on-select="mdOnSelect">-->
+							<!--<td md-cell >{{workspace._id}}</td>-->
+							<!--<td md-cell ng-click="editComment($event, workspace)">{{workspace.name}} &nbsp;</td>-->
+							<!--<td md-cell>{{workspace.created}}</td>-->
+							<!--<td md-cell>{{prettyPrintWords(workspace.words)}}</td>-->
+							<!--<td md-cell>-->
+								<!--<md-button class="md-warn md-raised md-hue-1" ng-click="delete(workspace._id, workspace.name)"> Delete</md-button>-->
+							<!--</td>-->
+						<!--</tr>-->
+						<tr md-row md-select="user" md-select-id="_id" ng-repeat="user in users track by $index"  md-on-select="mdOnSelect">
+							<!--<td scope="row" class="selectionable" >{{ $index + 1 }}</td>-->
+							<td md-cell>{{ user.email }}</td>
+							<td md-cell ng-click="editComment($event, user)">
+								{{user.isAdmin && "Admin" || "User" }}
+								&nbsp;</td>
+							<td md-cell>{{ user.login_count }}</td>
+							<td md-cell>{{ user.current_login_at }}</td>
+							<td md-cell>{{ user.current_login_ip }}</td>
+							<!--<td>-->
+								<!--<div>-->
+									<!--<a href="#" editable-checkbox="users[$index].active" e-title="Activate?"-->
+									<!--onaftersave="activate(user._id, user.email, users[$index].active)">-->
+										<!--{{ users[$index].active && "Active" || "Locked" }}-->
+									<!--</a>-->
+								<!--</div>-->
+							<!--</td>-->
+							<td md-cell ng-click="activate(user._id, user.email, users[$index].active)">
+								{{ users[$index].active && "Active" || "Locked" }}
+							</td>
+							<td md-cell>
+								<a href="" ng-click="openModalEdit(user)">
+									<i class="material-icons">mode_edit</i>
+								</a>
+							</td>
+							<td md-cell>
+								<a href="" ng-click="openModalDelete(user)">
+									<i class="material-icons">delete</i>
+								</a>
+
+								<!--<md-button class="md-warn md-raised md-hue-1" ng-click="loadDeleteModal(user)"> Delete</md-button>-->
+							</td>
+
+							<!--<td>-->
+								<!--<a>-->
+									<!--<span class="glyphicon glyphicon-trash" title="remove" ng-click="loadDeleteModal(user)"></span>-->
 								<!--</a>-->
-							<!--</div>-->
-						<!--</td>-->
-						<td md-cell ng-click="activate(user._id, user.email, users[$index].active)">
-							{{ users[$index].active && "Active" || "Locked" }}
-						</td>
-						<td md-cell>
-							<a href="" ng-click="openModalEdit(user)">
-								<i class="material-icons">mode_edit</i>
-							</a>
-						</td>
-						<td md-cell>
-							<a href="" ng-click="openModalDelete(user)">
-								<i class="material-icons">delete</i>
-							</a>
+							<!--</td>-->
+						</tr>
+						</tbody>
+						<tfoot md-foot>
+						<tr md-row>
+							<td md-cell></td>
+							<td md-cell><strong>Total: &nbsp;&nbsp;&nbsp;{{users.length}}</strong></td>
+							<td md-cell colspan="10"></td>
+						</tr>
+						</tfoot>
+					</table>
+				</md-table-container>
 
-							<!--<md-button class="md-warn md-raised md-hue-1" ng-click="loadDeleteModal(user)"> Delete</md-button>-->
-						</td>
-
-						<!--<td>-->
-							<!--<a>-->
-								<!--<span class="glyphicon glyphicon-trash" title="remove" ng-click="loadDeleteModal(user)"></span>-->
-							<!--</a>-->
-						<!--</td>-->
-					</tr>
-					</tbody>
-					<tfoot md-foot>
-					<tr md-row>
-						<td md-cell></td>
-						<td md-cell><strong>Total: &nbsp;&nbsp;&nbsp;{{users.length}}</strong></td>
-						<td md-cell colspan="10"></td>
-					</tr>
-					</tfoot>
-				</table>
-			</md-table-container>
-
-			<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{users.length}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
-		</div>
-	<!--</ui-view>-->
-</md-content>
+				<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{users.length}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+			</div>
+		<!--</ui-view>-->
+	</md-content>
+</div>

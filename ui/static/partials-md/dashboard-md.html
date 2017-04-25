@@ -1,251 +1,253 @@
-<ng-include src="'/static/partials-md/includes/current-workspace.html'"></ng-include>
+<div style="padding:8px; padding-top:48px">
+    <ng-include src="'/static/partials-md/includes/current-workspace.html'"></ng-include>
 
-<section ng-show="master.workspaceName!=null" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-    <div class="mdl-card mdl-cell mdl-cell--12-col">
-        <div class="mdl-card__supporting-text">
-            <h4>Training Stats</h4>
+    <section ng-show="master.workspaceName!=null" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+        <div class="mdl-card mdl-cell mdl-cell--12-col">
+            <div class="mdl-card__supporting-text">
+                <h4>Training Stats</h4>
 
-            <div style="padding:15px">
-                <table>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>Relevant</td>
-                        <td>Irrelevant</td>
-                        <td>Neutral</td>
-                        <td>Failed</td>
-                        <td>Total</td>
-                    </tr>
-                    <tr>
-                        <td>Training by keywords</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Training by URLs</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>9</td>
-                        <td>20</td>
-                    </tr>
-                    <tr>
-                        <td>Training by Deep Web</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>9</td>
-                        <td>20</td>
-                    </tr>
-
-                </table>
-            </div>
-        </div>
-        <div class="mdl-card__actions">
-            <a href="#" class="mdl-button">Read our features</a>
-        </div>
-    </div>
-    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
-        <i class="material-icons">more_vert</i>
-    </button>
-    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
-        <li class="mdl-menu__item">Lorem</li>
-        <li class="mdl-menu__item" disabled>Ipsum</li>
-        <li class="mdl-menu__item">Dolor</li>
-    </ul>
-</section>
-
-
-
-<section ng-show="master.workspaceName!=null" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-    <div class="mdl-card mdl-cell mdl-cell--12-col">
-        <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
-            <h4 class="mdl-cell mdl-cell--12-col">Training Stats</h4>
-            <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-            <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
-            <!--</div>-->
-
-            <!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
-            <!--<h5>Total URLs fetched</h5>-->
-            <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
-            <!--</div>-->
-            <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-            <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
-            <!--</div>-->
-
-            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                <h5>By Relevance</h5>
                 <div style="padding:15px">
                     <table>
                         <tr>
                             <td>&nbsp;</td>
-                            <td>Training by keywords</td>
-                            <td>Training by URLs</td>
-                            <td>Training by Deep Web</td>
-                            <td>Total</td>
-                        </tr>
-                        <tr>
                             <td>Relevant</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
                             <td>Irrelevant</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>9</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
                             <td>Neutral</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>9</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
                             <td>Failed</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>9</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
                             <td>Total</td>
-                            <td>200</td>
-                            <td>300</td>
-                            <td>400</td>
-                            <td>900</td>
                         </tr>
-                    </table>
-                </div>
-
-                <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
-            </div>
-            <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-            <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
-            <!--</div>-->
-            <br>
-            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                <br>
-                <h5>By page type classification</h5>
-
-                <div style="padding:15px">
-                    <table>
                         <tr>
-                            <td>&nbsp;</td>
                             <td>Training by keywords</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
                             <td>Training by URLs</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>9</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
                             <td>Training by Deep Web</td>
-                            <td>Total</td>
-                        </tr>
-                        <tr>
-                            <td>Forum</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>Blog</td>
+                            <td>2</td>
                             <td>3</td>
                             <td>4</td>
                             <td>9</td>
                             <td>20</td>
                         </tr>
-                        <tr>
-                            <td>News</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>9</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>Classified</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>9</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>Total</td>
-                            <td>200</td>
-                            <td>300</td>
-                            <td>400</td>
-                            <td>900</td>
-                        </tr>
+
                     </table>
                 </div>
-
-
-                <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
             </div>
-            <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
-            <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
-            <!--</div>-->
-            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                <br>
-                <h5>By User Defined Categories</h5>
-                URL's are classified and be filtered according to tags created by the user:
-
-                <div style="padding:15px">
-                    <table>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>Training by keywords</td>
-                            <td>Training by URLs</td>
-                            <td>Training by Deep Web</td>
-                            <td>Total</td>
-                        </tr>
-                        <tr>
-                            <td>Local</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>Remote</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>9</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>International</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>9</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>Total</td>
-                            <td>200</td>
-                            <td>300</td>
-                            <td>400</td>
-                            <td>900</td>
-                        </tr>
-                    </table>
-                </div>
-
-
-                <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+            <div class="mdl-card__actions">
+                <a href="#" class="mdl-button">Read our features</a>
             </div>
         </div>
-        <div class="mdl-card__actions">
-            <a href="#" class="mdl-button">Read our features</a>
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
+            <i class="material-icons">more_vert</i>
+        </button>
+        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
+            <li class="mdl-menu__item">Lorem</li>
+            <li class="mdl-menu__item" disabled>Ipsum</li>
+            <li class="mdl-menu__item">Dolor</li>
+        </ul>
+    </section>
+
+
+
+    <section ng-show="master.workspaceName!=null" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+        <div class="mdl-card mdl-cell mdl-cell--12-col">
+            <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+                <h4 class="mdl-cell mdl-cell--12-col">Training Stats</h4>
+                <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+                <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
+                <!--</div>-->
+
+                <!--<div class="section__text mdl-cell mdl-cell&#45;&#45;10-col-desktop mdl-cell&#45;&#45;6-col-tablet mdl-cell&#45;&#45;3-col-phone">-->
+                <!--<h5>Total URLs fetched</h5>-->
+                <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+                <!--</div>-->
+                <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+                <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
+                <!--</div>-->
+
+                <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                    <h5>By Relevance</h5>
+                    <div style="padding:15px">
+                        <table>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>Training by keywords</td>
+                                <td>Training by URLs</td>
+                                <td>Training by Deep Web</td>
+                                <td>Total</td>
+                            </tr>
+                            <tr>
+                                <td>Relevant</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>Irrelevant</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>Neutral</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>Failed</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>200</td>
+                                <td>300</td>
+                                <td>400</td>
+                                <td>900</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+                </div>
+                <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+                <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
+                <!--</div>-->
+                <br>
+                <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                    <br>
+                    <h5>By page type classification</h5>
+
+                    <div style="padding:15px">
+                        <table>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>Training by keywords</td>
+                                <td>Training by URLs</td>
+                                <td>Training by Deep Web</td>
+                                <td>Total</td>
+                            </tr>
+                            <tr>
+                                <td>Forum</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>Blog</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>News</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>Classified</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>200</td>
+                                <td>300</td>
+                                <td>400</td>
+                                <td>900</td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                    <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+                </div>
+                <!--<div class="section__circle-container mdl-cell mdl-cell&#45;&#45;2-col mdl-cell&#45;&#45;1-col-phone">-->
+                <!--<div class="section__circle-container__circle mdl-color&#45;&#45;primary"></div>-->
+                <!--</div>-->
+                <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                    <br>
+                    <h5>By User Defined Categories</h5>
+                    URL's are classified and be filtered according to tags created by the user:
+
+                    <div style="padding:15px">
+                        <table>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>Training by keywords</td>
+                                <td>Training by URLs</td>
+                                <td>Training by Deep Web</td>
+                                <td>Total</td>
+                            </tr>
+                            <tr>
+                                <td>Local</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>Remote</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>International</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>200</td>
+                                <td>300</td>
+                                <td>400</td>
+                                <td>900</td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                    <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.-->
+                </div>
+            </div>
+            <div class="mdl-card__actions">
+                <a href="#" class="mdl-button">Read our features</a>
+            </div>
         </div>
-    </div>
-    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn2">
-        <i class="material-icons">more_vert</i>
-    </button>
-    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn2">
-        <li class="mdl-menu__item">Lorem</li>
-        <li class="mdl-menu__item" disabled>Ipsum</li>
-        <li class="mdl-menu__item">Dolor</li>
-    </ul>
-</section>
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn2">
+            <i class="material-icons">more_vert</i>
+        </button>
+        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn2">
+            <li class="mdl-menu__item">Lorem</li>
+            <li class="mdl-menu__item" disabled>Ipsum</li>
+            <li class="mdl-menu__item">Dolor</li>
+        </ul>
+    </section>
+</div>

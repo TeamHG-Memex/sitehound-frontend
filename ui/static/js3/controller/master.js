@@ -56,7 +56,16 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 
     $scope.master.catalog.sources=[
       { label: 'Google + Bing', value: 'searchengine' },
+      { label: 'Manual', value: 'imported' },
       { label: 'Twitter API', value: 'twitter' },
+      { label: 'Deep Web', value: 'tor' },
+      { label: 'Deep Deep', value: 'deepdeep' },
+    ];
+
+    $scope.master.catalog.keywordSources=[
+      { label: 'Google + Bing', value: 'SE' },
+      { label: 'Twitter API', value: 'TWITTER' },
+      { label: 'Deep Web', value: 'TOR' },
     ];
 
     $scope.toggleSelection = function toggleSelection(elem, list) {

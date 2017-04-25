@@ -82,9 +82,6 @@ ngApp.controller('workspaceController',
     };
 
     $scope.mdOnSelect = function (workspaceId){
-//        $scope.master.workspaceId = workspaceId;
-//        workspaceSelectedService.setSelectedWorkspaceId(workspaceId);
-			debugger;
 		$scope.master.setWorkspace(workspaceId);
     }
 

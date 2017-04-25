@@ -12,26 +12,44 @@ from utils.json_encoder import JSONEncoder
 
 from service.seed_url_service \
     import add_known_urls_handler, schedule_spider_searchengine, update_seeds_urls_relevance, \
-    update_seeds_url_relevancy, delete_seeds_url, get_seeds_urls_by_source, reset_results, \
+    update_seeds_url_relevancy, delete_seeds_url, reset_results, \
     get_seeds_urls_by_workspace, get_seeds_udc_by_source
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url", methods=["GET"])
 @login_required
 def get_seed_urls_by_workspace_api(workspace_id):
-    in_doc = get_seeds_urls_by_workspace(workspace_id, drop_png=True)
+
+    sources = request.args.getlist('sources')
+    relevances_as_string = request.args.getlist('relevances')
+    categories = request.args.getlist('categories')
+    udcs = request.args.getlist('udcs')
+    last_id = request.args.get('lastId')
+
+    relevances = []
+    for rel in relevances_as_string:
+        if rel == 'true':
+            relevances.append(True)
+        elif rel == 'false':
+            relevances.append(False)
+        elif rel == 'null':
+            relevances.append(None)
+        else:
+            print "unsupported relevance type: " + rel
+
+    in_doc = get_seeds_urls_by_workspace(workspace_id, sources, relevances, categories, udcs, last_id)
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 
 
-@app.route("/api/workspace/<workspace_id>/seed-url/<source>", methods=["POST"])
-@login_required
-def get_seed_urls_by_source_api(workspace_id, source):
-    data = request.json
-    # in_doc = get_seeds_urls_by_source(workspace_id, source, data['relevance'], data['lastId'])
-    in_doc = get_seeds_urls_by_source(workspace_id, source, data['relevances'], data['categories'], data['udcs'], data['lastId'])
-    out_doc = JSONEncoder().encode(in_doc)
-    return Response(out_doc, mimetype="application/json")
+# @app.route("/api/workspace/<workspace_id>/seed-url/<source>", methods=["POST"])
+# @login_required
+# def get_seed_urls_by_source_api(workspace_id, source):
+#     data = request.json
+#     # in_doc = get_seeds_urls_by_source(workspace_id, source, data['relevance'], data['lastId'])
+#     in_doc = get_seeds_urls_by_source(workspace_id, source, data['relevances'], data['categories'], data['udcs'], data['lastId'])
+#     out_doc = JSONEncoder().encode(in_doc)
+#     return Response(out_doc, mimetype="application/json")
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url/<source>/udcs", methods=["GET"])

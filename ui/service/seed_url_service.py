@@ -4,8 +4,9 @@ import uuid
 import pymongo
 import json
 
-from mongo_repository.trained_url_repository import dao_reset_results, get_seeds_urls_by_source_dao, \
-    get_seeds_urls_by_workspace_dao, get_seeds_udcs_by_source_dao
+from mongo_repository.trained_url_repository import dao_reset_results, \
+    get_seeds_urls_by_workspace_dao, \
+    get_seeds_udcs_by_source_dao
 from mongo_repository.trained_url_repository import get_seeds_urls_url
 from mongo_repository.trained_url_repository import get_seeds_urls_categorized
 from mongo_repository.trained_url_repository import dao_delete_seed_url
@@ -101,23 +102,18 @@ def publish_to_import_url_queue(workspace_id, url, is_relevant= True):
     Singleton.getInstance().broker_service.add_message_to_import_url(message)
 
 
-def get_seeds_urls_by_workspace(workspace_id, drop_png=False):
-    mongo_result = []
-    for item in get_seeds_urls_by_workspace_dao(workspace_id):
-        if drop_png:
-            item.get('snapshot', {}).pop('png', None)
-        mongo_result.append(item)
-    return mongo_result
+# def get_seeds_urls_by_workspace(workspace_id, sources, relevances, categories, udcs, drop_png=False):
+#     mongo_result = []
+#     for item in get_seeds_urls_by_workspace_dao(workspace_id, sources, relevances, categories, udcs):
+#         if drop_png:
+#             item.get('snapshot', {}).pop('png', None)
+#         mongo_result.append(item)
+#     return mongo_result
 
 
-def get_seeds_udc_by_source(workspace_id, source):
-    mongo_result = get_seeds_udcs_by_source_dao(workspace_id, source)
-    return mongo_result
-
-
-def get_seeds_urls_by_source(workspace_id, source, relevances, categories, udcs, last_id):
+def get_seeds_urls_by_workspace(workspace_id, source, relevances, categories, udcs, last_id):
     try:
-        mongo_result = get_seeds_urls_by_source_dao(workspace_id, source, relevances, categories, udcs, last_id)
+        mongo_result = get_seeds_urls_by_workspace_dao(workspace_id, source, relevances, categories, udcs, last_id)
     except Exception, e:
         print e
         logging.info("item failed")
@@ -132,5 +128,10 @@ def get_seeds_urls_by_source(workspace_id, source, relevances, categories, udcs,
             # item['categories'] = es_result["categories"]
         except:
             logging.info("item failed")
+    return mongo_result
+
+
+def get_seeds_udc_by_source(workspace_id, source):
+    mongo_result = get_seeds_udcs_by_source_dao(workspace_id, source)
     return mongo_result
 

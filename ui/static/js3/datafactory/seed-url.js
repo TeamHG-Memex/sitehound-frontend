@@ -1,22 +1,29 @@
 
-var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', function($http){
+var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', '$httpParamSerializer', function($http, $httpParamSerializer){
 
 	var urlBase = '/api/workspace/{0}/seed-url';
 	var dataFactory = {};
 
-//	dataFactory.get = function (workspaceId) {
-//		var url =  String.format(urlBase, workspaceId);
-//		return $http.get(url);
-//	};
-	dataFactory.get = function (workspaceId, source, filters, lastId) {
+	dataFactory.get = function (workspaceId, filters) {
 		var url =  String.format(urlBase, workspaceId);
-		po = {};
-		po.relevances = filters.relevances;
-		po.categories = filters.categories;
-		po.udcs = filters.udcs;
-		po.lastId = lastId;
-		return $http.post(url + '/' + source, po);
+		var qs = $httpParamSerializer(filters);
+		return $http.get(url + (qs ? '?' + qs : ""));
 	};
+/*
+
+	dataFactory.get = function (workspaceId, source, filters) {
+		var url =  String.format(urlBase, workspaceId);
+		debugger;
+
+//		po = {};
+//		po.sources = filters.sources;
+//		po.relevances = filters.relevances;
+//		po.categories = filters.categories;
+//		po.udcs = filters.udcs;
+//		po.lastId = lastId;
+		return $http.post(url + '/' + source, filters);
+	};
+*/
 
 	dataFactory.getUdcs = function (workspaceId, source) {
 		var url =  String.format(urlBase, workspaceId);

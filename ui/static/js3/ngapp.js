@@ -153,25 +153,40 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'dashboardController',
 				templateUrl: '/static/partials-md/dashboard-md.html'
 			})
-		.when('/training-by-keyword',
+		.when('/seed-input',
 			{
-				controller: 'trainingByKeywordController',
-				templateUrl: '/static/partials-md/training-by-keyword-md.html'
+				controller: 'seedInputController',
+				templateUrl: '/static/partials-md/seed-input-md.html'
 			})
-		.when('/training-by-url',
+		.when('/label',
 			{
-				controller: 'trainingByUrlController',
-				templateUrl: '/static/partials-md/training-by-url-md.html'
+				controller: 'labelController',
+				templateUrl: '/static/partials-md/label-md.html'
 			})
-		.when('/deep-web',
-			{
-				controller: 'trainingDeepWebController',
-				templateUrl: '/static/partials-md/training-deep-web-md.html'
-			})
+//		.when('/training-by-keyword',
+//			{
+//				controller: 'trainingByKeywordController',
+//				templateUrl: '/static/partials-md/training-by-keyword-md.html'
+//			})
+//		.when('/training-by-url',
+//			{
+//				controller: 'trainingByUrlController',
+//				templateUrl: '/static/partials-md/training-by-url-md.html'
+//			})
+//		.when('/deep-web',
+//			{
+//				controller: 'trainingDeepWebController',
+//				templateUrl: '/static/partials-md/training-deep-web-md.html'
+//			})
 		.when('/ml-crawling',
 			{
 				controller: 'mlCrawlingController',
 				templateUrl: '/static/partials-md/ml-crawling-md.html'
+			})
+		.when('/crawling-results',
+			{
+				controller: 'crawlingResultsController',
+				templateUrl: '/static/partials-md/crawling-results-md.html'
 			})
 		.when('/feature-extraction',
 			{
