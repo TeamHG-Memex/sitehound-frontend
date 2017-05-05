@@ -43,6 +43,8 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 
     $scope.master.catalog={};
 
+    $scope.master.crawlProvider = 'HH_JOOGLE';
+
     $scope.master.catalog.relevances = [
       { label: 'relevant', value: true },
       { label: 'neutral', value: null },
