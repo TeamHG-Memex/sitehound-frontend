@@ -54,8 +54,8 @@ html, body {
   height: 4px;
 }
 .mdl-demo main > .mdl-layout__tab-panel {
-/*  padding: 8px;
-  padding-top: 48px; */
+  padding: 8px;
+  padding-top: 48px;
 }
 
 .mdl-demo .mdl-card {

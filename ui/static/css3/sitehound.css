@@ -118,6 +118,7 @@
 
 
 .portfolio-max-width {
-    max-width: 1174px;
+    /*max-width: 1174px;*/
+    max-width: 900px;
     margin: auto;
 }
