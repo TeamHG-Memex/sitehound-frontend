@@ -75,7 +75,6 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
                     }
 
                }, true);
-               debugger;
                $scope.watchHandlers.push(watchHandler);
             }
 
