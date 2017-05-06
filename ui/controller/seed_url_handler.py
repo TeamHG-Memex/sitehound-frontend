@@ -13,7 +13,7 @@ from utils.json_encoder import JSONEncoder
 from service.seed_url_service \
     import add_known_urls_handler, schedule_spider_searchengine, update_seeds_urls_relevance, \
     update_seeds_url_relevancy, delete_seeds_url, reset_results, \
-    get_seeds_urls_by_workspace, get_seeds_udc_by_source
+    get_seeds_urls_by_workspace, get_seeds_udc_by_workspace
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url", methods=["GET"])
@@ -52,10 +52,11 @@ def get_seed_urls_by_workspace_api(workspace_id):
 #     return Response(out_doc, mimetype="application/json")
 
 
-@app.route("/api/workspace/<workspace_id>/seed-url/<source>/udcs", methods=["GET"])
+# @app.route("/api/workspace/<workspace_id>/seed-url/<source>/udcs", methods=["GET"])
+@app.route("/api/workspace/<workspace_id>/seed-url/udcs", methods=["GET"])
 @login_required
-def get_seed_udc_by_source_api(workspace_id, source):
-    in_doc = get_seeds_udc_by_source(workspace_id, source)
+def get_seed_udc_by_workspace_api(workspace_id):
+    in_doc = get_seeds_udc_by_workspace(workspace_id)
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 

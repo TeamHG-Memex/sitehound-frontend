@@ -1,9 +1,21 @@
+
 <div style="padding:8px; padding-top:48px">
 
 JOBS | workspace aggregate stuff
 
-    <ng-include src="'/static/partials-md/includes/current-workspace.html'"></ng-include>
+    <section ng-include src="'/static/partials-md/includes/current-workspace.html'" include-replace></section>
 
+    <section ng-show="master.workspaceName!=null" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+        <div class="mdl-card mdl-cell mdl-cell--12-col">
+            <div class="mdl-card__supporting-text">
+                <h4>Jobs</h4>
+
+                <div style="padding:15px">
+                    show jobs status here
+                </div>
+            </div>
+        </div>
+    </section>
     <section ng-show="master.workspaceName!=null" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
         <div class="mdl-card mdl-cell mdl-cell--12-col">
             <div class="mdl-card__supporting-text">

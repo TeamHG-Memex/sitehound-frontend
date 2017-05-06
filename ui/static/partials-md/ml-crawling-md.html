@@ -45,14 +45,16 @@
                                 <div class="mdl-card__supporting-text">
                                     <h4>1. Build the model</h4>
                                     <p>This will build the initial model based on the labeled data provided (either by keywords or by seed urls)</p>
+                                <!--</div>-->
+                                <!--<div class="mdl-card__supporting-text">-->
+
                                     <span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="color:red">
-                                        (Requires a prior training using imported URLs or the SearchEngines Fetch to gather some URLs)
+                                        (Requires a prior training using <a href="http://localhost:5081/#/seed-input">imported URLs or the SearchEngines Fetch</a> to gather some URLs for labeling)
                                     </span>
                                     <span ng-show='master.workspace.page_model.model' style="color:green; font-size:12px">
                                         Initial model completed. You should update it if you label more results from 'Search URLs'.
                                     </span>
-                                </div>
-                                <div class="mdl-card__supporting-text">
+
                                                                     <div id="classifier-quality-container" style="padding-bottom:20px">
 
                                                                         <div ng-repeat="adviceItem in modelerProgress.advice">

@@ -16,7 +16,6 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 
 	/** Fetch pages */
 	$scope.seedUrls = [];
-    $scope.source = "searchengine";
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
 
     $scope.getSeedUrls = function(){
@@ -33,7 +32,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         $scope.catalog.udcs = response.data;
     }
 
-    trainingService.refreshUdc($scope.master.workspaceId, $scope.source, refreshUdcOnSuccess);
+    trainingService.refreshUdc($scope.master.workspaceId, refreshUdcOnSuccess);
 
 
     $scope.watchHandlers=[];
@@ -87,7 +86,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 
 
     $scope.updateSeedUrl = function(seedUrl){
-        trainingService.updateSeedUrl($scope.master.workspaceId, seedUrl, $scope.source, refreshUdcOnSuccess);
+        trainingService.updateSeedUrl($scope.master.workspaceId, seedUrl, refreshUdcOnSuccess);
     }
 
 

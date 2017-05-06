@@ -25,9 +25,10 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', '$httpParamSeriali
 	};
 */
 
-	dataFactory.getUdcs = function (workspaceId, source) {
+	dataFactory.getUdcs = function (workspaceId) {
 		var url =  String.format(urlBase, workspaceId);
-		return $http.get(url + '/' + source + '/udcs');
+//		return $http.get(url + '/' + source + '/udcs');
+		return $http.get(url + '/udcs');
 	};
 
 

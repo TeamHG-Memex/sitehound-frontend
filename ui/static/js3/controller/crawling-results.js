@@ -1,6 +1,7 @@
 ngApp.controller('crawlingResultsController', ['$scope', '$filter', 'headerFactory',
 function ($scope, $filter, headerFactory, $mdDialog) {
 
+    $scope.workspaceId = $scope.master.workspaceId;
 
 
 //	workspaceSelectedService.getSelectedWorkspaceAsync().then(

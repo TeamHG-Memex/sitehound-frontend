@@ -5,8 +5,7 @@ import pymongo
 import json
 
 from mongo_repository.trained_url_repository import dao_reset_results, \
-    get_seeds_urls_by_workspace_dao, \
-    get_seeds_udcs_by_source_dao
+    get_seeds_urls_by_workspace_dao, get_seeds_udcs_by_workspace_dao
 from mongo_repository.trained_url_repository import get_seeds_urls_url
 from mongo_repository.trained_url_repository import get_seeds_urls_categorized
 from mongo_repository.trained_url_repository import dao_delete_seed_url
@@ -131,7 +130,7 @@ def get_seeds_urls_by_workspace(workspace_id, source, relevances, categories, ud
     return mongo_result
 
 
-def get_seeds_udc_by_source(workspace_id, source):
-    mongo_result = get_seeds_udcs_by_source_dao(workspace_id, source)
+def get_seeds_udc_by_workspace(workspace_id):
+    mongo_result = get_seeds_udcs_by_workspace_dao(workspace_id)
     return mongo_result
 

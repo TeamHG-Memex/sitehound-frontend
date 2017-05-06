@@ -91,26 +91,27 @@ def get_seeds_urls_by_workspace_dao(workspace_id, sources, relevances, categorie
     return docs
 
 
-def get_seeds_udcs_by_source_dao(workspace_id, source):
+# def get_seeds_udcs_by_source_dao(workspace_id, source):
+def get_seeds_udcs_by_workspace_dao(workspace_id):
 
     and_condition_list = []
 
-    source_search_conditions = []
-    if source == "searchengine":
-        source_search_conditions.append({'crawlEntityType': "BING"})
-        source_search_conditions.append({'crawlEntityType': "GOOGLE"})
-    elif source == "twitter":
-        source_search_conditions.append({'crawlEntityType': "TWITTER"})
-    elif source == "tor":
-        source_search_conditions.append({'crawlEntityType': "TOR"})
-    elif source == "imported":
-        source_search_conditions.append({'crawlEntityType': "MANUAL"})
-    elif source == "deepdeep":
-        source_search_conditions.append({'crawlEntityType': "DD"})
-    else:
-        print("no valid source was provided:" + source)
-    source_search_object = {'$or': source_search_conditions}
-    and_condition_list.append(source_search_object)
+    # source_search_conditions = []
+    # if source == "searchengine":
+    #     source_search_conditions.append({'crawlEntityType': "BING"})
+    #     source_search_conditions.append({'crawlEntityType': "GOOGLE"})
+    # elif source == "twitter":
+    #     source_search_conditions.append({'crawlEntityType': "TWITTER"})
+    # elif source == "tor":
+    #     source_search_conditions.append({'crawlEntityType': "TOR"})
+    # elif source == "imported":
+    #     source_search_conditions.append({'crawlEntityType': "MANUAL"})
+    # elif source == "deepdeep":
+    #     source_search_conditions.append({'crawlEntityType': "DD"})
+    # else:
+    #     print("no valid source was provided:" + source)
+    # source_search_object = {'$or': source_search_conditions}
+    # and_condition_list.append(source_search_object)
 
     deleted_search_object = {'deleted': None}
     and_condition_list.append(deleted_search_object)
@@ -127,9 +128,9 @@ def get_seeds_udcs_by_source_dao(workspace_id, source):
     return sorted(docs)
 
 
-def get_seeds_udcs_by_workspace_dao(workspace_id):
-    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
-    return list(collection.find({'workspaceId': workspace_id}))
+# def get_seeds_udcs_by_workspace_dao(workspace_id):
+#     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+#     return list(collection.find({'workspaceId': workspace_id}))
 
 
 ' retrieves only the field url from the docs '
