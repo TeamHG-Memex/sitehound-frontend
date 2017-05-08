@@ -97,6 +97,7 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 
     $scope.master.bottomOfPageReached = function() {
 
+        console.log("$scope.master.bottomOfPageReachedCallbacks.length: "  + $scope.master.bottomOfPageReachedCallbacks.length);
         for(var i = 0; i<$scope.master.bottomOfPageReachedCallbacks.length; i++ ){
             console.log('bottomOfPageReached  triggered');
             $scope.master.bottomOfPageReachedCallbacks[i].apply();

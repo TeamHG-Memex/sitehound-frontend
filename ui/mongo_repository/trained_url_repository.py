@@ -5,7 +5,7 @@ from ui.singleton import Singleton
 
 
 
-def get_seeds_urls_by_workspace_dao(workspace_id, sources, relevances, categories, udcs, last_id):
+def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id):
 
     # collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     # return list(collection.find({'workspaceId': workspace_id}))
@@ -85,7 +85,7 @@ def get_seeds_urls_by_workspace_dao(workspace_id, sources, relevances, categorie
     res = collection\
         .find({'$and': and_condition_list}, field_names_to_include)\
         .sort('_id', pymongo.ASCENDING)\
-        .limit(21)
+        .limit(page_size)
 
     docs = list(res)
     return docs

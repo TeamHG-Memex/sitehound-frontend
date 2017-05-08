@@ -20,13 +20,17 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 	$scope.seedUrls = [];
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
 
+    var searchResultsButtonStarted = false;
+
     $scope.search = function(){
         $scope.seedUrls = [];
         $scope.filters.lastId = null;
         for (var i = 0; i < $scope.watchHandlers.length; ++i) {
             $scope.watchHandlers[i].apply();
         }
-        $scope.getMoreSeedUrls();
+        searchResultsButtonStarted = true;
+
+        $scope.fetch();
     }
 
 
@@ -36,10 +40,14 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 
     trainingService.refreshUdc($scope.master.workspaceId, refreshUdcOnSuccess);
 
-
     $scope.watchHandlers=[];
-	$scope.getMoreSeedUrls = function(){
-		seedUrlFactory.get($scope.master.workspaceId, $scope.filters)
+
+	$scope.fetch = function(){
+        if (!searchResultsButtonStarted){
+            return;
+        }
+
+        seedUrlFactory.get($scope.master.workspaceId, $scope.filters)
 		.then(function (response) {
 			console.log("finish fetching seed Urls");
 			var tempResults = response.data;
@@ -84,12 +92,14 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 		},
 		function (response) {
 		});
-	}
+	};
 
+
+    $scope.master.bottomOfPageReachedAddListener($scope.fetch);
 
     $scope.updateSeedUrl = function(seedUrl){
         trainingService.updateSeedUrl($scope.master.workspaceId, seedUrl, refreshUdcOnSuccess);
-    }
+    };
 
 
 
