@@ -14,6 +14,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 //	$scope.filters.udcs = [];
 //
 
+    $scope.master.init();
 
     $scope.selected = {};
     $scope.selected.sources = [];

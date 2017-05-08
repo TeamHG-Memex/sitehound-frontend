@@ -3,6 +3,8 @@ ngApp.controller('trainingDeepWebController', ['$scope', '$filter', //'workspace
 function ($scope, $filter, //workspaceSelectedService,
 $mdDialog) {
 
+    $scope.master.init();
+
 //
 //    $scope.relevantKeywords=[];
 //    $scope.irrelevantKeywords=[];

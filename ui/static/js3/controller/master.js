@@ -48,7 +48,7 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
     $scope.master.catalog.relevances = [
       { label: 'relevant', value: true },
       { label: 'neutral', value: null },
-      { label: 'irrelevant', value: false},
+      { label: 'irrelevant', value: false}
     ];
 
     $scope.master.catalog.categories1= ['FORUM', 'NEWS'];
@@ -61,13 +61,13 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
       { label: 'Manual', value: 'imported' },
       { label: 'Twitter API', value: 'twitter' },
       { label: 'Deep Web', value: 'tor' },
-      { label: 'Deep Deep', value: 'deepdeep' },
+      { label: 'Deep Deep', value: 'deepdeep' }
     ];
 
     $scope.master.catalog.keywordSources=[
       { label: 'Google + Bing', value: 'SE' },
       { label: 'Twitter API', value: 'TWITTER' },
-      { label: 'Deep Web', value: 'TOR' },
+      { label: 'Deep Web', value: 'TOR' }
     ];
 
     $scope.toggleSelection = function toggleSelection(elem, list) {
@@ -85,5 +85,29 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
       };
 
     $scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
+
+
+
+    // scrolly directive implementation for every page that registers a listener
+
+    $scope.master.init = function(){
+        $scope.master.bottomOfPageReachedCallbacks = [];
+    }
+
+
+    $scope.master.bottomOfPageReached = function() {
+
+        for(var i = 0; i<$scope.master.bottomOfPageReachedCallbacks.length; i++ ){
+            console.log('bottomOfPageReached  triggered');
+            $scope.master.bottomOfPageReachedCallbacks[i].apply();
+            console.log('bottomOfPageReached  done');
+        }
+    };
+
+    $scope.master.bottomOfPageReachedAddListener = function(callback) {
+        $scope.master.bottomOfPageReachedCallbacks.push(callback);
+    };
+
+    $scope.master.init();
 
 }]);

@@ -3,6 +3,8 @@ function ($scope, $filter, headerFactory, $mdDialog) {
 
 
 
+    $scope.master.init();
+
 //	workspaceSelectedService.getSelectedWorkspaceAsync().then(
 //	function(response){
 //		$scope.workspaceName = response.data.name;

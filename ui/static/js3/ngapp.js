@@ -322,31 +322,55 @@ ngApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
 });
 
 
-
-ngApp.directive('scroll', function () {
+ngApp.directive('scrolly', function () {
     return {
-    restrict : 'C',
-        link: function(scope, element) {
-            element.bind("click" , function(e){
-                 element.parent().find("li").removeClass("navbar-item-selected");
-                 element.addClass("navbar-item-selected").removeClass("navbar-item-unselected");
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var raw = element[0];
+            console.log('loading directive');
+
+            element.bind('scroll', function () {
+                // console.log('in scroll: ' + (raw.scrollTop + raw.offsetHeight) +", raw: " + raw.scrollHeight);
+                // console.log();
+                // console.log();
+                if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight-1) {
+                    // console.log("I am at the bottom");
+                    scope.$apply(attrs.scrolly);
+                }
             });
         }
-    }
-});
-ngApp.factory('focusFactory', function($timeout, $window) {
-    return function(id) {
-      // timeout makes sure that it is invoked after any other event has been triggered.
-      // e.g. click events that need to run before the focus or
-      // inputs elements that are in a disabled state but are enabled when those events
-      // are triggered.
-      $timeout(function() {
-        var element = $window.document.getElementById(id);
-        if(element)
-          element.focus();
-      });
     };
-  });
+});
+
+
+// ngApp.directive('scroll', function () {
+//     return {
+//     restrict : 'C',
+//         link: function(scope, element) {
+//             element.bind("click" , function(e){
+//                  element.parent().find("li").removeClass("navbar-item-selected");
+//                  element.addClass("navbar-item-selected").removeClass("navbar-item-unselected");
+//             });
+//         }
+//     }
+// });
+
+
+
+
+// ngApp.factory('focusFactory', function($timeout, $window) {
+//     return function(id) {
+//       // timeout makes sure that it is invoked after any other event has been triggered.
+//       // e.g. click events that need to run before the focus or
+//       // inputs elements that are in a disabled state but are enabled when those events
+//       // are triggered.
+//       $timeout(function() {
+//         var element = $window.document.getElementById(id);
+//         if(element)
+//           element.focus();
+//       });
+//     };
+//   });
 
 //ngApp.directive('includeReplace', function () {
 //    return {

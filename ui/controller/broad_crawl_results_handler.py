@@ -29,7 +29,8 @@ def get_broad_crawl_results_data(workspace_id):
     search_query["page_number"] = request.json["pageNumber"]
 
     logging.info("filter is set to: %s" % str(filter))
-    search_results = get_search_results(workspace_id, search_query)
+    page_size = 4
+    search_results = get_search_results(workspace_id, page_size, search_query)
 
     result_dto = {}
     # result_dto['results'] = JSONEncoder().encode(search_results)

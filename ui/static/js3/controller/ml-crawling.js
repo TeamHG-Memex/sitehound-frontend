@@ -1,6 +1,7 @@
 ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$interval', '$timeout', 'seedUrlFactory','eventFactory', 'progressFactory', 'broadcrawlerFactory'
 , function ($scope, $rootScope, $filter, $interval, $timeout, seedUrlFactory, eventFactory, progressFactory, broadcrawlerFactory){
 
+    $scope.master.init();
     $scope.workspaceId = $scope.master.workspaceId;
 
 // SIMPLE CRAWLER ///

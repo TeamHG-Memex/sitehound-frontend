@@ -2,6 +2,7 @@ ngApp.controller('addWorkspaceController', ['$mdDialog', '$scope', 'workspaceFac
 function ($mdDialog, $scope, workspaceFactory) {
     'use strict';
 
+
     $scope.cancel = $mdDialog.cancel;
 
     $scope.addItem = function () {
@@ -53,16 +54,18 @@ function (deletedWorkspace, $mdDialog, $scope, $q, workspaceFactory) {
 
 
 ngApp.controller('workspaceController',
-         ['$scope', '$filter', '$timeout','workspaceFactory', 'domFactory', '$mdDialog', '$mdEditDialog'
-, function ($scope, $filter, $timeout, workspaceFactory, domFactory, $mdDialog, $mdEditDialog) {
+         ['$scope', '$filter', '$timeout','workspaceFactory', 'domFactory', '$mdDialog', '$mdEditDialog',
+    function ($scope, $filter, $timeout, workspaceFactory, domFactory, $mdDialog, $mdEditDialog) {
     'use strict';
 
-	$scope.workspace = null;
+         $scope.master.init();
+
+         $scope.workspace = null;
 
 //["58ed5b62132ad2235def6de8"]
     $scope.workspaces = [];
-     $scope.selected=[];
-     $scope.filter = {}
+    $scope.selected=[];
+    $scope.filter = {}
     $scope.filter.showOnlyMines = false;
 
     $scope.query = {

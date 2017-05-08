@@ -1,6 +1,7 @@
 ngApp.controller('labelController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService',
 function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, $mdDialog) {
 
+    $scope.master.init();
 
     /* catalog */
     $scope.catalog = {};

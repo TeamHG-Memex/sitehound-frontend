@@ -2,6 +2,7 @@ ngApp.controller('keywordsController', ['$scope', '$mdConstant', 'seedFactory',
 function ($scope, $mdConstant, seedFactory) {
 
 	/// BEGIN KEYWORD SEEDS
+    $scope.master.init();
 
 	$scope.relevantKeywordsObj=[];
 	$scope.irrelevantKeywordsObj=[];

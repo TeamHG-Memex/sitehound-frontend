@@ -1,6 +1,26 @@
+
 ngApp.controller('crawlingResultsController', ['$scope', '$filter', 'headerFactory', 'broadcrawlerResultsFactory',
 function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog) {
 
+
+    ///////
+
+    // $scope.name = 'Superhero';
+    //
+    // $scope.items = [];
+    // for(var i=0;i< 500;i++){
+    //     $scope.items.push('item: ' + i);
+    // }
+    //
+    // $scope.showMore = function() {
+    //     console.log('show more triggered');
+    // };
+
+
+	///////
+
+
+	$scope.master.init();
     $scope.workspaceId = $scope.master.workspaceId;
 
 //    $scope.showFilters = ['sources', 'relevances', 'categories', , 'udcs']
@@ -68,17 +88,27 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
 	$scope.maxId = null;
 	$scope.crawlStatusBusy = false;
 //	$scope.jobId = $routeParams.jobId ? $routeParams.jobId : null;
-	$scope.pageNumber = -1;
+// 	$scope.pageNumber = -1;
 
+	var searchResultsButtonStarted = false;
 	$scope.search = function(){
 		$scope.results = [];
 		$scope.crawlStatusBusy = false;
-		$scope.pageNumber = -1;
+		$scope.pageNumber = 0;
+        searchResultsButtonStarted = true;
+
 		$scope.fetch();
+
 	}
 
 
+
+
 	$scope.fetch = function(){
+		if (!searchResultsButtonStarted){
+			return;
+		}
+
 		if($scope.crawlStatusBusy){
 			console.log('busy');
 			return;
@@ -105,15 +135,12 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
 			}
 		});
 
-		$scope.pageNumber++;
 
+		debugger;
 //		broadcrawlerResultsFactory.search($scope.workspaceId, searchText, selectedLanguages, selectedCategories, $scope.bookmarkSwitchStatus, $scope.lastId, $scope.maxId, $scope.jobId, $scope.pageNumber)
 		broadcrawlerResultsFactory.search($scope.workspaceId, searchText, selectedLanguages, selectedCategories, $scope.bookmarkSwitchStatus, $scope.lastId, $scope.maxId, $scope.pageNumber)
 		.then(function(response){
 			$scope.status = 'Data loaded';
-//			var tempResults = $.parseJSON(data);
-//			var tempResults = data.results;
-//			var tempResults = $.parseJSON(response.data.results);
 			var tempResults = response.data.results;
 
 			Array.prototype.push.apply($scope.results, tempResults);
@@ -122,6 +149,7 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
 //				console.log(item._id + " " + item.score + " " + item.url );
 //			})
 //
+			$scope.pageNumber = $scope.pageNumber + 1;
 			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1].id :
 				($scope.results.length > 0 ? $scope.results[$scope.results.length-1].id : null) ;
 			$scope.maxId = response.data.maxId ? response.data.maxId : null;
@@ -136,6 +164,7 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
         );
 	}
 
+    $scope.master.bottomOfPageReachedAddListener($scope.fetch);
 
 	$scope.remove = function(model){
 		broadcrawlerResultsFactory.remove($scope.workspaceId, model.id)

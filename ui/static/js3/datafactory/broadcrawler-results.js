@@ -4,9 +4,11 @@ var broadcrawlerResultsFactory = ngApp.factory('broadcrawlerResultsFactory',['$h
 	var urlBase = '/api/workspace/{0}/broad-crawl-results';
 	var dataFactory = {};
 
-//	dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId, jobId, pageNumber){
-	dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId, pageNumber){
+	// dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId, jobId, pageNumber){
+	// dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId){
+    dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId, pageNumber){
 		var url =  String.format(urlBase, workspaceId);
+		debugger;
 		var po = {};
 		po.searchText = searchText;
 		po.languages = languages;

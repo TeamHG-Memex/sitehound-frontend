@@ -123,8 +123,8 @@ def get_max_id(workspace_id, job_id):
     return max_id
 
 
-def get_search_results(workspace_id, input_search_query):
-    mongo_result = get_search_results_mongo_dao(workspace_id, input_search_query)
+def get_search_results(workspace_id, page_size, input_search_query):
+    mongo_result = get_search_results_mongo_dao(workspace_id, page_size, input_search_query)
     return mongo_result
 
 
@@ -133,7 +133,7 @@ def get_broadcrawl_results_summary(workspace_id, input_search_query):
     return mongo_result
 
 
-def get_search_results_mongo_dao(workspace_id, input_search_query):
+def get_search_results_mongo_dao(workspace_id, page_size, input_search_query):
 
     # field_names_to_include = ['url', 'urlDesc', 'snapshot', 'pinned', 'host', 'categories', 'language', 'score']
     field_names_to_include = ['url', 'pinned', 'host', 'score']
@@ -183,13 +183,19 @@ def get_search_results_mongo_dao(workspace_id, input_search_query):
             category_search_conditions.append({'categories': search_category})
         category_search_object = {'$or': category_search_conditions}
 
-    page_size = 5
+    # page_size = 5
 
     if 'page_number' in input_search_query and input_search_query['page_number'] is not None:
         # page_search_object = {'_id' > input_search_query['last_id']}
         docs_to_skip = input_search_query['page_number'] * page_size
     else:
         docs_to_skip = 0
+    # docs_to_skip = 0
+    # if 'last_id' in input_search_query and input_search_query['last_id'] is not None:
+    #     last_id_search_object = {"_id": {"$gte": ObjectId(input_search_query['last_id'])}}
+    # else:
+    #     last_id_search_object = {}
+
 
     ''' can not use this filter yet, a new sub-collection is needed because of updates crossing jobs '''
     # if 'job_id' in input_search_query and input_search_query['job_id'] is not None:
@@ -214,7 +220,9 @@ def get_search_results_mongo_dao(workspace_id, input_search_query):
                               # page_search_object,
                               # job_search_object,
                             deleted_search_object,
-                            max_id_search_object]}
+                            # last_id_search_object,
+                            max_id_search_object
+    ]}
 
     # collection = Singleton.getInstance().mongo_instance.get_broad_crawler_output_collection_by_workspace_id(workspace_id)
     collection = Singleton.getInstance().mongo_instance.get_broad_crawler_collection()
@@ -229,6 +237,7 @@ def get_search_results_mongo_dao(workspace_id, input_search_query):
                 "deleted": {"$cond": ["$deleted", 1, 0]}
              }},
             {'$sort': {"host": 1, "score": -1, "_id": 1}},
+            # {'$sort': {"_id": 1}},
             {'$group': {
                         '_id': "$host",
                         "host": {'$first': "$host"},
@@ -247,17 +256,13 @@ def get_search_results_mongo_dao(workspace_id, input_search_query):
              }},
             {'$match': {"deleted": 0}},
             {'$sort': {"score": -1, "_id": 1}},
+            # {'$sort': {"_id": 1}},
             {'$skip': docs_to_skip},
             {'$limit': page_size}
             ])
 
     output = res_hosts["result"]
     return output
-
-
-
-
-
 
 
 def get_broadcrawl_results_summary_mongo_dao(workspace_id, input_search_query):
