@@ -32,9 +32,12 @@ def get_broad_crawl_results_data(workspace_id):
     search_results = get_search_results(workspace_id, search_query)
 
     result_dto = {}
-    result_dto['results'] = JSONEncoder().encode(search_results)
+    # result_dto['results'] = JSONEncoder().encode(search_results)
+    result_dto['results'] = search_results
     result_dto['maxId'] = max_id
-    return Response(json.dumps(result_dto), mimetype="application/json")
+
+    result_dto_json = JSONEncoder().encode(result_dto)
+    return Response(result_dto_json, mimetype="application/json")
 
 
 @app.route("/api/workspace/<workspace_id>/broad-crawl-results/bookmark/<id>", methods=["PUT"])

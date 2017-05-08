@@ -57,6 +57,14 @@ ngApp.filter('capitalize', function() {
 	}
 });
 
+ngApp.filter('humanReadableCrawlEntityType', function() {
+	return function(input) {
+		return (input == "DD" ) ? "Deep-deep" : input;
+	}
+});
+
+
+
 ngApp.filter('ellipsis', function () {
     return function (value, wordwise, max, tail) {
         if (!value) return '';

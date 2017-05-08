@@ -13,12 +13,13 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 	$scope.filters.categories = [];
 	$scope.filters.udcs = [];
 
+    $scope.showFilters = ['sources', 'relevances', 'categories', , 'udcs']
 
 	/** Fetch pages */
 	$scope.seedUrls = [];
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
 
-    $scope.getSeedUrls = function(){
+    $scope.search = function(){
         $scope.seedUrls = [];
         $scope.filters.lastId = null;
         for (var i = 0; i < $scope.watchHandlers.length; ++i) {

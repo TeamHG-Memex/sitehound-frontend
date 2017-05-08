@@ -21,6 +21,9 @@
                     <div class="mdl-card__supporting-text padding-top" style="margin:20px;margin-right:0px">
                         Link: <span ng-bind="elem.url"></span>
                     </div>
+                    <div class="mdl-card__supporting-text padding-top" style="margin:20px;margin-right:0px">
+                        Source: <span ng-bind="elem.crawlEntityType | humanReadableCrawlEntityType | capitalize"></span>
+                    </div>
                 </div>
             </div>
             <div>
