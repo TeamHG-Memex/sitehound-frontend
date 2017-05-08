@@ -3,37 +3,24 @@ ngApp.controller('crawlingResultsController', ['$scope', '$filter', 'headerFacto
 function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog) {
 
 
-    ///////
-
-    // $scope.name = 'Superhero';
-    //
-    // $scope.items = [];
-    // for(var i=0;i< 500;i++){
-    //     $scope.items.push('item: ' + i);
-    // }
-    //
-    // $scope.showMore = function() {
-    //     console.log('show more triggered');
-    // };
-
-
-	///////
-
-
 	$scope.master.init();
     $scope.workspaceId = $scope.master.workspaceId;
 
 //    $scope.showFilters = ['sources', 'relevances', 'categories', , 'udcs']
     $scope.showFilters = ['sources', 'categories']
 
-//	workspaceSelectedService.getSelectedWorkspaceAsync().then(
-//	function(response){
-//		$scope.workspaceName = response.data.name;
-//	},
-//	function(response){
-//		console.log(response)
-//		$scope.workspaceName = null;
-//	});
+
+
+	/* Filters */
+    $scope.filters = {};
+    $scope.filters.sources = [];
+    // $scope.filters.relevances = [];
+    $scope.filters.categories = [];
+    $scope.filters.languages = [];
+    // $scope.filters.udcs = [];
+
+
+
 
 
 
@@ -96,12 +83,8 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
 		$scope.crawlStatusBusy = false;
 		$scope.pageNumber = 0;
         searchResultsButtonStarted = true;
-
 		$scope.fetch();
-
 	}
-
-
 
 
 	$scope.fetch = function(){
@@ -136,19 +119,13 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
 		});
 
 
-		debugger;
-//		broadcrawlerResultsFactory.search($scope.workspaceId, searchText, selectedLanguages, selectedCategories, $scope.bookmarkSwitchStatus, $scope.lastId, $scope.maxId, $scope.jobId, $scope.pageNumber)
-		broadcrawlerResultsFactory.search($scope.workspaceId, searchText, selectedLanguages, selectedCategories, $scope.bookmarkSwitchStatus, $scope.lastId, $scope.maxId, $scope.pageNumber)
+		broadcrawlerResultsFactory.search($scope.workspaceId, searchText, $scope.filters, $scope.bookmarkSwitchStatus, $scope.lastId, $scope.maxId, $scope.pageNumber)
 		.then(function(response){
 			$scope.status = 'Data loaded';
 			var tempResults = response.data.results;
 
 			Array.prototype.push.apply($scope.results, tempResults);
 
-//			angular.forEach($scope.results, function(item){
-//				console.log(item._id + " " + item.score + " " + item.url );
-//			})
-//
 			$scope.pageNumber = $scope.pageNumber + 1;
 			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1].id :
 				($scope.results.length > 0 ? $scope.results[$scope.results.length-1].id : null) ;

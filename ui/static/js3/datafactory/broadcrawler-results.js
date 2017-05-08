@@ -6,13 +6,13 @@ var broadcrawlerResultsFactory = ngApp.factory('broadcrawlerResultsFactory',['$h
 
 	// dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId, jobId, pageNumber){
 	// dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId){
-    dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId, pageNumber){
+    // dataFactory.search = function(workspaceId, searchText, languages, categories, isPinned, lastId, maxId, pageNumber){
+    dataFactory.search = function(workspaceId, searchText, filters, isPinned, lastId, maxId, pageNumber){
 		var url =  String.format(urlBase, workspaceId);
-		debugger;
 		var po = {};
 		po.searchText = searchText;
-		po.languages = languages;
-		po.categories = categories;
+		po.languages = filters.languages;
+		po.categories = filters.categories;
 		po.isPinned = isPinned;
 		po.lastId = lastId;
 		po.maxId = maxId;
