@@ -8,12 +8,13 @@
     <section ng-include src="'/static/partials-md/includes/progress.html'" include-replace></section>
 
 
-    <section ng-include src="'/static/partials-md/includes/filter-train-results.html'" ></section>
-    <!--<ng-include src="'/static/partials-md/includes/filter-train-results.html'" ></ng-include>-->
+    <!--<section ng-include src="'/static/partials-md/includes/filter-train-results.html'" ></section>-->
+    <section ng-include src="'/static/partials-md/includes/filter-broadcrawl-results.html'" ></section>
 
 
+    <section ng-show="display.results.table" ng-include src="'/static/partials-md/broadcrawl-results-summary/table.html'" ></section>
 
-    <section ng-include src="'/static/partials-md/includes/broadcrawl-results.html'" ></section>
 
+    <section ng-show="display.results.cards" ng-include src="'/static/partials-md/includes/broadcrawl-results.html'" ></section>
 
 </div>

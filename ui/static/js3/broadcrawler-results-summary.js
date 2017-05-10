@@ -14,7 +14,7 @@ ngApp.controller('broadcrawlerResultsSummaryController', ['$scope', '$filter', '
 
 	$scope.navigateToDashboard = function(){
 		domFactory.navigateToDashboard();
-	}
+	};
 
 
 	var urlBase = "/api/workspace/{0}/broad-crawl-results-summary";

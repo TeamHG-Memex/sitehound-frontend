@@ -64,6 +64,14 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
       { label: 'Deep Deep', value: 'deepdeep' }
     ];
 
+    $scope.master.catalog.broadcrawlSources=[
+      { label: 'Google + Bing', value: 'searchengine' },
+      // { label: 'Manual', value: 'imported' },
+      // { label: 'Twitter API', value: 'twitter' },
+      { label: 'Deep Web', value: 'tor' },
+      { label: 'Deep Deep', value: 'deepdeep' }
+    ];
+
     $scope.master.catalog.keywordSources=[
       { label: 'Google + Bing', value: 'SE' },
       { label: 'Twitter API', value: 'TWITTER' },

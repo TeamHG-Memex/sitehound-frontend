@@ -19,15 +19,50 @@ var broadcrawlerResultsFactory = ngApp.factory('broadcrawlerResultsFactory',['$h
 //		po.jobId = jobId;
 		po.pageNumber = pageNumber;
 		return $http.post(url, po);
-	}
+	};
 
 	dataFactory.remove = function(workspaceId, id){
 		var url =  String.format(urlBase, workspaceId);
 		return $http.delete(url + "/" + id);
-	}
+	};
 
 	return dataFactory;
 }]);
+
+
+var broadcrawlerResultsSummaryFactory = ngApp.factory('broadcrawlerResultsSummaryFactory',['$http', '$httpParamSerializer',
+	function($http, $httpParamSerializer){
+
+    var urlBase = "/api/workspace/{0}/broad-crawl-results-summary";
+    var dataFactory = {};
+
+    dataFactory.get = function(workspaceId, query){
+
+        var url =  String.format(urlBase, workspaceId);
+        var qs = $httpParamSerializer(query);
+        return $http.get(url + (qs ? '?' + qs : ""));
+
+
+//         var po = {};
+//         po.searchText = searchText;
+//         po.languages = filters.languages;
+//         po.categories = filters.categories;
+//         po.isPinned = isPinned;
+//         po.lastId = lastId;
+//         po.maxId = maxId;
+// //		po.jobId = jobId;
+//         po.pageNumber = pageNumber;
+//         return $http.post(url, po);
+    };
+
+    // dataFactory.remove = function(workspaceId, id){
+    //     var url =  String.format(urlBase, workspaceId);
+    //     return $http.delete(url + "/" + id);
+    // };
+
+    return dataFactory;
+}]);
+
 
 
 var bookmarkFactory = ngApp.factory('bookmarkFactory', ['$http', function($http){

@@ -14,11 +14,13 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 	$scope.filters.categories = [];
 	$scope.filters.udcs = [];
 
-    $scope.showFilters = ['sources', 'relevances', 'categories', , 'udcs']
-
 	/** Fetch pages */
 	$scope.seedUrls = [];
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
+
+
+    $scope.showFilters = ['sources', 'relevances', 'categories', , 'udcs'];
+
 
     var searchResultsButtonStarted = false;
 

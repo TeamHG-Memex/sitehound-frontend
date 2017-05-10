@@ -20,37 +20,57 @@ def get_broad_crawl_results_summary_data(workspace_id):
 
     search_query = {}
 
-    order_by = "score"
-    if request.args.get('orderBy') is not None:
-        order_by = request.args.get('orderBy')
-    search_query["orderBy"] = order_by
+    # page_size = 10
 
-    reverse = 1
-    if request.args.get('reverse') is not None:
-        reverse_bool = bool(request.args.get('reverse'))
-        if reverse_bool:
-           reverse = -1
+    if request.args.get('orderBy') is not None:
+        order = request.args.get('orderBy')
+        if order[:1] == "-":
+            order_by = order[1:]
+            reverse = 1
+        else:
+            order_by = order
+            reverse = -1
+    else:
+        order_by = "score"
+        reverse = 1
+
+    search_query["orderBy"] = order_by
     search_query["reverse"] = reverse
+
+    # reverse = 1
+    # if request.args.get('reverse') is not None:
+    #     reverse_bool = bool(request.args.get('reverse'))
+    #     if reverse_bool:
+    #        reverse = -1
+    # search_query["reverse"] = reverse
 
     search = None
     if request.args.get('search') is not None:
         search = request.args.get('search')
     search_query["search_text"] = search
 
-    begin = 0
-    if request.args.get('begin') is not None:
-        begin = int(request.args.get('begin'))
-    search_query["begin"] = begin
+    # begin = 0
+    # if request.args.get('begin') is not None:
+    #     begin = int(request.args.get('begin'))
+    # search_query["begin"] = begin
 
-    limit = 10
+    # limit = 10
     if request.args.get('limit') is not None:
         limit = int(request.args.get('limit'))
-    search_query["limit"] = limit
+        search_query["limit"] = limit
+    else:
+        search_query["limit"] = 10
+
+    begin = 0
+    if request.args.get('page') is not None:
+        begin = int(request.args.get('page'))
+    search_query["begin"] = (begin - 1) * limit
+
 
     search_results = get_broadcrawl_results_summary(workspace_id, search_query)
     total_results = get_broadcrawl_results_summary_count_mongo_dao(workspace_id, search_query)
 
-    result_dto = {'data': search_results, 'totalResults': total_results}
+    result_dto = {'results': search_results, 'totalResultsCount': total_results}
     result_dto_as_string = JSONEncoder().encode(result_dto)
     return Response(result_dto_as_string, mimetype="application/json")
 

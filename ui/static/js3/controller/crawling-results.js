@@ -1,15 +1,18 @@
 
-ngApp.controller('crawlingResultsController', ['$scope', '$filter', 'headerFactory', 'broadcrawlerResultsFactory',
-function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog) {
+ngApp.controller('crawlingResultsController', ['$scope', '$filter', 'headerFactory', 'broadcrawlerResultsFactory', 'broadcrawlerResultsSummaryFactory',
+function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawlerResultsSummaryFactory, $mdDialog) {
 
 
 	$scope.master.init();
     $scope.workspaceId = $scope.master.workspaceId;
 
 //    $scope.showFilters = ['sources', 'relevances', 'categories', , 'udcs']
-    $scope.showFilters = ['sources', 'categories']
+    $scope.showFilters = ['broadcrawl-sources']
 
-
+    $scope.display = {};
+    $scope.display.results = {};
+    $scope.display.results.table = true;
+    $scope.display.results.cards = true;
 
 	/* Filters */
     $scope.filters = {};
@@ -21,8 +24,8 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
 
 
 
-
-
+    $scope.results = [];
+    $scope.resultsCount = 0;
 
 	$scope.searchText = '';
 	$scope.categories = [];
@@ -35,60 +38,44 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
 	$scope.labelLanguages = $scope.languages.length > 0 ? 'Languages: ' : '' ;
 	$scope.filterDisclaimer = $scope.categories.length + $scope.languages.length > 0 ? 'Show only (leave blank for all). Then click Search' : '';
 
-	$scope.bookmarkSwitchStatus = false;
-/*
-	$scope.getCrawlStatus = function(jobId) {
-		broadcrawlerFactory.getCrawlStatus($scope.workspaceId, jobId)
-		.success(function(data){
-			$scope.status = 'Data loaded';
-			$scope.categories = data.categories;
-			$scope.languages = data.languages;
-			$scope.nResultsFound = data.nResults;
-			$scope.labelCategories = $scope.categories.length > 0 ? 'Categories Found: ' : '' ;
-			$scope.labelLanguages = $scope.languages.length > 0 ? 'Languages Found: ' : '' ;
-			$scope.labelnResultsFound = $scope.nResultsFound > 0 ? 'Results Found: ' : '' ;
-		})
-		.error(function(error){
-			$scope.status = 'Unable to load data: ' + error;
-		})
-		.finally(function(){
-			$scope.loading = false;
-		});
-	}
-*/
 
-	$scope.bookmarkFilter = function(result){
-		if ($scope.bookmarkSwitchStatus){
-			return result.pinned;
-		}
-		else{
-			return true;
-		}
-	}
-
-	$scope.notRemovedFilter = function(result){
-		return !(result.deleted === true);
-	}
-
-	$scope.results = [];
-	$scope.lastId = $scope.results.length > 0 ? $scope.results[$scope.results.length-1].id : null;
-	$scope.maxId = null;
-	$scope.crawlStatusBusy = false;
+    $scope.lastId = $scope.results.length > 0 ? $scope.results[$scope.results.length-1].id : null;
+    $scope.maxId = null;
+    $scope.crawlStatusBusy = false;
 //	$scope.jobId = $routeParams.jobId ? $routeParams.jobId : null;
 // 	$scope.pageNumber = -1;
 
-	var searchResultsButtonStarted = false;
+    $scope.bookmarkSwitchStatus = false;
+
+
+    $scope.selected = [];
+
+    var searchResultsButtonStarted = false;
+
 	$scope.search = function(){
-		$scope.results = [];
-		$scope.crawlStatusBusy = false;
-		$scope.pageNumber = 0;
+
+        $scope.results = [];
+        $scope.crawlStatusBusy = false;
         searchResultsButtonStarted = true;
-		$scope.fetch();
-	}
+        $scope.pageNumber = 0;
+
+        if($scope.display.results.table){
+            console.log("table");
+            getDesserts($scope.query);
+		}
+		if($scope.display.results.cards){
+            console.log("cards");
+            $scope.fetch();
+        }
+        else{
+			console.log($scope.display.results);
+		}
+	};
+
 
 
 	$scope.fetch = function(){
-		if (!searchResultsButtonStarted){
+		if (!searchResultsButtonStarted || !$scope.display.results.cards){
 			return;
 		}
 
@@ -139,11 +126,55 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
                 $scope.crawlStatusBusy = false;
     		}
         );
-	}
+	};
+
+
+
+
+
 
     $scope.master.bottomOfPageReachedAddListener($scope.fetch);
 
-	$scope.remove = function(model){
+
+
+
+	/*
+	 $scope.getCrawlStatus = function(jobId) {
+	 broadcrawlerFactory.getCrawlStatus($scope.workspaceId, jobId)
+	 .success(function(data){
+	 $scope.status = 'Data loaded';
+	 $scope.categories = data.categories;
+	 $scope.languages = data.languages;
+	 $scope.nResultsFound = data.nResults;
+	 $scope.labelCategories = $scope.categories.length > 0 ? 'Categories Found: ' : '' ;
+	 $scope.labelLanguages = $scope.languages.length > 0 ? 'Languages Found: ' : '' ;
+	 $scope.labelnResultsFound = $scope.nResultsFound > 0 ? 'Results Found: ' : '' ;
+	 })
+	 .error(function(error){
+	 $scope.status = 'Unable to load data: ' + error;
+	 })
+	 .finally(function(){
+	 $scope.loading = false;
+	 });
+	 }
+	 */
+
+    $scope.bookmarkFilter = function(result){
+        if ($scope.bookmarkSwitchStatus){
+            return result.pinned;
+        }
+        else{
+            return true;
+        }
+    }
+
+    $scope.notRemovedFilter = function(result){
+        return !(result.deleted === true);
+    }
+
+
+
+    $scope.remove = function(model){
 		broadcrawlerResultsFactory.remove($scope.workspaceId, model.id)
 		.then(function(response){
 			$scope.status = 'document deleted';
@@ -207,5 +238,53 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, $mdDialog)
 	}
 
 //	$scope.getCrawlStatus();
+
+
+	/// summary table ////
+    $scope.selected = [];
+
+    $scope.query = {
+        search: '',
+        limit: 10,
+        // orderBy: 'created',
+        orderBy: 'score',
+        page: 1
+    };
+
+    $scope.onReorder = function (order) {
+        getDesserts(angular.extend({}, $scope.query, {orderBy: order}));
+    };
+
+    $scope.onPaginate = function (page, limit) {
+        getDesserts(angular.extend({}, $scope.query, {page: page, limit: limit}));
+    };
+
+    $scope.mdOnSelect = function (_id){
+        console.log($scope.selected);
+        console.log("selected" + _id);
+    };
+
+    $scope.mdOnDeselect = function (_id){
+        console.log($scope.selected);
+        console.log("deselected" + _id);
+    };
+
+    $scope.table = {};
+    $scope.table.results = [];
+
+    function getDesserts(query) {
+
+        var qry = query || $scope.query;
+
+        broadcrawlerResultsSummaryFactory.get($scope.master.workspaceId, qry).then(
+        	function (response) {
+                $scope.table.results = response.data.results;
+                $scope.table.totalResultsCount = response.data.totalResultsCount
+            },
+			function (response) {
+                console.log(response);
+            }
+		)
+    }
 
 }]);

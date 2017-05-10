@@ -91,6 +91,12 @@ ngApp.filter('encodeURIComponent', function() {
 ngApp.filter('decodeURIComponent', function() {
   return window.decodeURIComponent;
 });
+ngApp.filter('roundup', function() {
+    return function(input) {
+        // return Math.ceil(input);
+		return input.toFixed(2);
+    };
+});
 /*
 ngApp.factory('myHttpInterceptor', function ($q, $window) {
   return function (promise) {
@@ -327,7 +333,7 @@ ngApp.directive('scrolly', function () {
         restrict: 'A',
         link: function (scope, element, attrs) {
             var raw = element[0];
-            console.log('loading directive');
+            console.log('loading scrolly directive');
 
             element.bind('scroll', function () {
                 // console.log('in scroll: ' + (raw.scrollTop + raw.offsetHeight) +", raw: " + raw.scrollHeight);
