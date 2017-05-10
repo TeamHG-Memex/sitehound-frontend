@@ -11,8 +11,8 @@ from ui.singleton import Singleton
 import datetime
 
 
-def list_workspace():
-    return dao_list_workspace()
+def list_workspace(search_query):
+    return dao_list_workspace(search_query)
 
 
 def get_workspace(workspace_id):
@@ -49,15 +49,36 @@ def get_blur_level():
 def save_blur_level(level):
     dao_save_blur_level(level)
 
-
-
 #####################  DAO  #####################
 
 
-def dao_list_workspace():
-    docs = Singleton.getInstance().mongo_instance.workspace_collection.find({}, {'name': 1, 'created': 1, 'words': 1}).sort('created', pymongo.ASCENDING)
+def dao_list_workspace(input_search_query):
+
+    docs_to_skip = input_search_query["begin"]
+    page_size = input_search_query["limit"]
+    order_by = input_search_query["orderBy"]
+    order_direction = input_search_query["reverse"]
+
+    if order_direction>0:
+        mongo_order_direction = pymongo.ASCENDING
+    else:
+        mongo_order_direction = pymongo.DESCENDING
+
+    docs = Singleton.getInstance().mongo_instance.workspace_collection\
+        .find({}, {'name': 1, 'created': 1, 'words': 1})\
+        .limit(page_size)\
+        .skip(docs_to_skip)\
+        .sort(order_by, mongo_order_direction)
 
     return list(docs)
+
+
+def dao_count_workspace():
+
+    count = Singleton.getInstance().mongo_instance.workspace_collection\
+        .count()
+
+    return count
 
 
 def dao_add_workspace(name, ts):

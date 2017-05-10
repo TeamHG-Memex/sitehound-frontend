@@ -58,7 +58,7 @@
 						<md-table-container>
 							<table md-table md-auto-select md-row-select ng-model="selected" md-progress="promise">
 
-								<thead md-head md-order="query.order" md-on-reorder="onReorder">
+								<thead md-head md-order="query.orderBy" md-on-reorder="onReorder">
 								<tr md-row>
 									<!--<th md-column md-order-by="_id"><span>Id</span></th>-->
 									<th md-column md-order-by="name"><span>Name</span></th>
@@ -116,14 +116,14 @@
 								<tfoot md-foot>
 								<tr md-row>
 									<td md-cell></td>
-									<td md-cell><strong>Total: &nbsp;&nbsp;&nbsp;{{workspaces.length}}</strong></td>
+									<td md-cell><strong>Total: {{workspacesCount}}</strong></td>
 									<td md-cell colspan="10"></td>
 								</tr>
 								</tfoot>
 							</table>
 						</md-table-container>
 
-						<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{workspaces.length}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+						<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{workspacesCount}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
 					</div>
 				<!--</ui-view>-->
 			</md-content>

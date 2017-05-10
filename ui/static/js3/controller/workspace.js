@@ -1,5 +1,5 @@
 ngApp.controller('addWorkspaceController', ['$mdDialog', '$scope', 'workspaceFactory',
-function ($mdDialog, $scope, workspaceFactory) {
+    function ($mdDialog, $scope, workspaceFactory) {
     'use strict';
 
 
@@ -25,7 +25,7 @@ function ($mdDialog, $scope, workspaceFactory) {
 }]);
 
 ngApp.controller('deleteWorkspaceController', ['deletedWorkspace', '$mdDialog', '$scope', '$q', 'workspaceFactory',
-function (deletedWorkspace, $mdDialog, $scope, $q, workspaceFactory) {
+    function (deletedWorkspace, $mdDialog, $scope, $q, workspaceFactory) {
     'use strict';
 
     $scope.deletedWorkspace = deletedWorkspace;
@@ -53,47 +53,20 @@ function (deletedWorkspace, $mdDialog, $scope, $q, workspaceFactory) {
 }]);
 
 
-ngApp.controller('workspaceController',
-         ['$scope', '$filter', '$timeout','workspaceFactory', 'domFactory', '$mdDialog', '$mdEditDialog',
+ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','workspaceFactory', 'domFactory', '$mdDialog', '$mdEditDialog',
     function ($scope, $filter, $timeout, workspaceFactory, domFactory, $mdDialog, $mdEditDialog) {
     'use strict';
 
-         $scope.master.init();
+     $scope.master.init();
 
-         $scope.workspace = null;
+     $scope.workspace = null;
 
-//["58ed5b62132ad2235def6de8"]
     $scope.workspaces = [];
     $scope.selected=[];
-    $scope.filter = {}
+    $scope.filter = {};
     $scope.filter.showOnlyMines = false;
+    $scope.workspacesCount = 0;
 
-    $scope.query = {
-        filter: '',
-        limit: '10',
-        order: 'created',
-        page: 1
-    };
-
-    $scope.onReorder = function (order) {
-//      getDesserts(angular.extend({}, $scope.query, {order: order}));
-      getDesserts(angular.extend({}, $scope.query, {order: order}));
-    };
-
-    $scope.onPaginate = function (page, limit) {
-      getDesserts(angular.extend({}, $scope.query, {page: page, limit: limit}));
-    };
-
-    $scope.mdOnSelect = function (workspaceId){
-		$scope.master.setWorkspace(workspaceId);
-    }
-
-    function getDesserts(query) {
-      $scope.selected = [];
-      var qry = query || $scope.query;
-        return [];
-//      $scope.promise = $domainResource.domains.get(qry, success).$promise;
-    }
 
     $scope.addItem = function (event) {
       $mdDialog.show({
@@ -167,7 +140,7 @@ ngApp.controller('workspaceController',
 
 		function onDeleteSuccess(){
             $scope.master.onRemovedWorkspaceId(id);
-			getWorkspaces();
+            getDesserts();
 		}
 
         $mdDialog.show({
@@ -196,22 +169,24 @@ ngApp.controller('workspaceController',
 		$scope.loading = false;
 	}
 
-	function getWorkspaces(order) {
+	function getWorkspaces(query) {
 
         var onSuccess = function (response) {
-            $scope.workspaces = response.data;
+            $scope.workspaces = response.data.list;
+            $scope.workspacesCount = response.data.count;
 //            $scope.selected[0] = workspaceSelectedService.getSelectedWorkspaceId();
 			if($scope.master.workspaceId){
 				$scope.selected[0] = $scope.master.workspaceId;
 			}
         };
         var onError = function(response) {
-            $scope.endLoading(tOut);
+            // $scope.endLoading(tOut);
             var error = response.data;
             $scope.status = 'Unable to load customer data: ' + error.message;
         };
 
-		workspaceFactory.getWorkspaces(order).then(onSuccess, onError);
+		// workspaceFactory.getWorkspaces(order).then(onSuccess, onError);
+		workspaceFactory.get(query).then(onSuccess, onError);
 	}
 
     $scope.prettyPrintWords = function(words) {
@@ -222,11 +197,38 @@ ngApp.controller('workspaceController',
         return keywords.join();
     }
 
-	getWorkspaces();
 
+    $scope.query = {
+        filter: '',
+        limit: 10,
+        orderBy: '-created',
+        page: 1
+    };
 
+    $scope.onReorder = function (order) {
+        getWorkspaces(angular.extend({}, $scope.query, {orderBy: order}));
+    };
+
+    $scope.onPaginate = function (page, limit) {
+        getWorkspaces(angular.extend({}, $scope.query, {page: page, limit: limit}));
+    };
+
+    $scope.mdOnSelect = function (workspaceId){
+        $scope.master.setWorkspace(workspaceId);
+    }
+
+    function getDesserts(query) {
+        $scope.selected = [];
+        var qry = query || $scope.query;
+        // return [];
+//      $scope.promise = $domainResource.domains.get(qry, success).$promise;
+        getWorkspaces(query);
+    }
+
+    getDesserts();
 
 }])
+
 .directive('workspace-row', function () {
 	return {
 	restrict : 'C',

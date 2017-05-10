@@ -61,11 +61,10 @@ def get_broad_crawl_results_summary_data(workspace_id):
     else:
         search_query["limit"] = 10
 
-    begin = 0
+    begin = 1
     if request.args.get('page') is not None:
         begin = int(request.args.get('page'))
     search_query["begin"] = (begin - 1) * limit
-
 
     search_results = get_broadcrawl_results_summary(workspace_id, search_query)
     total_results = get_broadcrawl_results_summary_count_mongo_dao(workspace_id, search_query)
