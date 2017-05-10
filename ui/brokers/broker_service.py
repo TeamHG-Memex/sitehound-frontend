@@ -32,7 +32,6 @@ class BrokerService(object):
         self.events_topic = "events"
         self.events_topic_input = self.events_topic + "-input"
 
-
         self.kafka_connector = KafkaConnector(kafka_host_name, kafka_host_port)
 
         logging.info("connecting with kafka: " + kafka_host_name + ":" + kafka_host_port)

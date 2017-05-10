@@ -47,112 +47,147 @@
                                     <p>This will build the initial model based on the labeled data provided (either by keywords or by seed urls)</p>
                                 <!--</div>-->
                                 <!--<div class="mdl-card__supporting-text">-->
+                                    <div style="margin-bottom: 20px; padding:20px">
 
-                                    <span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="color:red">
-                                        (Requires a prior training using <a href="http://localhost:5081/#/seed-input">imported URLs or the SearchEngines Fetch</a> to gather some URLs for labeling)
-                                    </span>
-                                    <span ng-show='master.workspace.page_model.model' style="color:green; font-size:12px">
-                                        Initial model completed. You should update it if you label more results from 'Search URLs'.
-                                    </span>
+                                        <span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="font-weight:bold; display:block">
+                                            (Requires a prior training using <a href="/#/seed-input">imported URLs or the SearchEngines Fetch</a> to gather some URLs for labeling)
+                                        </span>
+                                        <span ng-show='master.workspace.page_model.model' style="font-weight:bold; display:block">
+                                            Initial model completed. You should update it if you label more results from 'Search URLs'.
+                                        </span>
+                                    </div>
 
-                                                                    <div id="classifier-quality-container" style="padding-bottom:20px">
+                                    <div id="classifier-quality-container" style="padding-bottom:20px">
 
-                                                                        <div ng-repeat="adviceItem in modelerProgress.advice">
-                                                                            <div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
-                                                                                <b>{{adviceItem.kind}}!</b>
-                                                                                    <span ng-repeat="message in adviceItem.messages">
-                                                                                        {{message.text}}<span ng-show="message.tooltip"data-toggle="tooltip" data-placement="bottom" title="{{message.tooltip}}">
-                                                                                            <span class="question glyphicon glyphicon-question-sign"></span>
-                                                                                        </span>
-                                                                                            <!--<script type="text/javascript">-->
-                                                                                                    <!--$(function () {-->
-                                                                                                        <!--$('[data-toggle="tooltip"]').tooltip();-->
-                                                                                                    <!--})-->
-                                                                                            <!--</script>-->
-                                                                                    </span>
-                                                                            </div>
-                                                                        </div>
+                                            <div ng-repeat="adviceItem in modelerProgress.advice">
+                                                <div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
+                                                    <b>{{adviceItem.kind}}!</b>
+                                                    <!--<span>{{adviceItem.messages}}</span>-->
 
-                                                                        <div style="padding:20px">
-                                                                            <a href="javascript:void(0);" ng-show="!showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show more &hellip;</a>
-                                                                            <a href="javascript:void(0);" ng-show="showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show less &hellip;</a>
-                                                                        </div>
+                                                        <span ng-repeat="message in adviceItem.messages">
+                                                            <span ng-hide="message.tooltip">
+                                                                {{message.text}}
+                                                            </span>
 
-                                                                        <div ng-show="showMoreStatus">
-                                                                            <div>
-                                                                                <dl class="dl-horizontal">
-                                                                                    <div  ng-repeat="descriptionItem in modelerProgress.description" >
-                                                                                        <dt>{{descriptionItem.heading}}
+                                                            <span>
+                                                                <span ng-show="message.tooltip" style=" border-bottom: 1px dashed #999; display: inline;">
+                                                                        {{message.text}}
+                                                                </span>
+                                                                <md-tooltip>
+                                                                    {{message.tooltip}}
+                                                                </md-tooltip>
+                                                            </span>
+                                                        </span>
 
-                                                                                            <span ng-show="['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1" tooltip-trigger data-toggle="tooltip" data-placement="bottom"
-                                                                                                  title="{{modelerProgress.tooltips[descriptionItem.heading]}}">
-                                                                                                <span class="question glyphicon glyphicon-question-sign"></span>
-                                                                                            </span>
-                                                                                        </dt>
-                                                                                        <dd>{{descriptionItem.text}}</dd>
-                                                                                            <!--<script type="text/javascript">-->
-                                                                                                    <!--$(function () {-->
-                                                                                                        <!--$('[data-toggle="tooltip"]').tooltip();-->
-                                                                                                    <!--})-->
-                                                                                            <!--</script>-->
-                                                                                    </div>
-                                                                                </dl>
-                                                                            </div>
-                                                                            <div style="padding:20px">
-                                                                                <a href="javascript:void(0);" ng-show="!showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Show feature weights &hellip;</a>
-                                                                                <a href="javascript:void(0);" ng-show="showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Hide feature weights &hellip;</a>
-                                                                            </div>
-                                                                            <!--<div id="clf-weights" class="collapse weights">-->
-                                                                            <div ng-show="showFeatureWeightsStatus" style="padding-left:40px">
-                                                                                <table class="eli5-weights" style="border-collapse: collapse; border: none;"
-                                                                                    ng-show="modelerProgress.weights.pos.length + modelerProgress.weights.neg.length>0"
-                                                                                >
-                                                                                <thead>
-                                                                                <tr style="border: none;">
-                                                                                    <th style="padding: 0 1em 0 0.5em; text-align: right; border: none;">Weight</th>
-                                                                                    <th style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">Feature</th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.pos">
-                                                                                        <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
-                                                                                            +<span ng-bind='item["weight"] | number:3'></span>
-                                                                                        </td>
-                                                                                        <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
-                                                                                            <span ng-bind='item["feature"]'></span>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
-                                                                                        ng-show="modelerProgress.weights.pos.length>0"
-                                                                                    >
-                                                                                        <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
-                                                                                            <i>&hellip; {{modelerProgress.weights.pos_remaining}} more positive &hellip;</i>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
-                                                                                        ng-show="modelerProgress.weights.neg.length>0"
-                                                                                    >
-                                                                                        <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
-                                                                                            <i>&hellip;  {{modelerProgress.weights.neg_remaining}} more negative &hellip;</i>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.neg">
-                                                                                        <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
-                                                                                            <span ng-bind='item["weight"] | number:3'></span>
-                                                                                        </td>
-                                                                                        <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
-                                                                                            <span ng-bind='item["feature"]'></span>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
 
+
+
+
+                                                            <!--<span ng-show="message.tooltip" style=" border-bottom: 1px dashed #999; display: inline;">{{message.text}}</span>-->
+                                                            <!--<span ng-show="message.tooltip" style=" border-bottom: 1px dashed #999; display: inline;">{{message.text}}</span>-->
+                                                                <!--<script type="text/javascript">-->
+                                                                        <!--$(function () {-->
+                                                                            <!--$('[data-toggle="tooltip"]').tooltip();-->
+                                                                        <!--})-->
+                                                                <!--</script>-->
+                                                            <!--<span ng-show="message.tooltip"data-toggle="tooltip" data-placement="bottom" title="{{message.tooltip}}">-->
+                                                                        <!--<span class="question glyphicon glyphicon-question-sign"></span>-->
+                                                                <!--<md-icon ng-style="{color: #777}"-->
+                                                                <!--aria-label="backup"-->
+                                                                <!--class="material-icons step"-->
+                                                                <!--ng-class="md-18"-->
+                                                                <!--ng-bind="backup">-->
+                                                                <!--</md-icon>-->
+                                                                <!--<md-icon aria-label="info" class="material-icons step md-18" role="img" style="color: rgb(119, 119, 119); font-size: 18px; padding:0px">live_help</md-icon>-->
+                                                                <!--<i class="material-icons">live_help</i>-->
+                                                                <!--<md-tooltip>-->
+                                                                <!--{{message.tooltip}}-->
+                                                                <!--</md-tooltip>-->
+
+                                                            <!--</span>-->
+
+
+                                                </div>
+                                            </div>
+
+                                            <div style="padding:20px">
+                                                <a href="javascript:void(0);" ng-show="!showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show more &hellip;</a>
+                                                <a href="javascript:void(0);" ng-show="showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show less &hellip;</a>
+                                            </div>
+
+                                            <div ng-show="showMoreStatus">
+                                                <div>
+                                                    <dl class="dl-horizontal">
+                                                        <div  ng-repeat="descriptionItem in modelerProgress.description" >
+                                                            <dt>{{descriptionItem.heading}}
+
+                                                                <span ng-show="['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1" tooltip-trigger data-toggle="tooltip" data-placement="bottom"
+                                                                      title="{{modelerProgress.tooltips[descriptionItem.heading]}}">
+                                                                    <span class="question glyphicon glyphicon-question-sign"></span>
+                                                                </span>
+                                                            </dt>
+                                                            <dd>{{descriptionItem.text}}</dd>
+                                                                <!--<script type="text/javascript">-->
+                                                                        <!--$(function () {-->
+                                                                            <!--$('[data-toggle="tooltip"]').tooltip();-->
+                                                                        <!--})-->
+                                                                <!--</script>-->
+                                                        </div>
+                                                    </dl>
+                                                </div>
+                                                <div style="padding:20px">
+                                                    <a href="javascript:void(0);" ng-show="!showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Show feature weights &hellip;</a>
+                                                    <a href="javascript:void(0);" ng-show="showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Hide feature weights &hellip;</a>
+                                                </div>
+                                                <!--<div id="clf-weights" class="collapse weights">-->
+                                                <div ng-show="showFeatureWeightsStatus" style="padding-left:40px">
+                                                    <table class="eli5-weights" style="border-collapse: collapse; border: none;"
+                                                        ng-show="modelerProgress.weights.pos.length + modelerProgress.weights.neg.length>0"
+                                                    >
+                                                    <thead>
+                                                    <tr style="border: none;">
+                                                        <th style="padding: 0 1em 0 0.5em; text-align: right; border: none;">Weight</th>
+                                                        <th style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">Feature</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.pos">
+                                                            <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+                                                                +<span ng-bind='item["weight"] | number:3'></span>
+                                                            </td>
+                                                            <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+                                                                <span ng-bind='item["feature"]'></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
+                                                            ng-show="modelerProgress.weights.pos.length>0"
+                                                        >
+                                                            <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+                                                                <i>&hellip; {{modelerProgress.weights.pos_remaining}} more positive &hellip;</i>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
+                                                            ng-show="modelerProgress.weights.neg.length>0"
+                                                        >
+                                                            <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+                                                                <i>&hellip;  {{modelerProgress.weights.neg_remaining}} more negative &hellip;</i>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.neg">
+                                                            <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+                                                                <span ng-bind='item["weight"] | number:3'></span>
+                                                            </td>
+                                                            <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+                                                                <span ng-bind='item["feature"]'></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                 </div>
-
 
 
                                 <div class="mdl-card__actions">

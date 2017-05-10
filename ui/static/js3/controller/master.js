@@ -113,6 +113,11 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
         }
     };
 
+    $scope.master.bottomOfPageReachedAddUniqueListener = function(callback) {
+        $scope.master.bottomOfPageReachedCallbacks = [];
+        $scope.master.bottomOfPageReachedCallbacks.push(callback);
+    };
+
     $scope.master.bottomOfPageReachedAddListener = function(callback) {
         $scope.master.bottomOfPageReachedCallbacks.push(callback);
     };

@@ -268,62 +268,9 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
     $scope.trainerProgress = "";
     $scope.broadcrawlerProgress = "";
 
-    $scope.getAllProgress = function(workspaceId){
-        progressFactory.getAllProgress(workspaceId).then(
-		function (response) {
-		    //model
-//		    debugger;
-//            $scope.modelerProgress = data.model;
-//            $scope.modelerProgress.advice = $scope.adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
-            //trainer
-            $scope.trainerProgress = response.data.trainer;
-
-            //broadcrawl
-            $scope.broadcrawlerProgress = response.data.broadcrawler;
-			$scope.loading = false;
-        },
-		function (response) {
-			$scope.status = 'Unable to load data: ' + response;
-			$scope.loading = false;
-        });
-    };
+    var isRunning = false;
 
 
-
-    $scope.modelerProgress = [];
-    $scope.getModelerProgress = function(workspaceId){
-        progressFactory.getModelerProgress(workspaceId).then(
-		function (response) {
-            $scope.modelerProgress = response.data;
-            $scope.modelerProgress.advice = $scope.adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
-			$scope.loading = false;
-        },
-		function (error) {
-			$scope.status = 'Unable to load data: ' + error.message;
-			$scope.loading = false;
-        });
-    }
-
-
-
-
-	var isRunning = false;
-	function backgroundService(){
-		if(!isRunning){
-			isRunning = true;
-            $scope.getAggregated();
-            $scope.master.reloadWorkspace($scope.master.workspaceId);
-
-            $scope.getModelerProgress($scope.workspaceId);
-//            $scope.getTrainerProgress($scope.workspaceId);
-            $scope.getAllProgress($scope.workspaceId);
-
-            $interval.cancel($rootScope.backgroundServicePromise);
-            $rootScope.backgroundServicePromise = $interval(backgroundService, 15000);
-		}
-	}
-
-    backgroundService();
 
     $scope.stopBroadCrawl = function(){
         eventFactory.postDdCrawler($scope.workspaceId, "stop");
@@ -352,13 +299,12 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
                 $scope.modelerProgress.weights.pos &&
                 $scope.modelerProgress.weights.neg &&
                 ($scope.modelerProgress.weights.pos.length + $scope.modelerProgress.weights.neg.length)>0;
-    }
+    };
 
 
 
 
     $scope.adviceParser = function(advices, tooltips){
-
         var adviceArray=[];
 
         var tooltipsKeys=[];
@@ -393,15 +339,31 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
         var right_text = text;
         var lastIndex = 0;
-        angular.forEach(positionArr, function(value, key){
-                var left_text = text.substr(lastIndex, value.pos + value.key.length - lastIndex);
-                right_text = text.substr(value.pos + value.key.length);
-                var tooltipText = tooltips[value.key];
 
-                arr.push({"text":left_text, "tooltip": tooltipText });
-                lastIndex=value.pos + value.key.length;
+        angular.forEach(positionArr, function(value, key){
+            var left_text = text.substr(lastIndex, value.pos);// + value.key.length - lastIndex);
+            var center_text = text.substr(value.pos, value.key.length);
+            var tooltipText = tooltips[value.key];
+            arr.push({"text":left_text, "tooltip": null });
+            arr.push({"text":center_text, "tooltip": tooltipText });
+            lastIndex=value.pos + value.key.length;
         });
-        arr.push({"text":right_text, "tooltip": null});
+
+        if(lastIndex < text.length-1){
+            right_text = text.substr(lastIndex);
+            arr.push({"text":right_text, "tooltip": null});
+        }
+
+
+        // angular.forEach(positionArr, function(value, key){
+        //         var left_text = text.substr(lastIndex, value.pos + value.key.length - lastIndex);
+        //         right_text = text.substr(value.pos + value.key.length);
+        //         var tooltipText = tooltips[value.key];
+        //
+        //         arr.push({"text":left_text, "tooltip": tooltipText });
+        //         lastIndex=value.pos + value.key.length;
+        // });
+        // arr.push({"text":right_text, "tooltip": null});
 
         return arr;
     }
@@ -410,14 +372,67 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
         var positionArr = [];
         for (i = 0; i < tooltips.length; i++) {
             var key = tooltips[i];
-            var textTemp = text;
-            while (textTemp.indexOf(key)>-1) {
-                var right_text = textTemp.substr(text.indexOf(key) + key.length);
-                positionArr.push({"pos": textTemp.indexOf(key), "key": key});
-                textTemp = right_text;
+            // var textTemp = text;
+            var lastPosition = -1;
+            while ((lastPosition = text.indexOf(key, lastPosition + 1)) > -1){
+                console.log(lastPosition);
+                positionArr.push({"pos": lastPosition, "key": key});
             }
         }
         return positionArr;
     }
 
-}]);
+
+
+    $scope.getModelerProgress = function(workspaceId){
+        progressFactory.getModelerProgress(workspaceId).then(
+            function (response) {
+                $scope.modelerProgress = response.data;
+                $scope.modelerProgress.advice = $scope.adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
+                $scope.loading = false;
+            },
+            function (error) {
+                $scope.status = 'Unable to load data: ' + error.message;
+                $scope.loading = false;
+            });
+    };
+
+
+    $scope.getAllProgress = function(workspaceId){
+        progressFactory.getAllProgress(workspaceId).then(
+            function (response) {
+                //model
+//            $scope.modelerProgress = data.model;
+//            $scope.modelerProgress.advice = $scope.adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
+                //trainer
+                $scope.trainerProgress = response.data.trainer;
+
+                //broadcrawl
+                $scope.broadcrawlerProgress = response.data.broadcrawler;
+                $scope.loading = false;
+            },
+            function (response) {
+                $scope.status = 'Unable to load data: ' + response;
+                $scope.loading = false;
+            });
+    };
+
+    function backgroundService(){
+        if(!isRunning){
+            isRunning = true;
+            $scope.getAggregated();
+            $scope.master.reloadWorkspace($scope.master.workspaceId);
+
+            $scope.getModelerProgress($scope.workspaceId);
+//            $scope.getTrainerProgress($scope.workspaceId);
+            $scope.getAllProgress($scope.workspaceId);
+
+            $interval.cancel($rootScope.backgroundServicePromise);
+            $rootScope.backgroundServicePromise = $interval(backgroundService, 15000*10);
+        }
+    }
+
+    backgroundService();
+
+
+    }]);

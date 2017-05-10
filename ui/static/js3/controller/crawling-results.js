@@ -119,6 +119,9 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
 			$scope.maxId = response.data.maxId ? response.data.maxId : null;
 			$scope.loading = false;
 			$scope.crawlStatusBusy = false;
+
+			$scope.master.bottomOfPageReachedAddUniqueListener($scope.fetch);
+
             },
             function(error){
                 $scope.status = 'Unable to load data: ' + error;
@@ -133,7 +136,7 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
 
 
 
-    $scope.master.bottomOfPageReachedAddListener($scope.fetch);
+
 
 
 

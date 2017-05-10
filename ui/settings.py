@@ -4,7 +4,7 @@ APP_PORT = 5081
 # flask-security
 SECRET_KEY = 'super-secret'
 
-MONGO_HOST_NAME = "mongodb"
+# MONGO_HOST_NAME = "mongodb"
 MONGO_HOST_PORT = 27017
 
 KAFKA_HOST_NAME = "hh-kafka"
