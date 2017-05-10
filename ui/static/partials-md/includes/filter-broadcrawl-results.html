@@ -1,0 +1,68 @@
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-controller="filterTrainResultsController">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+
+            <h4 class="mdl-cell mdl-cell--12-col">Filter results</h4>
+            <!--<div>-->
+            <!--<p>-->
+            <!--Filters in the same category are ORs-->
+            <!--Filters in the different categories are ANDs-->
+            <!--</p><br>-->
+            <!--</div>-->
+
+            <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                <div class="section__circle-container__circle mdl-color--primary"></div>
+            </div>
+
+            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                <h5>By source</h5>
+                The dataset to be labeled could be from multiple sources
+                <div style="padding:15px">
+                    <md-checkbox
+                            ng-repeat="source in master.catalog.broadcrawlSources"
+                            value="{{source.label}}"
+                            aria-label="{{source.label}}"
+                            ng-checked="filters.sources.indexOf(source.value) > -1"
+                            ng-click="toggleSelection(source.value, filters.sources)">
+                        {{source.label | capitalize}}
+                    </md-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-card mdl-cell mdl-cell--12-col" >
+            <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing" style="margin-bottom: 0px;margin-top: 0px">
+                <h4 class="mdl-cell mdl-cell--12-col">Layout</h4>
+                <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
+                <p>Choose between a compact table representation (without images) or the card-type results with images</p>
+                <br>
+                <div>
+                    <!--<md-switch ng-model="display.results" aria-label="Display type" ng-true-value="'table'" ng-false-value="'cards'" class="md-primary" >-->
+                        <!--Show results as {{ display.results }}-->
+                    <!--</md-switch>-->
+                    <md-checkbox
+                        value="Table"
+                        aria-label="Show table"
+                        ng-model="display.results.table"
+                        ng-click="toggleDisplay('table')"
+                    >Show results as table
+                    </md-checkbox>
+                    <md-checkbox
+                        value="Cards"
+                        aria-label="Show Cards"
+                        ng-model="display.results.cards"
+                        ng-click="toggleDisplay('cards')"
+                    >Show results as Cards
+                    </md-checkbox>
+                </div>
+            </div>
+            <div class="mdl-card__actions" mdl-card--border>
+                <div layout="row" layout-align="space-between center">
+                    <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
+                    </div>
+                    <md-button class="md-primary md-raised" ng-click="search()" >Search</md-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,63 @@
+
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+	<div class="mdl-card mdl-cell mdl-cell--12-col">
+		<div class="mdl-card__supporting-text">
+			<h4>Summary</h4>
+			<!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
+			Compact view of the crawled urls found. Select the hosts for performing the Feature Extraction
+		<!--</div>-->
+		<!--<div>-->
+
+			<!--<div style="padding:8px; padding-top:48px">-->
+			<div style="padding:0px; padding-top:20px">
+
+				<md-content flex md-scroll-y class="md-default-theme" id="homeContent">
+					<div layout="column" flex>
+
+						<md-table-container>
+							<table md-table md-auto-select md-row-select ng-model="selected" multiple md-progress="promise">
+								<thead md-head md-order="query.orderBy" md-on-reorder="onReorder">
+									<tr md-row>
+										<th md-column md-numeric md-order-by="score"><span>Score</span></th>
+										<!--<th md-column md-order-by="pinned">Pinned</th>-->
+										<th md-column md-order-by="host">Host</th>
+										<th md-column md-order-by="url">Url</th>
+									</tr>
+								</thead>
+								<tbody md-body>
+									<tr md-row md-select="elem._id" md-select-id="_id" ng-repeat="elem in table.results" md-on-select="mdOnSelect" md-on-deselect="mdOnDeselect">
+										<td md-cell>{{elem.score | roundup}}</td>
+										<!--<td md-cell>{{elem.pinned}}</td>-->
+										<td md-cell>{{elem.host}}</td>
+										<td md-cell class="dont-break-out">{{elem.url}}</td>
+									</tr>
+								</tbody>
+								<tfoot md-foot>
+								<tr md-row>
+									<td md-cell></td>
+									<td md-cell><strong>Total: {{table.totalResultsCount}}</strong></td>
+									<td md-cell colspan="10"></td>
+								</tr>
+								</tfoot>
+							</table>
+						</md-table-container>
+						<md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{table.totalResultsCount}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+					</div>
+					<!--</ui-view>-->
+				</md-content>
+			</div>
+
+		</div>
+		<div class="mdl-card__actions">
+			<a href="#" class="mdl-button">Read our features</a>
+		</div>
+	</div>
+	<!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn3">-->
+		<!--<i class="material-icons">more_vert</i>-->
+	<!--</button>-->
+	<!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn3">-->
+		<!--<li class="mdl-menu__item">Lorem</li>-->
+		<!--<li class="mdl-menu__item" disabled>Ipsum</li>-->
+		<!--<li class="mdl-menu__item">Dolor</li>-->
+	<!--</ul>-->
+</section>
