@@ -5,7 +5,7 @@
   <div ng-show="master.workspaceName!=null" class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
     <div class="mdl-card__supporting-text">
       <h4>Current workspace</h4>
-      <span ng-bind="master.workspaceName" ></span>
+      <span ng-bind="master.workspaceName | capitalize" ></span>
     </div>
     <div class="mdl-card__actions" >
       <a href="#/workspace" class="mdl-button">Change</a>

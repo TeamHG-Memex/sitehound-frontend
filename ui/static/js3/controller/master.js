@@ -11,6 +11,10 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 		$scope.master.reloadWorkspace(workspaceId);
 	}
 
+    $scope.master.getWorkspace = function(){
+        return $scope.master.workspaceId;
+    }
+
 	$scope.master.onRemovedWorkspaceId = function(removedWorkspaceId){
 		if(removedWorkspaceId == $scope.master.workspaceId){
 			$scope.master.workspaceId = null;

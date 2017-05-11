@@ -3,7 +3,7 @@ import pymongo
 __author__ = 'tomas'
 from bson import ObjectId
 from dao.mongo_instance import MongoInstance
-from mongoutils.errors import DeletingSelectedWorkspaceError, AddingWorkspaceError
+from mongoutils.errors import DeletingSelectedWorkspaceError, AddingWorkspaceError, UpdatingWorkspaceError
 # from app_context import mongo_instance
 # from ui.app_context import AppContext
 # from ui import AppContext
@@ -38,16 +38,30 @@ def add_workspace(name):
     dao_add_workspace(name, ts)
 
 
+def update_workspace(workspace_id, name):
+    collection = Singleton.getInstance().mongo_instance.workspace_collection
+    ws_doc = collection.find_one({'_id': ObjectId(workspace_id)})
+    # ws_doc = Singleton.getInstance().mongo_instance.workspace_collection.find_one({'name': name})
+    if ws_doc is None:
+        update_object = {'name': name}
+        collection.update({'_id': ObjectId(workspace_id)}, {'$set': update_object})
+    else:
+        raise UpdatingWorkspaceError("The id doesn't exists")
+
+
+
 def delete_workspace(id):
     dao_delete_workspace(id)
 
 
-def get_blur_level():
-    return dao_get_blur_level()
+# def get_blur_level():
+#     return dao_get_blur_level()
+#
+#
+# def save_blur_level(level):
+#     dao_save_blur_level(level)
 
 
-def save_blur_level(level):
-    dao_save_blur_level(level)
 
 #####################  DAO  #####################
 
@@ -90,6 +104,7 @@ def dao_add_workspace(name, ts):
         raise AddingWorkspaceError('The name already exists')
 
 
+
 def dao_get_workspace_by_id(id):
     return Singleton.getInstance().mongo_instance.workspace_collection.find_one({'_id': ObjectId(id)})
 
@@ -101,18 +116,18 @@ def dao_delete_workspace(id):
     Singleton.getInstance().mongo_instance.get_broad_crawler_collection().remove({"workspaceId": id})
 
 
-################ BLURRING #########################
-
-def dao_get_blur_level(self):
-    ws = Singleton.getInstance().mongo_instance.get_current_workspace()
-    if ws is None or "blur_level" not in ws or ws["blur_level"] is None:
-        return 0
-    else:
-        return ws["blur_level"]
-
-def dao_save_blur_level(self, level):
-    ws = Singleton.getInstance().mongo_instance.get_current_workspace()
-    if ws is None:
-        Singleton.getInstance().mongo_instance.workspace_collection.upsert({'_id': '_default'}, {'$set': {'blur_level': level}})
-    else:
-        Singleton.getInstance().mongo_instance.workspace_collection.update({'_id': ObjectId(ws['_id'] )}, {'$set': {'blur_level': level}})
+# ############## BLURRING #########################
+#
+# def dao_get_blur_level(self):
+#     ws = Singleton.getInstance().mongo_instance.get_current_workspace()
+#     if ws is None or "blur_level" not in ws or ws["blur_level"] is None:
+#         return 0
+#     else:
+#         return ws["blur_level"]
+#
+# def dao_save_blur_level(self, level):
+#     ws = Singleton.getInstance().mongo_instance.get_current_workspace()
+#     if ws is None:
+#         Singleton.getInstance().mongo_instance.workspace_collection.upsert({'_id': '_default'}, {'$set': {'blur_level': level}})
+#     else:
+#         Singleton.getInstance().mongo_instance.workspace_collection.update({'_id': ObjectId(ws['_id'] )}, {'$set': {'blur_level': level}})

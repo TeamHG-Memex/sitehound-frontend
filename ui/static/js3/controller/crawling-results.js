@@ -274,6 +274,7 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
 
     $scope.table = {};
     $scope.table.results = [];
+    $scope.table.totalResultsCount = 0;
 
     function getDesserts(query) {
 

@@ -62,10 +62,15 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
      $scope.workspace = null;
 
     $scope.workspaces = [];
-    $scope.selected=[];
+
     $scope.filter = {};
     $scope.filter.showOnlyMines = false;
     $scope.workspacesCount = 0;
+
+    $scope.selected=[];
+    if($scope.master.getWorkspace()){
+        $scope.selected[0] = $scope.master.getWorkspace()
+    }
 
 
     $scope.addItem = function (event) {
@@ -140,7 +145,7 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 
 		function onDeleteSuccess(){
             $scope.master.onRemovedWorkspaceId(id);
-            getDesserts();
+            getWorkspaces();
 		}
 
         $mdDialog.show({
@@ -155,29 +160,36 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
     };
 
 
-
 	$scope.status = "";
 	$scope.loading = false;
 
 	//TODO move this 2 to domFactory
 	$scope.startLoading = function(){
 		return $timeout(function(){$scope.loading = true;}, 1000);
-	}
+	};
 
 	$scope.endLoading = function(timeoutHandle){
 		$timeout.cancel(timeoutHandle);
 		$scope.loading = false;
-	}
+	};
 
-	function getWorkspaces(query) {
+
+
+    $scope.query = {
+        filter: '',
+        limit: 10,
+        orderBy: '-created',
+        page: 1
+    };
+
+    $scope.originalQuery = $scope.query;
+
+    function getWorkspaces(query) {
 
         var onSuccess = function (response) {
             $scope.workspaces = response.data.list;
             $scope.workspacesCount = response.data.count;
 //            $scope.selected[0] = workspaceSelectedService.getSelectedWorkspaceId();
-			if($scope.master.workspaceId){
-				$scope.selected[0] = $scope.master.workspaceId;
-			}
         };
         var onError = function(response) {
             // $scope.endLoading(tOut);
@@ -185,8 +197,9 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
             $scope.status = 'Unable to load customer data: ' + error.message;
         };
 
-		// workspaceFactory.getWorkspaces(order).then(onSuccess, onError);
-		workspaceFactory.get(query).then(onSuccess, onError);
+        // var qry = query || $scope.query;
+        $scope.query = query || $scope.originalQuery;
+		workspaceFactory.get($scope.query).then(onSuccess, onError);
 	}
 
     $scope.prettyPrintWords = function(words) {
@@ -197,13 +210,6 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
         return keywords.join();
     }
 
-
-    $scope.query = {
-        filter: '',
-        limit: 10,
-        orderBy: '-created',
-        page: 1
-    };
 
     $scope.onReorder = function (order) {
         getWorkspaces(angular.extend({}, $scope.query, {orderBy: order}));
@@ -217,15 +223,16 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
         $scope.master.setWorkspace(workspaceId);
     }
 
-    function getDesserts(query) {
-        $scope.selected = [];
-        var qry = query || $scope.query;
-        // return [];
-//      $scope.promise = $domainResource.domains.get(qry, success).$promise;
-        getWorkspaces(query);
-    }
-
-    getDesserts();
+//     function getDesserts(query) {
+//         // $scope.selected = [];
+//         var qry = query || $scope.query;
+//         // return [];
+// //      $scope.promise = $domainResource.domains.get(qry, success).$promise;
+//         getWorkspaces(query);
+//     }
+//
+//     getDesserts();
+    getWorkspaces();
 
 }])
 

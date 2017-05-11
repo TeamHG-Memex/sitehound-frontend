@@ -11,7 +11,7 @@
 			<!--<div style="padding:8px; padding-top:48px">-->
 			<div style="padding:0px; padding-top:20px">
 
-				<md-content flex md-scroll-y class="md-default-theme" id="homeContent">
+				<md-content ng-show="table.totalResultsCount>0" flex md-scroll-y class="md-default-theme" id="homeContent">
 					<div layout="column" flex>
 
 						<md-table-container>
@@ -45,6 +45,10 @@
 					</div>
 					<!--</ui-view>-->
 				</md-content>
+
+				<span ng-show="table.totalResultsCount==0">
+					No results to show
+				</span>
 			</div>
 
 		</div>

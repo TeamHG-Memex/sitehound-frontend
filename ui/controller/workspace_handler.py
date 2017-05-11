@@ -8,7 +8,7 @@ from ui import app
 from flask import Response, request, jsonify
 
 from service.workspace_service import list_workspace, add_workspace, delete_workspace, get_workspace, \
-    dao_count_workspace
+    dao_count_workspace, update_workspace
 from utils.json_encoder import JSONEncoder
 from mongoutils.errors import AddingWorkspaceError
 
@@ -91,21 +91,23 @@ def add_workspace_api():
     try:
         name = request.data
         add_workspace(name)
-        in_doc = list_workspace()
-        out_doc = JSONEncoder().encode(in_doc)
-        return Response(out_doc, mimetype="application/json")
+        # in_doc = list_workspace()
+        # out_doc = JSONEncoder().encode(in_doc)
+        # return Response(out_doc, mimetype="application/json")
+        return Response({}, mimetype="application/json")
     except AddingWorkspaceError:
         raise InvalidUsage('A workspace with that name already exists', status_code=409)
 
 
-@app.route("/api/workspace/<name>", methods=['PUT'])
+@app.route("/api/workspace/<workspace_id>/<name>", methods=['PUT'])
 @login_required
-def update_workspace_api(name):
-    add_workspace(name)
-    in_doc = list_workspace()
-    out_doc = JSONEncoder().encode(in_doc)
-    return Response(out_doc, mimetype="application/json")
-
+def update_workspace_api(workspace_id):
+    name = request.data
+    update_workspace(workspace_id, name)
+    # in_doc = list_workspace()
+    # out_doc = JSONEncoder().encode(in_doc)
+    # return Response(out_doc, mimetype="application/json")
+    return Response("{}", mimetype="application/json")
 
 @app.route("/api/workspace/<id>", methods=['DELETE'])
 @login_required
