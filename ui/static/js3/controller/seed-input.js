@@ -1,5 +1,5 @@
-ngApp.controller('seedInputController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService', 'importUrlFactory', '$mdDialog',
-function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, importUrlFactory, $mdDialog) {
+ngApp.controller('seedInputController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService', 'importUrlFactory',
+function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, importUrlFactory) {
 
 
     $scope.master.init();
@@ -10,21 +10,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
     $scope.selected.sources = ['SE'];
     $scope.nResults=100;
 
-    $scope.showAlert = function(ev, custom) {
-        // Appending dialog to document.body to cover sidenav in docs app
-        // Modal dialogs should fully cover application
-        // to prevent interaction outside of dialog
-        $mdDialog.show(
-            $mdDialog.alert()
-                .parent(angular.element(document.querySelector('#popupContainer')))
-                .clickOutsideToClose(false)
-                .title(custom.title)
-                .textContent(custom.textContent)
-                .ariaLabel(custom.title)
-                .ok('Got it!')
-                .targetEvent(ev)
-        );
-    };
+
 
 	$scope.generateSeedUrls = function(ev){
 
@@ -33,7 +19,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
             var custom = {};
             custom.title = 'Included Keywords not provided';
             custom.textContent = 'Please enter some Included Keywords for querying the Source/s.';
-            $scope.showAlert(ev, custom);
+            $scope.master.showAlert(ev, custom);
             return;
 		}
 
@@ -41,7 +27,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         	var custom = {};
         	custom.title = 'Source was not provided';
         	custom.textContent = 'Please select the Source from where to get the crawling data.';
-            $scope.showAlert(ev, custom);
+            $scope.master.showAlert(ev, custom);
             return;
         }
 
@@ -72,7 +58,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
             var custom = {};
             custom.title = 'URL/s not provided';
             custom.textContent = 'Please enter some URLs to fetch the data from.';
-            $scope.showAlert(ev, custom);
+            $scope.master.showAlert(ev, custom);
             return;
 		}
 		importUrlFactory.save($scope.master.workspaceId, $scope.upload.urlsToAdd, $scope.upload.relevance).then(

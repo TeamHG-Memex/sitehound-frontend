@@ -395,6 +395,34 @@ def delete_broadcrawler_result(workspace_id, id):
     collection.update({"_id": ObjectId(id)}, {'$set': update_object}, True)
 
 
+def dao_aggregate_broadcrawl_results(workspace_id):
+
+    source_search_conditions = []
+
+    workspace_search_object = {'workspaceId': workspace_id}
+    source_search_conditions.append(workspace_search_object)
+
+    delete_search_object = {'deleted': {'$exists': False}}
+    source_search_conditions.append(delete_search_object)
+
+    source_search_object = {'$and': source_search_conditions}
+
+    collection = Singleton.getInstance().mongo_instance.get_broad_crawler_collection()
+
+    try:
+        res = collection.aggregate([
+
+            # '$group': {'_id': '$crawlEntityType', "count": {"$sum": 1}}
+            {'$match': source_search_object},
+            {'$group': {'_id': {'crawlEntityType': '$crawlEntityType'}, "count": {"$sum": 1}}}
+        ])
+    except Exception as e:
+        print e
+
+    return res["result"]
+
+
+
 ''' Pin Service '''
 
 

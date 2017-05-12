@@ -10,23 +10,29 @@
     ## edit name
 
 #seed-input:
-    ## validate fields before running
+    ## validate fields before running [done]
     ## feedback when run is click
     ## show progress and allow the user to be redirected to dashboard
 
 
-
-
 #training tab
    ##show progress
-   ##make result's  display card horizontal
-   ##infinite scrolling or show more results
+   ##make result's  display card horizontal [done]
+   ##infinite scrolling or show more results [done]
    ##make fetch button return different results
    ##autocomplete for tags
    ##twitter api
     
-#ml-crawling tab       
-   ##start-stop state of ml-crawling, step 2
+#ml-crawling tab
+   ##simple crawler
+       ###start-stop state of ml-crawling, step 2
+       ### validate training dataset
+       ### validate keywords
+
+    ##ml crawler
+        ##add getModelerProgress for showing the progress on a progress card
+
+        ##add slider with autorefresh!!!
 
 #overall
     ##add feedback:

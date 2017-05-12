@@ -20,7 +20,7 @@
                                     </ul>
                                     <p>Prerequisites:</p>
                                     <ul>
-                                        <li>You need to have already a trained set labeled as <b>Relevant</b> and <b>Irrelevant</b></li>
+                                        <li>A trained set labeled as <b>Relevant</b> and <b>Irrelevant</b></li>
                                     </ul>
                                     <p>Then you can check the results on <a ng-href="#crawling-results">crawling results</a> tab<p>
                                 </div>
@@ -42,7 +42,7 @@
 
                                     <div >
                                         <div style="margin: 20px;">
-                                            <span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="font-weight:bold; display:block">
+                                            <span ng-show='trainingStats.resultStruct["SE"]["relevant"]==0 && (trainingStats.resultStruct["MANUAL"]["relevant"]==0 || trainingStats.resultStruct["MANUAL"]["irrelevant"]==0)' style="font-weight:bold; display:block">
                                                 (Requires a prior training using <a href="/#/seed-input">imported URLs or the SearchEngines Fetch</a> to gather some URLs for labeling)
                                             </span>
                                             <span ng-show='master.workspace.page_model.model' style="font-weight:bold; display:block">
@@ -55,20 +55,19 @@
                                                 <div ng-repeat="adviceItem in modelerProgress.advice">
                                                     <div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
                                                         <b>{{adviceItem.kind}}!</b>
-                                                            <span ng-repeat="message in adviceItem.messages">
-                                                                <span ng-hide="message.tooltip">
+                                                        <span ng-repeat="message in adviceItem.messages">
+                                                            <span ng-hide="message.tooltip">
+                                                                {{message.text}}
+                                                            </span>
+                                                            <span>
+                                                                <span ng-show="message.tooltip" style=" border-bottom: 1px dashed #999; display: inline;">
                                                                     {{message.text}}
                                                                 </span>
-
-                                                                <span>
-                                                                    <span ng-show="message.tooltip" style=" border-bottom: 1px dashed #999; display: inline;">
-                                                                            {{message.text}}
-                                                                    </span>
-                                                                    <md-tooltip>
-                                                                        {{message.tooltip}}
-                                                                    </md-tooltip>
-                                                                </span>
+                                                                <md-tooltip>
+                                                                    {{message.tooltip}}
+                                                                </md-tooltip>
                                                             </span>
+                                                        </span>
                                                     </div>
                                                 </div>
 
@@ -172,7 +171,7 @@
                                         <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
                                         </div>
 
-                                        <md-button class="md-primary md-raised" ng-disabled='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)'
+                                        <md-button class="md-primary md-raised" ng-disabled='trainingStats.resultStruct["SE"]["relevant"]==0 && (trainingStats.resultStruct["MANUAL"]["relevant"]==0 || trainingStats.resultStruct["MANUAL"]["irrelevant"]==0)'
                                                  ng-click="startDdModeler()" >
                                             Build Model
                                         </md-button> &nbsp;&nbsp;&nbsp;
@@ -209,7 +208,7 @@
                                                 <h5>Crawler Progress:</h5>
                                                 <h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>
                                             </div>
-                                            <h5 ng-show='resultStruct["DD"]["total"]>0'><a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
+                                            <h5 ng-show='trainingStats.resultStruct["DD"]["total"]>0'><a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
                                             </h5>
                                         </div>
                                 </div>
@@ -221,21 +220,21 @@
                                         <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
                                         </div>
                                             <md-button
-                                                    ng-disabled='!(master.workspace.page_model.model)'
-                                                    class="md-primary md-raised"
-                                                    ng-click="startDdTrainer()">
+                                                ng-disabled='!(master.workspace.page_model.model)'
+                                                class="md-primary md-raised"
+                                                ng-click="startDdTrainer()">
                                                 Start Crawler
                                             </md-button>
                                             <md-button
-                                                    ng-disabled='!(master.workspace.page_model.model)'
-                                                    class="md-primary md-raised"
-                                                    ng-click="stopDdTrainer()">
+                                                ng-disabled='!(master.workspace.page_model.model)'
+                                                class="md-primary md-raised"
+                                                ng-click="stopDdTrainer()">
                                                 Stop Crawler
                                             </md-button>
                                             <md-button
-                                                     class="md-danger md-raised"
-                                                       ng-show='resultStruct["DD"]["total"]>0'
-                                                       ng-click="resetResults('DD')">
+                                                    class="md-danger md-raised"
+                                                    ng-show='trainingStats.resultStruct["DD"]["total"]>0'
+                                                    ng-click="resetResults('DD')">
                                                 Delete
                                             </md-button>
                                     </div>
@@ -266,7 +265,7 @@
                                                     <span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
                                                 </div>
                                             </div>
-                                            <h6><span ng-hide='master.workspace.link_model.model && resultStruct["DD"]["relevant"]>0'
+                                            <h6><span ng-hide='master.workspace.link_model.model && trainingStats.resultStruct["DD"]["relevant"]>0'
                                                     style="color:red">(Requires a previous training with Deep-Deep)</span></h6>
                                             <a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;
                                             <a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;
@@ -279,13 +278,13 @@
                                         </div>
                                             <div>
                                                 <md-button
-                                                        ng-disabled='!(master.workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+                                                        ng-disabled='!(master.workspace.link_model.model && trainingStats.resultStruct["DD"]["relevant"]>0)'
                                                         class="md-primary md-raised"
                                                         ng-click="navigateToBroadcrawlNew()">
                                                     Start Crawler
                                                 </md-button>
                                                 <md-button
-                                                        ng-disabled='!(master.workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+                                                        ng-disabled='!(master.workspace.link_model.model && trainingStats.resultStruct["DD"]["relevant"]>0)'
                                                         class="md-primary md-raised"
                                                         ng-click="stopBroadCrawl(master.workspace._id)">
                                                     Stop Crawler
@@ -369,7 +368,7 @@
                                     <div layout="row" layout-align="space-between center">
                                         <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
                                         </div>
-                                        <md-button class="md-primary md-raised" ng-click="publish2BroadCrawl('SE')" >Run</md-button>
+                                        <md-button class="md-primary md-raised" ng-click="publish2BroadCrawl($event, 'SE')" >Run</md-button>
                                     </div>
                                 </div>
                             </div>

@@ -1,7 +1,7 @@
-<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-controller="trainingStatsController">
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-controller="broadcrawlStatsController">
     <div class="mdl-card mdl-cell mdl-cell--12-col">
         <div class="mdl-card__supporting-text">
-            <h4>Training Stats</h4>
+            <h4>Broadcrawl Stats</h4>
 
             <div style="padding:0px; padding-top:20px">
 
@@ -12,15 +12,15 @@
                             <table md-table >
                                 <thead md-head>
                                 <tr md-row>
-                                    <th md-column >&nbsp;Source \ Label</th>
-                                    <th md-column md-numeric ng-repeat="output in trainOutputs">{{output |capitalize}}</th>
-
+                                    <th md-column >&nbsp;Source</th>
+                                    <th md-column md-numeric >Count</th>
                                 </tr>
                                 </thead>
                                 <tbody md-body>
-                                <tr md-row ng-repeat="source in trainSources" >
+                                <tr md-row ng-repeat="source in broadcrawlSources" >
                                     <td md-cell >{{master.catalog.sourcesTranslator(source) | capitalize}}</td>
-                                    <td md-cell ng-repeat="output in trainOutputs">{{trainingStats.resultStruct[source][output]}}</td>
+                                    <!--<td md-cell ng-repeat="output in trainOutputs">{{ resultStruct[source][output]}}</td>-->
+                                    <td md-cell >{{broadcrawlStats.resultStruct[source]}}</td>
                                 </tr>
                                 </tbody>
                             </table>

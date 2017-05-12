@@ -1,5 +1,5 @@
-ngApp.controller('masterController', ['$scope', '$cookies', '$mdConstant', 'workspaceFactory',
-function ($scope, $cookies, $mdConstant, workspaceFactory) {
+ngApp.controller('masterController', ['$scope', '$cookies', '$mdConstant', 'workspaceFactory', '$mdDialog',
+function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
 
 	$scope.master = {};
 	$scope.master.workspaceId = $cookies.get("workspaceId");
@@ -61,25 +61,25 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
     $scope.master.catalog.udcs = [];
 
     $scope.master.catalog.sources=[
-      { label: 'Google + Bing', value: 'searchengine' },
+      { label: 'Search engines', value: 'searchengine' },
       { label: 'Manual', value: 'imported' },
       { label: 'Twitter API', value: 'twitter' },
-      { label: 'Deep Web', value: 'tor' },
-      { label: 'Deep Deep', value: 'deepdeep' }
+      { label: 'Deep web', value: 'tor' },
+      { label: 'Deep deep', value: 'deepdeep' }
     ];
 
     $scope.master.catalog.broadcrawlSources=[
-      { label: 'Google + Bing', value: 'searchengine' },
+      { label: 'Search engines', value: 'searchengine' },
       // { label: 'Manual', value: 'imported' },
       // { label: 'Twitter API', value: 'twitter' },
       // { label: 'Deep Web', value: 'tor' },
-      { label: 'Deep Deep', value: 'deepdeep' }
+      { label: 'Deep deep', value: 'deepdeep' }
     ];
 
     $scope.master.catalog.keywordSources=[
-      { label: 'Google + Bing', value: 'SE' },
+      { label: 'Search engines', value: 'SE' },
       { label: 'Twitter API', value: 'TWITTER' },
-      { label: 'Deep Web', value: 'TOR' }
+      { label: 'Deep web', value: 'TOR' }
     ];
 
 
@@ -91,10 +91,10 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
             return "Imported";
         }
         if(sourceCode=="TOR"){
-            return "Deep Web";
+            return "Deep web";
         }
         if(sourceCode=="DD"){
-            return "Deep Deep";
+            return "Deep deep";
         }
         else{
             // console.log("not match found for:" +  sourceCode);
@@ -152,4 +152,21 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 
     $scope.master.init();
 
+
+    // modal alert
+    $scope.master.showAlert = function(ev, custom) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        // Modal dialogs should fully cover application
+        // to prevent interaction outside of dialog
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(false)
+                .title(custom.title)
+                .textContent(custom.textContent)
+                .ariaLabel(custom.title)
+                .ok('Got it!')
+                .targetEvent(ev)
+        );
+    };
 }]);

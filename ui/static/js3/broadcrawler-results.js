@@ -70,8 +70,9 @@ function ($scope, $filter, $modal, $routeParams, domFactory, broadcrawlerFactory
 		$scope.crawlStatusBusy = false;
 		$scope.pageNumber = -1;
 		$scope.fetch();
-	}
+	};
 
+    $scope.broadcrawlStats.broadcrawlerResultsAggregated = [];
 
 	$scope.fetch = function(){
 		if($scope.crawlStatusBusy){
@@ -193,6 +194,8 @@ function ($scope, $filter, $modal, $routeParams, domFactory, broadcrawlerFactory
 	}
 
 	$scope.getCrawlStatus();
+
+
 
 }]);
 

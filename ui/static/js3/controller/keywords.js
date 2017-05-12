@@ -47,7 +47,7 @@ function ($scope, $mdConstant, seedFactory) {
 		},
 		function(){}
 		)
-	}
+	};
 
 
 	$scope.add = function(chip){

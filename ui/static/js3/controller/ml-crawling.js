@@ -4,25 +4,11 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
     $scope.master.init();
     $scope.workspaceId = $scope.master.workspaceId;
 
+    // this is fill in the child training-stats controller
+    $scope.trainingStats = {};
+    $scope.trainingStats.resultStruct = {};
 
 
-
-    $scope.getAggregated = function() {
-//        var tOut = $scope.startLoading();
-        seedUrlFactory.getAggregated($scope.workspaceId).then(
-            function (response) {
-                $scope.seedUrlAggregated = response.data;
-                buildAggregatedBy($scope.seedUrlAggregated);
-//				$scope.endLoading(tOut);
-                isRunning = false;
-            },
-            function (response) {
-//				$scope.endLoading(tOut);
-//				$scope.status = 'Unable to load data: ' + error.message;
-                isRunning = false;
-            });
-
-    };
 
 
 // SIMPLE CRAWLER ///
@@ -42,19 +28,32 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
         eventFactory.postDdCrawler($scope.workspaceId, "stop");
     };
 
-	$scope.publish2BroadCrawl = function(source){
+	$scope.publish2BroadCrawl = function(ev, source){
 //		var nResults = parseInt($scope.nResults, 10);
+
+
+        if($scope.master.keywordsCount==0){
+            var custom = {};
+            custom.title = 'Included and Excluded Keywords required';
+            custom.textContent = 'Included and Excluded Keywords are required before running the broadcrawler.';
+            $scope.master.showAlert(ev, custom);
+            return;
+        }
+
+		if(
+		    !($scope.trainingStats.resultStruct["TOTAL"]["relevant"]>0) &&
+		    !($scope.trainingStats.resultStruct["TOTAL"]["irrelevant"]>0)){
+            var custom = {};
+            custom.title = 'Trained datasets required';
+            custom.textContent = 'A trained dataset labeled with Relevant and Irrelevant examples is required before running the broadcrawler.';
+            $scope.master.showAlert(ev, custom);
+            return;
+        };
+
+
+        debugger;
 		var crawlSources = [];
 
-//		if($scope.crawlSource_SE){
-//			crawlSources.push('SE');
-//		}
-//		if($scope.crawlSource_TOR){
-//			crawlSources.push('TOR');
-//		}
-//		if($scope.crawlSource_DD){
-//			crawlSources.push('DD');
-//		}
 		if(source == 'SE'){
 			crawlSources.push('SE');
 		}
@@ -64,10 +63,6 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
         if(source == 'DD'){
 			crawlSources.push('DD');
 		}
-
-//		var domainTypes = [];
-
-//		$scope.crawlStatusTimeout = null;
 
 		broadcrawlerFactory.publish2BroadCrawl($scope.workspaceId, $scope.nResults, $scope.master.crawlProvider, crawlSources).then(
 		function(response){
@@ -110,69 +105,69 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
 
 	/**** modal ****/
-	$scope.animationsEnabled = true;
-	$scope.toggleAnimation = function () {
-		$scope.animationsEnabled = !$scope.animationsEnabled;
-	};
-
-	$scope.loadModal = function(){
-
-		var nResults = $scope.nResults;
-		if(!nResults){
-			alert('Please enter the number of URLs to Crawl');
-			return false;
-		}
-
-		var crawlSources = [];
-		if($scope.crawlSource_SE){
-			crawlSources.push('SE');
-		}
-		if($scope.crawlSource_TOR){
-			crawlSources.push('TOR');
-		}
-		if($scope.crawlSource_DD){
-			crawlSources.push('DD');
-		}
-
-		if(crawlSources.length==0){
-			alert('Please select at least one Source');
-			return false;
-		}
-
-		var args = {};
-		args.nResults = $scope.nResults;
-		args.crawlProvider = $scope.master.crawlProvider;
-		args.crawlSource_SE = $scope.crawlSource_SE;
-		args.crawlSource_TOR = $scope.crawlSource_TOR;
-		args.crawlSource_DD = $scope.crawlSource_DD;
-		args.crawlSources = crawlSources;
-		$scope.openModal('default', args);
-	}
-
-
-	$scope.openModal = function (size, args) {
-
-		console.log(args);
-		var modalInstance = $modal.open({
-			animation: $scope.animationsEnabled,
-			templateUrl: 'myModalContent.html',
-			controller: 'ModalInstanceCtrl',
-			size: size,
-			resolve: {
-				items: function () {
-					return args;
-				}
-			}
-		});
-
-		modalInstance.result.then(function (selectedItem) {
-			$scope.selected = selectedItem;
-			var jobId = $scope.publish2BroadCrawl();
-			console.log('Modal accepted at: ' + new Date());
-		}, function () {
-			console.log('Modal dismissed at: ' + new Date());
-		});
-	};
+	// $scope.animationsEnabled = true;
+	// $scope.toggleAnimation = function () {
+	// 	$scope.animationsEnabled = !$scope.animationsEnabled;
+	// };
+    //
+	// $scope.loadModal = function(){
+    //
+	// 	var nResults = $scope.nResults;
+	// 	if(!nResults){
+	// 		alert('Please enter the number of URLs to Crawl');
+	// 		return false;
+	// 	}
+    //
+	// 	var crawlSources = [];
+	// 	if($scope.crawlSource_SE){
+	// 		crawlSources.push('SE');
+	// 	}
+	// 	if($scope.crawlSource_TOR){
+	// 		crawlSources.push('TOR');
+	// 	}
+	// 	if($scope.crawlSource_DD){
+	// 		crawlSources.push('DD');
+	// 	}
+    //
+	// 	if(crawlSources.length==0){
+	// 		alert('Please select at least one Source');
+	// 		return false;
+	// 	}
+    //
+	// 	var args = {};
+	// 	args.nResults = $scope.nResults;
+	// 	args.crawlProvider = $scope.master.crawlProvider;
+	// 	args.crawlSource_SE = $scope.crawlSource_SE;
+	// 	args.crawlSource_TOR = $scope.crawlSource_TOR;
+	// 	args.crawlSource_DD = $scope.crawlSource_DD;
+	// 	args.crawlSources = crawlSources;
+	// 	$scope.openModal('default', args);
+	// }
+    //
+    //
+	// $scope.openModal = function (size, args) {
+    //
+	// 	console.log(args);
+	// 	var modalInstance = $modal.open({
+	// 		animation: $scope.animationsEnabled,
+	// 		templateUrl: 'myModalContent.html',
+	// 		controller: 'ModalInstanceCtrl',
+	// 		size: size,
+	// 		resolve: {
+	// 			items: function () {
+	// 				return args;
+	// 			}
+	// 		}
+	// 	});
+    //
+	// 	modalInstance.result.then(function (selectedItem) {
+	// 		$scope.selected = selectedItem;
+	// 		var jobId = $scope.publish2BroadCrawl();
+	// 		console.log('Modal accepted at: ' + new Date());
+	// 	}, function () {
+	// 		console.log('Modal dismissed at: ' + new Date());
+	// 	});
+	// };
 
 
 
@@ -192,46 +187,6 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 //	    }
 //	}
 
-    // $scope.trainSources = ["SE", "MANUAL", "DD", "TOR", "TOTAL"];
-    $scope.trainSources = ["SE", "MANUAL", "DD", "TOTAL"];
-    $scope.trainOutputs = ["relevant", "neutral", "irrelevant", "total"];
-
-    //immutable!
-    var resultStructOriginal = {
-        "SE":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "DD":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "MANUAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        // "TOR":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "TOTAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0}
-    };
-
-    $scope.resultStruct = resultStructOriginal;
-
-
-    function buildAggregatedBy(seedUrlAggregated){
-        var resultStruct = resultStructOriginal;
-
-        angular.forEach(seedUrlAggregated, function(value, index){
-            var crawlEntityType = value._id.crawlEntityType =="GOOGLE" || value._id.crawlEntityType =="BING" ? "SE": value._id.crawlEntityType;
-            var relevance = value._id.relevant === undefined || value._id.relevant === null ? "neutral" : (value._id.relevant === false? "irrelevant" : "relevant");
-            resultStruct[crawlEntityType][relevance] = resultStruct[crawlEntityType][relevance] + value.count;
-            resultStruct[crawlEntityType]["total"] = resultStruct[crawlEntityType]["relevant"] + resultStruct[crawlEntityType]["irrelevant"] + resultStruct[crawlEntityType]["neutral"] ;
-        });
-        angular.forEach(resultStruct, function(value, index){
-            if(index!="TOTAL"){
-                resultStruct["TOTAL"]["relevant"] = resultStruct["TOTAL"]["relevant"] + value["relevant"];
-                resultStruct["TOTAL"]["neutral"] = resultStruct["TOTAL"]["neutral"] + value["neutral"];
-                resultStruct["TOTAL"]["irrelevant"] = resultStruct["TOTAL"]["irrelevant"] + value["irrelevant"];
-                resultStruct["TOTAL"]["total"] = resultStruct["TOTAL"]["total"] + value["total"];
-            }
-        });
-
-
-        $scope.resultStruct = resultStruct ;
-    }
-
-
-    $scope.getAggregated();
 
 
 
@@ -253,6 +208,11 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
     };
 
 
+    $scope.stopBroadCrawl = function(){
+        eventFactory.postDdCrawler($scope.workspaceId, "stop");
+    };
+
+
 
 
     $scope.modelerProgress = [];
@@ -261,10 +221,6 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
     var isRunning = false;
 
-
-    $scope.stopBroadCrawl = function(){
-        eventFactory.postDdCrawler($scope.workspaceId, "stop");
-    };
 
     $scope.showMoreStatus = false;
     $scope.toggleShowMore = function(){
@@ -291,73 +247,6 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
     };
 
 
-
-
-    function adviceParser(advices, tooltips){
-        var adviceArray=[];
-
-        var tooltipsKeys=[];
-        angular.forEach(tooltips, function(value,key){
-            tooltipsKeys.push(key);
-        });
-
-        angular.forEach(advices, function(value,key){
-            var advice = {"kind": value.kind};
-            advice.messages = tooltipParser(value.text, tooltipsKeys, tooltips);
-            adviceArray.push(advice);
-        });
-        return adviceArray;
-    }
-
-
-
-    function tooltipParser(text, tooltipsKeys, tooltips){
-
-        var arr = [];
-
-        if(text=="" || !text){
-            return arr;
-        }
-
-        var positionArr = findPositionArray(text, tooltipsKeys);
-
-        positionArr.sort(function(a, b){
-            return a.pos - b.pos;
-        });
-
-        var right_text = text;
-        var lastIndex = 0;
-
-        angular.forEach(positionArr, function(value, key){
-            var left_text = text.substr(lastIndex, value.pos);// + value.key.length - lastIndex);
-            var center_text = text.substr(value.pos, value.key.length);
-            var tooltipText = tooltips[value.key];
-            arr.push({"text":left_text, "tooltip": null });
-            arr.push({"text":center_text, "tooltip": tooltipText });
-            lastIndex=value.pos + value.key.length;
-        });
-
-        if(lastIndex < text.length-1){
-            right_text = text.substr(lastIndex);
-            arr.push({"text":right_text, "tooltip": null});
-        }
-
-        return arr;
-    }
-
-    function findPositionArray(text, tooltips){
-        var positionArr = [];
-        for (i = 0; i < tooltips.length; i++) {
-            var key = tooltips[i];
-            // var textTemp = text;
-            var lastPosition = -1;
-            while ((lastPosition = text.indexOf(key, lastPosition + 1)) > -1){
-                console.log(lastPosition);
-                positionArr.push({"pos": lastPosition, "key": key});
-            }
-        }
-        return positionArr;
-    }
 
 
 

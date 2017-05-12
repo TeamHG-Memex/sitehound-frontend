@@ -47,8 +47,10 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
 
     $scope.bookmarkSwitchStatus = false;
 
+    $scope.broadcrawlStats={};
+    $scope.broadcrawlStats.resultStruct={};
 
-    $scope.selected = [];
+    $scope.selected=[];
 
     var searchResultsButtonStarted = false;
 
@@ -130,14 +132,6 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
     		}
         );
 	};
-
-
-
-
-
-
-
-
 
 
 

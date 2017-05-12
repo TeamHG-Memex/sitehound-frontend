@@ -2,7 +2,7 @@ import logging
 import json
 from flask_login import login_required
 from service.broadcrawler_service import get_search_results, delete_broadcrawler_result, get_max_id, count_service, \
-    get_existing_categories_service
+    get_existing_categories_service, dao_aggregate_broadcrawl_results
 from service.broadcrawler_service import pin_service
 from ui import app, Singleton
 from flask import render_template, Response, request
@@ -65,3 +65,11 @@ def get_count(workspace_id):
     categories, languages = get_existing_categories_service(workspace_id)
     count = count_service(workspace_id)
     return Response(json.dumps({"categories": categories, "languages": languages, "nResults": count}), mimetype="application/json")
+
+
+@app.route("/api/workspace/<workspace_id>/broad-crawl-results/aggregated", methods=['GET'])
+@login_required
+def api_aggregate_broadcrawl_results(workspace_id):
+    in_doc = dao_aggregate_broadcrawl_results(workspace_id)
+    out_doc = JSONEncoder().encode(in_doc)
+    return Response(out_doc, mimetype="application/json")

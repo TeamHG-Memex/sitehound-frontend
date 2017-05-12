@@ -21,6 +21,12 @@ var broadcrawlerResultsFactory = ngApp.factory('broadcrawlerResultsFactory',['$h
 		return $http.post(url, po);
 	};
 
+    dataFactory.getAggregated = function (workspaceId) {
+        var url =  String.format(urlBase+'/aggregated', workspaceId);
+        return $http.get(url);
+    };
+    return dataFactory;
+
 	dataFactory.remove = function(workspaceId, id){
 		var url =  String.format(urlBase, workspaceId);
 		return $http.delete(url + "/" + id);
