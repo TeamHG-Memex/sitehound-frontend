@@ -228,15 +228,17 @@ def dao_reset_results(workspace_id, source):
 
 def dao_aggregate_urls(workspace_id):
 
-    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     source_search_conditions = []
+
     workspace_search_object = {'workspaceId': workspace_id}
-    delete_search_object = {'deleted': {'$exists': False}}
-    # 'deleted': {'$exists': False}}
     source_search_conditions.append(workspace_search_object)
+
+    delete_search_object = {'deleted': {'$exists': False}}
     source_search_conditions.append(delete_search_object)
 
     source_search_object = {'$and': source_search_conditions}
+
+    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
 
     try:
         res = collection.aggregate([

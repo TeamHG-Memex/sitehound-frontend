@@ -43,6 +43,7 @@ function ($scope, $mdConstant, seedFactory) {
 			$scope.irrelevantKeywordsObj.sort(function(a, b){
 				return a.word == b.word ? 0 : +(a.word> b.word) || -1;
 			});
+			$scope.master.keywordsCount = $scope.relevantKeywordsObj.length;
 		},
 		function(){}
 		)

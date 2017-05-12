@@ -10,13 +10,9 @@ from service.seed_url_service import get_seeds_urls_categorized
 from ui import Singleton
 
 
-
-__author__ = 'tomas'
-
 ##################### Service #####################
 
 # This method takes the documents from the db and post them on the queue
-
 
 def start_broad_crawl_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type):
 

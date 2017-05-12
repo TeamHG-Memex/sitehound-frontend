@@ -4,37 +4,30 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
     $scope.master.init();
     $scope.workspaceId = $scope.master.workspaceId;
 
+
+
+
+    $scope.getAggregated = function() {
+//        var tOut = $scope.startLoading();
+        seedUrlFactory.getAggregated($scope.workspaceId).then(
+            function (response) {
+                $scope.seedUrlAggregated = response.data;
+                buildAggregatedBy($scope.seedUrlAggregated);
+//				$scope.endLoading(tOut);
+                isRunning = false;
+            },
+            function (response) {
+//				$scope.endLoading(tOut);
+//				$scope.status = 'Unable to load data: ' + error.message;
+                isRunning = false;
+            });
+
+    };
+
+
 // SIMPLE CRAWLER ///
 
-
-//	$scope.workspaceId = $routeParams.workspaceId;
-//	domFactory.setWorkspaceName($scope.workspaceId);
-//
-//	domFactory.highlightNavbar(".navbar-broad-crawl");
-//	$scope.next = function(){
-//		domFactory.navigateToJobs();
-//	}
-//	$scope.navigateToBroadcrawlResults = function(){
-//		domFactory.navigateToBroadcrawlResults();
-//	}
-//
-//
-//	$scope.navigateToDashboard = function(){
-//		domFactory.navigateToDashboard();
-//	}
-
-
-//    $scope.status = "";
-//	$scope.loading = false;
-//	$scope.submittedOk = false;
-//	$scope.submittedError = false;
-//
-//	$scope.hideSubmittedOk = function(){
-//		$scope.submittedOk = false;
-//	}
-//	$scope.hideSubmittedError = function(){
-//		$scope.submittedError = false;
-//	}
+    $scope.showSimpleCrawlerProgressTab = false;
 
 	$scope.categories = [];
 	$scope.languages = [];
@@ -78,7 +71,9 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
 		broadcrawlerFactory.publish2BroadCrawl($scope.workspaceId, $scope.nResults, $scope.master.crawlProvider, crawlSources).then(
 		function(response){
-			$scope.getCrawlStatus(response.data.jobId);
+            $scope.simplecrawlerJobId = response.data.jobId;
+            $scope.showSimpleCrawlerProgressTab = false;
+			// $scope.getCrawlStatus(response.data.jobId);
 //			$scope.status='';
 //			$scope.submittedOk = true;
 //			$scope.submittedError = false;
@@ -185,23 +180,6 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
 /// ML CRAWLER ///
 
-	$scope.getAggregated = function() {
-//        var tOut = $scope.startLoading();
-		seedUrlFactory.getAggregated($scope.workspaceId).then(
-			function (response) {
-    			$scope.seedUrlAggregated = response.data;
-    			buildAggregatedBy($scope.seedUrlAggregated);
-//				$scope.endLoading(tOut);
-                isRunning = false;
-			},
-			function (response) {
-//				$scope.endLoading(tOut);
-//				$scope.status = 'Unable to load data: ' + error.message;
-                isRunning = false;
-			});
-
-	}
-
 //	$scope.getAggregatedLabelUserDefinedCategories = function() {
 //	    if($scope.master.workspace.userDefinedCategories){
 //            labelUserDefinedCategoriesFactory.getAggregated($scope.master.workspaceId).then(
@@ -214,29 +192,42 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 //	    }
 //	}
 
-    $scope.resultStruct = {
+    // $scope.trainSources = ["SE", "MANUAL", "DD", "TOR", "TOTAL"];
+    $scope.trainSources = ["SE", "MANUAL", "DD", "TOTAL"];
+    $scope.trainOutputs = ["relevant", "neutral", "irrelevant", "total"];
+
+    //immutable!
+    var resultStructOriginal = {
         "SE":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
         "DD":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
         "MANUAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "TOR":{"relevant":0, "irrelevant":0, "neutral":0, "total":0}
+        // "TOR":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
+        "TOTAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0}
     };
+
+    $scope.resultStruct = resultStructOriginal;
 
 
     function buildAggregatedBy(seedUrlAggregated){
-        var resultStruct = {
-        "SE":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "DD":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "MANUAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "TOR":{"relevant":0, "irrelevant":0, "neutral":0, "total":0}
-        };
+        var resultStruct = resultStructOriginal;
+
         angular.forEach(seedUrlAggregated, function(value, index){
             var crawlEntityType = value._id.crawlEntityType =="GOOGLE" || value._id.crawlEntityType =="BING" ? "SE": value._id.crawlEntityType;
             var relevance = value._id.relevant === undefined || value._id.relevant === null ? "neutral" : (value._id.relevant === false? "irrelevant" : "relevant");
             resultStruct[crawlEntityType][relevance] = resultStruct[crawlEntityType][relevance] + value.count;
             resultStruct[crawlEntityType]["total"] = resultStruct[crawlEntityType]["relevant"] + resultStruct[crawlEntityType]["irrelevant"] + resultStruct[crawlEntityType]["neutral"] ;
-        })
-        $scope.resultStruct = resultStruct ;
+        });
+        angular.forEach(resultStruct, function(value, index){
+            if(index!="TOTAL"){
+                resultStruct["TOTAL"]["relevant"] = resultStruct["TOTAL"]["relevant"] + value["relevant"];
+                resultStruct["TOTAL"]["neutral"] = resultStruct["TOTAL"]["neutral"] + value["neutral"];
+                resultStruct["TOTAL"]["irrelevant"] = resultStruct["TOTAL"]["irrelevant"] + value["irrelevant"];
+                resultStruct["TOTAL"]["total"] = resultStruct["TOTAL"]["total"] + value["total"];
+            }
+        });
 
+
+        $scope.resultStruct = resultStruct ;
     }
 
 
@@ -271,7 +262,6 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
     var isRunning = false;
 
 
-
     $scope.stopBroadCrawl = function(){
         eventFactory.postDdCrawler($scope.workspaceId, "stop");
     };
@@ -279,19 +269,18 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
     $scope.showMoreStatus = false;
     $scope.toggleShowMore = function(){
         $scope.showMoreStatus = !$scope.showMoreStatus;
-    }
+    };
 
     $scope.getMoreStatusIsNotEmpty = function(){
         return $scope.modelerProgress &&
                 $scope.modelerProgress.description &&
                 $scope.modelerProgress.description.length>0;
-    }
-
+    };
 
     $scope.showFeatureWeightsStatus = false;
     $scope.toggleFeatureWeights = function(){
         $scope.showFeatureWeightsStatus = !$scope.showFeatureWeightsStatus;
-    }
+    };
 
     $scope.getFeatureWeightsStatusIsNotEmtpy = function(){
         return  $scope.modelerProgress &&
@@ -304,7 +293,7 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
 
 
-    $scope.adviceParser = function(advices, tooltips){
+    function adviceParser(advices, tooltips){
         var adviceArray=[];
 
         var tooltipsKeys=[];
@@ -312,10 +301,9 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
             tooltipsKeys.push(key);
         });
 
-
         angular.forEach(advices, function(value,key){
             var advice = {"kind": value.kind};
-            advice.messages = $scope.tooltipParser(value.text, tooltipsKeys, tooltips);
+            advice.messages = tooltipParser(value.text, tooltipsKeys, tooltips);
             adviceArray.push(advice);
         });
         return adviceArray;
@@ -323,7 +311,7 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
 
 
-    $scope.tooltipParser = function(text, tooltipsKeys, tooltips){
+    function tooltipParser(text, tooltipsKeys, tooltips){
 
         var arr = [];
 
@@ -335,7 +323,7 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
         positionArr.sort(function(a, b){
             return a.pos - b.pos;
-        })
+        });
 
         var right_text = text;
         var lastIndex = 0;
@@ -353,17 +341,6 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
             right_text = text.substr(lastIndex);
             arr.push({"text":right_text, "tooltip": null});
         }
-
-
-        // angular.forEach(positionArr, function(value, key){
-        //         var left_text = text.substr(lastIndex, value.pos + value.key.length - lastIndex);
-        //         right_text = text.substr(value.pos + value.key.length);
-        //         var tooltipText = tooltips[value.key];
-        //
-        //         arr.push({"text":left_text, "tooltip": tooltipText });
-        //         lastIndex=value.pos + value.key.length;
-        // });
-        // arr.push({"text":right_text, "tooltip": null});
 
         return arr;
     }
@@ -388,7 +365,7 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
         progressFactory.getModelerProgress(workspaceId).then(
             function (response) {
                 $scope.modelerProgress = response.data;
-                $scope.modelerProgress.advice = $scope.adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
+                $scope.modelerProgress.advice = adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
                 $scope.loading = false;
             },
             function (error) {
@@ -417,22 +394,22 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
             });
     };
 
-    function backgroundService(){
-        if(!isRunning){
-            isRunning = true;
-            $scope.getAggregated();
-            $scope.master.reloadWorkspace($scope.master.workspaceId);
-
-            $scope.getModelerProgress($scope.workspaceId);
-//            $scope.getTrainerProgress($scope.workspaceId);
-            $scope.getAllProgress($scope.workspaceId);
-
-            $interval.cancel($rootScope.backgroundServicePromise);
-            $rootScope.backgroundServicePromise = $interval(backgroundService, 15000*10);
-        }
-    }
-
-    backgroundService();
+//     function backgroundService(){
+//         if(!isRunning){
+//             isRunning = true;
+//             $scope.getAggregated();
+//             $scope.master.reloadWorkspace($scope.master.workspaceId);
+//
+//             $scope.getModelerProgress($scope.workspaceId);
+// //            $scope.getTrainerProgress($scope.workspaceId);
+//             $scope.getAllProgress($scope.workspaceId);
+//
+//             $interval.cancel($rootScope.backgroundServicePromise);
+//             $rootScope.backgroundServicePromise = $interval(backgroundService, 15000*10);
+//         }
+//     }
+//
+//     backgroundService();
 
 
     }]);

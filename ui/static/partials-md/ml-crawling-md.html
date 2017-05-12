@@ -7,37 +7,31 @@
                     <div style="padding:8px; padding-top:48px">
                         <section ng-include src="'/static/partials-md/includes/current-workspace.html'" include-replace></section>
 
-
                         <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-                          <div class="mdl-card mdl-cell mdl-cell--12-col">
-                            <div class="mdl-card__supporting-text">
-                              <h4>Machine Learning Assisted Crawling</h4>
-                                <p>It takes 4 steps:</p>
-                                <ul>
-                                    <li>Build a Model</li>
-                                    <li>Train with Deep-Deep</li>
-                                    <li>Crawl some more documents</li>
-                                    <li>Broad Crawl using Deep-Deep</li>
-                                </ul>
-                                <p>Then you can check the results<p>
-                              <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
+                            <div class="mdl-card mdl-cell mdl-cell--12-col">
+                                <div class="mdl-card__supporting-text">
+                                    <h4>Machine Learning Assisted Crawling</h4>
+                                    <p>It takes 4 steps:</p>
+                                    <ul>
+                                        <li>Build a Model</li>
+                                        <li>Train with Deep-Deep</li>
+                                        <li>Crawl some more documents</li>
+                                        <li>Broad Crawl using Deep-Deep</li>
+                                    </ul>
+                                    <p>Prerequisites:</p>
+                                    <ul>
+                                        <li>You need to have already a trained set labeled as <b>Relevant</b> and <b>Irrelevant</b></li>
+                                    </ul>
+                                    <p>Then you can check the results on <a ng-href="#crawling-results">crawling results</a> tab<p>
+                                </div>
+                                <div class="mdl-card__actions">
+                                  <a href="#" class="mdl-button">Read our features</a>
+                                </div>
                             </div>
-                            <div class="mdl-card__actions">
-                              <a href="#" class="mdl-button">Read our features</a>
-                            </div>
-                          </div>
-                          <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
-                            <i class="material-icons">more_vert</i>
-                          </button>
-                          <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
-                            <li class="mdl-menu__item">Lorem</li>
-                            <li class="mdl-menu__item" disabled>Ipsum</li>
-                            <li class="mdl-menu__item">Dolor</li>
-                          </ul>
                         </section>
 
-
-
+                        <!--Training Stats-->
+                        <section ng-include src="'/static/partials-md/includes/training-stats.html'" include-replace></section>
 
                         <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                             <div class="mdl-card mdl-cell mdl-cell--12-col">
@@ -45,7 +39,6 @@
                                 <div class="mdl-card__supporting-text">
                                     <h4>1. Build the model</h4>
                                     <p>This will build the initial model based on the labeled data provided (either by keywords or by seed urls)</p>
-
 
                                     <div >
                                         <div style="margin: 20px;">
@@ -168,10 +161,8 @@
                                                     </table>
                                                     </div>
                                                 </div>
-                                            </div>
-
+                                            <!--</div>-->
                                     </div>
-
                                 </div>
                                 <div class="mdl-card__actions">
                                   <!--<a href="#" class="mdl-button">Read our features</a>-->
@@ -319,6 +310,14 @@
 
                     <div style="padding:8px; padding-top:48px">
 
+                        <section ng-include src="'/static/partials-md/includes/current-workspace.html'" include-replace></section>
+
+
+                        <!--Training Stats-->
+                        <section ng-include src="'/static/partials-md/includes/training-stats.html'" include-replace></section>
+
+
+                        <!--SCHEDULER SECTION-->
                         <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                             <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
                                 <i class="material-icons">play_circle_filled</i>
@@ -356,7 +355,7 @@
                                     <!--</div>-->
                                     <div>
                                          <md-input-container>
-                                                <p>Number of results &nbsp;&nbsp;</p>
+                                                <p>Number of results </p>
                                                 <md-select id="nResults" name="nResults" ng-model="nResults" aria-label="number of results" >
                                                     <md-option ng-value=100 >100</md-option>
                                                     <md-option ng-value=1000>1000</md-option>
@@ -386,7 +385,23 @@
 
 
 
-                        <section ng-include src="'/static/partials-md/includes/progress.html'" include-replace></section>
+                        <!--<section ng-include src="'/static/partials-md/includes/progress.html'" include-replace></section>-->
+
+                        <!--Progress section-->
+                        <section ng-show="showSimpleCrawlerProgressTab" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                            <div class="mdl-card mdl-cell mdl-cell--12-col">
+                                <div class="mdl-card__supporting-text">
+                                    <h4>Progress</h4>
+                                    <p>The job was scheduled successfully with the id: {{simplecrawlerJobId}}</p>
+                                    <p>You can check the results as soon as the arrive on the <a ng-href="#crawling-results"> Crawling Results</a> tab</p>
+                                    <p>You can track it by job or by the count of fetched results on the <a ng-href="#dashboard"> Dashboard</a> tab</p>
+                                </div>
+                                <div class="mdl-card__actions">
+                                    <a href="#" class="mdl-button">Read our features</a>
+                                </div>
+                            </div>
+                        </section>
+
                     </div>
 
                 </md-content>

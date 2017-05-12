@@ -1,160 +1,93 @@
-ngApp.controller('seedInputController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService', 'importUrlFactory',
+ngApp.controller('seedInputController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService', 'importUrlFactory', '$mdDialog',
 function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, importUrlFactory, $mdDialog) {
 
 
-
-    /* catalog */
-//    $scope.catalog = {};
-//    $scope.catalog.udcs = [];
-
-//    /* Filters */
-//    $scope.filters = {};
-//	$scope.filters.relevances = [];
-//	$scope.filters.categories = [];
-//	$scope.filters.udcs = [];
-//
-
     $scope.master.init();
 
+
+    /** BEGIN GENERATE SE**/
     $scope.selected = {};
-    $scope.selected.sources = [];
-
-	/** BEGIN GENERATE SE**/
-
-
+    $scope.selected.sources = ['SE'];
     $scope.nResults=100;
 
-	$scope.generateSeedUrls = function(nResults, crawlSources){
-		$scope.errorMessage = "";
-		$scope.loading = true;
+    $scope.showAlert = function(ev, custom) {
+        // Appending dialog to document.body to cover sidenav in docs app
+        // Modal dialogs should fully cover application
+        // to prevent interaction outside of dialog
+        $mdDialog.show(
+            $mdDialog.alert()
+                .parent(angular.element(document.querySelector('#popupContainer')))
+                .clickOutsideToClose(false)
+                .title(custom.title)
+                .textContent(custom.textContent)
+                .ariaLabel(custom.title)
+                .ok('Got it!')
+                .targetEvent(ev)
+        );
+    };
 
-//    $scope.sources = {};
-//    $scope.sources.searchengine = {}
-//    $scope.sources.searchengine.checked = true;
-
-
-
-		var crawlProvider = "HH_JOOGLE";
-//        var nResults = 30;
-		var crawlSources = $scope.selected.sources;
-
-
-//		if($scope.sources.searchengine.checked){
-//			crawlSources.push('SE');
-//		}
-//		if($scope.sources.twitter.checked){
-//			crawlSources.push('TWITTER');
-//		}
-//		else if($scope.source == 'tor'){
-//			crawlSources.push('TOR');
-//		}
-//		else if($scope.source == 'deepdeep'){
-//			crawlSources.push('DD');
-//		}
-
-		fetchService.generate($scope.master.workspaceId, $scope.nResults, crawlProvider, crawlSources)
-		.then(function (response) {
-			$scope.submittedOk = true;
-			$scope.submittedError = false;
-//			checkFetch();
-			$scope.loading = false;
-		},
-		function (response) {
-			$scope.errorMessage = response.error.message;
-			$scope.submittedOk = false;
-			$scope.submittedError = true;
-			$scope.loading = false;
-		});
-	}
+	$scope.generateSeedUrls = function(ev){
 
 
-	/** Fetch pages */
-	$scope.seedUrls = [];
-    $scope.source = "searchengine";
-	$scope.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
-//
-//    $scope.getSeedUrls = function(){
-//        $scope.seedUrls = [];
-//        $scope.lastId = null;
-//        $scope.getMoreSeedUrls();
-//    }
-//
-//
-//    function refreshUdcOnSuccess(response){
-//        $scope.catalog.udcs = response.data;
-//    }
-//
-//    trainingService.refreshUdc($scope.master.workspaceId, $scope.source, refreshUdcOnSuccess);
-//
-//
-//	$scope.getMoreSeedUrls = function(){
-//		seedUrlFactory.get($scope.master.workspaceId, $scope.source, $scope.filters, $scope.lastId)
-//		.then(function (response) {
-//			console.log("finish fetching seed Urls");
-//			var tempResults = response.data;
-//			angular.forEach(tempResults, function(tempResult){
-//			    if(tempResult.udc == null || tempResult.udc== undefined){
-//			        tempResult.udc = [];
-//			    }
-//			})
-//
-//            var currentLength = $scope.seedUrls.length;
-//
-//			Array.prototype.push.apply($scope.seedUrls, tempResults);
-//
-//            for (var i = currentLength; i < $scope.seedUrls.length; i++) {
-//               $scope.$watch('seedUrls[' + i + ']', function (newValue, oldValue) {
-//
-//                    if(!newValue || !oldValue){
-//                        console.log("empty objects change");
-//                        return;
-//                    }
-//
-//                    if(
-//                        newValue.relevant != oldValue.relevant ||
-//                        newValue.categories != oldValue.categories ||
-//                        newValue.udc != oldValue.udc
-//                    ){
-//                        $scope.updateSeedUrl(newValue);
-//                        if(newValue.udc != oldValue.udc){
-//                            trainingService.udcsDirty = true;
-//                        }
-//                    }
-//                    else{
-//                        console.log("unsupported change");
-//                    }
-//
-//               }, true);
-//            }
-//
-//			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-//				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-//		},
-//		function (response) {
-//		});
-//	}
-//
-//
-//    $scope.updateSeedUrl = function(seedUrl){
-//        trainingService.updateSeedUrl($scope.master.workspaceId, seedUrl, $scope.source, refreshUdcOnSuccess);
-//    }
+        if($scope.master.keywordsCount==0){
+            var custom = {};
+            custom.title = 'Included Keywords not provided';
+            custom.textContent = 'Please enter some Included Keywords for querying the Source/s.';
+            $scope.showAlert(ev, custom);
+            return;
+		}
+
+        if($scope.selected.sources.length == 0){
+        	var custom = {};
+        	custom.title = 'Source was not provided';
+        	custom.textContent = 'Please select the Source from where to get the crawling data.';
+            $scope.showAlert(ev, custom);
+            return;
+        }
+
+		fetchService.generate($scope.master.workspaceId, $scope.nResults, $scope.master.crawlProvider, $scope.selected.sources)
+		.then(
+			function (response) {
+			$scope.jobId = response.data.jobId;
+			$scope.showByKeywordsProgressTab = true;
+			},
+			function(response) {
+				console.log(response);
+			}
+		);
+	};
+
+	$scope.showByKeywordsProgressTab = false;
+	$scope.jobId = "";
 
 
+
+	// BEGIN UPLOAD
 	$scope.upload = {};
 
-	$scope.import = function() {
+
+	$scope.import = function(ev) {
 		if ($scope.upload.urlsToAdd == undefined || $scope.upload.urlsToAdd.length == 0){
-			alert('Please enter some urls');
-			return;
+			// alert('Please enter some urls');
+            var custom = {};
+            custom.title = 'URL/s not provided';
+            custom.textContent = 'Please enter some URLs to fetch the data from.';
+            $scope.showAlert(ev, custom);
+            return;
 		}
-//		var tOut = $scope.startLoading();
 		importUrlFactory.save($scope.master.workspaceId, $scope.upload.urlsToAdd, $scope.upload.relevance).then(
-			function(){
+			function(response){
+				console.log(response.data);
 			    $scope.upload.urlsToAdd="";
+                $scope.showByurlProgressTab = true;
 			},
-			function(){}
+			function(response){
+				console.log(response);
+			}
 		)
-    }
+    };
+
+    $scope.showByurlProgressTab = false;
 
 
 }]);

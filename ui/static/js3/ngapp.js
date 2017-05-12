@@ -131,21 +131,21 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'welcomeController',
 				templateUrl: '/static/partials-md/overview-md.html'
 			})
-		.when('/welcome',
-			{
-				controller: 'welcomeController',
-				templateUrl: '/static/partials-md/overview-md.html'
-			})
-		.when('/overview',
-			{
-				controller: 'welcomeController',
-				templateUrl: '/static/partials-md/overview-md.html'
-			})
-		.when('/features',
-			{
-				controller: 'welcomeController',
-				templateUrl: '/static/partials-md/features-md.html'
-			})
+		// .when('/welcome',
+		// 	{
+		// 		controller: 'welcomeController',
+		// 		templateUrl: '/static/partials-md/overview-md.html'
+		// 	})
+		// .when('/overview',
+		// 	{
+		// 		controller: 'welcomeController',
+		// 		templateUrl: '/static/partials-md/overview-md.html'
+		// 	})
+		// .when('/features',
+		// 	{
+		// 		controller: 'welcomeController',
+		// 		templateUrl: '/static/partials-md/features-md.html'
+		// 	})
 		.when('/user',
 			{
 				controller: 'userController',
@@ -204,7 +204,7 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 			})
 		.when('/feature-extraction',
 			{
-				controller: 'trainingDeepWebController',
+				controller: 'featureExtractionController',
 				templateUrl: '/static/partials-md/features-md.html'
 			})
 

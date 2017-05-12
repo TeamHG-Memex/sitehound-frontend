@@ -72,7 +72,7 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
       { label: 'Google + Bing', value: 'searchengine' },
       // { label: 'Manual', value: 'imported' },
       // { label: 'Twitter API', value: 'twitter' },
-      { label: 'Deep Web', value: 'tor' },
+      // { label: 'Deep Web', value: 'tor' },
       { label: 'Deep Deep', value: 'deepdeep' }
     ];
 
@@ -81,6 +81,26 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
       { label: 'Twitter API', value: 'TWITTER' },
       { label: 'Deep Web', value: 'TOR' }
     ];
+
+
+    $scope.master.catalog.sourcesTranslator = function(sourceCode){
+        if(sourceCode=="SE"){
+            return "Search engines";
+        }
+        if(sourceCode=="MANUAL"){
+            return "Imported";
+        }
+        if(sourceCode=="TOR"){
+            return "Deep Web";
+        }
+        if(sourceCode=="DD"){
+            return "Deep Deep";
+        }
+        else{
+            // console.log("not match found for:" +  sourceCode);
+            return sourceCode;
+        }
+    }
 
     $scope.toggleSelection = function toggleSelection(elem, list) {
         var idx = list.indexOf(elem);
@@ -98,6 +118,10 @@ function ($scope, $cookies, $mdConstant, workspaceFactory) {
 
     $scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
 
+
+
+    // from seed-input, to validate if the fetch can be scheduled;
+    $scope.master.keywordsCount = 0;
 
 
     // scrolly directive implementation for every page that registers a listener

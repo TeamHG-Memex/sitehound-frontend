@@ -109,6 +109,7 @@ def update_workspace_api(workspace_id):
     # return Response(out_doc, mimetype="application/json")
     return Response("{}", mimetype="application/json")
 
+
 @app.route("/api/workspace/<id>", methods=['DELETE'])
 @login_required
 def delete_workspace_api(id):
