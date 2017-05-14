@@ -1,74 +1,375 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 <!--{% include "security/_messages.html" %}-->
-<html ng-app="ngApp">
+<html ng-app="ngAppLogin">
 <head lang="en">
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-	<title>Headless Horseman</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="lang" value="en">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Site Hound</title>
 
-	<link href="{{ url_for('static', filename='css/jquery-ui.css') }}" rel=stylesheet>
-	<link href="{{ url_for('static', filename='css/security.css') }}" rel=stylesheet>
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.css') }}">
 
-	<!-- Latest compiled and minified CSS -->
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
-	<link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap.min.css') }}" rel=stylesheet>
-	<!-- Optional theme -->
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">-->
-	<link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap-theme.min.css') }}" rel=stylesheet>
-	<!-- Latest compiled and minified JavaScript -->
-	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>-->
-	<!--<script src="{{ url_for('static', filename='lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script>-->
+    <!--<link rel="stylesheet" href="https://getmdl.io/templates/text-only/styles.css">-->
+    <link rel=stylesheet href="{{ url_for('static', filename='lib/mdl/1.3.0/styles.css') }}">
 
-	<!--&lt;!&ndash;<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel=stylesheet>&ndash;&gt;-->
-	<!--<link href="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch-bootstrap-3.css') }}" rel=stylesheet>-->
-	<!--<link href="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.css') }}" rel=stylesheet>-->
+    <!--<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-pink.min.css">-->
+    <link rel=stylesheet href="{{ url_for('static', filename='lib/mdl/1.3.0/material.deep_purple-pink.min.css') }}">
 
-	<link href="{{ url_for('static', filename='css/d3.slider.css') }}" rel=stylesheet>
-	<link href="{{ url_for('static', filename='css/hg.css') }}" rel=stylesheet>
-	<link href="{{ url_for('static', filename='css/tooltipster.css') }}" rel=stylesheet>
 
+    <link  rel=stylesheet" href="{{ url_for('static', filename='lib/angular/angular-material-data-table/0.10.9/md-data-table.min.css') }}">
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css"/>-->
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/angular/font-awesome/4.5.0/font-awesome.css') }}"/>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css3/sitehound.css') }}" rel="stylesheet" >
+
+
+
+
+		<script src="{{ url_for('static', filename='lib/angular/1.6.3/angular.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='lib/angular/1.6.3/angular-route.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='lib/angular/1.6.3/angular-resource.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='lib/angular/1.6.3/angular-animate.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='lib/angular/1.6.3/angular-cookies.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='lib/angular/1.6.3/angular-aria.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='lib/angular/1.6.3/angular-messages.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='lib/angular/1.6.3/angular-sanitize.min.js') }}"></script>
+
+
+
+
+
+
+		<script src="{{ url_for('static', filename='lib/angular-material/1.1.3/angular-material.min.js') }}"></script>
+
+		<!--<link  href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.css" rel="stylesheet" >-->
+		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.3/angular-material.min.js"></script>-->
+
+
+		<script src="{{ url_for('static', filename='lib/angular-ui/bootstrap/v0.13.4/ui-bootstrap-tpls-0.13.4.min.js') }}"></script>
+		<!--<script src="{{ url_for('static', filename='lib/bootstrap/v3.3.5/bootstrap.min.js') }}"></script>-->
+
+
+		<!--<script src="{{ url_for('static', filename='lib/angular-ui/angular-toggle-switch.min.js') }}"></script>-->
+		<script src="{{ url_for('static', filename='lib/angular-ui/ng-infinite-scroll.min.js') }}"></script>
+		<!--<script src="{{ url_for('static', filename='lib/angular-ui/nz-toggle.min.js') }}"></script>-->
+		<script src="{{ url_for('static', filename='lib/angular/ngSilent/ngSilent.js') }}"></script>
+
+
+
+
+		<script src="{{ url_for('static', filename='lib/angular/ng-csv/ng-csv.min.js') }}"></script>
+
+
+		<!--<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>-->
+		<script src="{{ url_for('static', filename='lib/mdl/1.3.0/material.min.js') }}"></script>
+
+
+		<!--datagrid-->
+		<!--<script src="http://angular-data-grid.github.io/dist/pagination.js"></script>-->
+		<!--<script src="http://angular-data-grid.github.io/dist/dataGrid.js"></script>-->
+
+		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.9/md-data-table.min.js"></script>-->
+		<script src="{{ url_for('static', filename='lib/angular/angular-material-data-table/0.10.9/md-data-table.min.js') }}"></script>
+
+		<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/angular-material-data-table/0.10.9/md-data-table.min.css" rel=stylesheet>-->
+		<link href="{{ url_for('static', filename='lib/angular/angular-material-data-table/0.10.9/md-data-table.min.css') }}" rel=stylesheet>
+
+
+
+    <base href="/">
+
+<!--<body>-->
+	<!--<div id="workspace">-->
+		<!--<div class="jquery-script-clear"></div>-->
+		<!--<div id="container">-->
+			<!--<div class="container marketing">-->
+			<!--&lt;!&ndash;<div id="main-container">&ndash;&gt;-->
+				<!--<div class="row" >-->
+					<!--<div class="col-lg-12">-->
+						<!--<div>-->
+							<!--<div class="panel panel-default" >-->
+								<!--<div class="panel-heading">-->
+									<!--<h3 class="panel-title" style="display:inline;">Welcome!</h3>-->
+								<!--</div>-->
+								<!--<div class="panel-body">-->
+									<!--<div width="60%">-->
+										<!--<h3 style="margin:10px;margin-top:15px;margin-bottom:20px">Please log in to access</h3>-->
+										<!--<form action="{{ url_for_security('login') }}" method="POST" id="login_user_form" name="login_user_form" style="margin-left:10px">-->
+											<!--{{ login_user_form.hidden_tag() }}-->
+											<!--{{ render_field_with_errors(login_user_form.email) }}-->
+											<!--{{ render_field_with_errors(login_user_form.password) }}-->
+											<!--{{ render_field_with_errors(login_user_form.remember) }}-->
+											<!--{{ render_field(login_user_form.next) }}-->
+											<!--&lt;!&ndash;{{ render_field(login_user_form.submit) }}&ndash;&gt;-->
+											<!--<button id="submit" class="btn btn-primary" name="submit" type="submit">Login</button>-->
+										<!--</form>-->
+									<!--</div>-->
+								<!--</div>-->
+								<!--<div class="panel-footer"></div>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>&lt;!&ndash; /.col-lg-6 &ndash;&gt;-->
+				<!--</div>&lt;!&ndash; /.row &ndash;&gt;-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+
+
+<!--&lt;!&ndash;<h1>Login</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;{% include "security/_menu.html" %}&ndash;&gt;-->
+
+<!--</body>-->
+<!--</html>-->
+
+<script>
+	//Angular
+//
+var ngAppLogin = angular.module('ngAppLogin', [
+//    'ngResource', 'ngRoute','ngAnimate', 'ui.bootstrap',
+     'ngMaterial',
+	 ])
+//
+//
+//ngAppLogin.controller('loginController', ['$scope', '$http',
+//    function ($scope, $http) {
+//    'use strict';
+//
+//    $scope.email;
+//    $scope.password;
+//    $scope.remember;
+//    $scope.next;
+//    $scope.csrf;
+//
+//
+//    $scope.login = function(){
+//		var url ="/login"
+//
+//		var data =
+//			"email=" + $scope.email
+//			+ "&password=" + $scope.password
+//			+ "&csrf-token=" + $scope.csrf
+//			+ "&next=" + $scope.next
+//			+ "&submit=";
+//		debugger;
+//		$http({
+//			method  : 'POST',
+//			url     : '/login',
+//			data    : data,
+//			headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+//         })
+//
+//	};
+//
+//}]);
+
+
+</script>
+	<style>
+		md-input-container> ul {
+		  list-style-type: none;
+			color:red;
+		}
+
+	</style>
 </head>
-<body>
-	<div id="workspace">
-		<div class="jquery-script-clear"></div>
-		<div id="container">
-			<div class="container marketing">
-			<!--<div id="main-container">-->
-				<div class="row" >
-					<div class="col-lg-12">
-						<div>
-							<div class="panel panel-default" >
-								<div class="panel-heading">
-									<h3 class="panel-title" style="display:inline;">Welcome!</h3>
-								</div>
-								<div class="panel-body">
-									<div width="60%">
-										<h3 style="margin:10px;margin-top:15px;margin-bottom:20px">Please log in to access</h3>
-										<form action="{{ url_for_security('login') }}" method="POST" id="login_user_form" name="login_user_form" style="margin-left:10px">
-											{{ login_user_form.hidden_tag() }}
-											{{ render_field_with_errors(login_user_form.email) }}
-											{{ render_field_with_errors(login_user_form.password) }}
+<!--<body class="mdl-demo mdl-color&#45;&#45;grey-100 mdl-color-text&#45;&#45;grey-700 mdl-base" ng-controller="loginController" id="popupContainer">-->
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base" id="popupContainer">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" scrolly="master.bottomOfPageReached()">
+
+    <!--<ng-include src="'/static/partials-md/header-md.html'"></ng-include>-->
+
+    <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="height:10px">
+        </div>
+        <div>
+            <div layout="row" >
+                <div flex="15">
+                    <a href="/">
+                        <img src="{{ url_for('static', filename='images/sitehounds-transparent-256x182.png') }}"/>
+                    </a>
+                </div>
+                <div flex="70" layout="row" layout-align="center center">
+                    <h1>Site Hound</h1>
+                </div>
+                <div flex hide-sm hide-xs layout="row" layout-align="center end">
+                </div>
+            </div>
+        </div>
+        <div class="mdl-layout--large-screen-only mdl-layout__header-row" style="height:10px">
+        </div>
+    </header>
+
+    <main class="mdl-layout__content" ng-cloack layout="column" layout-align="center stretch" style="display:flex">
+
+        <!--<div class="mdl-layout__tab-panel" style="background-color: #f5f5f5">-->
+        <div class="mdl-layout__tab-panel">
+            <!--<div class="custom-mdl-layout__tab-panel" ng-view ng-cloack></div>-->
+            <div class="custom-mdl-layout__tab-panel">
+				<div style="padding:8px; padding-top:48px; padding-bottom:48px" layout="column">
+
+					<!--<section ng-include src="'/static/partials-md/includes/current-workspace.html'" include-replace></section>-->
+
+					<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--6dp">
+						<div class="mdl-card mdl-cell mdl-cell--12-col">
+							<form action="{{ url_for_security('login') }}" method="POST" id="login_user_form" name="login_user_form" style="margin-bottom: 0px; width: 400px" >
+								{{ login_user_form.hidden_tag() }}
+								{{ render_field(login_user_form.next) }}
+
+								<div class="mdl-card__supporting-text" style="">
+									<!--<h4>Login</h4>-->
+									<!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
+									<!--<md-content class="md-no-momentum">-->
+										<!--<md-input-container class="md-block">-->
+											<!--&lt;!&ndash; Use floating placeholder instead of label &ndash;&gt;-->
+											<!--<md-icon md-font-icon="email">email</md-icon>-->
+											<!--<input id="email" name="email" ng-model="email" type="email" ng-required="true"/>-->
+										<!--</md-input-container>-->
+
+										<md-input-container class="md-block">
+											<md-icon md-font-icon="email" >email</md-icon>
+											{{ render_field_with_errors(login_user_form.email, class="md-input", style="margin-left:30px", placeholder=" " ,type="email") }}
+										</md-input-container>
+
+										<!--<md-input-container class="md-block">-->
+											<!--<md-icon md-font-icon="linear_scale">linear_scale</md-icon>-->
+											<!--<input id="password" name="password" ng-model="password" type="password" placeholder="      Password" ng-required="true"/>-->
+										<!--</md-input-container>-->
+
+
+
+										<md-input-container class="md-block">
+											<md-icon md-font-icon="linear_scale">linear_scale</md-icon>
+											{{ render_field_with_errors(login_user_form.password, class="md-input", placeholder=" ", style="margin-left:30px" ,type="password" ) }}
+										</md-input-container>
+									<!--{{ render_field_with_errors(login_user_form.password) }}-->
+
+										<!--<md-input-container style="margin: 0px">-->
+											<!--<md-checkbox id="remember" name="remember"-->
+														 <!--ng-model="remember"-->
+													<!--aria-label="remember me">-->
+													<!--Remember me-->
+											<!--</md-checkbox>-->
+										<!--</md-input-container>-->
+										<div>
+											<!--<md-icon md-font-icon="linear_scale">linear_scale</md-icon>-->
 											{{ render_field_with_errors(login_user_form.remember) }}
-											{{ render_field(login_user_form.next) }}
-											<!--{{ render_field(login_user_form.submit) }}-->
-											<button id="submit" class="btn btn-primary" name="submit" type="submit">Login</button>
-										</form>
-									</div>
+										</div>
+
+
+									<!--{{ render_field_with_errors(login_user_form.remember) }}-->
+
+										<!--<div>-->
+											<!--<md-button-->
+												<!--class="md-primary md-raised"-->
+												<!--ng-click="login()">-->
+												<!--Login-->
+											<!--</md-button>-->
+										<!--</div>-->
+										<!--<div layout="row" layout-align="end end">-->
+											<!--<div layout="row" layout-align="space-between center"><span>&nbsp;</span>-->
+											<!--</div>-->
+											<!--<md-button-->
+												<!--class="md-primary md-raised"-->
+												<!--ng-click="login()">-->
+												<!--Login-->
+											<!--</md-button>-->
+										<!--</div>-->
+										<!--<form action="{{ url_for_security('login') }}" method="POST" id="login_user_form" name="login_user_form" style="margin-left:10px">-->
+											<!--{{ login_user_form.hidden_tag() }}-->
+											<!--{{ render_field_with_errors(login_user_form.email) }}-->
+											<!--{{ render_field_with_errors(login_user_form.password) }}-->
+											<!--{{ render_field_with_errors(login_user_form.remember) }}-->
+											<!--{{ render_field(login_user_form.next) }}-->
+											<!--&lt;!&ndash;{{ render_field(login_user_form.submit) }}&ndash;&gt;-->
+											<!--&lt;!&ndash;<button id="submit" class="btn btn-primary" name="submit" type="submit">Login</button>&ndash;&gt;-->
+												<!--&lt;!&ndash;ng-disabled='!(master.workspace.page_model.model)'&ndash;&gt;-->
+
+
+										<!--</form>-->
+
+									<!--</md-content>-->
+
 								</div>
-								<div class="panel-footer"></div>
-							</div>
+								<div class="mdl-card__actions mdl-card--border " layout="row" layout-align="end center">
+										<!--<span style="padding:8px">-->
+											<!--<a ng-href="/register" class="mdl-button">register</a>-->
+										<!--</span>-->
+											<!--ng-click="login()"-->
+										<md-button
+												type="submit"
+											class="md-primary md-raised">
+											Login
+										</md-button>
+								</div>
+								<!--<div class="mdl-card__actions  mdl-card&#45;&#45;border ">-->
+									<!--&lt;!&ndash;<a href="#" class="mdl-button">Read our features</a>&ndash;&gt;-->
+									<!--<a ng-href="/register" class="mdl-button">register</a>-->
+								<!--</div>-->
+
+							</form>
 						</div>
-					</div><!-- /.col-lg-6 -->
-				</div><!-- /.row -->
-			</div>
+					</section>
+
+					<!--<section ng-include src="'/static/partials-md/includes/current-workspace.html'" include-replace></section>-->
+
+					<!--<section class="section&#45;&#45;center mdl-grid mdl-grid&#45;&#45;no-spacing mdl-shadow&#45;&#45;2dp">-->
+							<!--<div id="workspace" class="custom-mdl-layout__tab-panel" >-->
+								<!--<div class="jquery-script-clear"></div>-->
+								<!--<div id="container">-->
+									<!--<div class="container marketing">-->
+									<!--&lt;!&ndash;<div id="main-container">&ndash;&gt;-->
+										<!--<div class="row" >-->
+											<!--<div class="col-lg-12">-->
+												<!--<div>-->
+													<!--<div class="panel panel-default" >-->
+														<!--&lt;!&ndash;<div class="panel-heading">&ndash;&gt;-->
+															<!--&lt;!&ndash;<h3 class="panel-title" style="display:inline;">Welcome!</h3>&ndash;&gt;-->
+														<!--&lt;!&ndash;</div>&ndash;&gt;-->
+														<!--<div class="panel-body">-->
+															<!--<div width="60%">-->
+																<!--<h3 style="margin:10px;margin-top:15px;margin-bottom:20px">Please log in to access</h3>-->
+																<!--<form action="{{ url_for_security('login') }}" method="POST" id="login_user_form" name="login_user_form" style="margin-left:10px">-->
+																	<!--{{ login_user_form.hidden_tag() }}-->
+																	<!--{{ render_field_with_errors(login_user_form.email) }}-->
+																	<!--{{ render_field_with_errors(login_user_form.password) }}-->
+																	<!--{{ render_field_with_errors(login_user_form.remember) }}-->
+																	<!--{{ render_field(login_user_form.next) }}-->
+																	<!--&lt;!&ndash;{{ render_field(login_user_form.submit) }}&ndash;&gt;-->
+																	<!--<button id="submit" class="btn btn-primary" name="submit" type="submit">Login</button>-->
+																		<!--&lt;!&ndash;ng-disabled='!(master.workspace.page_model.model)'&ndash;&gt;-->
+																	<!--<md-button-->
+																		<!--class="md-primary md-raised"-->
+																		<!--ng-click="login()">-->
+																		<!--Login-->
+																	<!--</md-button>-->
+																<!--</form>-->
+															<!--</div>-->
+														<!--</div>-->
+														<!--<div class="panel-footer"></div>-->
+													<!--</div>-->
+												<!--</div>-->
+											<!--</div>&lt;!&ndash; /.col-lg-6 &ndash;&gt;-->
+										<!--</div>&lt;!&ndash; /.row &ndash;&gt;-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+					<!--</section>-->
+
+				</div>
+        	</div>
 		</div>
-	</div>
 
+        <!--FIXME: Uncomment this-->
+    </main>
+	<ng-include src="'/static/partials-md/footer-mini-md.html'"></ng-include>
 
-<!--<h1>Login</h1>-->
-<!--{% include "security/_menu.html" %}-->
+</div>
+
 
 </body>
 </html>

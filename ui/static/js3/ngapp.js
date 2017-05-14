@@ -348,6 +348,17 @@ ngApp.directive('scrolly', function () {
     };
 });
 
+ngApp.directive('clickLink', ['$location', function($location) {
+    return {
+        link: function(scope, element, attrs) {
+            element.on('click', function() {
+                scope.$apply(function() {
+                    $location.href(attrs.clickLink);
+                });
+            });
+        }
+    }
+}]);
 
 // ngApp.directive('scroll', function () {
 //     return {

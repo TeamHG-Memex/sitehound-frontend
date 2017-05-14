@@ -29,7 +29,9 @@ function ($scope, $filter, $location) {
 		return res;
 	}
 
-
+    $scope.go = function ( path ) {
+        location.href = path;
+    };
 //
 //	$scope.navToWorkspace = function(){
 ////		headerController.setCurrentNavItem("workspace");

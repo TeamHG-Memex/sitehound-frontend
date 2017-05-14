@@ -74,20 +74,19 @@
 
 	                <!---->
 					<div>
-
 				       <!--<img src="https://getmdl.io/templates/dashboard/images/user.jpg" class="demo-avatar">-->
 				        <div class="demo-avatar-dropdown">
 				            <span>{{current_user}}</span>
 				            <!--<div class="mdl-layout-spacer"></div>-->
 				            <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
 				                <i class="material-icons" role="presentation">arrow_drop_down</i>
-				                <span class="visuallyhidden">Accounts</span>
+				                <!--<span class="visuallyhidden">Accounts</span>-->
 				            </button>
 				            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-				                <li class="mdl-menu__item"><a ng-href="/change">Change password</a></li>
-				                <li class="mdl-menu__item">Log off</li>
-				                <!--<li class="mdl-menu__item">info@example.com</li>-->
-				                <!--<li class="mdl-menu__item"><i class="material-icons">add</i>Add another account...</li>-->
+				                <!--<a ng-href="/change" class="mdl-button"><li class="mdl-menu__item">Change password</li></a>-->
+                                <!--<a ng-href="/logout" class="mdl-button"><li class="mdl-menu__item">Log out</li></a>-->
+				                <li class="mdl-menu__item" ng-click="go('/change')">Change password</li>
+                                <li class="mdl-menu__item" ng-click="go('/logout')">Log out</li>
 				            </ul>
 				        </div>
 					</div>
@@ -156,14 +155,15 @@
     </header>
 
     <main class="mdl-layout__content" ng-cloack>
+    <!--<main class="mdl-layout__content" ng-cloack layout="column" layout-align="center stretch" style="display:flex">-->
 
         <div class="mdl-layout__tab-panel" >
             <div class="custom-mdl-layout__tab-panel" ng-view ng-cloack></div>
         </div>
 
         <!--FIXME: Uncomment this-->
-        <ng-include src="'/static/partials-md/footer-mini-md.html'"></ng-include>
 
+        <ng-include src="'/static/partials-md/footer-mini-md.html'"></ng-include>
     </main>
 </div>
 

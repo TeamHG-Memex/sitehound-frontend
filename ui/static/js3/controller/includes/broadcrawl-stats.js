@@ -1,10 +1,14 @@
 ngApp.controller('broadcrawlStatsController', ['$scope', 'broadcrawlerResultsFactory',
 function ($scope, broadcrawlerResultsFactory) {
 
+    $scope.broadcrawlSources = ["SE", "DD", "TOTAL"];
 
 
-    $scope.broadcrawlStats.broadcrawlerResultsAggregated = [];
-
+    var resultStructOriginal = {
+        "SE":0,
+        "DD":0,
+        "TOTAL":0
+    };
 
     function getAggregated() {
         broadcrawlerResultsFactory.getAggregated($scope.workspaceId).then(
@@ -16,15 +20,8 @@ function ($scope, broadcrawlerResultsFactory) {
                 isRunning = false;
             }
         );
-    };
+    }
 
-    $scope.broadcrawlSources = ["SE", "DD", "TOTAL"];
-
-    var resultStructOriginal = {
-        "SE":0,
-        "DD":0,
-        "TOTAL":0
-    };
 
     function buildAggregatedBy(data){
         var resultStruct = resultStructOriginal;

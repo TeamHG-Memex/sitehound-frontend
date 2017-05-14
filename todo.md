@@ -1,7 +1,8 @@
 #index:
-   ##implement logoff
+   ##implement login [done]
+   ##implement logout [done]
+   ##implement register [done]
    ##implement change pwd
-   ##implement register
 
 #workspaces:
     ##pagination -> page combo is wrong [done]
@@ -12,7 +13,8 @@
 #seed-input:
     ## validate fields before running [done]
     ## feedback when run is click
-    ## show progress and allow the user to be redirected to dashboard
+    ## show progress and
+    ## allow the user to be redirected to dashboard [done]
 
 
 #training tab

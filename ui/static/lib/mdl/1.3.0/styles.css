@@ -203,7 +203,7 @@ html, body {
   margin-bottom: 24px;
 }
 .mdl-demo .mdl-layout__tab-panel:not(#overview) {
-  background-color: white;
+  /*background-color: white;*/
 }
 .mdl-demo #features section {
   margin-bottom: 72px;
