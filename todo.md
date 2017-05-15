@@ -1,30 +1,27 @@
 #index:
-   ##implement login [done]
-   ##implement logout [done]
-   ##implement register [done]
    ##implement change pwd
 
+#Welcome
+    ## generate some content for the / (home) page
+
 #workspaces:
-    ##pagination -> page combo is wrong [done]
-    ##pagination -> selected workspace is lost [done]
     ## show conflict message
     ## edit name
 
 #seed-input:
-    ## validate fields before running [done]
     ## feedback when run is click
     ## show progress and
-    ## allow the user to be redirected to dashboard [done]
-
+        @by url:
+            #show progress
 
 #training tab
    ##show progress
-   ##make result's  display card horizontal [done]
-   ##infinite scrolling or show more results [done]
    ##make fetch button return different results
    ##autocomplete for tags
    ##twitter api
-    
+    ## repeated results!
+    ## show no results when filtered
+
 #ml-crawling tab
    ##simple crawler
        ###start-stop state of ml-crawling, step 2
@@ -33,8 +30,13 @@
 
     ##ml crawler
         ##add getModelerProgress for showing the progress on a progress card
-
+          ( trainer progress + broadcrawl progress)
         ##add slider with autorefresh!!!
+
+#dashboard:
+
+    ##jobs:
+    ##training sets by different axis (relevance, page_type, udc)
 
 #overall
     ##add feedback:
@@ -46,6 +48,15 @@
 #integration with thh-classifier
 
 
+
+
+
+
+
+
+
+
+
 >
-sitehound_version="3.3.5"
+sitehound_version="3.3.7"
 docker run -d -p 0.0.0.0:5082:5081 --name=sitehound-$sitehound_version --hostname=sitehound5082 --link mongodb:mongodb --link kafka-2.11-0.10.1.1-2.4:hh-kafka --link elasticsearch:hh-elasticsearch hyperiongray/sitehound:$sitehound_version

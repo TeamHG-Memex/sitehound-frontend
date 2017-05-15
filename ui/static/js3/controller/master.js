@@ -50,9 +50,9 @@ function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
     $scope.master.crawlProvider = 'HH_JOOGLE';
 
     $scope.master.catalog.relevances = [
-      { label: 'relevant', value: true },
+      { label: 'irrelevant', value: false},
       { label: 'neutral', value: null },
-      { label: 'irrelevant', value: false}
+      { label: 'relevant', value: true }
     ];
 
     $scope.master.catalog.categories1= ['FORUM', 'NEWS'];
