@@ -61,6 +61,18 @@ def get_broad_crawl_results_summary_data(workspace_id):
     else:
         search_query["limit"] = 10
 
+    sources = []
+    if request.args.get('sources') is not None:
+        sources_gui = request.args.get('sources')
+        if 'searchengine' in sources_gui:
+            sources.append('GOOGLE')
+            sources.append('BING')
+        if 'deepdeep' in sources_gui:
+            sources.append('DD')
+    search_query["search_sources"] = sources
+
+
+
     begin = 1
     if request.args.get('page') is not None:
         begin = int(request.args.get('page'))

@@ -179,8 +179,15 @@ def get_search_results_mongo_dao(workspace_id, page_size, input_search_query):
             category_search_conditions.append({'categories': search_category})
         category_search_object = {'$or': category_search_conditions}
 
-    # page_size = 5
+    sources_search_object = {}
+    if 'search_sources' in input_search_query and input_search_query['search_sources'] is not None and len(input_search_query["search_sources"]) > 0:
+        search_sources = input_search_query['search_sources']
+        sources_search_conditions = []
+        for search_source in search_sources:
+            sources_search_conditions.append({'crawlEntityType': search_source})
+        sources_search_object = {'$or': sources_search_conditions}
 
+    # page_size = 5
     if 'page_number' in input_search_query and input_search_query['page_number'] is not None:
         # page_search_object = {'_id' > input_search_query['last_id']}
         docs_to_skip = input_search_query['page_number'] * page_size
@@ -217,7 +224,8 @@ def get_search_results_mongo_dao(workspace_id, page_size, input_search_query):
                               # job_search_object,
                             deleted_search_object,
                             # last_id_search_object,
-                            max_id_search_object
+                            max_id_search_object,
+                            sources_search_object
     ]}
 
     # collection = Singleton.getInstance().mongo_instance.get_broad_crawler_output_collection_by_workspace_id(workspace_id)
@@ -262,27 +270,13 @@ def get_search_results_mongo_dao(workspace_id, page_size, input_search_query):
 
 
 def get_broadcrawl_results_summary_mongo_dao(workspace_id, input_search_query):
-
-    search_text = input_search_query['search_text']
-    if search_text is not None:
-        text_search_conditions = [{'url': {'$regex': search_text}}, {'host': {'$regex': search_text}}]
-        text_search_object = {'$or': text_search_conditions}
-    else:
-        text_search_object = {}
-
-    search_object = {'$and': [
-                            {'workspaceId': workspace_id},
-                            text_search_object,
-                            {'deleted': None},
-    ]}
+    search_object = _get_search_object_from_query(workspace_id, input_search_query)
 
     docs_to_skip = input_search_query["begin"]
     page_size = input_search_query["limit"]
     order_by = input_search_query["orderBy"]
     order_direction = input_search_query["reverse"]
 
-
-    # collection = Singleton.getInstance().mongo_instance.get_broad_crawler_output_collection_by_workspace_id(workspace_id)
     collection = Singleton.getInstance().mongo_instance.get_broad_crawler_collection()
     res_hosts = collection.aggregate([
             {'$match': search_object},
@@ -317,22 +311,7 @@ def get_broadcrawl_results_summary_mongo_dao(workspace_id, input_search_query):
 
 def get_broadcrawl_results_summary_count_mongo_dao(workspace_id, input_search_query):
 
-    # ws_object = {}
-    # ws_object["workspaceId"] = workspace_id
-    #
-    search_text = input_search_query['search_text']
-
-    text_search_object = {}
-
-    if search_text is not None:
-        text_search_conditions = [{'url': {'$regex': search_text}}, {'host': {'$regex': search_text}}]
-        text_search_object = {'$or': text_search_conditions}
-
-    search_object = {'$and': [
-                            {'workspaceId': workspace_id},
-                            text_search_object,
-                            {'deleted': None},
-    ]}
+    search_object = _get_search_object_from_query(workspace_id, input_search_query)
 
     collection = Singleton.getInstance().mongo_instance.get_broad_crawler_collection()
     res_hosts = collection.aggregate([
@@ -371,8 +350,39 @@ def get_broadcrawl_results_summary_count_mongo_dao(workspace_id, input_search_qu
     return output
 
 
+def _get_search_object_from_query(workspace_id, input_search_query):
+    and_conditions = []
+    search_text = input_search_query['search_text']
+    if search_text is not None:
+        text_search_conditions = [{'url': {'$regex': search_text}}, {'host': {'$regex': search_text}}]
+        text_search_object = {'$or': text_search_conditions}
+    # else:
+    #     text_search_object = {}
+        and_conditions.append(text_search_object)
 
+    sources_search_object = {}
+    if 'search_sources' in input_search_query and input_search_query['search_sources'] is not None and len(input_search_query["search_sources"]) > 0:
+        search_sources = input_search_query['search_sources']
+        sources_search_conditions = []
+        for search_source in search_sources:
+            sources_search_conditions.append({'crawlEntityType': search_source})
+        sources_search_object = {'$or': sources_search_conditions}
 
+    if len(sources_search_object) > 0:
+        and_conditions.append(sources_search_object)
+
+    and_conditions.append({'workspaceId': workspace_id})
+    and_conditions.append({'deleted': None})
+
+    # search_object = {'$and': [
+    #                         {'workspaceId': workspace_id},
+    #                         text_search_object,
+    #                         {'deleted': None},
+    # ]}
+    #
+    search_object = {'$and': and_conditions}
+
+    return search_object
 
 def get_relevant_or_neutral_seeds_urls_url(workspace_id):
     # res = Singleton.getInstance().mongo_instance.get_broad_crawler_output_collection()\

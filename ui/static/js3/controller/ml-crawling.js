@@ -49,7 +49,6 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
         };
 
 
-        debugger;
 		var crawlSources = [];
 
 		if(source == 'SE'){

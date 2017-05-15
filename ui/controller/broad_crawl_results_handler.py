@@ -28,6 +28,18 @@ def get_broad_crawl_results_data(workspace_id):
     # search_query["job_id"] = request.json["jobId"]
     search_query["page_number"] = request.json["pageNumber"]
 
+    sources_gui = request.json["sources"]
+
+    sources = []
+    if 'searchengine' in sources_gui:
+        sources.append('GOOGLE')
+        sources.append('BING')
+    if 'deepdeep' in sources_gui:
+        sources.append('DD')
+
+    if len(sources) > 0:
+        search_query["search_sources"] = sources
+
     logging.info("filter is set to: %s" % str(filter))
     page_size = 4
     search_results = get_search_results(workspace_id, page_size, search_query)

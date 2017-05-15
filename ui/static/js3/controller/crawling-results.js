@@ -1,5 +1,4 @@
-
-ngApp.controller('crawlingResultsController', ['$scope', '$filter', 'headerFactory', 'broadcrawlerResultsFactory', 'broadcrawlerResultsSummaryFactory',
+ngApp.controller('crawlingResultsController', ['$scope', '$filter', 'headerFactory', 'broadcrawlerResultsFactory', 'broadcrawlerResultsSummaryFactory', '$mdDialog',
 function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawlerResultsSummaryFactory, $mdDialog) {
 
 
@@ -16,7 +15,7 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
 
 	/* Filters */
     $scope.filters = {};
-    $scope.filters.sources = [];
+    $scope.filters.sources = ['searchengine','deepdeep'];
     // $scope.filters.relevances = [];
     $scope.filters.categories = [];
     $scope.filters.languages = [];
@@ -50,11 +49,26 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
     $scope.broadcrawlStats={};
     $scope.broadcrawlStats.resultStruct={};
 
-    $scope.selected=[];
 
     var searchResultsButtonStarted = false;
 
-	$scope.search = function(){
+	$scope.search = function(ev){
+
+		if($scope.filters.sources.length==0){
+            var custom = {};
+            custom.title = 'Source is required';
+            custom.textContent = 'Select a source from where to load the data.';
+            $scope.master.showAlert(ev, custom);
+            return;
+        }
+
+        if(!$scope.display.results.table && !$scope.display.results.cards) {
+            var custom = {};
+            custom.title = 'A display is required';
+            custom.textContent = 'Select a display where to show the results.';
+            $scope.master.showAlert(ev, custom);
+            return;
+        }
 
         $scope.results = [];
         $scope.crawlStatusBusy = false;
@@ -69,9 +83,6 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
             console.log("cards");
             $scope.fetch();
         }
-        else{
-			console.log($scope.display.results);
-		}
 	};
 
 
@@ -257,13 +268,13 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
     };
 
     $scope.mdOnSelect = function (_id){
-        console.log($scope.selected);
-        console.log("selected" + _id);
+        // console.log($scope.selected);
+        console.log("selected: " + _id);
     };
 
     $scope.mdOnDeselect = function (_id){
-        console.log($scope.selected);
-        console.log("deselected" + _id);
+        // console.log($scope.selected);
+        console.log("deselected: " + _id);
     };
 
     $scope.table = {};
@@ -273,6 +284,7 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
     function getDesserts(query) {
 
         var qry = query || $scope.query;
+		qry.sources = $scope.filters.sources;
 
         broadcrawlerResultsSummaryFactory.get($scope.master.workspaceId, qry).then(
         	function (response) {
@@ -285,4 +297,65 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
 		)
     }
 
+	// Cards
+    $scope.mdFeatureExtractionOnClick = function (host){
+
+        $scope.toggleSelection(host, $scope.selected);
+
+        // console.log($scope.selected);
+        console.log("clicked: " + host);
+    };
+
+
+
+
+
+
+
+    /// advanced tab for details
+    $scope.showAdvanced = function(elem, ev) {
+
+    	elem.workspaceId = $scope.master.workspaceId;
+
+        $mdDialog.show({
+            controller: 'myDialogController',
+            // controller: DialogController,
+            locals:{item: elem},
+            // templateUrl: 'dialog1.tmpl.html',
+            templateUrl: 'static/partials-md/templates/broadcrawl-resutls-detail.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+            .then(function(answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
+    };
+
 }]);
+
+
+
+ngApp.controller('myDialogController', ['$scope', '$mdDialog', 'item',
+    function ($scope, $mdDialog, item) {
+
+        $scope.elem = item;
+
+
+        $scope.hide = function() {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+
+        $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+        };
+
+    }]);
+

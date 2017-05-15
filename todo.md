@@ -33,6 +33,8 @@
           ( trainer progress + broadcrawl progress)
         ##add slider with autorefresh!!!
 
+#export!!
+
 #dashboard:
 
     ##jobs:

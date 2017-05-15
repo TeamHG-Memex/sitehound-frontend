@@ -16,6 +16,7 @@ var broadcrawlerResultsFactory = ngApp.factory('broadcrawlerResultsFactory',['$h
 		po.isPinned = isPinned;
 		po.lastId = lastId;
 		po.maxId = maxId;
+		po.sources = filters.sources;
 //		po.jobId = jobId;
 		po.pageNumber = pageNumber;
 		return $http.post(url, po);

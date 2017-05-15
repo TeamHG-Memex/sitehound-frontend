@@ -3,107 +3,43 @@
     <section >
         <div class="mdl-grid portfolio-max-width" >
 
-
-
-
             <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in results">
-                <!--<div style="position:relative;">-->
-                        <!--<md-menu style="float:right">-->
-                            <!--<md-button aria-label="Open phone interactions menu" class="md-icon-button"  ng-click="openMenu($mdMenu, $event)">-->
-                                <!--&lt;!&ndash;<md-icon md-menu-origin md-svg-icon="call:phone"></md-icon>&ndash;&gt;-->
-                                <!--<md-icon md-menu-origin >more_vert</md-icon>-->
-                                <!--&lt;!&ndash;<i class="material-icons">more_vert</i>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<i class="material-icons">face</i>&ndash;&gt;-->
-                            <!--</md-button>-->
-                            <!--<md-menu-content width="4">-->
-                                <!--<md-menu-item>-->
-                                    <!--<md-button ng-click="redial($event)">-->
-                                        <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<md-icon md-menu-align-target md-svg-icon="call:phone"></md-icon>&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
-                                        <!--<md-icon md-menu-align-target >open_in_new</md-icon>-->
-                                        <!--Visit Link-->
-                                    <!--</md-button>-->
-                                <!--</md-menu-item>-->
-                                <!--<md-menu-item>-->
-                                    <!--<md-button ng-click="redial($event)">-->
-                                        <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
-                                        <!--<md-icon md-menu-align-target >bookmark_border</md-icon>-->
-                                        <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
-                                        <!--Bookmark-->
-                                    <!--</md-button>-->
-                                <!--</md-menu-item>-->
-                                <!--<md-menu-item>-->
-                                    <!--<md-button ng-click="redial($event)">-->
-                                        <!--&lt;!&ndash;<md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>&ndash;&gt;-->
-                                        <!--<md-icon md-menu-align-target >delete</md-icon>-->
-                                        <!--&lt;!&ndash;<md-icon md-menu-origin>face</md-icon>&ndash;&gt;-->
-                                        <!--Delete-->
-                                    <!--</md-button>-->
-                                <!--</md-menu-item>-->
 
-                            <!--</md-menu-content>-->
-                        <!--</md-menu>-->
-                <!--</div>-->
-
-
-                <!--<div class="mdl-card__title" layout="row" layout-align="space-between start"  style="padding:20px; padding-top:0px; padding-bottom:20px; ">-->
-                    <!--<div layout="column">-->
-                        <!--&lt;!&ndash;<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify"> </span></h3>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h2 class="mdl-card__title-text"> <span ng-bind="elem.host" style="text-align:justify; font-size:16px; padding:20px; "> </span></h2>&ndash;&gt;-->
-                        <!--<h2 class="mdl-card__title-text"> <span ng-bind="elem.host" style="text-align:center; font-weight: 400; padding-left:20px"> </span></h2>-->
-                        <!--&lt;!&ndash;<h2 class="mdl-card__title-text"> <span ng-bind="elem.host" > </span></h2>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h2 class="mdl-card__title-text">Sunt nulla</h2>&ndash;&gt;-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <div class="mdl-card__media">
-                    <!--<img class="article-image" src="https://getmdl.io/templates/portfolio/images/example-work02.jpg" border="0" alt="">-->
-                    <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210" border="0" alt="">-->
-                    <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">
+                <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
+                    <a href="javascript:void(0)">
+                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">
+                    </a>
                 </div>
 
                 <div class="mdl-card__title">
                     <h2 class="mdl-card__title-text">
                         <span ng-bind="elem.host | capitalize"></span>
                     </h2>
-                        <!--<md-icon style="width: 18px; height: 18px; float:right">open_in_new</md-icon>-->
                 </div>
-
-
-                <!--<div class="mdl-card__title" layout="row" layout-align="space-between start"  style="padding:20px; padding-top:0px; padding-bottom:0px">-->
-                    <!--<div layout="column">-->
-                        <!--&lt;!&ndash;<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify"> </span></h3>&ndash;&gt;-->
-                        <!--<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; font-size:16px; padding:20px; "> </span></h3>-->
-                        <!--&lt;!&ndash;<h2 class="mdl-card__title-text">Sunt nulla</h2>&ndash;&gt;-->
-                    <!--</div>-->
-                <!--</div>-->
-
                 <div class="mdl-card__supporting-text" style="margin:0px;margin-left:20px;margin-right:20px; width: 85%" layout="column" layout-align="space-between start">
-                    <!--<span ng-bind="elem.desc" style="text-align:justify"></span>-->
-                    <!--<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; font-size:16px; padding:20px; "> </span></h3>-->
-                    <h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:14px;"> </span></h3>
-                    <!--<h3 class="mdl-card__title-text"> <span ng-bind="elem.title" > </span></h3>-->
-                    <!--<p style="font-size:12px; overflow: hidden;text-align: justify;">{{elem.desc | ellipsis:true:850:' ...'}}</p>-->
-                    <div>
-                        <a href="{{elem.url}}">
-                            <!--URL: -->
-                            <!--<span ng-bind="elem.url | ellipsis:true:30:'...'" style="text-align:justify; font-size:14px;"></span>-->
-                            <span ng-bind="elem.url | ellipsis:true:32:'...'" style=" font-size:14px;"></span>
-                            <!--<span ng-bind="elem.url " style=" font-size:14px;" class="dont-break-out"></span>-->
-                            <!--<md-tooltip md-direction="bottom">{{elem.url}}</md-tooltip>-->
-                            <!--<md-icon-->
-                            <!--md-svg-src="img/icons/ic_refresh_24px.svg"-->
-                            <!--style="width: 24px; height: 24px">-->
-                            <!--</md-icon>-->
-                            <!--<md-icon style="width: 18px; height: 18px">open_in_new</md-icon>-->
-                            <!--<i class="material-icons">open_in_new</i>-->
-                        </a>
-                        <p ng-show="elem.score" style="text-align:justify; font-size:14px;">Score: <span ng-bind="elem.score | roundup"></span></p>
+                    <h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span></h3>
+                    <!--<div>-->
+                        <!--<a href="{{elem.url}}" target="_blank">-->
+                            <!--<span ng-bind="elem.url | ellipsis:true:32:'...'" style=" font-size:14px;"></span>-->
+                        <!--</a>-->
+                        <!--<p ng-show="elem.score" style="text-align:justify; font-size:14px;">Score: <span ng-bind="elem.score | roundup"></span></p>-->
+                    <!--</div>-->
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <div layout="row" layout-align="center center" style="margin-top:10px">
+                        <!--<div layout="column" >-->
+                        <md-checkbox
+                                value="{{elem.id}}"
+                                ng-checked="selected.indexOf(elem.host) > -1"
+                                ng-click="mdFeatureExtractionOnClick(elem.host)"
+                        >
+                                <!--ng-click="toggleSelection(elem.id, selected)"-->
+                                Feature extraction
+                        </md-checkbox>
                     </div>
                 </div>
                 <div class="mdl-card__actions mdl-card--border">
-                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html" data-upgraded=",MaterialButton,MaterialRipple">More<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
+                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" ng-click="showAdvanced(elem,$event)" data-upgraded=",MaterialButton,MaterialRipple">More<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
                 </div>
             </div>
 

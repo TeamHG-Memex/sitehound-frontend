@@ -4,7 +4,7 @@
 		<div class="mdl-card__supporting-text">
 			<h4>Summary</h4>
 			<!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
-			Compact view of the crawled urls found. Select the hosts for performing the Feature Extraction
+			Compact view of the crawled urls found. Select the hosts for later Feature Extraction
 		<!--</div>-->
 		<!--<div>-->
 
@@ -18,17 +18,19 @@
 							<table md-table md-auto-select md-row-select ng-model="selected" multiple md-progress="promise">
 								<thead md-head md-order="query.orderBy" md-on-reorder="onReorder">
 									<tr md-row>
+										<th md-column md-order-by="host">Host</th>
 										<th md-column md-numeric md-order-by="score"><span>Score</span></th>
 										<!--<th md-column md-order-by="pinned">Pinned</th>-->
-										<th md-column md-order-by="host">Host</th>
-										<th md-column md-order-by="url">Url</th>
+										<th md-column md-numeric >URLs</th>
+										<th md-column >Highest scored URL on Host</th>
 									</tr>
 								</thead>
 								<tbody md-body>
-									<tr md-row md-select="elem._id" md-select-id="_id" ng-repeat="elem in table.results" md-on-select="mdOnSelect" md-on-deselect="mdOnDeselect">
-										<td md-cell>{{elem.score | roundup}}</td>
-										<!--<td md-cell>{{elem.pinned}}</td>-->
+									<!--<tr md-row md-select="elem.host" md-select-id="host" ng-repeat="elem in table.results" md-on-select="mdOnSelect" md-on-deselect="mdOnDeselect">-->
+									<tr md-row md-select="elem.host" md-select-id="host" ng-repeat="elem in table.results"  md-on-select="mdOnSelect" md-on-deselect="mdOnDeselect">
 										<td md-cell>{{elem.host}}</td>
+										<td md-cell>{{elem.score | roundup}}</td>
+										<td md-cell>{{elem.count}}</td>
 										<td md-cell class="dont-break-out">{{elem.url}}</td>
 									</tr>
 								</tbody>
@@ -52,9 +54,9 @@
 			</div>
 
 		</div>
-		<div class="mdl-card__actions">
-			<a href="#" class="mdl-button">Read our features</a>
-		</div>
+		<!--<div class="mdl-card__actions">-->
+			<!--<a href="#" class="mdl-button">Read our features</a>-->
+		<!--</div>-->
 	</div>
 	<!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn3">-->
 		<!--<i class="material-icons">more_vert</i>-->
