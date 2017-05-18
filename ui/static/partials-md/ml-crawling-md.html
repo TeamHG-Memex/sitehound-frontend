@@ -202,7 +202,7 @@
 
 
 
-                        <!--2nd step-->
+                        <!--2nd step: Training-->
                         <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                             <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
                                 <i class="material-icons">play_circle_filled</i>
@@ -210,8 +210,8 @@
                             <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
                             <!--<div class="mdl-card__supporting-text mdl-grid mdl-grid&#45;&#45;no-spacing">-->
                                 <div class="mdl-card__supporting-text">
-                                    <h4>2. Crawl more documents</h4>
-                                    <p>This will run a crawl using Deep-Deep with the model generated in the step above.</p>
+                                    <h4>2. Crawl with Deep deep, then label the results</h4>
+                                    <p>This will run a crawl using Deep-Deep this time, with the model generated in the step above.</p>
                                     <p>You can stop it when you get enough results to label.</p>
                                 </div>
 
@@ -251,9 +251,6 @@
                             <div class="mdl-card mdl-cell mdl-cell--12-col">
                                 <div class="mdl-card__supporting-text">
                                     <h4>Trainer Progress</h4>
-                                    <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
-                                <!--</div>-->
-                                <!--<div class="mdl-card__supporting-text"  >-->
                                     <p ng-hide='master.workspace.page_model.model'>
                                         <span style="color:red">(Requires an initial model)</span>
                                     </p>
@@ -261,10 +258,6 @@
                                         TODO: The crawler is currently started/stoped
                                     </p>
                                     <div ng-hide='trainerProgress==""'>
-                                        <!--<div >-->
-                                            <!--&lt;!&ndash;<h5>Crawler progress:</h5>&ndash;&gt;-->
-                                            <!--&lt;!&ndash;<h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>&ndash;&gt;-->
-                                        <!--</div>-->
                                         <p><span ng-bind="trainerProgress"></span></p>
                                         <p ng-show='trainingStats.resultStruct["DD"]["total"]>0'>
                                             Please label the results on the <a href="/#label">Label</a> tab, filtering by source "Deep deep".
@@ -281,10 +274,7 @@
                         </section>
 
 
-
-
                         <!--3rd step-->
-
                         <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                             <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
                                 <i class="material-icons">play_circle_filled</i>
@@ -316,7 +306,8 @@
                                             <md-button
                                                     ng-disabled='!(master.workspace.link_model.model && trainingStats.resultStruct["DD"]["relevant"]>0)'
                                                     class="md-primary md-raised"
-                                                    ng-click="navigateToBroadcrawlNew()">
+                                                    ng-click="publish2BroadCrawl($event, 'DD')">
+
                                                 Start Crawler
                                             </md-button>
                                             <md-button
@@ -341,48 +332,24 @@
 
 
                         <!--3rd step progress-->
-
-
-
-                        <section>
-<!--fake section, fix this!                            -->
-
-                        </section>
-
                         <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" >
                             <div class="mdl-card mdl-cell mdl-cell--12-col">
                                 <div class="mdl-card__supporting-text">
                                     <h4>Broad crawler progress</h4>
-                                    <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
-                                </div>
-                                <div class="mdl-card__supporting-text" ng-hide='broadcrawlerProgress==""'>
-                                    <div style="padding-left:20px" >
-                                        <div style="padding:10px" >
-                                            <div >
-                                                <h5>Broadcrawler Progress:</h5>
-                                                <span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
-                                            </div>
-                                        </div>
-                                        <h6><span ng-hide='master.workspace.link_model.model && trainingStats.resultStruct["DD"]["relevant"]>0'
-                                                  style="color:red">(Requires a previous training with Deep-Deep)</span></h6>
-                                        <!--<a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;-->
-                                        <!--<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;-->
-                                        <!--<a href="" ng-click="navigateToJobs()">View jobs</a>-->
-
+                                    <p ng-hide='master.workspace.link_model.model && trainingStats.resultStruct["DD"]["relevant"]>0'>
+                                        <span style="color:red">(Requires a previous labeling of Deep-Deeps results)</span>
+                                    </p>
+                                    <p ng-show="broadcrawlerJobId">The job was scheduled successfully with the id: {{broadcrawlerJobId}}</p>
+                                    <div ng-show='crawlerProgress'>
+                                        <p><span style="padding:20px" ng-bind="crawlerProgress"></span></p>
+                                    </div>
+                                    <div ng-show='crawlerProgress || broadcrawlerJobId' >
+                                        <p>You can check the results as soon as the arrive on the <a ng-href="#crawling-results"> Crawling Results</a> tab, filtering the Source to 'Deep deep'</p>
+                                        <p>You can track it by job or by the count of fetched results on the <a ng-href="#dashboard"> Dashboard</a> tab</p>
                                     </div>
                                 </div>
                                 <div class="mdl-card__actions">
                                     <a href="#" class="mdl-button">Read our features</a>
-                                </div>
-                                <div class="mdl-card__actions" mdl-card--border ng-hide='broadcrawlerProgress==""'>
-                                    <div layout="row" layout-align="end end">
-                                        <div layout="row" layout-align="space-between center"><span>&nbsp;</span>
-                                            <a ng-href="/#/crawling-results">View results</a> &nbsp; &nbsp;
-                                            <a ng-href="/#/dashboard">View jobs</a>
-                                        </div>
-                                        <!--<div>-->
-                                        <!--</div>-->
-                                    </div>
                                 </div>
                             </div>
                         </section>

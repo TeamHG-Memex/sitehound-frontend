@@ -63,7 +63,12 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
 		broadcrawlerFactory.publish2BroadCrawl($scope.workspaceId, $scope.nResults, $scope.master.crawlProvider, crawlSources).then(
 		function(response){
-            $scope.simplecrawlerJobId = response.data.jobId;
+		    if(source == 'DD'){
+                $scope.broadcrawlerJobId = response.data.jobId;
+            }
+            if(source == 'SE'){
+                $scope.simplecrawlerJobId = response.data.jobId;
+            }
             $scope.showSimpleCrawlerProgressTab = false;
 			// $scope.getCrawlStatus(response.data.jobId);
 //			$scope.status='';
@@ -77,28 +82,28 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 		});
 	};
 
-	$scope.getCrawlStatus = function(jobId) {
-		clearInterval($scope.crawlStatusTimeout);
-		broadcrawlerFactory.getCrawlStatus($scope.workspaceId, jobId).then(
-		function(response){
-			$scope.status = 'Data loaded';
-			$scope.categories = response.data.categories;
-			$scope.languages = response.data.languages;
-			$scope.nResultsFound = response.data.nResults;
-			$scope.labelCategories = $scope.categories.length > 0 ? 'Categories Found: ' : '' ;
-			$scope.labelLanguages = $scope.languages.length > 0 ? 'Languages Found: ' : '' ;
-			$scope.labelnResultsFound = $scope.nResultsFound > 0 ? 'Results Found: ' : '' ;
-
-			$scope.crawlStatusTimeout = setTimeout(function() { $scope.getCrawlStatus(data.jobId);}, 5000);
-			$scope.loading = false;
-
-		},
-		function(error){
-			$scope.crawlStatusTimeout = setTimeout(function() { $scope.getCrawlStatus(data.jobId);}, 5000);
-			$scope.status = 'Unable to load data: ' + error;
-			$scope.loading = false;
-		});
-	};
+	// $scope.getCrawlStatus = function(jobId) {
+	// 	clearInterval($scope.crawlStatusTimeout);
+	// 	broadcrawlerFactory.getCrawlStatus($scope.workspaceId, jobId).then(
+	// 	function(response){
+	// 		$scope.status = 'Data loaded';
+	// 		$scope.categories = response.data.categories;
+	// 		$scope.languages = response.data.languages;
+	// 		$scope.nResultsFound = response.data.nResults;
+	// 		$scope.labelCategories = $scope.categories.length > 0 ? 'Categories Found: ' : '' ;
+	// 		$scope.labelLanguages = $scope.languages.length > 0 ? 'Languages Found: ' : '' ;
+	// 		$scope.labelnResultsFound = $scope.nResultsFound > 0 ? 'Results Found: ' : '' ;
+    //
+	// 		$scope.crawlStatusTimeout = setTimeout(function() { $scope.getCrawlStatus(data.jobId);}, 5000);
+	// 		$scope.loading = false;
+    //
+	// 	},
+	// 	function(error){
+	// 		$scope.crawlStatusTimeout = setTimeout(function() { $scope.getCrawlStatus(data.jobId);}, 5000);
+	// 		$scope.status = 'Unable to load data: ' + error;
+	// 		$scope.loading = false;
+	// 	});
+	// };
 
 
 	/**** modal ****/
@@ -172,17 +177,17 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
 /// ML CRAWLER ///
 
-	$scope.getAggregatedLabelUserDefinedCategories = function() {
-	    if($scope.master.workspace.userDefinedCategories){
-           labelUserDefinedCategoriesFactory.getAggregated($scope.master.workspaceId).then(
-           function (response) {
-               $scope.userDefinedCategoriesCounted = userDefinedCategoriesFactory.mergeUserDefinedCategoriesCounted($scope.master.workspace.userDefinedCategories, response.data);
-           },
-           function (error) {
-               $scope.status = 'Unable to load data: ' + error;
-           });
-	    }
-	}
+	// $scope.getAggregatedLabelUserDefinedCategories = function() {
+	//     if($scope.master.workspace.userDefinedCategories){
+     //       labelUserDefinedCategoriesFactory.getAggregated($scope.master.workspaceId).then(
+     //       function (response) {
+     //           $scope.userDefinedCategoriesCounted = userDefinedCategoriesFactory.mergeUserDefinedCategoriesCounted($scope.master.workspace.userDefinedCategories, response.data);
+     //       },
+     //       function (error) {
+     //           $scope.status = 'Unable to load data: ' + error;
+     //       });
+	//     }
+	// }
 
 
 
@@ -214,7 +219,7 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 
     $scope.modelerProgress = [];
     $scope.trainerProgress = "";
-    $scope.broadcrawlerProgress = "";
+    $scope.crawlerProgress = "";
 
     var isRunning = false;
 
@@ -269,7 +274,7 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
                 $scope.trainerProgress = response.data.trainer;
 
                 //broadcrawl
-                $scope.broadcrawlerProgress = response.data.broadcrawler;
+                $scope.crawlerProgress = response.data.crawler;
                 $scope.loading = false;
             },
             function (response) {

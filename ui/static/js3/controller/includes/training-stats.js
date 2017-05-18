@@ -20,7 +20,6 @@ function ($scope, seedUrlFactory) {
         seedUrlFactory.getAggregated($scope.workspaceId).then(
             function (response) {
                 $scope.trainingStats.resultStruct = buildAggregatedBy(response.data);
-                // $scope.resultStruct = $scope.trainingStats.resultStruct;
             },
             function (response) {
                 console.log(response);
@@ -30,7 +29,6 @@ function ($scope, seedUrlFactory) {
 
 
 
-    $scope.getAggregated();
 
     function buildAggregatedBy(seedUrlAggregated){
         var resultStruct = resultStructOriginal;
@@ -49,12 +47,10 @@ function ($scope, seedUrlFactory) {
                 resultStruct["TOTAL"]["total"] = resultStruct["TOTAL"]["total"] + value["total"];
             }
         });
-
         return resultStruct;
-
-        // $scope.resultStruct = resultStruct ;
     }
 
+    $scope.getAggregated();
 
 
 }]);

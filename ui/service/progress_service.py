@@ -60,12 +60,11 @@ def get_all_progress(workspace_id):
     cursor = collection.find({'_id': ObjectId(workspace_id)}, {"page_model.quality": 1, "dd_trainer.trainer_progress": 1, "dd_crawler.crawler_progress": 1, "dd_broadcrawler.broadcrawler_progress": 1})
     docs = list(cursor)
 
-    #progress = []
     progress = {}
     progress["model"] = []
     progress["trainer"] = []
     progress["crawler"] = ""
-    progress["broadcrawler"] = ""
+    # progress["broadcrawler"] = ""
 
     for doc in docs:
         if "page_model" in doc and "quality" in doc["page_model"]:
