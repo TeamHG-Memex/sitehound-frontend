@@ -252,30 +252,32 @@
                                 <div class="mdl-card__supporting-text">
                                     <h4>Trainer Progress</h4>
                                     <!--Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.-->
-                                </div>
-                                <div class="mdl-card__supporting-text" ng-hide='master.workspace.page_model.model' >
-                                    <h6><span style="color:red">(Requires an initial model)</span></h6>
-                                    <div style="padding:10px" ng-hide='trainerProgress==""'>
-                                        <div >
-                                            <h5>Crawler progress:</h5>
-                                            <h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>
-                                        </div>
-                                        <h5 ng-show='trainingStats.resultStruct["DD"]["total"]>0'><a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
-                                        </h5>
+                                <!--</div>-->
+                                <!--<div class="mdl-card__supporting-text"  >-->
+                                    <p ng-hide='master.workspace.page_model.model'>
+                                        <span style="color:red">(Requires an initial model)</span>
+                                    </p>
+                                    <p>
+                                        TODO: The crawler is currently started/stoped
+                                    </p>
+                                    <div ng-hide='trainerProgress==""'>
+                                        <!--<div >-->
+                                            <!--&lt;!&ndash;<h5>Crawler progress:</h5>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>&ndash;&gt;-->
+                                        <!--</div>-->
+                                        <p><span ng-bind="trainerProgress"></span></p>
+                                        <p ng-show='trainingStats.resultStruct["DD"]["total"]>0'>
+                                            Please label the results on the <a href="/#label">Label</a> tab, filtering by source "Deep deep".
+                                        </p>
+                                        <p ng-show='trainingStats.resultStruct["DD"]["total"]==0'>
+                                            No results processed yet
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="mdl-card__actions">
                                     <a href="#" class="mdl-button">Read our features</a>
                                 </div>
                             </div>
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn3">
-                                <i class="material-icons">more_vert</i>
-                            </button>
-                            <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn3">
-                                <li class="mdl-menu__item">Lorem</li>
-                                <li class="mdl-menu__item" disabled>Ipsum</li>
-                                <li class="mdl-menu__item">Dolor</li>
-                            </ul>
                         </section>
 
 

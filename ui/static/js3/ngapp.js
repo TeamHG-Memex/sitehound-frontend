@@ -1,8 +1,9 @@
 //Angular
 
-var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bootstrap',
+var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate',
+	 'ui.bootstrap',
 //	'toggle-switch',
-	'infinite-scroll',
+// 	'infinite-scroll',
 //	'nzToggle',
 	 'ngSilent',
 	 'ngCookies',
@@ -14,7 +15,7 @@ var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bo
      'ngMaterial',
      'md.data.table', // used in workspace/table.html!
 	 'ngCsv'
-	 ])
+	 ]);
 
 //ngApp.run(function(editableOptions, editableThemes) {
 //	editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'. This is for xeditable

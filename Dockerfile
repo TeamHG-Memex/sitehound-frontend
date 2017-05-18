@@ -45,4 +45,5 @@ ADD ui/settings.py /root/sitehound/ui/
 
 # Set the default command to execute    
 # when creating a new container
-CMD python /root/sitehound/runserver.py --logging-file sitehound.log --logging-level info
+#CMD python /root/sitehound/runserver.py --logging-file sitehound.log --logging-level info
+CMD python /root/sitehound/runserver.py

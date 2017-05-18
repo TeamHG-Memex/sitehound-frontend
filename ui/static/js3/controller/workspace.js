@@ -220,8 +220,15 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
     };
 
     $scope.mdOnSelect = function (workspaceId){
+        console.log("workspace selected: " + workspaceId);
         $scope.master.setWorkspace(workspaceId);
-    }
+    };
+
+    $scope.mdOnDeselect = function (workspaceId){
+        console.log("workspace deselected: " + workspaceId);
+        $scope.master.onRemovedWorkspaceId(workspaceId);
+
+    };
 
 //     function getDesserts(query) {
 //         // $scope.selected = [];

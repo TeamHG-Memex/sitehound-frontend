@@ -145,7 +145,7 @@ ngApp.controller('userController', ['$mdDialog', '$scope', '$filter', '$modal', 
         page: 1
     };
 
-	$scope.selected = []
+	$scope.selected = [];
 
 	$scope.status = "";
 	$scope.loading = false;

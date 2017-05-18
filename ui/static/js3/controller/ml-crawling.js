@@ -175,11 +175,11 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
 	$scope.getAggregatedLabelUserDefinedCategories = function() {
 	    if($scope.master.workspace.userDefinedCategories){
            labelUserDefinedCategoriesFactory.getAggregated($scope.master.workspaceId).then(
-           function (data) {
-               $scope.userDefinedCategoriesCounted = userDefinedCategoriesFactory.mergeUserDefinedCategoriesCounted($scope.workspace.userDefinedCategories, data);
+           function (response) {
+               $scope.userDefinedCategoriesCounted = userDefinedCategoriesFactory.mergeUserDefinedCategoriesCounted($scope.master.workspace.userDefinedCategories, response.data);
            },
            function (error) {
-               $scope.status = 'Unable to load data: ' + error.message;
+               $scope.status = 'Unable to load data: ' + error;
            });
 	    }
 	}
@@ -279,23 +279,22 @@ ngApp.controller('mlCrawlingController', ['$scope', '$rootScope', '$filter', '$i
     };
 
     function backgroundService(){
-        if(!isRunning){
+        if(!isRunning && $scope.master.workspaceId){
             isRunning = true;
             // $scope.getAggregated();
             $scope.master.reloadWorkspace($scope.master.workspaceId);
 
-            $scope.getModelerProgress($scope.workspaceId);
+            $scope.getModelerProgress($scope.master.workspaceId);
 //            $scope.getTrainerProgress($scope.workspaceId);
-            $scope.getAllProgress($scope.workspaceId);
+            $scope.getAllProgress($scope.master.workspaceId);
 
             $interval.cancel($rootScope.backgroundServicePromise);
             $rootScope.backgroundServicePromise = $interval(backgroundService, 15000);
+            isRunning=false;
         }
     }
 
     backgroundService();
-
-
 
 
     function adviceParser(advices, tooltips){
