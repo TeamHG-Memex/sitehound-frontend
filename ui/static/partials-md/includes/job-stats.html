@@ -1,0 +1,102 @@
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-controller="jobStatsController">
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text">
+            <h4>Jobs</h4>
+
+            <div style="padding:0px; padding-top:20px">
+
+                <md-content flex md-scroll-y class="md-default-theme" >
+                    <div layout="column" flex>
+
+                        <md-table-container>
+                            <table md-table >
+                                <thead md-head>
+                                <tr md-row>
+                                    <!--<th md-column >Id</th>-->
+                                    <th md-column >Started</th>
+                                    <!--<th md-column >Provider</th>-->
+                                    <th md-column >Source</th>
+                                    <th md-column >CrawlType</th>
+                                    <th md-column md-numeric ># URLs</th>
+                                    <th md-column >Status</th>
+                                </tr>
+                                </thead>
+                                <tbody md-body>
+                                <!--ng-class-even="job.selected ? '':'workspace-row-even'" class='{{ job.selected ? "workspace-row-selected" : ""}}'-->
+                                <tr md-row ng-repeat="job in jobs track by job._id"  >
+                                    <!--<td md-cell >{{master.catalog.sourcesTranslator(source) | capitalize}}</td>-->
+                                    <!--<td md-cell ng-repeat="output in trainOutputs">{{trainingStats.resultStruct[source][output]}}</td>-->
+                                    <!--<td md-cell >{{job._id}}</td>-->
+                                    <td md-cell >{{job.strTimestamp}}</td>
+                                    <!--<td md-cell >{{job.provider}}</td>-->
+                                    <td md-cell >{{job.sources.join(', ')}}</td>
+                                    <td md-cell >{{job.crawlType}}</td>
+                                    <td md-cell >{{job.nResultsRequested}}</td>
+                                    <td md-cell >{{job.status}}</td>
+                                    <td md-cell >
+                                        <!--<a ng-if="job.status!='CANCELLED'" ng-click="cancelJob(job._id)">Cancel</a>-->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </md-table-container>
+                        <!--<md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{table.totalResultsCount}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>-->
+                    </div>
+                </md-content>
+            </div>
+
+
+        </div>
+        <div class="mdl-card__actions">
+            <a href="#" class="mdl-button">Read our features</a>
+        </div>
+    </div>
+</section>
+
+
+<!--<table class="table" width="70%" style="font-size:13px">-->
+    <!--<thead>-->
+    <!--<tr>-->
+        <!--<th>Started</th>-->
+        <!--<th>Provider</th>-->
+        <!--<th>Source</th>-->
+        <!--<th>Crawl Type</th>-->
+        <!--<th># URLs</th>-->
+        <!--<th>Status</th>-->
+        <!--<th>&nbsp;</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--&lt;!&ndash;<tr ng-repeat="workspace in workspaces track by workspace._id"  ng-class-even="{{ workspace.selected ? '':'workspace-row-even'}}" class='{{ workspace.selected ? "workspace-row-selected" : ""}}'>&ndash;&gt;-->
+    <!--&lt;!&ndash;<tr ng-repeat="job in jobs track by job._id" ng-class-even="workspace.selected ? '':'workspace-row-even'" class='{{ workspace.selected ? "workspace-row-selected" : ""}}'>&ndash;&gt;-->
+    <!--<tr ng-repeat="job in jobs track by job._id"  ng-class-even="job.selected ? '':'workspace-row-even'" class='{{ job.selected ? "workspace-row-selected" : ""}}'>-->
+        <!--&lt;!&ndash;<td>&ndash;&gt;-->
+        <!--&lt;!&ndash;{{job._id}}&ndash;&gt;-->
+        <!--&lt;!&ndash;</td>&ndash;&gt;-->
+        <!--&lt;!&ndash;<td>&ndash;&gt;-->
+        <!--&lt;!&ndash;{{job.workspaceId}}&ndash;&gt;-->
+        <!--&lt;!&ndash;</td>&ndash;&gt;-->
+        <!--<td>-->
+            <!--{{job.strTimestamp}}-->
+        <!--</td>-->
+        <!--<td>-->
+            <!--{{job.provider}}-->
+        <!--</td>-->
+        <!--<td>-->
+            <!--{{job.sources.join(', ')}}-->
+        <!--</td>-->
+        <!--<td>-->
+            <!--{{job.crawlType}}-->
+        <!--</td>-->
+        <!--<td>-->
+            <!--{{job.nResultsRequested}}-->
+        <!--</td>-->
+        <!--<td>-->
+            <!--{{job.status}}-->
+        <!--</td>-->
+        <!--<td>-->
+            <!--<a ng-if="job.status!='CANCELLED'" ng-click="cancelJob(job._id)">Cancel</a>-->
+        <!--</td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+<!--</table>-->
