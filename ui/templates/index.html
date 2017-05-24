@@ -155,11 +155,11 @@
         </div>
     </header>
 
-    <main class="mdl-layout__content" ng-cloack>
+    <main class="mdl-layout__content" ng-cloack >
     <!--<main class="mdl-layout__content" ng-cloack layout="column" layout-align="center stretch" style="display:flex">-->
 
         <div class="mdl-layout__tab-panel" >
-            <div class="custom-mdl-layout__tab-panel" ng-view ng-cloack></div>
+            <div class="custom-mdl-layout__tab-panel" ng-view ng-cloack style="padding-bottom:40px"></div>
         </div>
 
     </main>
@@ -279,7 +279,10 @@
 <!--<script src="{{ url_for('static', filename='js3/broadcrawler-results.js') }}"></script>-->
 <!--<script src="{{ url_for('static', filename='js3/broadcrawler-results-summary.js') }}"></script>-->
 <script src="{{ url_for('static', filename='js3/deep-crawler.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/job.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js3/controller/includes/job-stats.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/job.js') }}"></script>
+
 <script src="{{ url_for('static', filename='js3/navbar.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>

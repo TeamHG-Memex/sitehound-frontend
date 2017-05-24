@@ -14,7 +14,7 @@ from utils.json_encoder import JSONEncoder
 def get_jobs_api(workspace_id):
     in_doc = get_jobs_by_workspace(workspace_id)
     out_doc = JSONEncoder().encode(in_doc)
-    return Response(json.dumps(out_doc), mimetype="application/json")
+    return Response(out_doc, mimetype="application/json")
 
 
 @app.route("/api/workspace/<workspace_id>/job/<job_id>", methods=["DELETE"])
