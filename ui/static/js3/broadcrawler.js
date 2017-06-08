@@ -37,17 +37,23 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 	var ticks_label = ["deepest", "deep", "broad","broadest"];
 	var ticks_scores = [0, 25, 75, 100];
 
+	$scope.slider = null;
 	var init = function () {
-		$scope.slider = new Slider("#broadcrawlSlider", {
-			  ticks: [1, 2, 3, 4],
-			  ticks_labels: ticks_label,
-			  min: 1,
-			  max: 4,
-			  step:1,
-			  value:3
-		});
+		if(!$scope.slider){
+			$scope.slider = new Slider("#broadcrawlSlider", {
+				  ticks: [1, 2, 3, 4],
+				  ticks_labels: ticks_label,
+				  min: 1,
+				  max: 4,
+				  step:1,
+				  value:3
+			});
+		}
 	};
-	init();
+	// adding the timeout so that the page is fully loaded before instatiating the Slider
+	setTimeout(function() {
+		init();
+	},50);
 
     $scope.stopBroadCrawl = function(){
         eventFactory.postDdCrawler($scope.workspaceId, "stop");
