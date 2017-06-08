@@ -37,23 +37,23 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 	var ticks_label = ["deepest", "deep", "broad","broadest"];
 	var ticks_scores = [0, 25, 75, 100];
 
-	$scope.slider = null;
-	var init = function () {
-		if(!$scope.slider){
-			$scope.slider = new Slider("#broadcrawlSlider", {
-				  ticks: [1, 2, 3, 4],
-				  ticks_labels: ticks_label,
-				  min: 1,
-				  max: 4,
-				  step:1,
-				  value:3
-			});
-		}
-	};
-	// adding the timeout so that the page is fully loaded before instatiating the Slider
-	setTimeout(function() {
-		init();
-	},50);
+	// $scope.slider = null;
+	// var init = function () {
+	// 	if(!$scope.slider){
+	// 		$scope.slider = new Slider("#broadcrawlSlider", {
+	// 			  ticks: [1, 2, 3, 4],
+	// 			  ticks_labels: ticks_label,
+	// 			  min: 1,
+	// 			  max: 4,
+	// 			  step:1,
+	// 			  value:3
+	// 		});
+	// 	}
+	// };
+	// // adding the timeout so that the page is fully loaded before instatiating the Slider
+	// setTimeout(function() {
+	// 	init();
+	// },50);
 
     $scope.stopBroadCrawl = function(){
         eventFactory.postDdCrawler($scope.workspaceId, "stop");
@@ -64,6 +64,7 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 		var crawlSources = [];
 		crawlSources.push('DD');
 		$scope.crawlStatusTimeout = null;
+		$scope.slider = window.broadnessSlider;
 		var broadness = ticks_scores[$scope.slider.getValue()-1];
 
 		broadcrawlerFactory.publish2BroadCrawl($scope.workspaceId, nResults, $scope.crawlProvider, crawlSources, broadness)
@@ -124,6 +125,8 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 
 		var crawlSources = [];
 		crawlSources.push('DD');
+
+		$scope.slider = window.broadnessSlider;
 
 		var args = {};
 		args.nResults = $scope.nResults;
