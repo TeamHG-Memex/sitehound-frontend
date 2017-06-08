@@ -3,13 +3,13 @@ import json
 from flask_login import login_required
 
 from controller.InvalidException import InvalidUsage
-from service.broadcrawler_service import start_broad_crawl_job
+from service.broadcrawler_service import start_broad_crawl_job, queue_crawl_hints
 from ui import app
 from flask import Response, request
 import logging
 __author__ = 'tomas'
 
-# triggers the schedule_spider_searchengine
+
 @app.route("/api/workspace/<workspace_id>/broad-crawl", methods=['POST'])
 @login_required
 @app.errorhandler(InvalidUsage)
@@ -36,3 +36,11 @@ def broad_crawl_publication_api(workspace_id):
     except NameError, e:
         raise InvalidUsage(str(e), status_code=409)
 
+
+@app.route("/api/workspace/<workspace_id>/broad-crawl-hints", methods=["POST"])
+@login_required
+def broad_crawler_hint(workspace_id):
+
+    url = request.json["url"]
+    queue_crawl_hints(workspace_id, url)
+    return Response(json.dumps({}), mimetype="application/json")

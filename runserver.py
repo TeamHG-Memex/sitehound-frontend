@@ -17,7 +17,6 @@ from ui.controller import broad_crawl_handler
 from ui.controller import broad_crawl_results_handler
 from ui.controller import broad_crawl_results_summary_handler
 from ui.controller import scraping_handler
-from ui.controller import deepcrawl_handler
 from ui.dao import mongo_instance
 from ui.service import seed_url_service
 from ui.controller import job_handler

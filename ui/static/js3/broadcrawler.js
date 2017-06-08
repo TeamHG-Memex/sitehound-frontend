@@ -185,10 +185,16 @@ var broadcrawlerFactory = ngApp.factory('broadcrawlerFactory',['$http', function
 		return $http.post(url, po);
 	};
 
+	dataFactory.sendCrawlHint = function (workspaceId, url){
+		var po = {};
+		po.url = url;
+		return $http.post(String.format(urlBase, workspaceId) + "-hints", po);
+	};
+
 	dataFactory.getCrawlStatus = function(workspaceId, id){
 		var url =  String.format(urlBase, workspaceId);
 		return $http.get(url + '/status');
-	}
+	};
 
 	return dataFactory;
 

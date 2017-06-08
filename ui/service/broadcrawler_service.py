@@ -407,3 +407,12 @@ def pin_service(workspace_id, id, is_pinned):
 def count_service(workspace_id):
     collection = Singleton.getInstance().mongo_instance.get_broad_crawler_collection()
     return collection.find({"workspaceId": workspace_id}).count()
+
+def queue_crawl_hints(workspace_id, url):
+    message = {
+        'workspace_id': workspace_id,
+        'url': url
+    }
+
+    logging.info(message)
+    Singleton.getInstance().broker_service.add_message_to_crawler_hints(message)
