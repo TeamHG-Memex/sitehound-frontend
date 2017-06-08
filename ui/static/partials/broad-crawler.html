@@ -11,16 +11,20 @@
 			Max Urls to crawl:
 			<span>{{items.nResults}}</span>
 		</p>
-		<div ng-show="items.crawlProvider=='HH_JOOGLE'">
-			<p>
-				Sources:
-				<ul>
-					<li ng-if="items.crawlSource_SE">Search Engines</li>
-					<li ng-if="items.crawlSource_TOR">Deep Web</li>
-					<li ng-if="items.crawlSource_DD">Deep Deep</li>
-				</ul>
-			</p>
-		</div>
+		<p>
+			Broadness:
+			<span>{{items.broadness}}</span>
+		</p>
+		<!--<div ng-show="items.crawlProvider=='HH_JOOGLE'">-->
+			<!--<p>-->
+				<!--Sources:-->
+				<!--<ul>-->
+					<!--<li ng-if="items.crawlSource_SE">Search Engines</li>-->
+					<!--<li ng-if="items.crawlSource_TOR">Deep Web</li>-->
+					<!--<li ng-if="items.crawlSource_DD">Deep Deep</li>-->
+				<!--</ul>-->
+			<!--</p>-->
+		<!--</div>-->
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
@@ -54,33 +58,19 @@
 						</div>
 						<div class="panel-body">
 							<!--SOURCE-->
-							<div ng-show="crawlProvider=='HH_JOOGLE'" class="col-lg-12" style="margin-top:12px">
-								<div class="col-xs-2">
-									<label>Source</label>
-								</div>
-								<br>
-								<div class="col-lg-12">
-									<label class="checkbox-inline"><input ng-model="crawlSource_SE" id="use-search-engine" type="checkbox" name="chkradio" value="SEARCH-ENGINE" >Search Engines</label>
-									<label class="checkbox-inline"><input ng-model="crawlSource_TOR" id="use-tor"  type="checkbox" name="chkradio" value="TOR" >Deep Web</label>
-									<label class="checkbox-inline"><input ng-model="crawlSource_DD" id="use-dd"  type="checkbox" name="chkradio" value="DD" >Deep Deep</label>
-								</div>
-							</div>
-
-							<!--<div class="col-lg-12" style="margin-top:12px">-->
-								<!--<div class="col-lg-2">-->
-									<!--<label for="maxUrlsInput">Domain type</label>-->
+							<!--<div ng-show="crawlProvider=='HH_JOOGLE'" class="col-lg-12" style="margin-top:12px">-->
+								<!--<div class="col-xs-2">-->
+									<!--<label>Source</label>-->
 								<!--</div>-->
-								<!--<div class="col-lg-12">-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_com" id="domainType_com" type="checkbox" name="domainTypeChkradio" value="com" checked="checked">.com</label>-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_org" id="domainType_org" type="checkbox" name="domainTypeChkradio" value="org" >.org</label>-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_edu" id="domainType_edu" type="checkbox" name="domainTypeChkradio" value="edu" >.edu</label>-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_gov" id="domainType_gov" type="checkbox" name="domainTypeChkradio" value="gov" >.gov</label>-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_mil" id="domainType_mil" type="checkbox" name="domainTypeChkradio" value="mil" >.mil</label>-->
+								<!--<br>-->
+								<!--<div class="col-lg-12" style="margin-left: 10px">-->
+									<!--<label class="checkbox-inline"><input ng-model="crawlSource_SE" id="use-search-engine" type="checkbox" name="chkradio" value="SEARCH-ENGINE" >Search Engines</label>-->
+									<!--<label class="checkbox-inline"><input ng-model="crawlSource_TOR" id="use-tor"  type="checkbox" name="chkradio" value="TOR" >Deep Web</label>-->
+									<!--<label class="checkbox-inline"><input ng-model="crawlSource_DD" id="use-dd"  type="checkbox" name="chkradio" value="DD" >Deep Deep</label>-->
 								<!--</div>-->
 							<!--</div>-->
 
-
-							<div class="col-lg-12" style="margin-top:12px">
+							<div class="col-lg-12" style="margin-top:20px">
 								<div class="col-lg-2">
 									<label for="maxUrlsInput">Max. URLs to fetch</label>
 								</div>
@@ -99,16 +89,21 @@
 										<option value="100000">100,000</option>
 									</select>
 								</div>
-								<div class="col-lg-7">
-									<div class="progress" style="height:20px;display:none">
-										<div id="crawler-progressbar" class="progress-bar progress-bar-striped active" role="progressbar"
-											aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-										</div>
-									</div>
-								</div>
 							</div>
 
-							<div class="col-lg-12" style="margin-top:24px">
+							<div class="col-lg-12" style="margin-top:20px">
+								<div class="col-lg-2">
+									<label for="broadcrawlSlider">Broadness</label>
+								</div>
+							</div>
+							<div class="col-lg-12" >
+								<div class="col-lg-2" style="margin-left: 28px">
+									<input id="broadcrawlSlider" type="text"
+										  data-provide="slider"
+										  data-slider-tooltip="hide" />
+								</div>
+							</div>
+							<div class="col-lg-12" style="margin-top:30px">
 								<div class="col-lg-12">
 									<button id="publish2BroadCrawl" ng-click="loadModal()" class="btn btn-primary" type="button">
 										Launch
@@ -121,32 +116,30 @@
 
 							<!--Result Statistics-->
 							<br/>
-							<div class="col-lg-12" style="margin-top:24px">
+							<br/>
+							<div class="col-lg-12" style="margin-top:24px" ng-show="nResultsFound>0">
+								<div class="col-lg-12">
+									<label >Max. URLs to fetch: </label>
+									<span >
+										{{ nResultsFound }}
+									</span>
+								</div>
 								<div class="col-lg-12">
 									<label ng-bind="labelCategories"></label>
-									<div class="checkbox-inline" ng-repeat="category in categories">
-										<!--<label for="{{category}}">-->
-											<!--<input type="checkbox" class="checkbox-search-category" ng-model="selectedCategories[category]" value="{{ category }}"/>-->
-											{{ category }}
-										<!--</label>-->
-									</div>
+									<ul>
+										<li ng-repeat="category in categories">{{ category }}</li>
+									</ul>
 								</div>
 								<div class="col-lg-12">
 									<label ng-bind="labelLanguages"></label>
-									<div class="checkbox-inline" ng-repeat="language in languages">
-										<!--<label>-->
-										<!--<input type="checkbox" class="checkbox-search-language" ng-model="selectedLanguages[language]" value="{{ language }}"/>-->
-										{{ language | fullLanguageName}}
-										<!--</label>-->
-									</div>
+									<ul>
+										<li ng-repeat="language in languages">
+											{{ language | fullLanguageName}}
+										</li>
+									</ul>
 								</div>
-								<div class="col-lg-12">
-									<label ng-bind="labelnResultsFound"></label>
-									<div class="checkbox-inline" >
-										{{ nResultsFound }}
-									</div>
-								</div>
-
+							<br/>
+							<br/>
 							</div>
 
 
