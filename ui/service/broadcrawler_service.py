@@ -18,7 +18,7 @@ __author__ = 'tomas'
 # This method takes the documents from the db and post them on the queue
 
 
-def start_broad_crawl_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type):
+def start_broad_crawl_job(workspace_id, num_to_fetch, broadness, broad_crawler_provider, broad_crawler_sources, crawl_type):
 
         #check there is trained data
         categorized_urls = get_seeds_urls_categorized(workspace_id)
@@ -30,13 +30,13 @@ def start_broad_crawl_job(workspace_id, num_to_fetch, broad_crawler_provider, br
                           broad_crawler_sources=broad_crawler_sources, crawl_type=crawl_type)
 
         job_id = str(job_id)
-        queue_broad_crawl(workspace_id, job_id=job_id, num_to_fetch=int(num_to_fetch),
+        queue_broad_crawl(workspace_id, job_id=job_id, num_to_fetch=int(num_to_fetch), broadness=broadness,
                           broad_crawler_provider=broad_crawler_provider, broad_crawler_sources=broad_crawler_sources)
 
         return job_id
 
 
-def queue_broad_crawl(workspace_id, job_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources):
+def queue_broad_crawl(workspace_id, job_id, num_to_fetch, broadness, broad_crawler_provider, broad_crawler_sources):
     # keywords = dao_get_keywords()
     keywords = dao_get_keywords_by_relevance(workspace_id)
     categorized_urls = get_seeds_urls_categorized(workspace_id)
@@ -49,10 +49,10 @@ def queue_broad_crawl(workspace_id, job_id, num_to_fetch, broad_crawler_provider
         'excluded': keywords['excluded'],
         'relevantUrl': categorized_urls['relevant'],
         'irrelevantUrl': categorized_urls['irrelevant'],
-        'nResults': int(num_to_fetch),
-        'existentUrl': existent_url, #get_seeds_urls_url(),
-        # 'appInstance': Singleton.getInstance().app_instance,
-        'workspace': workspace_id, #Singleton.getInstance().mongo_instance.get_current_workspace_name(),
+        'nResults': num_to_fetch,
+        'broadness': broadness,
+        'existentUrl': existent_url,
+        'workspace': workspace_id,
         'jobId': job_id,
         'crawlProvider': broad_crawler_provider,
         'crawlSources': broad_crawler_sources

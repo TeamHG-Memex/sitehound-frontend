@@ -31,11 +31,14 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 	$scope.languages = [];
 
 	$scope.crawlProvider = 'HH_JOOGLE';
-	$scope.nResults = "100";
+	$scope.nResults = "10000000";
 	$scope.crawlSource_DD = true;
 
-	var ticks_label = ["deepest", "deep", "broad","broadest"];
-	var ticks_scores = [0, 25, 75, 100];
+	// var ticks_label = ["deepest", "deep", "broad","broadest"];
+	var ticks_label = ["deep", "N10", "N100", "N1000", "N10000", "broad"];
+	var ticks_label = ["deep", "N10", "N100", "N1000", "N10000", "broad"];
+	var ticks_scores = ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"];
+	// var ticks_scores = [0, 25, 75, 100];
 
 	// $scope.slider = null;
 	// var init = function () {

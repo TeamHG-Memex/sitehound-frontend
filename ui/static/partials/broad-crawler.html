@@ -78,15 +78,11 @@
 							<div class="col-lg-12" >
 								<div class="col-lg-2">
 									<select id="maxUrlsInput" ng-model="nResults" class="form-control">
-										<option value="10">10</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-										<option value="500">500</option>
 										<option value="1000">1,000</option>
-										<option value="5000">5,000</option>
 										<option value="10000">10,000</option>
-										<option value="50000">50,000</option>
 										<option value="100000">100,000</option>
+										<option value="1000000">1,000,000</option>
+										<option value="10000000">10,000,000</option>
 									</select>
 								</div>
 							</div>
@@ -97,18 +93,38 @@
 								</div>
 							</div>
 							<div class="col-lg-12" >
-								<div class="col-lg-2" style="margin-left: 28px">
-									<input id="broadcrawlSlider" type="text"
+								<div class="col-lg-12" style="margin-left: 28px">
+									<input id="broadcrawlSlider" type="text" style="width: 800px"
 										  data-provide="slider"
-										  data-slider-ticks="[1, 2, 3, 4]"
-										  data-slider-ticks-labels='["deepest", "deep", "broad","broadest"]'
+										  data-slider-ticks="[1, 2, 3, 4, 5, 6]"
+										  data-slider-ticks-labels='["Deep", "Top 10", "Top 100", "Top 1000", "Top 10000", "Broad"]'
 										  data-slider-min="1"
-										  data-slider-max="4"
+										  data-slider-max="6"
 										  data-slider-step="1"
 										  data-slider-value="3"
 										  data-slider-tooltip="hide" />
+									<br>
+									<div style="width:800px">
+										<h5>Scale Help:</h5>
+										<ul>
+											<li>
+												Deep: After a one hour exploratory broad crawl, deep crawl only pinned domains.<br/>
+											</li>
+											<li>
+												Top N domains: After a one hour exploratory broad crawl, deep crawl pinned domains and top N most relevant discovered domains.<br/>
+											</li>
+											<li>
+												Broad: Do a broad crawl without domain restriction (but more relevant domains will be still crawled deeper).<br/>
+											</li>
+											<li>
+												<b>Max. URLs to fetch</b> takes precedence over <b>broadness</b>
+											</li>
+										</ul>
+									</div>
 								</div>
+
 							</div>
+
 							<script>
 								window.broadnessSlider = new Slider("#broadcrawlSlider",{});
 							</script>
