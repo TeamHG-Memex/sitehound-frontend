@@ -45,17 +45,17 @@
 												</li>
 											</ul>
 										</p>
-										<BR>
 									</div>
 								</div>
 								<div ng-show="keywords_div_content" style="padding-left:20px">
-									<h5>Relevant:</h5>
+									<!--<BR>-->
+									<h5>Relevant Keywords:</h5>
 									<div style=" column-count: 4">
 										<ul>
 											<li ng-repeat="word in relevantWords()">{{word}}</li>
 										</ul>
 									</div>
-									<h5>Irrelevant:</h5>
+									<h5>Irrelevant Keywords:</h5>
 									<div style=" column-count: 4">
 										<ul>
 											<li ng-repeat="word in irrelevantWords()">{{word}}</li>
@@ -330,7 +330,7 @@
 											<br/>
 											<br/>
 
-											<div id="classifier-quality-container" style="padding-bottom:20px">
+											<div id="classifier-quality-container" >
 
 												<div ng-repeat="adviceItem in modelerProgress.advice">
 													<div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
@@ -348,7 +348,7 @@
 													</div>
 												</div>
 
-												<div style="padding:20px">
+												<div style="padding:20px" ng-show="getMoreStatusIsNotEmpty()">
 													<a href="javascript:void(0);" ng-show="!showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show more &hellip;</a>
 													<a href="javascript:void(0);" ng-show="showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show less &hellip;</a>
 												</div>
@@ -498,7 +498,7 @@
 												<button
 														ng-disabled='!(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
 														type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
-													Start Crawler
+													Start Crawler...
 												</button>
 												<button
 														ng-disabled='!(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'

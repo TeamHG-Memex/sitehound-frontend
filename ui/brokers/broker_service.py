@@ -12,7 +12,6 @@ import logging
 
 class BrokerService(object):
 
-
     def __init__(self, app_instance, kafka_host_name, kafka_host_port, set_broad_crawler = None):
 
         self.keywords_topic = "google-keywords"

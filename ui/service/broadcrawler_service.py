@@ -3,6 +3,7 @@ import pymongo
 from bson import ObjectId
 
 from controller.InvalidException import InvalidUsage
+from service.event_queue_service import publish_to_events_queue
 from service.job_service import save_job
 from service.seed_service import dao_get_keywords_by_relevance
 from service.seed_url_service import get_seeds_urls_categorized
@@ -37,29 +38,15 @@ def start_broad_crawl_job(workspace_id, num_to_fetch, broadness, broad_crawler_p
 
 
 def queue_broad_crawl(workspace_id, job_id, num_to_fetch, broadness, broad_crawler_provider, broad_crawler_sources):
-    # keywords = dao_get_keywords()
-    keywords = dao_get_keywords_by_relevance(workspace_id)
-    categorized_urls = get_seeds_urls_categorized(workspace_id)
-    existent_url = get_relevant_or_neutral_seeds_urls_url(workspace_id)
-
-    # jobId = str(uuid.uuid1())
-    logging.info("sending broad crawl message for %s urls with keywords %s" % (str(num_to_fetch), str(keywords)))
-    message = {
-        'included': keywords['included'],
-        'excluded': keywords['excluded'],
-        'relevantUrl': categorized_urls['relevant'],
-        'irrelevantUrl': categorized_urls['irrelevant'],
-        'nResults': num_to_fetch,
+    event_type = "dd-crawler"
+    action = "start"
+    arguments = {
         'broadness': broadness,
-        'existentUrl': existent_url,
-        'workspace': workspace_id,
-        'jobId': job_id,
-        'crawlProvider': broad_crawler_provider,
-        'crawlSources': broad_crawler_sources
+        'nResults': num_to_fetch,
+        'jobId': job_id
     }
+    publish_to_events_queue(workspace_id, event_type, action, arguments)
 
-    logging.info(message)
-    Singleton.getInstance().broker_service.add_message_to_broadcrawler(message, broad_crawler_provider)
 
 '''
 def register_broadcrawler_subscriber():
@@ -402,6 +389,8 @@ def pin_service(workspace_id, id, is_pinned):
     collection = Singleton.getInstance().mongo_instance.get_broad_crawler_collection()
     update_object = {"pinned": is_pinned}
     collection.update({"_id": ObjectId(id)}, {'$set': update_object}, True)
+
+    publish_to_events_queue(workspace_id, "bookmark", "changed", {"id": id, "pinned": is_pinned})
 
 
 def count_service(workspace_id):

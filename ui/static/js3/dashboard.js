@@ -319,59 +319,31 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     };
 
 
-    $scope.keywords_div_content = true;
+    //container toggle
     $scope.toggleKeywords = function(state){
-        $scope.keywords_div_content = state;
-//        $scope.seed_url_div_content = false;
-//        $scope.deep_web_div_content = false;
- //       $scope.deep_learning_div_content = false;
-    }
-
-    $scope.seed_url_div_content = false;
+        $rootScope.keywords_div_content = state;
+    };
     $scope.toggleSeedUrl = function(state){
-//        $scope.keywords_div_content = false;
-        $scope.seed_url_div_content = state;
-//        $scope.deep_web_div_content = false;
-//        $scope.deep_learning_div_content = false;
-    }
-
-    $scope.search_url_div_content = false;
+        $rootScope.seed_url_div_content = state;
+    };
     $scope.toggleSearchUrl = function(state){
-//        $scope.keywords_div_content = false;
-        $scope.search_url_div_content = state;
-//        $scope.deep_web_div_content = false;
-//        $scope.deep_learning_div_content = false;
-    }
-
-    $scope.deep_web_div_content = false;
+        $rootScope.search_url_div_content = state;
+    };
     $scope.toggleDeepWeb = function(state){
-//        $scope.keywords_div_content = false;
-//        $scope.seed_url_div_content = false;
-        $scope.deep_web_div_content = state;
-//        $scope.deep_learning_div_content = false;
-    }
-
-    $scope.custom_training_div_content = false;
+        $rootScope.deep_web_div_content = state;
+    };
     $scope.toggleCustomTraining = function(state){
-//        $scope.keywords_div_content = false;
-//        $scope.seed_url_div_content = false;
-        $scope.custom_training_div_content = state;
-//        $scope.deep_learning_div_content = false;
-    }
-
-    $scope.deep_learning_div_content = true;
+        $rootScope.custom_training_div_content = state;
+    };
     $scope.toggleDeepLearning = function(state){
-//        $scope.keywords_div_content = false;
-//        $scope.seed_url_div_content = false;
-//        $scope.deep_web_div_content = false;
-        $scope.deep_learning_div_content = state;
-    }
+        $rootScope.deep_learning_div_content = state;
+    };
 
 
     $scope.showMoreStatus = false;
     $scope.toggleShowMore = function(){
         $scope.showMoreStatus = !$scope.showMoreStatus;
-    }
+    };
 
     $scope.getMoreStatusIsNotEmpty = function(){
         return $scope.modelerProgress &&
