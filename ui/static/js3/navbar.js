@@ -116,8 +116,9 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 	});
 	domFactory.navigateToBroadcrawlNew = function(){
 		var url = "/workspace/" + $routeParams.workspaceId + "/broad-crawl";
-		domFactory.highlightNavbar(".navbar-broad-crawl");
+		// domFactory.highlightNavbar(".navbar-broad-crawl");
 		reload(url);
+		// window.location.assign("#/" + url);
 	}
 
 	$(".navbar-broad-crawl-results").bind("click", function(e){
@@ -192,7 +193,7 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 		}
 		else{
 			$location.path(url);
-			$route.reload();
+			// $route.reload();
 		}
 	}
 

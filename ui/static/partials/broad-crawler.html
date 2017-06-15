@@ -99,14 +99,16 @@
 							<div class="col-lg-12" >
 								<div class="col-lg-12" style="margin-left: 28px">
 									<input id="broadcrawlSlider" type="text" style="width: 800px"
-										  data-provide="slider"
-										  data-slider-ticks="[1, 2, 3, 4, 5, 6]"
-										  data-slider-ticks-labels='["Deep", "Top 10", "Top 100", "Top 1000", "Top 10000", "Broad"]'
-										  data-slider-min="1"
-										  data-slider-max="6"
-										  data-slider-step="1"
-										  data-slider-value="3"
 										  data-slider-tooltip="hide" />
+									<!--<input id="broadcrawlSlider" type="text" style="width: 800px"-->
+										  <!--data-provide="slider"-->
+										  <!--data-slider-ticks="[1, 2, 3, 4, 5, 6]"-->
+										  <!--data-slider-ticks-labels='["Deep", "Top 10", "Top 100", "Top 1000", "Top 10000", "Broad"]'-->
+										  <!--data-slider-min="1"-->
+										  <!--data-slider-max="6"-->
+										  <!--data-slider-step="1"-->
+										  <!--data-slider-value="3"-->
+										  <!--data-slider-tooltip="hide" />-->
 									<br>
 									<div style="width:800px">
 										<h5>Scale Help:</h5>
@@ -129,11 +131,6 @@
 
 							</div>
 
-							<script>
-								if(window.broadnessSlider!=null){ // this has to be singletoned because the slider handles states when it inits. Also the script had to be copied to this page.
-									window.broadnessSlider = new Slider("#broadcrawlSlider",{});
-								}
-							</script>
 							<div class="col-lg-12" style="margin-top:30px">
 								<div class="col-lg-12">
 									<button id="publish2BroadCrawl" ng-click="loadModal()" class="btn btn-primary" type="button">

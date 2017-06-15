@@ -488,12 +488,6 @@
 											</ul>
 										</p>
 										<div style="padding-left:20px">
-											<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>
-												<div >
-													<h5>Broadcrawler Progress:</h5>
-													<span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
-												</div>
-											</div>
 											<div>
 												<button
 														ng-disabled='!(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
@@ -509,8 +503,14 @@
 													Delete
 												</button>
 											</div>
+											<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>
+												<div >
+													<h5>Broadcrawler Progress:</h5>
+													<span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
+												</div>
+											</div>
 											<h6><span ng-hide='workspace.link_model.model && resultStruct["DD"]["relevant"]>0'
-													style="color:red">(Requires a previous training with Deep-Deep)</span></h6>
+													style="color:red">(Requires a previous training with Deep-Deep and a checkpoint from the previous step)</span></h6>
 											<a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;
 											<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;
 											<a href="" ng-click="navigateToJobs()">View jobs</a>

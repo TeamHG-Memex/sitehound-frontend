@@ -240,7 +240,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
             $scope.trainerProgress = data.trainer;
 
             //broadcrawl
-            $scope.broadcrawlerProgress = data.broadcrawler;
+            $scope.broadcrawlerProgress = data.crawler;
 
         })
 		.error(function (error) {
