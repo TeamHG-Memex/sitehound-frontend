@@ -1,4 +1,8 @@
 	<!--modal-->
+		<!--slider-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/css/bootstrap-slider.min.css" rel="stylesheet">
+
 <script type="text/ng-template" id="myModalContent.html">
 	<div class="modal-header">
 		<h3 class="modal-title">Launch Confirmation</h3>
@@ -11,16 +15,20 @@
 			Max Urls to crawl:
 			<span>{{items.nResults}}</span>
 		</p>
-		<div ng-show="items.crawlProvider=='HH_JOOGLE'">
-			<p>
-				Sources:
-				<ul>
-					<li ng-if="items.crawlSource_SE">Search Engines</li>
-					<li ng-if="items.crawlSource_TOR">Deep Web</li>
-					<li ng-if="items.crawlSource_DD">Deep Deep</li>
-				</ul>
-			</p>
-		</div>
+		<p>
+			Broadness:
+			<span>{{items.broadness}}</span>
+		</p>
+		<!--<div ng-show="items.crawlProvider=='HH_JOOGLE'">-->
+			<!--<p>-->
+				<!--Sources:-->
+				<!--<ul>-->
+					<!--<li ng-if="items.crawlSource_SE">Search Engines</li>-->
+					<!--<li ng-if="items.crawlSource_TOR">Deep Web</li>-->
+					<!--<li ng-if="items.crawlSource_DD">Deep Deep</li>-->
+				<!--</ul>-->
+			<!--</p>-->
+		<!--</div>-->
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
@@ -54,33 +62,19 @@
 						</div>
 						<div class="panel-body">
 							<!--SOURCE-->
-							<div ng-show="crawlProvider=='HH_JOOGLE'" class="col-lg-12" style="margin-top:12px">
-								<div class="col-xs-2">
-									<label>Source</label>
-								</div>
-								<br>
-								<div class="col-lg-12">
-									<label class="checkbox-inline"><input ng-model="crawlSource_SE" id="use-search-engine" type="checkbox" name="chkradio" value="SEARCH-ENGINE" >Search Engines</label>
-									<label class="checkbox-inline"><input ng-model="crawlSource_TOR" id="use-tor"  type="checkbox" name="chkradio" value="TOR" >Deep Web</label>
-									<label class="checkbox-inline"><input ng-model="crawlSource_DD" id="use-dd"  type="checkbox" name="chkradio" value="DD" >Deep Deep</label>
-								</div>
-							</div>
-
-							<!--<div class="col-lg-12" style="margin-top:12px">-->
-								<!--<div class="col-lg-2">-->
-									<!--<label for="maxUrlsInput">Domain type</label>-->
+							<!--<div ng-show="crawlProvider=='HH_JOOGLE'" class="col-lg-12" style="margin-top:12px">-->
+								<!--<div class="col-xs-2">-->
+									<!--<label>Source</label>-->
 								<!--</div>-->
-								<!--<div class="col-lg-12">-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_com" id="domainType_com" type="checkbox" name="domainTypeChkradio" value="com" checked="checked">.com</label>-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_org" id="domainType_org" type="checkbox" name="domainTypeChkradio" value="org" >.org</label>-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_edu" id="domainType_edu" type="checkbox" name="domainTypeChkradio" value="edu" >.edu</label>-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_gov" id="domainType_gov" type="checkbox" name="domainTypeChkradio" value="gov" >.gov</label>-->
-									<!--<label class="checkbox-inline"><input ng-model="domainType_mil" id="domainType_mil" type="checkbox" name="domainTypeChkradio" value="mil" >.mil</label>-->
+								<!--<br>-->
+								<!--<div class="col-lg-12" style="margin-left: 10px">-->
+									<!--<label class="checkbox-inline"><input ng-model="crawlSource_SE" id="use-search-engine" type="checkbox" name="chkradio" value="SEARCH-ENGINE" >Search Engines</label>-->
+									<!--<label class="checkbox-inline"><input ng-model="crawlSource_TOR" id="use-tor"  type="checkbox" name="chkradio" value="TOR" >Deep Web</label>-->
+									<!--<label class="checkbox-inline"><input ng-model="crawlSource_DD" id="use-dd"  type="checkbox" name="chkradio" value="DD" >Deep Deep</label>-->
 								<!--</div>-->
 							<!--</div>-->
 
-
-							<div class="col-lg-12" style="margin-top:12px">
+							<div class="col-lg-12" style="margin-top:20px">
 								<div class="col-lg-2">
 									<label for="maxUrlsInput">Max. URLs to fetch</label>
 								</div>
@@ -88,65 +82,99 @@
 							<div class="col-lg-12" >
 								<div class="col-lg-2">
 									<select id="maxUrlsInput" ng-model="nResults" class="form-control">
-										<option value="10">10</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-										<option value="500">500</option>
 										<option value="1000">1,000</option>
-										<option value="5000">5,000</option>
 										<option value="10000">10,000</option>
-										<option value="50000">50,000</option>
 										<option value="100000">100,000</option>
+										<option value="1000000">1,000,000</option>
+										<option value="10000000">10,000,000</option>
 									</select>
-								</div>
-								<div class="col-lg-7">
-									<div class="progress" style="height:20px;display:none">
-										<div id="crawler-progressbar" class="progress-bar progress-bar-striped active" role="progressbar"
-											aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-										</div>
-									</div>
 								</div>
 							</div>
 
-							<div class="col-lg-12" style="margin-top:24px">
+							<div class="col-lg-12" style="margin-top:20px">
+								<div class="col-lg-2">
+									<label for="broadcrawlSlider">Broadness</label>
+								</div>
+							</div>
+							<div class="col-lg-12" >
+								<div class="col-lg-12" style="margin-left: 28px">
+									<input id="broadcrawlSlider" type="text" style="width: 800px"
+										  data-slider-tooltip="hide" />
+									<!--<input id="broadcrawlSlider" type="text" style="width: 800px"-->
+										  <!--data-provide="slider"-->
+										  <!--data-slider-ticks="[1, 2, 3, 4, 5, 6]"-->
+										  <!--data-slider-ticks-labels='["Deep", "Top 10", "Top 100", "Top 1000", "Top 10000", "Broad"]'-->
+										  <!--data-slider-min="1"-->
+										  <!--data-slider-max="6"-->
+										  <!--data-slider-step="1"-->
+										  <!--data-slider-value="3"-->
+										  <!--data-slider-tooltip="hide" />-->
+									<br>
+									<div style="width:800px">
+										<h5>Scale Help:</h5>
+										<ul>
+											<li>
+												Deep: After a one hour exploratory broad crawl, deep crawl only pinned domains.<br/>
+											</li>
+											<li>
+												Top N domains: After a one hour exploratory broad crawl, deep crawl pinned domains and top N most relevant discovered domains.<br/>
+											</li>
+											<li>
+												Broad: Do a broad crawl without domain restriction (but more relevant domains will be still crawled deeper).<br/>
+											</li>
+											<li>
+												<b>Max. URLs to fetch</b> takes precedence over <b>broadness</b>
+											</li>
+										</ul>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="col-lg-12" style="margin-top:30px">
 								<div class="col-lg-12">
-									<button id="publish2BroadCrawl" ng-click="loadModal()" class="btn btn-primary" type="button">
+									<button id="publish2BroadCrawl" ng-click="loadModal()" class="btn btn-primary" type="button" ng-disabled="ddCrawlerJobId">
 										Launch
 									</button>
-									<button id="stopBroadCrawl" ng-click="stopBroadCrawl()" class="btn btn-default" type="button">
+									<button id="stopBroadCrawl" ng-click="stopBroadCrawl()" class="btn btn-default" type="button" ng-disabled="!ddCrawlerJobId">
 										Stop Current
 									</button>
 								</div>
 							</div>
+							<div class="col-lg-12" style="margin-top:10px; margin-left: 20px">
+								<h6 ng-show="ddCrawlerJobId">
+									<span>
+										Requested job with id: <span ng-bind="ddCrawlerJobId"></span>
+									</span>
+								</h6>
+							</div>
 
 							<!--Result Statistics-->
 							<br/>
-							<div class="col-lg-12" style="margin-top:24px">
+							<br/>
+							<div class="col-lg-12" style="margin-top:24px" ng-show="nResultsFound>0">
+								<div class="col-lg-12">
+									<label>Sample results: </label>
+									<span >
+										{{ nResultsFound }}
+									</span>
+								</div>
 								<div class="col-lg-12">
 									<label ng-bind="labelCategories"></label>
-									<div class="checkbox-inline" ng-repeat="category in categories">
-										<!--<label for="{{category}}">-->
-											<!--<input type="checkbox" class="checkbox-search-category" ng-model="selectedCategories[category]" value="{{ category }}"/>-->
-											{{ category }}
-										<!--</label>-->
-									</div>
+									<ul>
+										<li ng-repeat="category in categories">{{ category }}</li>
+									</ul>
 								</div>
 								<div class="col-lg-12">
 									<label ng-bind="labelLanguages"></label>
-									<div class="checkbox-inline" ng-repeat="language in languages">
-										<!--<label>-->
-										<!--<input type="checkbox" class="checkbox-search-language" ng-model="selectedLanguages[language]" value="{{ language }}"/>-->
-										{{ language | fullLanguageName}}
-										<!--</label>-->
-									</div>
+									<ul>
+										<li ng-repeat="language in languages">
+											{{ language | fullLanguageName}}
+										</li>
+									</ul>
 								</div>
-								<div class="col-lg-12">
-									<label ng-bind="labelnResultsFound"></label>
-									<div class="checkbox-inline" >
-										{{ nResultsFound }}
-									</div>
-								</div>
-
+							<br/>
+							<br/>
 							</div>
 
 

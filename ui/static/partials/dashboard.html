@@ -45,17 +45,17 @@
 												</li>
 											</ul>
 										</p>
-										<BR>
 									</div>
 								</div>
 								<div ng-show="keywords_div_content" style="padding-left:20px">
-									<h5>Relevant:</h5>
+									<!--<BR>-->
+									<h5>Relevant Keywords:</h5>
 									<div style=" column-count: 4">
 										<ul>
 											<li ng-repeat="word in relevantWords()">{{word}}</li>
 										</ul>
 									</div>
-									<h5>Irrelevant:</h5>
+									<h5>Irrelevant Keywords:</h5>
 									<div style=" column-count: 4">
 										<ul>
 											<li ng-repeat="word in irrelevantWords()">{{word}}</li>
@@ -330,7 +330,7 @@
 											<br/>
 											<br/>
 
-											<div id="classifier-quality-container" style="padding-bottom:20px">
+											<div id="classifier-quality-container" >
 
 												<div ng-repeat="adviceItem in modelerProgress.advice">
 													<div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
@@ -348,7 +348,7 @@
 													</div>
 												</div>
 
-												<div style="padding:20px">
+												<div style="padding:20px" ng-show="getMoreStatusIsNotEmpty()">
 													<a href="javascript:void(0);" ng-show="!showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show more &hellip;</a>
 													<a href="javascript:void(0);" ng-show="showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show less &hellip;</a>
 												</div>
@@ -443,18 +443,23 @@
 										<div style="padding-left:20px">
 											<div>
 												<button
-														ng-disabled='!(workspace.page_model.model)'
+														ng-disabled='!(workspace.page_model.model) || ddTrainerJobId'
 														type="button" class="btn btn-primary btn-sm" ng-click="startDdTrainer()">
 													Start Trainer Crawler
 												</button>
 												<button
-														ng-disabled='!(workspace.page_model.model)'
+														ng-disabled='!(workspace.page_model.model) || !ddTrainerJobId'
 														type="button" class="btn btn-primary btn-sm" ng-click="stopDdTrainer()">
 													Stop Trainer Crawler
 												</button>
 												<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["DD"]["total"]>0' ng-click="resetResults('DD')">
-													Delete
+													Delete Results
 												</button>
+												<h6 ng-show="ddTrainerJobId">
+													<span>
+														Requested job with id: <span ng-bind="ddTrainerJobId"></span>
+													</span>
+												</h6>
 												<!--<h6>-->
 													<!--<span ng-show='resultStruct["DD"]["relevant"]==0' style="color:red">-->
 														<!--("Start" requires a prior training using Deepdeep's crawling results)-->
@@ -467,7 +472,9 @@
 													<h5>Crawler Progress:</h5>
 													<h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>
 												</div>
-												<h5 ng-show='resultStruct["DD"]["total"]>0'><a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
+												<h5 ng-show='resultStruct["DD"]["total"]>0'>
+													<a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
+													<a href="" ng-click="navigateToJobs()">View jobs</a>
 												</h5>
 											</div>
 										</div>
@@ -488,29 +495,34 @@
 											</ul>
 										</p>
 										<div style="padding-left:20px">
+											<div>
+												<button
+														ng-disabled='ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+														type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
+													Start Crawler...
+												</button>
+												<button
+														ng-disabled='!ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+														type="button" class="btn btn-primary btn-sm" ng-click="stopBroadCrawl()">
+													Stop Crawler
+												</button>
+												<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('deepdeep')" ng-hide="true">
+													Delete
+												</button>
+												<h6 ng-show="ddCrawlerJobId">
+													<span>
+														Requested job with id: <span ng-bind="ddCrawlerJobId"></span>
+													</span>
+												</h6>
+											</div>
 											<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>
 												<div >
 													<h5>Broadcrawler Progress:</h5>
 													<span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
 												</div>
 											</div>
-											<div>
-												<button
-														ng-disabled='!(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
-														type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
-													Start Crawler
-												</button>
-												<button
-														ng-disabled='!(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
-														type="button" class="btn btn-primary btn-sm" ng-click="stopBroadCrawl(workspace._id)">
-													Stop Crawler
-												</button>
-												<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('deepdeep')" ng-hide="true">
-													Delete
-												</button>
-											</div>
 											<h6><span ng-hide='workspace.link_model.model && resultStruct["DD"]["relevant"]>0'
-													style="color:red">(Requires a previous training with Deep-Deep)</span></h6>
+													style="color:red">(Requires a previous training with Deep-Deep and a checkpoint from the previous step)</span></h6>
 											<a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;
 											<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;
 											<a href="" ng-click="navigateToJobs()">View jobs</a>

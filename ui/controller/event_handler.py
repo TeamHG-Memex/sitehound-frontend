@@ -15,7 +15,12 @@ __author__ = 'tomas'
 def get_event_api(workspace_id, event_type):
     po = request.json
 
-    publish_to_events_queue(workspace_id, event_type, po["action"])
+    if "arguments" in po:
+        arguments = po["arguments"]
+    else:
+        arguments = ""
+
+    publish_to_events_queue(workspace_id, event_type, po["action"], arguments)
 
     out_doc = JSONEncoder().encode({})
     return Response(out_doc, mimetype="application/json")

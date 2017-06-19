@@ -17,7 +17,6 @@ from ui.controller import broad_crawl_handler
 from ui.controller import broad_crawl_results_handler
 from ui.controller import broad_crawl_results_summary_handler
 from ui.controller import scraping_handler
-from ui.controller import deepcrawl_handler
 from ui.dao import mongo_instance
 from ui.service import seed_url_service
 from ui.controller import job_handler
@@ -125,7 +124,8 @@ if __name__ == "__main__":
             encrypted_password = utils.encrypt_password('changeme!')
             user_datastore.create_user(email='admin@hyperiongray.com', password=encrypted_password, roles=["admin"], active=True)
             logging.info("roles and user were added")
-        except:
+        except Exception, e:
+            print str(e)
             logging.info("already set up")
 
         logging.info('instance : ' + app_instance + ' up & running.')

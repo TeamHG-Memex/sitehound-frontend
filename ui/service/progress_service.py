@@ -65,7 +65,7 @@ def get_all_progress(workspace_id):
     progress["model"] = []
     progress["trainer"] = []
     progress["crawler"] = ""
-    progress["broadcrawler"] = ""
+    # progress["broadcrawler"] = ""
 
     for doc in docs:
         if "page_model" in doc and "quality" in doc["page_model"]:

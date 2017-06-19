@@ -1,5 +1,5 @@
-ngApp.controller('broadcrawlerResultsController', ['$scope', '$filter', '$modal', '$routeParams', 'domFactory', 'broadcrawlerFactory', 'broadcrawlerResultsFactory', 'bookmarkFactory', 'deepcrawlerFactory',
-function ($scope, $filter, $modal, $routeParams, domFactory, broadcrawlerFactory, broadcrawlerResultsFactory, bookmarkFactory, deepcrawlerFactory){
+ngApp.controller('broadcrawlerResultsController', ['$scope', '$filter', '$modal', '$routeParams', 'domFactory', 'broadcrawlerFactory', 'broadcrawlerResultsFactory', 'bookmarkFactory',
+function ($scope, $filter, $modal, $routeParams, domFactory, broadcrawlerFactory, broadcrawlerResultsFactory, bookmarkFactory){
 
 	$scope.workspaceId = $routeParams.workspaceId;
 	domFactory.setWorkspaceName($scope.workspaceId);
@@ -9,7 +9,7 @@ function ($scope, $filter, $modal, $routeParams, domFactory, broadcrawlerFactory
 
 	$scope.navigateToDashboard = function(){
 		domFactory.navigateToDashboard();
-	}
+	};
 
 
 	$scope.searchText = '';
@@ -143,13 +143,11 @@ function ($scope, $filter, $modal, $routeParams, domFactory, broadcrawlerFactory
 		})
 	};
 
-	$scope.deepCrawl = function(result){
-		console.log('deepcrawling: ' + result.url);
-		deepcrawlerFactory.send(result.url)
+	$scope.sendCrawlHint = function(result){
+		console.log('sendCrawlHint: ' + result.url);
+		broadcrawlerFactory.sendCrawlHint($scope.workspaceId, result.url)
 		.success(function(data){
-			$scope.status = 'Data loaded';
-			console.log("post to arachnado sent succesfully.");
-			window.open('http://' + data.ARACHNADO_HOST_NAME +':' + data.ARACHNADO_HOST_PORT,'arachnado').focus()
+			$scope.status = result.url + "scheduled for sendCrawlHint successfully";
 		})
 		.error(function(error){
 			$scope.status = 'Unable to load data: ' + error;
@@ -159,11 +157,11 @@ function ($scope, $filter, $modal, $routeParams, domFactory, broadcrawlerFactory
 		});
 	}
 
-	$scope.bookmark = function(result, isPinned){
+	$scope.bookmark = function(result){
 		bookmarkUpdate(result, true);
 	}
 
-	$scope.unbookmark = function(result, isPinned){
+	$scope.unbookmark = function(result){
 		bookmarkUpdate(result, false)
 		.success(function(data){
 			$scope.status = 'Data loaded';

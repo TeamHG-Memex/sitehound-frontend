@@ -9,6 +9,7 @@ import json
 from ui import Singleton
 import logging
 
+
 class BrokerService(object):
 
     def __init__(self, app_instance, kafka_host_name, kafka_host_port, set_broad_crawler = None):
@@ -18,7 +19,6 @@ class BrokerService(object):
 
         self.broad_crawler_topic = "broadcrawler"
         self.broad_crawler_topic_input = self.broad_crawler_topic + "-input"
-        self.broad_crawler_topic_input_frontera = self.broad_crawler_topic + "-frontera-input"
 
         self.scraping_topic = "scraping"
         self.scraping_topic_input = self.scraping_topic + "-input"
@@ -32,6 +32,8 @@ class BrokerService(object):
         self.events_topic = "events"
         self.events_topic_input = self.events_topic + "-input"
 
+        self.crawler_hints_topic = "dd-crawler-hints"
+        self.crawler_hints_topic_input = self.crawler_hints_topic + "-input"
 
         self.kafka_connector = KafkaConnector(kafka_host_name, kafka_host_port)
 
@@ -43,6 +45,8 @@ class BrokerService(object):
         self.create_topics_for_splash(app_instance)
         self.create_topics_for_import_url(app_instance)
         self.create_topics_for_events(app_instance)
+        self.create_topics_for_crawler_hints(app_instance)
+
         logging.info("Broker started")
 
     def init_subscribers(self):
@@ -52,6 +56,7 @@ class BrokerService(object):
         # register_splash_subscriber()
         ''' register_import_url_subscriber()  will be only pushing new records, hh-joogle will do the heavy lifting'''
         logging.info("NOT INITIALIZING SUBSCRIBERS")
+
 
     ###### GOOGLE SEARCH KEYWORDS########
     '''
@@ -88,20 +93,22 @@ class BrokerService(object):
         logging.info("creating topic " + self.broad_crawler_topic_input)
         self.kafka_connector.create_topic(self.broad_crawler_topic_input)
 
-        logging.info("=========creating topic " + self.broad_crawler_topic_input_frontera)
-        self.kafka_connector.create_topic(self.broad_crawler_topic_input_frontera)
-
         logging.info("creating topic " + self.broad_crawler_topic_output)
 
         self.kafka_connector.create_topic(self.broad_crawler_topic_output)
 
-    def add_message_to_broadcrawler(self, message, set_broad_crawler = None):
+    ###### Crawler hints ########
+    def create_topics_for_crawler_hints(self, app_instance):
+        self.app_instance = app_instance
+        logging.info("creating topic " + self.crawler_hints_topic_input)
+        self.kafka_connector.create_topic(self.crawler_hints_topic_input)
 
+    def add_message_to_broadcrawler(self, message, set_broad_crawler = None):
         logging.info("set broad crawler: %s " % set_broad_crawler)
-        # if set_broad_crawler == "FRONTERA":
-        #     self.post_to_queue(message, self.broad_crawler_topic_input_frontera, self.broad_crawler_topic_output)
-        # else:
         self.post_to_queue(message, self.broad_crawler_topic_input, self.broad_crawler_topic_output)
+
+    def add_message_to_crawler_hints(self, message):
+        self.post_to_queue_no_extra_headers(message, self.crawler_hints_topic_input)
 
     def read_topic_from_broadcrawler(self, callback):
         logging.info('registering read_topic_from_broadcrawler')

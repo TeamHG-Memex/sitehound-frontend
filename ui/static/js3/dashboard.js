@@ -1,5 +1,5 @@
-ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$interval', '$routeParams', '$timeout', 'domFactory', 'workspaceFactory', 'seedUrlFactory', 'eventFactory', 'progressFactory', 'focusFactory', 'userDefinedCategoriesFactory', 'labelUserDefinedCategoriesFactory'
-, function ($scope, $rootScope, $filter, $interval, $routeParams, $timeout, domFactory, workspaceFactory, seedUrlFactory, eventFactory, progressFactory, focusFactory, userDefinedCategoriesFactory, labelUserDefinedCategoriesFactory){
+ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$interval', '$routeParams', '$timeout', 'domFactory', 'workspaceFactory', 'seedUrlFactory', 'eventFactory', 'progressFactory', 'focusFactory', 'userDefinedCategoriesFactory', 'labelUserDefinedCategoriesFactory', 'jobFactory'
+, function ($scope, $rootScope, $filter, $interval, $routeParams, $timeout, domFactory, workspaceFactory, seedUrlFactory, eventFactory, progressFactory, focusFactory, userDefinedCategoriesFactory, labelUserDefinedCategoriesFactory, jobFactory){
 
 	$scope.workspaceId = $routeParams.workspaceId;
     $scope.workspace = {};
@@ -210,19 +210,31 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         eventFactory.postDdModeler($scope.workspaceId, "start");
     };
 
+	// aka crawler
     $scope.startDdTrainer = function(){
-        eventFactory.postDdTrainer($scope.workspaceId, "start");
+        var crawlSources = "DD";
+        var crawlType = "DD-TRAINER";
+        var nResults = 1000;
+        jobFactory.createJob($scope.workspaceId, crawlSources, crawlType, nResults)
+            .success(function (data){
+                $rootScope.ddTrainerJobId = data.jobId;
+                eventFactory.postDdTrainer($scope.workspaceId, "start", $rootScope.ddTrainerJobId);
+            })
+            .error(function (error) {
+                console.log(error);
+                alert("the job could not be started");
+            });
     };
-
     $scope.stopDdTrainer = function(){
-        eventFactory.postDdTrainer($scope.workspaceId, "stop");
-    };
-
-    $scope.postDdCrawler = function(){
-        eventFactory.postDdCrawler($scope.workspaceId, "stop");
+        eventFactory.postDdTrainer($scope.workspaceId, "stop", $rootScope.ddTrainerJobId);
+        $rootScope.ddTrainerJobId = null;
     };
 
 
+    // aka broadcrawler
+    // $scope.postDdCrawler = function(){
+    //     eventFactory.postDdCrawler($scope.workspaceId, "stop");
+    // };
 
 
     $scope.modelerProgress = [];
@@ -240,7 +252,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
             $scope.trainerProgress = data.trainer;
 
             //broadcrawl
-            $scope.broadcrawlerProgress = data.broadcrawler;
+            $scope.broadcrawlerProgress = data.crawler;
 
         })
 		.error(function (error) {
@@ -315,63 +327,35 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     backgroundService();
 
     $scope.stopBroadCrawl = function(){
-        eventFactory.postDdCrawler($scope.workspaceId, "stop");
+		eventFactory.postDdCrawler($rootScope.ddCrawlerJobId, "stop");
+        $rootScope.ddCrawlerJobId = null;
     };
 
-
-    $scope.keywords_div_content = true;
+    //container toggle
     $scope.toggleKeywords = function(state){
-        $scope.keywords_div_content = state;
-//        $scope.seed_url_div_content = false;
-//        $scope.deep_web_div_content = false;
- //       $scope.deep_learning_div_content = false;
-    }
-
-    $scope.seed_url_div_content = false;
+        $rootScope.keywords_div_content = state;
+    };
     $scope.toggleSeedUrl = function(state){
-//        $scope.keywords_div_content = false;
-        $scope.seed_url_div_content = state;
-//        $scope.deep_web_div_content = false;
-//        $scope.deep_learning_div_content = false;
-    }
-
-    $scope.search_url_div_content = false;
+        $rootScope.seed_url_div_content = state;
+    };
     $scope.toggleSearchUrl = function(state){
-//        $scope.keywords_div_content = false;
-        $scope.search_url_div_content = state;
-//        $scope.deep_web_div_content = false;
-//        $scope.deep_learning_div_content = false;
-    }
-
-    $scope.deep_web_div_content = false;
+        $rootScope.search_url_div_content = state;
+    };
     $scope.toggleDeepWeb = function(state){
-//        $scope.keywords_div_content = false;
-//        $scope.seed_url_div_content = false;
-        $scope.deep_web_div_content = state;
-//        $scope.deep_learning_div_content = false;
-    }
-
-    $scope.custom_training_div_content = false;
+        $rootScope.deep_web_div_content = state;
+    };
     $scope.toggleCustomTraining = function(state){
-//        $scope.keywords_div_content = false;
-//        $scope.seed_url_div_content = false;
-        $scope.custom_training_div_content = state;
-//        $scope.deep_learning_div_content = false;
-    }
-
-    $scope.deep_learning_div_content = true;
+        $rootScope.custom_training_div_content = state;
+    };
     $scope.toggleDeepLearning = function(state){
-//        $scope.keywords_div_content = false;
-//        $scope.seed_url_div_content = false;
-//        $scope.deep_web_div_content = false;
-        $scope.deep_learning_div_content = state;
-    }
+        $rootScope.deep_learning_div_content = state;
+    };
 
 
     $scope.showMoreStatus = false;
     $scope.toggleShowMore = function(){
         $scope.showMoreStatus = !$scope.showMoreStatus;
-    }
+    };
 
     $scope.getMoreStatusIsNotEmpty = function(){
         return $scope.modelerProgress &&

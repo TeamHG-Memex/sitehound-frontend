@@ -1,22 +1,20 @@
-ngApp.controller('broadcrawlerController', ['$scope', '$filter', '$location', '$routeParams', '$modal', 'domFactory', 'broadcrawlerFactory', 'eventFactory',
-function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcrawlerFactory, eventFactory){
+ngApp.controller('broadcrawlerController', ['$scope', '$rootScope', '$filter', '$location', '$routeParams', '$modal', 'domFactory', 'broadcrawlerFactory', 'eventFactory',
+function ($scope, $rootScope, $filter, $location, $routeParams, $modal, domFactory, broadcrawlerFactory, eventFactory){
 
+	console.log("broadcrawlerController loaded!");
 	$scope.workspaceId = $routeParams.workspaceId;
 	domFactory.setWorkspaceName($scope.workspaceId);
 
 	domFactory.highlightNavbar(".navbar-broad-crawl");
 	$scope.next = function(){
 		domFactory.navigateToJobs();
-	}
+	};
 	$scope.navigateToBroadcrawlResults = function(){
 		domFactory.navigateToBroadcrawlResults();
-	}
-
-
+	};
 	$scope.navigateToDashboard = function(){
 		domFactory.navigateToDashboard();
-	}
-
+	};
 
     $scope.status = "";
 	$scope.loading = false;
@@ -25,44 +23,47 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 
 	$scope.hideSubmittedOk = function(){
 		$scope.submittedOk = false;
-	}
+	};
 	$scope.hideSubmittedError = function(){
 		$scope.submittedError = false;
-	}
+	};
 
 	$scope.categories = [];
 	$scope.languages = [];
 
 	$scope.crawlProvider = 'HH_JOOGLE';
-	$scope.nResults = "100";
-	$scope.crawlSource_SE = false;
-	$scope.crawlSource_TOR = false;
+	$scope.nResults = "10000000";
 	$scope.crawlSource_DD = true;
 
+	var ticks_label = ["Deep", "Top 10", "Top 100", "Top 1000", "Top 10000", "Broad"];
+	var ticks_scores = ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"];
+
+	if(!$scope.slider){
+		$scope.slider = new Slider("#broadcrawlSlider", {
+			  ticks: [1, 2, 3, 4, 5, 6],
+			  ticks_labels: ticks_label,
+			  min: 1,
+			  max: 6,
+			  step:1,
+			  value:3
+		});
+	}
+
     $scope.stopBroadCrawl = function(){
-        eventFactory.postDdCrawler($scope.workspaceId, "stop");
+		eventFactory.postDdCrawler($rootScope.ddCrawlerJobId, "stop");
+        $rootScope.ddCrawlerJobId = null;
     };
 
 	$scope.publish2BroadCrawl = function(){
 		var nResults = parseInt($scope.nResults, 10);
 		var crawlSources = [];
-
-		if($scope.crawlSource_SE){
-			crawlSources.push('SE');
-		}
-		if($scope.crawlSource_TOR){
-			crawlSources.push('TOR');
-		}
-		if($scope.crawlSource_DD){
-			crawlSources.push('DD');
-		}
-
-		var domainTypes = [];
-		
+		crawlSources.push('DD');
 		$scope.crawlStatusTimeout = null;
+		var broadness = ticks_scores[$scope.slider.getValue()-1];
 
-		broadcrawlerFactory.publish2BroadCrawl($scope.workspaceId, nResults, $scope.crawlProvider, crawlSources)
+		broadcrawlerFactory.publish2BroadCrawl($scope.workspaceId, nResults, $scope.crawlProvider, crawlSources, broadness)
 		.success(function(data){
+			$rootScope.ddCrawlerJobId = data.jobId;
 			$scope.getCrawlStatus(data.jobId);
 			$scope.status='';
 			$scope.submittedOk = true;
@@ -76,7 +77,7 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 		.finally(function(){
 			$scope.loading = false;
 		});
-	}
+	};
 
 	$scope.getCrawlStatus = function(jobId) {
 		clearInterval($scope.crawlStatusTimeout);
@@ -118,30 +119,17 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 		}
 
 		var crawlSources = [];
-		if($scope.crawlSource_SE){
-			crawlSources.push('SE');
-		}
-		if($scope.crawlSource_TOR){
-			crawlSources.push('TOR');
-		}
-		if($scope.crawlSource_DD){
-			crawlSources.push('DD');
-		}
+		crawlSources.push('DD');
 
-		if(crawlSources.length==0){
-			alert('Please select at least one Source');
-			return false;
-		}
+		// $scope.slider = window.broadnessSlider;
 
 		var args = {};
 		args.nResults = $scope.nResults;
 		args.crawlProvider = $scope.crawlProvider;
-		args.crawlSource_SE = $scope.crawlSource_SE;
-		args.crawlSource_TOR = $scope.crawlSource_TOR;
-		args.crawlSource_DD = $scope.crawlSource_DD;
 		args.crawlSources = crawlSources;
+		args.broadness = ticks_label[$scope.slider.getValue()-1];
 		$scope.openModal('default', args);
-	}
+	};
 
 
 	$scope.openModal = function (size, args) {
@@ -161,8 +149,7 @@ function ($scope, $filter, $location, $routeParams, $modal, domFactory, broadcra
 
 		modalInstance.result.then(function (selectedItem) {
 			$scope.selected = selectedItem;
-			var jobId = $scope.publish2BroadCrawl();
-			console.log('Modal accepted at: ' + new Date());
+			$scope.publish2BroadCrawl();
 		}, function () {
 			console.log('Modal dismissed at: ' + new Date());
 		});
@@ -176,19 +163,26 @@ var broadcrawlerFactory = ngApp.factory('broadcrawlerFactory',['$http', function
 	var urlBase = '/api/workspace/{0}/broad-crawl';
 	var dataFactory = {};
 
-	dataFactory.publish2BroadCrawl = function(workspaceId, nResults, crawlProvider, crawlSources){
+	dataFactory.publish2BroadCrawl = function(workspaceId, nResults, crawlProvider, crawlSources, broadness){
 		var url =  String.format(urlBase, workspaceId);
 		var po = {};
 		po.nResults = nResults;
 		po.crawlProvider = crawlProvider;
 		po.crawlSources = crawlSources;
+		po.broadness = broadness;
 		return $http.post(url, po);
+	};
+
+	dataFactory.sendCrawlHint = function (workspaceId, url){
+		var po = {};
+		po.url = url;
+		return $http.post(String.format(urlBase, workspaceId) + "-hints", po);
 	};
 
 	dataFactory.getCrawlStatus = function(workspaceId, id){
 		var url =  String.format(urlBase, workspaceId);
 		return $http.get(url + '/status');
-	}
+	};
 
 	return dataFactory;
 

@@ -9,9 +9,11 @@ var eventFactory = ngApp.factory('eventFactory',['$http', function($http){
 	    dataFactory.postEvent(workspaceId, event, action);
     };
 
-	dataFactory.postDdTrainer = function (workspaceId, action) {
+	dataFactory.postDdTrainer = function (workspaceId, action, jobId) {
 	    var event = "dd-trainer";
-	    dataFactory.postEvent(workspaceId, event, action);
+	    var arguments = {};
+	    arguments["jobId"]= jobId;
+	    dataFactory.postEvent(workspaceId, event, action, arguments);
 	};
 
 	dataFactory.postDdCrawler = function (workspaceId, action) {
@@ -25,11 +27,12 @@ var eventFactory = ngApp.factory('eventFactory',['$http', function($http){
 	};
 
 
-	dataFactory.postEvent = function (workspaceId, event, action) {
-		var url =  String.format(urlBase, workspaceId, event);
+	dataFactory.postEvent = function (workspaceId, event, action, arguments) {
+		var url =  String.format(urlBase, workspaceId, event, arguments);
 	    var po = {};
 	    po.action = action;
         po.event = event;
+        po.arguments = arguments;
 		return $http.post(url, po);
 	};
 

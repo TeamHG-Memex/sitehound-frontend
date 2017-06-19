@@ -46,12 +46,15 @@ def save_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_s
     _id = collection.insert(job)
     return str(_id)
 
+
 def cancel_job(job_id):
     collection = Singleton.getInstance().mongo_instance.get_crawl_job_collection()
     operation = {'$set': {"status": "CANCELLED"}}
     collection.update({"_id": ObjectId(job_id)}, operation)
 
+
 ################# DAO #################################
+
 
 def get_jobs_by_workspace_dao(workspace_id):
     docs = Singleton.getInstance().mongo_instance.get_crawl_job_collection()\

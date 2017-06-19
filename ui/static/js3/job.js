@@ -8,11 +8,11 @@ ngApp.controller('jobController', ['$scope', '$filter', '$routeParams', '$locati
 
 	$scope.next = function(){
 		domFactory.navigateToBroadcrawlResults();
-	}
+	};
+
 	$scope.navigateToDashboard = function(){
 		domFactory.navigateToDashboard();
-	}
-
+	};
 
 	$scope.cancelJob = function(jobId){
 		jobFactory.cancelJob($scope.workspaceId, jobId)
@@ -23,7 +23,7 @@ ngApp.controller('jobController', ['$scope', '$filter', '$routeParams', '$locati
 			.error(function (error) {
 				$scope.status = 'Unable to cancel job: ' + error.message;
 			});
-	}
+	};
 
 	function setSelectedJob(jobId){
 		angular.forEach($scope.jobs, function(elem, index){
@@ -45,31 +45,17 @@ ngApp.controller('jobController', ['$scope', '$filter', '$routeParams', '$locati
 			.error(function (error) {
 				$scope.status = 'Unable to load jobs: ' + error.message;
 			});
-	}
+	};
 
 	$scope.getJobs();
 
-}])
-//.directive('workspace-row', function () {
-//	return {
-//	restrict : 'C',
-//		link: function(scope, element) {
-//			console.log(element);
-//			element.bind("click" , function(e){
-//				 element.parent().find("tr").removeClass("job-row-selected");
-//				 element.addClass("job-row-selected").removeClass("job-row-even");
-//			});
-//		}
-//	}
-//});
-//
-
+}]);
 
 
 var jobFactory = ngApp.factory('jobFactory',['$http', function($http){
 
 	var urlBase = '/api/workspace/{0}/job';
-	var dataFactory = {}
+	var dataFactory = {};
 
 	dataFactory.getJobs = function (workspaceId) {
 	var url =  String.format(urlBase, workspaceId);
@@ -81,6 +67,23 @@ var jobFactory = ngApp.factory('jobFactory',['$http', function($http){
 		return $http.delete(url + "/" + jobId);
 	};
 
+    /**
+	 * sources []: SE, DD,
+	 * provider: always HH_JOOGLE
+	 * crawlType KEYWORDS, BROADCRAWL, DD-TRAINER
+	 * nResults: defaults to 30
+     */
+	dataFactory.createJob = function(workspaceId, sources, crawlType, nResults){
+	var url = String.format(urlBase, workspaceId);
+		var po = {};
+		po.provider = 'HH_JOOGLE';
+		po.sources = sources;
+		po.crawlType = crawlType;
+		po.nResults = nResults;
+		return $http.post(url, po);
+	};
+
 	return dataFactory;
 }]);
+
 
