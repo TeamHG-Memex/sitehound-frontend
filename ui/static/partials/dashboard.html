@@ -443,18 +443,23 @@
 										<div style="padding-left:20px">
 											<div>
 												<button
-														ng-disabled='!(workspace.page_model.model)'
+														ng-disabled='!(workspace.page_model.model) || ddTrainerJobId'
 														type="button" class="btn btn-primary btn-sm" ng-click="startDdTrainer()">
 													Start Trainer Crawler
 												</button>
 												<button
-														ng-disabled='!(workspace.page_model.model)'
+														ng-disabled='!(workspace.page_model.model) || !ddTrainerJobId'
 														type="button" class="btn btn-primary btn-sm" ng-click="stopDdTrainer()">
 													Stop Trainer Crawler
 												</button>
 												<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["DD"]["total"]>0' ng-click="resetResults('DD')">
-													Delete
+													Delete Results
 												</button>
+												<h6 ng-show="ddTrainerJobId">
+													<span>
+														Requested job with id: <span ng-bind="ddTrainerJobId"></span>
+													</span>
+												</h6>
 												<!--<h6>-->
 													<!--<span ng-show='resultStruct["DD"]["relevant"]==0' style="color:red">-->
 														<!--("Start" requires a prior training using Deepdeep's crawling results)-->
@@ -467,7 +472,9 @@
 													<h5>Crawler Progress:</h5>
 													<h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>
 												</div>
-												<h5 ng-show='resultStruct["DD"]["total"]>0'><a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
+												<h5 ng-show='resultStruct["DD"]["total"]>0'>
+													<a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
+													<a href="" ng-click="navigateToJobs()">View jobs</a>
 												</h5>
 											</div>
 										</div>
@@ -490,18 +497,23 @@
 										<div style="padding-left:20px">
 											<div>
 												<button
-														ng-disabled='!(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+														ng-disabled='ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
 														type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
 													Start Crawler...
 												</button>
 												<button
-														ng-disabled='!(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
-														type="button" class="btn btn-primary btn-sm" ng-click="stopBroadCrawl(workspace._id)">
+														ng-disabled='!ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+														type="button" class="btn btn-primary btn-sm" ng-click="stopBroadCrawl()">
 													Stop Crawler
 												</button>
 												<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('deepdeep')" ng-hide="true">
 													Delete
 												</button>
+												<h6 ng-show="ddCrawlerJobId">
+													<span>
+														Requested job with id: <span ng-bind="ddCrawlerJobId"></span>
+													</span>
+												</h6>
 											</div>
 											<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>
 												<div >

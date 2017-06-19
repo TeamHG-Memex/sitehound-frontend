@@ -20,7 +20,7 @@
 												<!--<th width="2%">&nbsp;</th>-->
 												  <!--<th width="2%">#</th>-->
 												  <!--<th>Name</th>-->
-												<!--<th>id</th>-->
+												<th>id</th>
 												<!--<th>workspaceId</th>-->
 												<th>Started</th>
 												<!--<th>Provider</th>-->
@@ -35,9 +35,9 @@
 											<!--<tr ng-repeat="workspace in workspaces track by workspace._id"  ng-class-even="{{ workspace.selected ? '':'workspace-row-even'}}" class='{{ workspace.selected ? "workspace-row-selected" : ""}}'>-->
 											<!--<tr ng-repeat="job in jobs track by job._id" ng-class-even="workspace.selected ? '':'workspace-row-even'" class='{{ workspace.selected ? "workspace-row-selected" : ""}}'>-->
 											<tr ng-repeat="job in jobs track by job._id"  ng-class-even="job.selected ? '':'workspace-row-even'" class='{{ job.selected ? "workspace-row-selected" : ""}}'>
-												<!--<td>-->
-													<!--{{job._id}}-->
-												<!--</td>-->
+												<td>
+													{{job._id}}
+												</td>
 												<!--<td>-->
 													<!--{{job.workspaceId}}-->
 												<!--</td>-->

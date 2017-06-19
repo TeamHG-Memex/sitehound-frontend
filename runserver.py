@@ -124,7 +124,8 @@ if __name__ == "__main__":
             encrypted_password = utils.encrypt_password('changeme!')
             user_datastore.create_user(email='admin@hyperiongray.com', password=encrypted_password, roles=["admin"], active=True)
             logging.info("roles and user were added")
-        except:
+        except Exception, e:
+            print str(e)
             logging.info("already set up")
 
         logging.info('instance : ' + app_instance + ' up & running.')

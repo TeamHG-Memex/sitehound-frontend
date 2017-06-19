@@ -50,7 +50,8 @@ function ($scope, $rootScope, $filter, $location, $routeParams, $modal, domFacto
 	}
 
     $scope.stopBroadCrawl = function(){
-        eventFactory.postDdCrawler($scope.workspaceId, "stop");
+		eventFactory.postDdCrawler($rootScope.ddCrawlerJobId, "stop");
+        $rootScope.ddCrawlerJobId = null;
     };
 
 	$scope.publish2BroadCrawl = function(){
@@ -62,6 +63,7 @@ function ($scope, $rootScope, $filter, $location, $routeParams, $modal, domFacto
 
 		broadcrawlerFactory.publish2BroadCrawl($scope.workspaceId, nResults, $scope.crawlProvider, crawlSources, broadness)
 		.success(function(data){
+			$rootScope.ddCrawlerJobId = data.jobId;
 			$scope.getCrawlStatus(data.jobId);
 			$scope.status='';
 			$scope.submittedOk = true;
@@ -147,8 +149,7 @@ function ($scope, $rootScope, $filter, $location, $routeParams, $modal, domFacto
 
 		modalInstance.result.then(function (selectedItem) {
 			$scope.selected = selectedItem;
-			var jobId = $scope.publish2BroadCrawl();
-			console.log('Modal accepted at: ' + new Date());
+			$scope.publish2BroadCrawl();
 		}, function () {
 			console.log('Modal dismissed at: ' + new Date());
 		});
