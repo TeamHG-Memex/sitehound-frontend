@@ -1,5 +1,5 @@
-ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$interval', '$routeParams', '$timeout', 'domFactory', 'workspaceFactory', 'seedUrlFactory', 'eventFactory', 'progressFactory', 'focusFactory', 'userDefinedCategoriesFactory', 'labelUserDefinedCategoriesFactory', 'jobFactory'
-, function ($scope, $rootScope, $filter, $interval, $routeParams, $timeout, domFactory, workspaceFactory, seedUrlFactory, eventFactory, progressFactory, focusFactory, userDefinedCategoriesFactory, labelUserDefinedCategoriesFactory, jobFactory){
+ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$interval', '$routeParams', '$timeout', 'domFactory', 'workspaceFactory', 'seedUrlFactory', 'eventFactory', 'progressFactory', 'focusFactory', 'userDefinedCategoriesFactory', 'labelUserDefinedCategoriesFactory', 'jobFactory', 'loginInputFactory'
+, function ($scope, $rootScope, $filter, $interval, $routeParams, $timeout, domFactory, workspaceFactory, seedUrlFactory, eventFactory, progressFactory, focusFactory, userDefinedCategoriesFactory, labelUserDefinedCategoriesFactory, jobFactory, loginInputFactory){
 
 	$scope.workspaceId = $routeParams.workspaceId;
     $scope.workspace = {};
@@ -42,6 +42,10 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     $scope.navigateToLabelUserDefinedCategories = function(){
         domFactory.navigateToLabelUserDefinedCategories ();
     }
+
+    $scope.goToActionPage = function(){
+        domFactory.navigateToUserLoginInput();
+    };
 
 	$scope.getWorkspace = function() {
         var tOut = $scope.startLoading();
@@ -306,6 +310,28 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 
 */
 
+    $scope.loginInputStats = {};
+    $scope.getLoginInputStats = function(workspaceId){
+        loginInputFactory.getStats(workspaceId)
+            .success(function (data) {
+                $scope.loginInputStats["PENDING"]= 0;
+                $scope.loginInputStats["COMPLETED"]= 0;
+                angular.forEach(data, function (e, i) {
+                    if(e["_id"]=="pending"){
+                        $scope.loginInputStats["PENDING"]= e["count"]
+                    }
+                    else if(e["_id"]=="completed"){
+                        $scope.loginInputStats["COMPLETED"]= e["count"]
+                    }
+                });
+            })
+            .error(function (error) {
+                $scope.status = 'Unable to load data: ' + error.message;
+            })
+            .finally(function(){
+                $scope.loading = false;
+            });
+    };
 
 
 	var isRunning = false;
@@ -318,9 +344,9 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
             $scope.getModelerProgress($scope.workspaceId);
 //            $scope.getTrainerProgress($scope.workspaceId);
             $scope.getAllProgress($scope.workspaceId);
-
+            $scope.getLoginInputStats($scope.workspaceId);
             $interval.cancel($rootScope.backgroundServicePromise);
-            $rootScope.backgroundServicePromise = $interval(backgroundService, 15000);
+            $rootScope.backgroundServicePromise = $interval(backgroundService, 5000);
 		}
 	}
 
@@ -349,6 +375,9 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     };
     $scope.toggleDeepLearning = function(state){
         $rootScope.deep_learning_div_content = state;
+    };
+    $scope.toggleCredentialsCrawler = function(state){
+        $rootScope.credentials_crawler_div_content = state;
     };
 
 

@@ -353,3 +353,9 @@ img.border {
 .cursorable{
     cursor: pointer;
 }
+
+.input-login-label, .input-login-label.inline {
+	display: inline-block;
+	width: 150px;
+	padding:10px;
+}

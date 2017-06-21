@@ -160,6 +160,11 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
         window.location.assign(url);
 	}
 
+	domFactory.navigateToUserLoginInput = function(){
+		var url = "/workspace/" + $routeParams.workspaceId + "/login-input";
+        reload(url);
+	}
+
 
     $(".navbar-deep-crawl").bind("click", function(e){
         deepcrawlerFactory.getConfig()

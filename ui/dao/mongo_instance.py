@@ -23,6 +23,7 @@ crawl_job_collection_name = "crawl_job"
 workspace_collection_name = "workspace"
 user_collection_name = "user"
 role_collection_name = "role"
+login_input = "login_input"
 
 
 class MongoInstance(object):
@@ -52,6 +53,9 @@ class MongoInstance(object):
 
     def get_role_collection(self):
         return self.db[role_collection_name]
+
+    def get_login_input_collection(self):
+        return self.db[login_input]
 
     def initialize(self):
         collections = self.db.collection_names()

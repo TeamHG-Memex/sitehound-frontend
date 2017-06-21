@@ -9,532 +9,579 @@
 </div>
 
 
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title" style="display:inline;">Workflow</h3>
-						</div>
-						<div class="panel-body" style="padding-left:40px" >
-							<h3> Workspace: <b>{{workspace.name}}</b></h3>
-							<hr>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title" style="display:inline;">Workflow</h3>
+				</div>
+				<div class="panel-body" style="padding-left:40px" >
+					<h3> Workspace: <b>{{workspace.name}}</b></h3>
+					<hr>
 
-							<!--<h4>Keywords-->
-							<div>
-								<div>
-									<div style="float:left">
-										<h4>Keywords
-											<a href="" ng-click="navigateToSeed()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-										</h4>
-									</div>
-									<div style="float:right">
-										<i class="material-icons cursorable" ng-hide="keywords_div_content" ng-click='toggleKeywords(true)'>expand_more</i>
-										<i class="material-icons cursorable" ng-show="keywords_div_content" ng-click='toggleKeywords(false)'>expand_less</i>
-									</div>
-									<div style="clear:both"></div>
-									<div>
-										<p style="font-style:italic">This keywords will be used as search terms in the main search engines to provide a initial set of URLs.</p>
-										<p style="font-size:12px; font-style:italic; padding-right:20px; padding-left:0px; padding-top:0px">
-											<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-												<li>
-													We would recommend no more than half a dozen each time (you can run it several times with different keywords).
-												</li>
-												<li>
-													Keep in mind that the more keywords you add, the broader returns you’ll receive.
-												</li>
-												<li>
-													Best keywords are specific to the domain, but not too common. Otherwise vague words would lead to vague results.
-												</li>
-											</ul>
-										</p>
-									</div>
-								</div>
-								<div ng-show="keywords_div_content" style="padding-left:20px">
-									<!--<BR>-->
-									<h5>Relevant Keywords:</h5>
-									<div style=" column-count: 4">
-										<ul>
-											<li ng-repeat="word in relevantWords()">{{word}}</li>
-										</ul>
-									</div>
-									<h5>Irrelevant Keywords:</h5>
-									<div style=" column-count: 4">
-										<ul>
-											<li ng-repeat="word in irrelevantWords()">{{word}}</li>
-										</ul>
-									</div>
-									<br>
-								</div>
+					<!--<h4>Keywords-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Keywords
+									<a href="" ng-click="navigateToSeed()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+								</h4>
 							</div>
-							<hr>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="keywords_div_content" ng-click='toggleKeywords(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="keywords_div_content" ng-click='toggleKeywords(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">This keywords will be used as search terms in the main search engines to provide a initial set of URLs.</p>
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-left:0px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											We would recommend no more than half a dozen each time (you can run it several times with different keywords).
+										</li>
+										<li>
+											Keep in mind that the more keywords you add, the broader returns you’ll receive.
+										</li>
+										<li>
+											Best keywords are specific to the domain, but not too common. Otherwise vague words would lead to vague results.
+										</li>
+									</ul>
+								</p>
+							</div>
+						</div>
+						<div ng-show="keywords_div_content" style="padding-left:20px">
+							<!--<BR>-->
+							<h5>Relevant Keywords:</h5>
+							<div style=" column-count: 4">
+								<ul>
+									<li ng-repeat="word in relevantWords()">{{word}}</li>
+								</ul>
+							</div>
+							<h5>Irrelevant Keywords:</h5>
+							<div style=" column-count: 4">
+								<ul>
+									<li ng-repeat="word in irrelevantWords()">{{word}}</li>
+								</ul>
+							</div>
+							<br>
+						</div>
+					</div>
+					<hr>
 
 
+					<!--<h4>Seed URLs </h4>-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Seed URLs (optional)</h4>
+							</div>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="seed_url_div_content" ng-click='toggleSeedUrl(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="seed_url_div_content" ng-click='toggleSeedUrl(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">You can provide your own list of URLs relevant to the domain</p>
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											Importing URLs with this feature works exactly the same as if you would found a result on the Search URLs results, and marked it relevant.
+										</li>
+										<li>
+											Onions are supported!
+										</li>
+									</ul>
+								</p>
+							</div>
+						</div>
+						<div ng-show="seed_url_div_content" style="padding-left:20px">
 							<!--<h4>Seed URLs </h4>-->
 							<div>
-								<div>
-									<div style="float:left">
-										<h4>Seed URLs </h4>
-									</div>
-									<div style="float:right">
-										<i class="material-icons cursorable" ng-hide="seed_url_div_content" ng-click='toggleSeedUrl(true)'>expand_more</i>
-										<i class="material-icons cursorable" ng-show="seed_url_div_content" ng-click='toggleSeedUrl(false)'>expand_less</i>
-									</div>
-									<div style="clear:both"></div>
-									<div>
-										<p style="font-style:italic">You can provide your own list of URLs relevant to the domain</p>
-										<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-											<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-												<li>
-													Importing URLs with this feature works exactly the same as if you would found a result on the Search URLs results, and marked it relevant.
-												</li>
-												<li>
-													Onions are supported!
-												</li>
-											</ul>
-										</p>
-									</div>
+								<h5><a href="" ng-click="viewDetailsByCrawlTypeSource('imported')">View results</a></h5>
+								<h5>Summary:</h5>
+								<div style=" column-count: 4">
+									<ul >
+										<li>Relevant: {{resultStruct["MANUAL"]["relevant"]}}</li>
+										<li>Irrelevant: {{resultStruct["MANUAL"]["irrelevant"]}}</li>
+										<li>Neutral: {{resultStruct["MANUAL"]["neutral"]}}</li>
+									</ul>
 								</div>
-								<div ng-show="seed_url_div_content" style="padding-left:20px">
-									<!--<h4>Seed URLs </h4>-->
-									<div>
-										<h5><a href="" ng-click="viewDetailsByCrawlTypeSource('imported')">View results</a></h5>
-										<h5>Summary:</h5>
-										<div style=" column-count: 4">
-											<ul >
-												<li>Relevant: {{resultStruct["MANUAL"]["relevant"]}}</li>
-												<li>Irrelevant: {{resultStruct["MANUAL"]["irrelevant"]}}</li>
-												<li>Neutral: {{resultStruct["MANUAL"]["neutral"]}}</li>
-											</ul>
-										</div>
-										<br/>
-										<button type="button" class="btn btn-primary btn-sm" ng-click="navigateToImportUrl()">
-											Import
-										</button>
-										<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["SE"]["total"]>0' ng-click="resetResults('searchengine')">
-											Delete
-										</button>
-										<br>
-										<br>
-									</div>
-								</div>
+								<br/>
+								<button type="button" class="btn btn-primary btn-sm" ng-click="navigateToImportUrl()">
+									Import
+								</button>
+								<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["SE"]["total"]>0' ng-click="resetResults('searchengine')">
+									Delete
+								</button>
+								<br>
+								<br>
 							</div>
-							<hr>
+						</div>
+					</div>
+					<hr>
 
-							<!--<h4>Search URLs </h4>-->
+					<!--<h4>Search URLs </h4>-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Search URLs </h4>
+							</div>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="search_url_div_content" ng-click='toggleSearchUrl(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="search_url_div_content" ng-click='toggleSearchUrl(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">You can search with Google and Bing for more URLs relevant to the domain based on the keywords previously defined</p>
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											Each time you Fetch URLs, you will get a batch of 150-200 results from several Search Engines
+										</li>
+										<li>
+											Results are initially labeled as neutral, it's up to you to label them as relevant or irrelevant.
+										</li>
+										<li>
+											You don't have to label all the results, just keep going until you think you teach the system enough of what you are looking for, though we'd recommend at least 100,
+											but could be more depending on the nuance of the domains.
+										</li>
+										<li>
+											In the results view, there is an infinite scroll, so take it easy :)
+										</li>
+									</ul>
+								</p>
+							</div>
+						</div>
+						<div ng-show="search_url_div_content" style="padding-left:20px">
+							<div>
+								<!--<h5>Crawl by Google and Bing -->
+									<a href="" ng-click="viewDetailsByCrawlTypeSource('searchengine')">View results</a>
+									<!--</h5>-->
+								<!--<p style="font-style:italic">Will perform the search on the engines based on the keywords defined</p>-->
+								<h5>Summary:</h5>
+								<div style=" column-count: 4">
+									<ul>
+										<li>Relevant: {{resultStruct["SE"]["relevant"]}}</li>
+										<li>Irrelevant: {{resultStruct["SE"]["irrelevant"]}}</li>
+										<li>Neutral: {{resultStruct["SE"]["neutral"]}}</li>
+									</ul>
+								</div>
+								<br/>
+								<button ng-disabled='!(relevantWords().length>0)'
+										type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('SE')">
+									Fetch URLs
+								</button>
+								<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('searchengine')">
+									Delete
+								</button>
+								<br/>
+								<h6>
+									<span ng-hide='relevantWords().length>0' style="color:red">(Requires Keywords to be entered first)</span>
+								</h6>
+							</div>
+							<br>
+						</div>
+					</div>
+					<hr>
+
+					<!--<h4>Label User Defined Categories (optional)</h4>-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Label User Defined Categories (optional)</h4>
+							</div>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="custom_training_div_content" ng-click='toggleCustomTraining(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="custom_training_div_content" ng-click='toggleCustomTraining(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">Will display the urls to be labeled according to user provided categories</p>
+
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											These categories are not used for any purpose in the system, it's just a tagging to help the user classify the data.
+										</li>
+										<li>
+											These tagging is present when the results are exported, nowhere else so far but we are working on a filter for the results based on these categories.
+										</li>
+										<li>
+											These categories are different dimension from the Functional tagging (Forum, News, etc) that is done automatically for the system.
+										</li>
+									</ul>
+								</p>
+							</div>
+						</div>
+						<div ng-show="custom_training_div_content" style="padding-left:20px">
+							<div>
+								<h5>User defined categories <a href="" ng-click="navigateToUserDefinedCategories()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></h5>
+							</div>
+							<div ng-show="userDefinedCategoriesCounted.length==0">
+								<span style="font-style:italic; padding-left:20px">  - no user defined categories added yet -</span>
+							</div>
+							<div style=" column-count: 4">
+								<ul >
+									<li ng-repeat="userDefinedCategoryCount in userDefinedCategoriesCounted">{{userDefinedCategoryCount.category | capitalize}} ({{userDefinedCategoryCount.count}})</li>
+								</ul>
+							</div>
+							<br/>
+							<!--<a href="" ng-click="viewDetailsByCrawlTypeSource('searchengine')">Label urls</a>-->
+							<a ng-show="userDefinedCategoriesCounted.length>0" href="" ng-click="navigateToLabelUserDefinedCategories()">Label urls</a>
+						</div>
+					</div>
+					<hr>
+
+					<!--<h4>Deep Web (optional)</h4>-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Deep Web (optional)</h4>
+							</div>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="deep_web_div_content" ng-click='toggleDeepWeb(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="deep_web_div_content" ng-click='toggleDeepWeb(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">Will perform the search on the Deep Web on the keywords defined</p>
+
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											This feature works as the Search URLs tab but will retrieve results from a onion search index instead of from Search Engines, using the current defined keywords.
+										</li>
+										<li>
+											You can label the results if you wish, but displaying the results is actually the end of the workflow for the deep web search right now. We are working on the next step.
+										</li>
+									</ul>
+								</p>
+							</div>
+						</div>
+						<div ng-show="deep_web_div_content" style="padding-left:20px">
 							<div>
 								<div>
-									<div style="float:left">
-										<h4>Search URLs </h4>
-									</div>
-									<div style="float:right">
-										<i class="material-icons cursorable" ng-hide="search_url_div_content" ng-click='toggleSearchUrl(true)'>expand_more</i>
-										<i class="material-icons cursorable" ng-show="search_url_div_content" ng-click='toggleSearchUrl(false)'>expand_less</i>
-									</div>
-									<div style="clear:both"></div>
-									<div>
-										<p style="font-style:italic">You can search with Google and Bing for more URLs relevant to the domain based on the keywords previously defined</p>
-										<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-											<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-												<li>
-													Each time you Fetch URLs, you will get a batch of 150-200 results from several Search Engines
-												</li>
-												<li>
-													Results are initially labeled as neutral, it's up to you to label them as relevant or irrelevant.
-												</li>
-												<li>
-													You don't have to label all the results, just keep going until you think you teach the system enough of what you are looking for, though we'd recommend at least 100,
-													but could be more depending on the nuance of the domains.
-												</li>
-												<li>
-													In the results view, there is an infinite scroll, so take it easy :)
-												</li>
-											</ul>
-										</p>
-									</div>
-								</div>
-								<div ng-show="search_url_div_content" style="padding-left:20px">
-									<div>
-										<!--<h5>Crawl by Google and Bing -->
-											<a href="" ng-click="viewDetailsByCrawlTypeSource('searchengine')">View results</a>
-											<!--</h5>-->
-										<!--<p style="font-style:italic">Will perform the search on the engines based on the keywords defined</p>-->
-										<h5>Summary:</h5>
-										<div style=" column-count: 4">
-											<ul>
-												<li>Relevant: {{resultStruct["SE"]["relevant"]}}</li>
-												<li>Irrelevant: {{resultStruct["SE"]["irrelevant"]}}</li>
-												<li>Neutral: {{resultStruct["SE"]["neutral"]}}</li>
-											</ul>
-										</div>
-										<br/>
-										<button ng-disabled='!(relevantWords().length>0)'
-												type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('SE')">
-											Fetch URLs
-										</button>
-										<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('searchengine')">
-											Delete
-										</button>
-										<br/>
-										<h6>
-											<span ng-hide='relevantWords().length>0' style="color:red">(Requires Keywords to be entered first)</span>
-										</h6>
-									</div>
-									<br>
-								</div>
-							</div>
-							<hr>
-
-							<!--<h4>Label User Defined Categories (optional)</h4>-->
-							<div>
-								<div>
-									<div style="float:left">
-										<h4>Label User Defined Categories (optional)</h4>
-									</div>
-									<div style="float:right">
-										<i class="material-icons cursorable" ng-hide="custom_training_div_content" ng-click='toggleCustomTraining(true)'>expand_more</i>
-										<i class="material-icons cursorable" ng-show="custom_training_div_content" ng-click='toggleCustomTraining(false)'>expand_less</i>
-									</div>
-									<div style="clear:both"></div>
-									<div>
-										<p style="font-style:italic">Will display the urls to be labeled according to user provided categories</p>
-
-										<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-											<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-												<li>
-													These categories are not used for any purpose in the system, it's just a tagging to help the user classify the data.
-												</li>
-												<li>
-													These tagging is present when the results are exported, nowhere else so far but we are working on a filter for the results based on these categories.
-												</li>
-												<li>
-													These categories are different dimension from the Functional tagging (Forum, News, etc) that is done automatically for the system.
-												</li>
-											</ul>
-										</p>
-									</div>
-								</div>
-								<div ng-show="custom_training_div_content" style="padding-left:20px">
-									<div>
-										<h5>User defined categories <a href="" ng-click="navigateToUserDefinedCategories()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></h5>
-									</div>
-									<div ng-show="userDefinedCategoriesCounted.length==0">
-										<span style="font-style:italic; padding-left:20px">  - no user defined categories added yet -</span>
-									</div>
+									<a href="" ng-click="viewDetailsByCrawlTypeSource('tor')">View results</a>
+									<h5>Summary:</h5>
 									<div style=" column-count: 4">
-										<ul >
-											<li ng-repeat="userDefinedCategoryCount in userDefinedCategoriesCounted">{{userDefinedCategoryCount.category | capitalize}} ({{userDefinedCategoryCount.count}})</li>
+										<ul>
+											<li>Relevant: {{resultStruct["TOR"]["relevant"]}}</li>
+											<li>Irrelevant: {{resultStruct["TOR"]["irrelevant"]}}</li>
+											<li>Neutral: {{resultStruct["TOR"]["neutral"]}}</li>
 										</ul>
 									</div>
+									<br>
+									<button ng-disabled='!(relevantWords().length>0)'
+											type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('TOR')">
+										Fetch URLs
+									</button>
+									<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('TOR')">
+										Delete
+									</button>
 									<br/>
-									<!--<a href="" ng-click="viewDetailsByCrawlTypeSource('searchengine')">Label urls</a>-->
-									<a ng-show="userDefinedCategoriesCounted.length>0" href="" ng-click="navigateToLabelUserDefinedCategories()">Label urls</a>
+									<h6>
+										<span ng-hide='relevantWords().length>0'
+											  style="color:red">(Requires Keywords to be entered first)</span>
+									</h6>
+									<br/>
 								</div>
 							</div>
-							<hr>
-
-							<!--<h4>Deep Web (optional)</h4>-->
-							<div>
-								<div>
-									<div style="float:left">
-										<h4>Deep Web (optional)</h4>
-									</div>
-									<div style="float:right">
-										<i class="material-icons cursorable" ng-hide="deep_web_div_content" ng-click='toggleDeepWeb(true)'>expand_more</i>
-										<i class="material-icons cursorable" ng-show="deep_web_div_content" ng-click='toggleDeepWeb(false)'>expand_less</i>
-									</div>
-									<div style="clear:both"></div>
-									<div>
-										<p style="font-style:italic">Will perform the search on the Deep Web on the keywords defined</p>
-
-										<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-											<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-												<li>
-													This feature works as the Search URLs tab but will retrieve results from a onion search index instead of from Search Engines, using the current defined keywords.
-												</li>
-												<li>
-													You can label the results if you wish, but displaying the results is actually the end of the workflow for the deep web search right now. We are working on the next step.
-												</li>
-											</ul>
-										</p>
-									</div>
-								</div>
-								<div ng-show="deep_web_div_content" style="padding-left:20px">
-									<div>
-										<div>
-											<a href="" ng-click="viewDetailsByCrawlTypeSource('tor')">View results</a>
-											<h5>Summary:</h5>
-											<div style=" column-count: 4">
-												<ul>
-													<li>Relevant: {{resultStruct["TOR"]["relevant"]}}</li>
-													<li>Irrelevant: {{resultStruct["TOR"]["irrelevant"]}}</li>
-													<li>Neutral: {{resultStruct["TOR"]["neutral"]}}</li>
-												</ul>
-											</div>
-											<br>
-											<button ng-disabled='!(relevantWords().length>0)'
-													type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('TOR')">
-												Fetch URLs
-											</button>
-											<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('TOR')">
-												Delete
-											</button>
-											<br/>
-											<h6>
-												<span ng-hide='relevantWords().length>0'
-													  style="color:red">(Requires Keywords to be entered first)</span>
-											</h6>
-											<br/>
-										</div>
-									</div>
-								</div>
-							</div>
-							<hr>
-
-							<!--<h4>Machine Learning</h4>-->
-							<div>
-								<div>
-									<div style="float:left">
-										<h4>Machine Learning</h4>
-									</div>
-									<div style="float:right">
-										<i class="material-icons cursorable" ng-hide="deep_learning_div_content" ng-click='toggleDeepLearning(true)'>expand_more</i>
-										<i class="material-icons cursorable" ng-show="deep_learning_div_content" ng-click='toggleDeepLearning(false)'>expand_less</i>
-									</div>
-									<div style="clear:both"></div>
-									<div>
-										<p style="font-style:italic">Will perform open web crawls based on a classifier built upon the labeled data</p>
-									</div>
-								</div>
-								<div ng-show="deep_learning_div_content" style="padding-left:30px">
-									<div>
-										<h5>1. Train with Deep-Deep</h5>
-										<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-											<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-												<li>
-													This builds the model for the classifier, it takes a couple of minutes. Please be patient.
-												</li>
-												<li>
-													If you do more labeling, care to build the model again so it uses the new data available.
-												</li>
-											</ul>
-										</p>
-										<div style="padding-left:20px">
-											<button ng-disabled='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)'
-													type="button" class="btn btn-primary  btn-sm" ng-click="startDdModeler()" >
-												Build Initial Model
-											</button> &nbsp;&nbsp;&nbsp;
-											<span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="color:red">
-												(Requires a prior training using imported URLs or the SearchEngines Fetch to gather some URLs)
-											</span>
-											<span ng-show='workspace.page_model.model' style="color:green; font-size:12px">
-												Initial model completed. You should update it if you label more results from 'Search URLs'.
-											</span>
-											<br/>
-											<br/>
-
-											<div id="classifier-quality-container" >
-
-												<div ng-repeat="adviceItem in modelerProgress.advice">
-													<div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
-														<b>{{adviceItem.kind}}!</b>
-															<span ng-repeat="message in adviceItem.messages">
-																{{message.text}}<span ng-show="message.tooltip"data-toggle="tooltip" data-placement="bottom" title="{{message.tooltip}}">
-																	<span class="question glyphicon glyphicon-question-sign"></span>
-																</span>
-																	<script type="text/javascript">
-																			$(function () {
-																				$('[data-toggle="tooltip"]').tooltip();
-																			})
-																	</script>
-															</span>
-													</div>
-												</div>
-
-												<div style="padding:20px" ng-show="getMoreStatusIsNotEmpty()">
-													<a href="javascript:void(0);" ng-show="!showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show more &hellip;</a>
-													<a href="javascript:void(0);" ng-show="showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show less &hellip;</a>
-												</div>
-
-												<div ng-show="showMoreStatus">
-													<div>
-														<dl class="dl-horizontal">
-															<div  ng-repeat="descriptionItem in modelerProgress.description" >
-																<dt>{{descriptionItem.heading}}
-
-																	<span ng-show="['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1" tooltip-trigger data-toggle="tooltip" data-placement="bottom"
-																		  title="{{modelerProgress.tooltips[descriptionItem.heading]}}">
-																		<span class="question glyphicon glyphicon-question-sign"></span>
-																	</span>
-																</dt>
-																<dd>{{descriptionItem.text}}</dd>
-																	<script type="text/javascript">
-																			$(function () {
-																				$('[data-toggle="tooltip"]').tooltip();
-																			})
-																	</script>
-															</div>
-														</dl>
-													</div>
-													<div style="padding:20px">
-														<a href="javascript:void(0);" ng-show="!showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Show feature weights &hellip;</a>
-														<a href="javascript:void(0);" ng-show="showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Hide feature weights &hellip;</a>
-													</div>
-													<!--<div id="clf-weights" class="collapse weights">-->
-													<div ng-show="showFeatureWeightsStatus" style="padding-left:40px">
-														<table class="eli5-weights" style="border-collapse: collapse; border: none;"
-															ng-show="modelerProgress.weights.pos.length + modelerProgress.weights.neg.length>0"
-														>
-														<thead>
-														<tr style="border: none;">
-															<th style="padding: 0 1em 0 0.5em; text-align: right; border: none;">Weight</th>
-															<th style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">Feature</th>
-														</tr>
-														</thead>
-														<tbody>
-															<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.pos">
-																<td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
-																	+<span ng-bind='item["weight"] | number:3'></span>
-																</td>
-																<td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
-																	<span ng-bind='item["feature"]'></span>
-																</td>
-															</tr>
-															<tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
-																ng-show="modelerProgress.weights.pos.length>0"
-															>
-																<td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
-																	<i>&hellip; {{modelerProgress.weights.pos_remaining}} more positive &hellip;</i>
-																</td>
-															</tr>
-															<tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
-																ng-show="modelerProgress.weights.neg.length>0"
-															>
-																<td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
-																	<i>&hellip;  {{modelerProgress.weights.neg_remaining}} more negative &hellip;</i>
-																</td>
-															</tr>
-															<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.neg">
-																<td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
-																	<span ng-bind='item["weight"] | number:3'></span>
-																</td>
-																<td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
-																	<span ng-bind='item["feature"]'></span>
-																</td>
-															</tr>
-														</tbody>
-													</table>
-													</div>
-												</div>
-											</div>
-									</div>
-									<div style="padding-top:20px">
-										<h5>2. Crawl some more documents, using Deep-Deep with the generated model. Then label them</h5>
-										<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-											<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-												<li>
-													This runs a sample crawl using the classifier. It usually takes a couple of minutes to get relevant results.
-												</li>
-												<li>
-													Please label these results as well and then care to build the model again so it uses the new data available.
-												</li>
-												<li>
-													When done, you can run it again or go for the big crawl on the next step.
-												</li>
-											</ul>
-										</p>
-										<div style="padding-left:20px">
-											<div>
-												<button
-														ng-disabled='!(workspace.page_model.model) || ddTrainerJobId'
-														type="button" class="btn btn-primary btn-sm" ng-click="startDdTrainer()">
-													Start Trainer Crawler
-												</button>
-												<button
-														ng-disabled='!(workspace.page_model.model) || !ddTrainerJobId'
-														type="button" class="btn btn-primary btn-sm" ng-click="stopDdTrainer()">
-													Stop Trainer Crawler
-												</button>
-												<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["DD"]["total"]>0' ng-click="resetResults('DD')">
-													Delete Results
-												</button>
-												<h6 ng-show="ddTrainerJobId">
-													<span>
-														Requested job with id: <span ng-bind="ddTrainerJobId"></span>
-													</span>
-												</h6>
-												<!--<h6>-->
-													<!--<span ng-show='resultStruct["DD"]["relevant"]==0' style="color:red">-->
-														<!--("Start" requires a prior training using Deepdeep's crawling results)-->
-													<!--</span>-->
-												<!--</h6>-->
-											</div>
-											<h6><span ng-hide='workspace.page_model.model' style="color:red">(Requires an initial model)</span></h6>
-											<div style="padding:10px" ng-hide='trainerProgress==""'>
-												<div >
-													<h5>Crawler Progress:</h5>
-													<h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>
-												</div>
-												<h5 ng-show='resultStruct["DD"]["total"]>0'>
-													<a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
-													<a href="" ng-click="navigateToJobs()">View jobs</a>
-												</h5>
-											</div>
-										</div>
-									</div>
-									<div style="padding-top:20px">
-										<h5>3. Broad Crawl using Deep-Deep</h5>
-										<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-											<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-												<li>
-													This runs a full crawl using the classifier.
-												</li>
-												<li>
-													Only a small sample of all the crawled domains will be showed on the results. You need to contact us in order to get all the results due their large volume.
-												</li>
-												<li>
-													The depth of the crawl on a given domain is decided dynamically based on the relevance of the pages found on it.
-												</li>
-											</ul>
-										</p>
-										<div style="padding-left:20px">
-											<div>
-												<button
-														ng-disabled='ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
-														type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
-													Start Crawler...
-												</button>
-												<button
-														ng-disabled='!ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
-														type="button" class="btn btn-primary btn-sm" ng-click="stopBroadCrawl()">
-													Stop Crawler
-												</button>
-												<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('deepdeep')" ng-hide="true">
-													Delete
-												</button>
-												<h6 ng-show="ddCrawlerJobId">
-													<span>
-														Requested job with id: <span ng-bind="ddCrawlerJobId"></span>
-													</span>
-												</h6>
-											</div>
-											<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>
-												<div >
-													<h5>Broadcrawler Progress:</h5>
-													<span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
-												</div>
-											</div>
-											<h6><span ng-hide='workspace.link_model.model && resultStruct["DD"]["relevant"]>0'
-													style="color:red">(Requires a previous training with Deep-Deep and a checkpoint from the previous step)</span></h6>
-											<a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;
-											<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;
-											<a href="" ng-click="navigateToJobs()">View jobs</a>
-										</div>
-									</div>
-
-								</div>
-							</div>
-
-							<hr>
 						</div>
-						<!--<div class="panel-footer">-->
-						<!--</div>-->
 					</div>
+					<hr>
+
+					<!--<h4>Machine Learning</h4>-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Machine Learning</h4>
+							</div>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="deep_learning_div_content" ng-click='toggleDeepLearning(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="deep_learning_div_content" ng-click='toggleDeepLearning(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">Will perform open web crawls based on a classifier built upon the labeled data</p>
+							</div>
+						</div>
+						<div ng-show="deep_learning_div_content" style="padding-left:30px">
+							<div>
+								<h5>1. Train with Deep-Deep</h5>
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											This builds the model for the classifier, it takes a couple of minutes. Please be patient.
+										</li>
+										<li>
+											If you do more labeling, care to build the model again so it uses the new data available.
+										</li>
+									</ul>
+								</p>
+								<div style="padding-left:20px">
+									<button ng-disabled='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)'
+											type="button" class="btn btn-primary  btn-sm" ng-click="startDdModeler()" >
+										Build Initial Model
+									</button> &nbsp;&nbsp;&nbsp;
+									<span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="color:red">
+										(Requires a prior training using imported URLs or the SearchEngines Fetch to gather some URLs)
+									</span>
+									<span ng-show='workspace.page_model.model' style="color:green; font-size:12px">
+										Initial model completed. You should update it if you label more results from 'Search URLs'.
+									</span>
+									<br/>
+									<br/>
+
+									<div id="classifier-quality-container" >
+
+										<div ng-repeat="adviceItem in modelerProgress.advice">
+											<div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
+												<b>{{adviceItem.kind}}!</b>
+													<span ng-repeat="message in adviceItem.messages">
+														{{message.text}}<span ng-show="message.tooltip"data-toggle="tooltip" data-placement="bottom" title="{{message.tooltip}}">
+															<span class="question glyphicon glyphicon-question-sign"></span>
+														</span>
+															<script type="text/javascript">
+																	$(function () {
+																		$('[data-toggle="tooltip"]').tooltip();
+																	})
+															</script>
+													</span>
+											</div>
+										</div>
+
+										<div style="padding:20px" ng-show="getMoreStatusIsNotEmpty()">
+											<a href="javascript:void(0);" ng-show="!showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show more &hellip;</a>
+											<a href="javascript:void(0);" ng-show="showMoreStatus && getMoreStatusIsNotEmpty()" ng-click="toggleShowMore()">Show less &hellip;</a>
+										</div>
+
+										<div ng-show="showMoreStatus">
+											<div>
+												<dl class="dl-horizontal">
+													<div  ng-repeat="descriptionItem in modelerProgress.description" >
+														<dt>{{descriptionItem.heading}}
+
+															<span ng-show="['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1" tooltip-trigger data-toggle="tooltip" data-placement="bottom"
+																  title="{{modelerProgress.tooltips[descriptionItem.heading]}}">
+																<span class="question glyphicon glyphicon-question-sign"></span>
+															</span>
+														</dt>
+														<dd>{{descriptionItem.text}}</dd>
+															<script type="text/javascript">
+																	$(function () {
+																		$('[data-toggle="tooltip"]').tooltip();
+																	})
+															</script>
+													</div>
+												</dl>
+											</div>
+											<div style="padding:20px">
+												<a href="javascript:void(0);" ng-show="!showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Show feature weights &hellip;</a>
+												<a href="javascript:void(0);" ng-show="showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Hide feature weights &hellip;</a>
+											</div>
+											<!--<div id="clf-weights" class="collapse weights">-->
+											<div ng-show="showFeatureWeightsStatus" style="padding-left:40px">
+												<table class="eli5-weights" style="border-collapse: collapse; border: none;"
+													ng-show="modelerProgress.weights.pos.length + modelerProgress.weights.neg.length>0"
+												>
+												<thead>
+												<tr style="border: none;">
+													<th style="padding: 0 1em 0 0.5em; text-align: right; border: none;">Weight</th>
+													<th style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">Feature</th>
+												</tr>
+												</thead>
+												<tbody>
+													<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.pos">
+														<td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+															+<span ng-bind='item["weight"] | number:3'></span>
+														</td>
+														<td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+															<span ng-bind='item["feature"]'></span>
+														</td>
+													</tr>
+													<tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
+														ng-show="modelerProgress.weights.pos.length>0"
+													>
+														<td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+															<i>&hellip; {{modelerProgress.weights.pos_remaining}} more positive &hellip;</i>
+														</td>
+													</tr>
+													<tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
+														ng-show="modelerProgress.weights.neg.length>0"
+													>
+														<td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+															<i>&hellip;  {{modelerProgress.weights.neg_remaining}} more negative &hellip;</i>
+														</td>
+													</tr>
+													<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.neg">
+														<td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+															<span ng-bind='item["weight"] | number:3'></span>
+														</td>
+														<td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+															<span ng-bind='item["feature"]'></span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+											</div>
+										</div>
+									</div>
+							</div>
+							<div style="padding-top:20px">
+								<h5>2. Crawl some more documents, using Deep-Deep with the generated model. Then label them</h5>
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											This runs a sample crawl using the classifier. It usually takes a couple of minutes to get relevant results.
+										</li>
+										<li>
+											Please label these results as well and then care to build the model again so it uses the new data available.
+										</li>
+										<li>
+											When done, you can run it again or go for the big crawl on the next step.
+										</li>
+									</ul>
+								</p>
+								<div style="padding-left:20px">
+									<div>
+										<button
+												ng-disabled='!(workspace.page_model.model) || ddTrainerJobId'
+												type="button" class="btn btn-primary btn-sm" ng-click="startDdTrainer()">
+											Start Trainer Crawler
+										</button>
+										<button
+												ng-disabled='!(workspace.page_model.model) || !ddTrainerJobId'
+												type="button" class="btn btn-primary btn-sm" ng-click="stopDdTrainer()">
+											Stop Trainer Crawler
+										</button>
+										<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["DD"]["total"]>0' ng-click="resetResults('DD')">
+											Delete Results
+										</button>
+										<h6 ng-show="ddTrainerJobId">
+											<span>
+												Requested job with id: <span ng-bind="ddTrainerJobId"></span>
+											</span>
+										</h6>
+										<!--<h6>-->
+											<!--<span ng-show='resultStruct["DD"]["relevant"]==0' style="color:red">-->
+												<!--("Start" requires a prior training using Deepdeep's crawling results)-->
+											<!--</span>-->
+										<!--</h6>-->
+									</div>
+									<h6><span ng-hide='workspace.page_model.model' style="color:red">(Requires an initial model)</span></h6>
+									<div style="padding:10px" ng-hide='trainerProgress==""'>
+										<div >
+											<h5>Crawler Progress:</h5>
+											<h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>
+										</div>
+										<h5 ng-show='resultStruct["DD"]["total"]>0'>
+											<a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
+											<a href="" ng-click="navigateToJobs()">View jobs</a>
+										</h5>
+									</div>
+								</div>
+							</div>
+							<div style="padding-top:20px">
+								<h5>3. Broad Crawl using Deep-Deep</h5>
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											This runs a full crawl using the classifier.
+										</li>
+										<li>
+											Only a small sample of all the crawled domains will be showed on the results. You need to contact us in order to get all the results due their large volume.
+										</li>
+										<li>
+											The depth of the crawl on a given domain is decided dynamically based on the relevance of the pages found on it.
+										</li>
+									</ul>
+								</p>
+								<div style="padding-left:20px">
+									<div>
+										<button
+												ng-disabled='ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+												type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
+											Start Crawler...
+										</button>
+										<button
+												ng-disabled='!ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+												type="button" class="btn btn-primary btn-sm" ng-click="stopBroadCrawl()">
+											Stop Crawler
+										</button>
+										<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('deepdeep')" ng-hide="true">
+											Delete
+										</button>
+										<h6 ng-show="ddCrawlerJobId">
+											<span>
+												Requested job with id: <span ng-bind="ddCrawlerJobId"></span>
+											</span>
+										</h6>
+									</div>
+									<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>
+										<div >
+											<h5>Broadcrawler Progress:</h5>
+											<span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
+										</div>
+									</div>
+									<h6><span ng-hide='workspace.link_model.model && resultStruct["DD"]["relevant"]>0'
+											style="color:red">(Requires a previous training with Deep-Deep and a checkpoint from the previous step)</span></h6>
+									<a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;
+									<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;
+									<a href="" ng-click="navigateToJobs()">View jobs</a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<hr>
+				</div>
+
+
+
+
+
+					<!--<h4>Credentials for the crawler (optional)</h4>-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Credentials for the crawler (optional)</h4>
+							</div>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="credentials_crawler_div_content" ng-click='toggleCredentialsCrawler(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="credentials_crawler_div_content" ng-click='toggleCredentialsCrawler(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">You can provide credentials for the crawler while it is running, so it can deep crawl the whole domain</p>
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+								<!--<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">-->
+									<!--<li>-->
+										<!--Importing URLs with this feature works exactly the same as if you would found a result on the Search URLs results, and marked it relevant.-->
+									<!--</li>-->
+									<!--<li>-->
+										<!--Onions are supported!-->
+									<!--</li>-->
+								<!--</ul>-->
+								</p>
+							</div>
+						</div>
+						<div ng-show="credentials_crawler_div_content" style="padding-left:20px">
+							<div>
+								<h5>Summary:</h5>
+								<div style=" column-count: 4">
+									<ul >
+										<li>Pending: {{loginInputStats["PENDING"]}}</li>
+										<li>Completed: {{loginInputStats["COMPLETED"]}}</li>
+									</ul>
+								</div>
+								<br>
+								<h5><a href="" ng-click="goToActionPage()">Provide credentials</a></h5>
+							</div>
+						</div>
+					</div>
+					<hr>
+
+
+					<!--<div class="panel-footer">-->
+				</div>
+			</div>
 
