@@ -10,21 +10,12 @@ INSTALLATION GUIDE
 4. For reference, there is an Architecture Diagram shown below.
 5. Once deployed you will only interact with the application via your browser.
 
-![Architecture diagram](docs/Sitehound-architecture-diagram.png)
-
-
-# Provided Hosted version
-
-We are aware that the hardware requirements are not easy to meet so we also provide a hosted version.
-Send us an email to [support@hyperiongray.com](mailto:support@hyperiongray.com)
-and we will set you up and account.
 
 
 # Recommended Hardware
 
-Since the stack of applications contains several infrastructure containers (mongo, elasticsearch, redis) and is designed to take advantage of the multicore architecture, we would recommend:
+Since the stack of applications contains several infrastructure containers (mongo, elasticsearch, redis) and is designed to take advantage of a multicore architecture, we would recommend:
 
-For a single host:
 
  - At least 100GB of storage (if you plan to do serious crawling, 1TB is better)
  - At least 16GB of dedicated RAM, 32GB is better
@@ -151,7 +142,5 @@ You will have to configure the access to these services [here](volumes/sitehound
 
 
 # Help
-
-You can find a PDF version of this guide [here](docs/README.pdf).
 
 You can reach us at [support@hyperiongray.com](mailto:support@hyperiongray.com).
