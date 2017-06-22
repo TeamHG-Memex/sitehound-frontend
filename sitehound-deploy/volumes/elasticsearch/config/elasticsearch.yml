@@ -1,0 +1,5 @@
+network.host: 0.0.0.0
+
+script.engine.groovy.inline.update: on
+script.inline: true
+script.indexed: true

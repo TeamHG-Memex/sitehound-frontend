@@ -1,0 +1,68 @@
+version: '2.1'
+
+
+services:
+
+  hh-trainer:
+    image: hyperiongray/hh-deep-deep:0.1.11  # update below too!
+    restart: always
+    depends_on:
+      hh-kafka:
+        condition: service_healthy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./deep-deep-jobs:/opt/hh-deep-deep/deep-deep-jobs
+    command:
+      - hh-deep-deep-service
+      - trainer
+      - --kafka-host=hh-kafka
+      - --docker-image=hyperiongray/deep-deep-hh:0.1.1
+      - --host-root=${PWD}
+      - --proxy-container=hh-deep-deep-tor-proxy
+
+  hh-crawler:
+    image: hyperiongray/hh-deep-deep:0.1.11
+    restart: always
+    depends_on:
+      hh-kafka:
+        condition: service_healthy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dd-jobs:/opt/hh-deep-deep/dd-jobs
+    command:
+      - hh-deep-deep-service
+      - crawler
+      - --kafka-host=hh-kafka
+      - --docker-image=hyperiongray/dd-crawler-hh:0.2.2
+      - --max-workers=8
+      - --host-root=${PWD}
+      - --proxy-container=hh-deep-deep-tor-proxy
+
+  hh-modeler:
+    image: hyperiongray/hh-page-clf:0.3.1  # update git submodule too
+    restart: always
+    depends_on:
+      hh-kafka:
+        condition: service_healthy
+    volumes:
+      - ./models:/models
+    command:
+      - hh-page-clf-service
+      - --kafka-host=hh-kafka
+      - --random-pages=/models/random-pages.jl.gz
+      - --lda=/models/lda.pkl
+
+  tor-proxy:
+    image: hyperiongray/tor-proxy:0.1.1
+    network_mode: bridge
+    expose:
+      - "9050"
+
+  proxy:
+    image: hyperiongray/privoxy:0.1.0
+    network_mode: bridge
+    container_name: hh-deep-deep-tor-proxy
+    expose:
+      - "8118"
+    links:
+      - "tor-proxy:torproxy"
