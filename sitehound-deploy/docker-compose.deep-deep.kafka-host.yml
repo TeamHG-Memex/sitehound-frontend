@@ -1,0 +1,19 @@
+version: '2'
+
+
+services:
+
+  hh-trainer:
+    external_links: []
+    extra_hosts:
+      - "hh-kafka:${KAFKA_HOST}"
+
+  hh-crawler:
+    external_links: []
+    extra_hosts:
+      - "hh-kafka:${KAFKA_HOST}"
+
+  hh-modeler:
+    external_links: []
+    extra_hosts:
+      - "hh-kafka:${KAFKA_HOST}"

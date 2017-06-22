@@ -28,7 +28,7 @@ Site Hound was developed under the Memex Program by HyperionGray LLC in partners
 When the app starts up, it will try to connect first with all this components    
 - Mongo (>3.0.*) stores the data about users, workspace and metadata about the crawlings 
 - Elasticsearch (2.0) stores the results of the crawling (screenshots, html, extracted text)
-- Kafka (8.*) handles the communication between the backend components regarding the crawlings.
+- Kafka (10.*) handles the communication between the backend components regarding the crawlings.
 
 Custom Docker versions of these components are provided with their extra args to set up the stack correctly, in the Containers section below. 
     
@@ -49,59 +49,16 @@ Here is the components diagram for reference
 ![Components Diagram](docs/img/components-diagram.png) 
 
 
-
-### Containers
-Containers are stored in [HyperionGray's docker hub](https://hub.docker.com/u/hyperiongray/dashboard/)
-
-
-##### Mongodb
-define a folder for the data
-```bash
-sudo mkdir -p /data/db
-```
-and run the container
-```
-docker run -d -p 127.0.0.1:27017:27017 --name=mongodb --hostname=mongodb -v /data/db:/data/db hyperiongray/mongodb:1.0
-```
-
-##### Kafka
-```
-docker run -d -p 127.0.0.1:9092:9092 -p 127.0.0.1:2181:2181 --name kafka-2.11-0.10.1.1-2.4 --hostname=hh-kafka hyperiongray/kafka-2.11-0.10.1.1:2.4
-```
-wait 10 secs for the service to fully start and be ready for connections
-    
-
-##### Elasticsearch
-```
-docker run -d -p 127.0.0.1:9200:9200 -p 127.0.0.1:9300:9300 --name=elasticsearch --hostname=elasticsearch elasticsearch:2.0
-```
-
-Lastly check [HH-DeepDeep](https://github.com/TeamHG-Memex/hh-deep-deep) installation notes about running it with Docker
-
-
-### Configuration
-
-Properties are defined in /ui/settings.py    
-
-
 ### Installation
 
-The app runs on python 2.7 and the dependencies can be installed with pip
-```bash
-pip install -r requirements.txt
-```
-then start up the flask server
-```
-python runserver.py
-```
-The app should be listening on http://localhost:5081 with the admin credentials: admin@hyperiongray.com / changeme!
+Most containers are stored publicly in [HyperionGray's docker hub](https://hub.docker.com/u/hyperiongray/dashboard/).
+
+Follow the [installation guide](sitehound-deploy/README.md).
 
 
-### Dockerized version of Sitehound
+### Docs
 
-Alternatively, a container can be run instead of the local installation
+Check the [walk-through](docs/sh-how-to-guide.pdf) for a better understanding of the workflow.
 
-```
-sitehound_version="3.3.2"
-docker run -d -p 0.0.0.0:5081:5081 --name=sitehound-$sitehound_version --hostname=sitehound --link mongodb:mongodb --link kafka-2.11-0.10.1.1-2.4:hh-kafka --link elasticsearch:hh-elasticsearch hyperiongray/sitehound:$sitehound_version
-```
+
+

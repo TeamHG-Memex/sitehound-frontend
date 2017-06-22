@@ -1,0 +1,77 @@
+version: '2.1'
+
+services:
+
+  hh-kafka:
+    image: hyperiongray/kafka-2.11-0.10.1.1:2.5
+    expose:
+      - "9092"
+      - "2181"
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 2181 && nc -z `hostname` 9092"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mongodb:
+    image: hyperiongray/mongodb:1.0
+    expose:
+      - "27017"
+    volumes:
+      - ./volumes/mongodb/data/db:/data/db
+    healthcheck:
+      # test: ["CMD", "mongo", "--quiet", "http://localhost:27017/test", "--eval", "quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)"]
+      test: ["CMD", "nc", "-z", "127.0.0.1", "27017"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  hh-elasticsearch:
+    image: elasticsearch:2.0
+    expose:
+      - "9200"
+      - "9300"
+    volumes:
+      - ./volumes/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./volumes/elasticsearch/data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  thh-classifier:
+    image: hyperiongray/thh-classfier:1.0
+    restart: always
+    expose:
+      - "8889"
+
+  sitehound:
+    image: hyperiongray/sitehound:3.3.3.10
+    restart: always
+    ports:
+      - "5081:5081"
+    links:
+      - hh-elasticsearch:elasticsearch
+    depends_on:
+      hh-kafka:
+        condition: service_healthy
+      hh-elasticsearch:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+
+  hh-joogle:
+    image: hyperiongray/sitehound-backend:4.0.10
+    restart: always
+    volumes:
+      - ./volumes/sitehound-backend/config/properties-override:/root/sitehound-backend/config/properties-override/
+    links:
+      - hh-elasticsearch:elasticsearch
+    depends_on:
+      hh-kafka:
+        condition: service_healthy
+      hh-elasticsearch:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
