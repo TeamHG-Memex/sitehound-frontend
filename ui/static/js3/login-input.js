@@ -52,6 +52,10 @@ function ($scope, $filter, $routeParams, $timeout, domFactory , loginInputFactor
 			$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 				($scope.loginInputs.length > 0 ? $scope.loginInputs[$scope.loginInputs.length-1]._id : null) ;
 			// loadWordScore();
+            if($scope.loginInputs.length<5){
+                $timeout(getUserFormInputs, 5000);
+                // getUserFormInputs();
+            }
             $timeout(resetTimeout, 1000);
 			// $scope.crawlStatusBusy=false;
 			$scope.loading = false;
@@ -85,12 +89,16 @@ function ($scope, $filter, $routeParams, $timeout, domFactory , loginInputFactor
 		}
 
 		var tOut = $scope.startLoading();
-        loginInputFactory.save(elem.workspaceId, elem._id, elem.keyValues)
+        loginInputFactory.save(elem.workspaceId, elem.jobId, elem.url, elem._id, elem.keyValues)
 		.success(function (data) {
-            elem.completed=true;
+            remove(elem);
 			$scope.submittedOk = true;
 			$scope.submittedError = false;
-			$scope.urlsToAdd = "";
+			if($scope.loginInputs.length<5){
+				$timeout(getUserFormInputs, 2000);
+                // getUserFormInputs();
+			}
+            $scope.$emit('list:filtered')
 		})
 		.error(function (error) {
 			$scope.status = 'Unable to update data: ' + error.message;
@@ -101,8 +109,15 @@ function ($scope, $filter, $routeParams, $timeout, domFactory , loginInputFactor
 			$scope.endLoading(tOut);
 		})
 
-	}
+	};
 
+	function remove(elem){
+
+        $scope.loginInputs = $scope.loginInputs.filter(function(item) {
+            return item._id !== elem._id;
+        });
+
+	}
 
 }]);
 
@@ -122,10 +137,12 @@ var loginInputFactory = ngApp.factory('loginInputFactory',['$http', function($ht
 	};
 
 	/**loginInputId = _id of the doc*/
-	dataFactory.save= function (workspaceId, loginInputId, keyValues) {
+	dataFactory.save= function (workspaceId, jobId, loginUrl, loginInputId, keyValues) {
 		var url =  String.format(urlBase, workspaceId);
 		var po = {};
 		po.workspaceId = workspaceId;
+		po.jobId = jobId;
+		po.loginUrl = loginUrl;
 		po.loginInputId = loginInputId;
 		po.keyValues = keyValues;
 		return $http.put(url, po);

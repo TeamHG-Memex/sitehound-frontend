@@ -198,6 +198,11 @@ ngApp.config(function ($routeProvider) {
 				controller: 'loginInputController',
 				templateUrl: '/static/partials/login-input.html'
 			})
+		.when('/workspace/:workspaceId/login-input-summary',
+			{
+				controller: 'loginInputSummaryController',
+				templateUrl: '/static/partials/login-input-summary.html'
+			})
 		.otherwise({
 			redirectTo: '/'
 			})

@@ -53,7 +53,7 @@
 				</div>
 				<accordion close-others="false">
 					<!--<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in seedUrls | filter : isSearchEngine | filter : relevancy | filter: deletedFilter">-->
-					<div infinite-scroll='fetch()' infinite-scroll-disabled='crawlStatusBusy' infinite-scroll-distance='0'>
+					<div infinite-scroll='fetch()' infinite-scroll-disabled='crawlStatusBusy' infinite-scroll-distance='5' infinite-scroll-listen-for-event="list:filtered">
 						<!--<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in loginInputs | filter : relevancy | filter: deletedFilter">-->
 						<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in loginInputs | filter: completedFilter">
 						<accordion-heading >
@@ -77,7 +77,7 @@
 										</a>
 									</p>
 									<div class="span5" style="margin-top: 15px">
-										<fieldset ng-repeat="(k,v) in elem.keyValues">
+										<fieldset ng-repeat="k in elem.keysOrder">
 											<span class="input-login-label">{{k}}</span>
 											<input ng-model="elem.keyValues[k]"/><br/>
 										</fieldset>

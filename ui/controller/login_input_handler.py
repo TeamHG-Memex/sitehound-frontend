@@ -20,9 +20,11 @@ def get_user_input_forms_api(workspace_id):
 @app.route("/api/workspace/<workspace_id>/login-input", methods=["PUT"])
 @login_required
 def update_user_input_forms__api(workspace_id):
+    job_id = request.json['jobId']
+    url = request.json['loginUrl']
     login_input_id = request.json['loginInputId']
     key_values = request.json['keyValues']
-    update_user_input_forms(login_input_id, key_values)
+    update_user_input_forms(workspace_id, job_id, url, login_input_id, key_values)
     return Response("{}", mimetype="application/json")
 
 

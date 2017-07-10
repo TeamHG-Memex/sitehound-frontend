@@ -71,6 +71,10 @@ class MongoInstance(object):
             self.db.create_collection(broad_crawler_collection_name)
             self.db[broad_crawler_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("score", pymongo.DESCENDING), ("_id", pymongo.ASCENDING)], name="scoring_search_index")
 
+        if login_input not in collections:
+            self.db.create_collection(login_input)
+            self.db[login_input].create_index([("workspaceId", pymongo.ASCENDING), ("url", pymongo.ASCENDING)], unique=True, name="workspaceId_url_index")
+
     def get_workspace_by_id(self, id):
         return self.workspace_collection.find_one({"_id": ObjectId(id)})
 

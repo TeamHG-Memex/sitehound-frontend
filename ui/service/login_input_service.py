@@ -19,13 +19,29 @@ def get_user_input_forms(workspace_id, last_id):
     res = collection\
         .find({'$and': [page_search_object, complete_search_object, workspace_search_object]})\
         .sort('_id', pymongo.ASCENDING)\
-        .limit(3)
+        .limit(5)
 
     docs = list(res)
     return docs
 
 
-def update_user_input_forms(login_input_id, key_values):
+def update_user_input_forms(workspace_id, job_id, url, login_input_id, key_values):
+    dao_update_user_input_forms(login_input_id, key_values)
+    publish_to_login_output_queue(workspace_id, job_id, url, key_values)
+
+
+def publish_to_login_output_queue(workspace_id, job_id, url, key_values):
+    input_queue = "dd-login-output"
+    message = {
+        'workspaceId': workspace_id,
+        'job_id': job_id,
+        'url': url,
+        'key_values': key_values
+    }
+    Singleton.getInstance().broker_service.post_to_queue_no_extra_headers(message, input_queue)
+
+
+def dao_update_user_input_forms(login_input_id, key_values):
     operation_values = {}
     for k, v in key_values.iteritems():
         operation_values["keyValues." + k] = v

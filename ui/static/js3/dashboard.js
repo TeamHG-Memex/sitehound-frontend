@@ -41,11 +41,17 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 
     $scope.navigateToLabelUserDefinedCategories = function(){
         domFactory.navigateToLabelUserDefinedCategories ();
-    }
+    };
 
     $scope.goToActionPage = function(){
         domFactory.navigateToUserLoginInput();
     };
+
+    $scope.goToLoginInputSummaryPage = function(){
+        domFactory.navigateToUserLoginInputSummary();
+    };
+
+
 
 	$scope.getWorkspace = function() {
         var tOut = $scope.startLoading();
