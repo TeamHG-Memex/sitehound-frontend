@@ -70,7 +70,7 @@ def dao_add_workspace(name, ts):
 
 
 def dao_get_workspace_by_id(id):
-    return Singleton.getInstance().mongo_instance.workspace_collection.find_one({'_id': ObjectId(id)})
+        return Singleton.getInstance().mongo_instance.workspace_collection.find_one({'_id': ObjectId(id)})
 
 
 def dao_delete_workspace(id):

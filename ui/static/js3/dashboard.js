@@ -214,10 +214,12 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		});
 	}
 
-
+    $scope.buildingDdModeler=false;
 
     $scope.startDdModeler = function(){
         eventFactory.postDdModeler($scope.workspaceId, "start");
+        $scope.workspace.page_model.model=false;
+        $scope.buildingDdModeler=true;
     };
 
 	// aka crawler
@@ -235,6 +237,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
                 alert("the job could not be started");
             });
     };
+
     $scope.stopDdTrainer = function(){
         eventFactory.postDdTrainer($scope.workspaceId, "stop", $rootScope.ddTrainerJobId);
         $rootScope.ddTrainerJobId = null;
@@ -255,9 +258,9 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         progressFactory.getAllProgress(workspaceId)
 		.success(function (data) {
 		    //model
-//		    debugger;
-//            $scope.modelerProgress = data.model;
-//            $scope.modelerProgress.advice = $scope.adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
+
+            // insert request here!
+
             //trainer
             $scope.trainerProgress = data.trainer;
 
@@ -279,7 +282,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     $scope.getModelerProgress = function(workspaceId){
         progressFactory.getModelerProgress(workspaceId)
 		.success(function (data) {
-            $scope.modelerProgress = data;
+            $scope.modelerProgress = data.quality;
             $scope.modelerProgress.advice = $scope.adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
         })
 		.error(function (error) {
@@ -396,13 +399,13 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         return $scope.modelerProgress &&
                 $scope.modelerProgress.description &&
                 $scope.modelerProgress.description.length>0;
-    }
+    };
 
 
     $scope.showFeatureWeightsStatus = false;
     $scope.toggleFeatureWeights = function(){
         $scope.showFeatureWeightsStatus = !$scope.showFeatureWeightsStatus;
-    }
+    };
 
     $scope.getFeatureWeightsStatusIsNotEmtpy = function(){
         return  $scope.modelerProgress &&
@@ -410,9 +413,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
                 $scope.modelerProgress.weights.pos &&
                 $scope.modelerProgress.weights.neg &&
                 ($scope.modelerProgress.weights.pos.length + $scope.modelerProgress.weights.neg.length)>0;
-    }
-
-
+    };
 
 
     $scope.adviceParser = function(advices, tooltips){

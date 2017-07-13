@@ -21,15 +21,28 @@ def get_progress(workspace_id, phase):
 
 def get_modeler_progress(workspace_id):
     collection = Singleton.getInstance().mongo_instance.get_workspace_collection()
-    cursor = collection.find({'_id': ObjectId(workspace_id)}, {"page_model.quality": 1})
+    cursor = collection.find({'_id': ObjectId(workspace_id)}, {"page_model.quality": 1, "page_model.progress": 1, "page_model.model": 1})
     docs = list(cursor)
-    progress = []
+    page_model_progress = {}
     for doc in docs:
-        if "page_model" in doc and "quality" in doc["page_model"]:
-            progress_as_string = doc["page_model"]["quality"]
-            progress = json.loads(progress_as_string)
-    # return list(docs)
-    return progress
+        model = False
+        quality = []
+        progress = 0
+        if "page_model" in doc:
+            if "model" in doc["page_model"]:
+                model = True
+
+            if "quality" in doc["page_model"]:
+                quality = json.loads(doc["page_model"]["quality"])
+
+            if "progress" in doc["page_model"]:
+                progress = doc["page_model"]["progress"]
+
+        page_model_progress["model"] = model
+        page_model_progress["quality"] = quality
+        page_model_progress["progress"] = progress
+        # progress = json.loads(page_model_progress)
+    return page_model_progress
 
 
 def get_trainer_progress(workspace_id):

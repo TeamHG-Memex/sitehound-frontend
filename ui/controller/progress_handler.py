@@ -1,5 +1,5 @@
 from flask_login import login_required
-from service.progress_service import get_progress, get_modeler_progress, get_trainer_progress, get_crawler_progress, get_all_progress
+from service.progress_service import get_modeler_progress, get_trainer_progress, get_crawler_progress, get_all_progress
 
 __author__ = 'tomas'
 import json
@@ -12,8 +12,8 @@ from utils.json_encoder import JSONEncoder
 @app.route("/api/workspace/<workspace_id>/dd-modeler/progress", methods=["GET"])
 @login_required
 def get_modeler_progress_api(workspace_id):
-    phase = "dd-modeler"
-    in_doc = get_progress(workspace_id, phase)
+    # phase = "dd-modeler"
+    in_doc = get_modeler_progress(workspace_id)
     # out_doc = JSONEncoder().encode(in_doc)
     # return Response(json.dumps(out_doc), mimetype="application/json")
 

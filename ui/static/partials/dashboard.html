@@ -309,24 +309,25 @@
 								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 										<li>
-											This builds the model for the classifier, it takes a couple of minutes. Please be patient.
-										</li>
-										<li>
-											If you do more labeling, care to build the model again so it uses the new data available.
+											This builds the model for the classifier
 										</li>
 									</ul>
 								</p>
 								<div style="padding-left:20px">
-									<button ng-disabled='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)'
+									<button ng-disabled='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0) || buildingDdModeler'
 											type="button" class="btn btn-primary  btn-sm" ng-click="startDdModeler()" >
 										Build Initial Model
 									</button> &nbsp;&nbsp;&nbsp;
 									<span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="color:red">
-										(Requires a prior training using imported URLs or the SearchEngines Fetch to gather some URLs)
+										Requires a prior training using imported URLs or the SearchEngines Fetch to gather some URLs.
+									</span>
+									<span ng-show='buildingDdModeler' style="color:blue; font-size:12px">
+										Build started!. It usually takes a couple of minutes to complete. Please be patient...
 									</span>
 									<span ng-show='workspace.page_model.model' style="color:green; font-size:12px">
-										Initial model completed. You should update it if you label more results from 'Search URLs'.
+										Initial model completed. You should update it if you label more results from 'Search URLs'.<br/>
 									</span>
+
 									<br/>
 									<br/>
 
@@ -424,6 +425,7 @@
 											</div>
 										</div>
 									</div>
+								</div>
 							</div>
 							<div style="padding-top:20px">
 								<h5>2. Crawl some more documents, using Deep-Deep with the generated model. Then label them</h5>
@@ -533,7 +535,7 @@
 					</div>
 
 					<hr>
-				</div>
+				<!--</div>-->
 
 
 
