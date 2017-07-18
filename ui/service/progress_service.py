@@ -21,13 +21,13 @@ def get_progress(workspace_id, phase):
 
 def get_modeler_progress(workspace_id):
     collection = Singleton.getInstance().mongo_instance.get_workspace_collection()
-    cursor = collection.find({'_id': ObjectId(workspace_id)}, {"page_model.quality": 1, "page_model.progress": 1, "page_model.model": 1})
+    cursor = collection.find({'_id': ObjectId(workspace_id)}, {"page_model.model": 1, "page_model.quality": 1, "page_model.percentage_done": 1})
     docs = list(cursor)
     page_model_progress = {}
     for doc in docs:
         model = False
         quality = []
-        progress = 0
+        percentage_done = 0
         if "page_model" in doc:
             if "model" in doc["page_model"]:
                 model = True
@@ -35,12 +35,12 @@ def get_modeler_progress(workspace_id):
             if "quality" in doc["page_model"]:
                 quality = json.loads(doc["page_model"]["quality"])
 
-            if "progress" in doc["page_model"]:
-                progress = doc["page_model"]["progress"]
+            if "percentage_done" in doc["page_model"]:
+                percentage_done = doc["page_model"]["percentage_done"]
 
         page_model_progress["model"] = model
         page_model_progress["quality"] = quality
-        page_model_progress["progress"] = progress
+        page_model_progress["percentageDone"] = percentage_done
         # progress = json.loads(page_model_progress)
     return page_model_progress
 
@@ -49,11 +49,19 @@ def get_trainer_progress(workspace_id):
     collection = Singleton.getInstance().mongo_instance.get_workspace_collection()
     cursor = collection.find({'_id': ObjectId(workspace_id)}, {"dd_trainer.trainer_progress": 1})
     docs = list(cursor)
-    progress = ""
+    trainer_progress = {}
     for doc in docs:
+        progress = ""
+        percentage_done = 0
         if "dd_trainer" in doc and "trainer_progress" in doc["dd_trainer"]:
             progress = doc["dd_trainer"]["trainer_progress"]
-    return progress
+
+        if "dd_trainer" in doc and "percentage_done" in doc["dd_trainer"]:
+            percentage_done = doc["dd_trainer"]["percentage_done"]
+
+    trainer_progress["progress"] = progress
+    trainer_progress["percentage_done"] = percentage_done
+    return trainer_progress
 
 
 def get_crawler_progress(workspace_id):

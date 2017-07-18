@@ -316,24 +316,36 @@
 								<div style="padding-left:20px">
 									<button ng-disabled='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0) || buildingDdModeler'
 											type="button" class="btn btn-primary  btn-sm" ng-click="startDdModeler()" >
-										Build Initial Model
+										Build Model
 									</button> &nbsp;&nbsp;&nbsp;
 									<span ng-show='resultStruct["SE"]["relevant"]==0 && (resultStruct["MANUAL"]["relevant"]==0 || resultStruct["MANUAL"]["irrelevant"]==0)' style="color:red">
 										Requires a prior training using imported URLs or the SearchEngines Fetch to gather some URLs.
 									</span>
 									<span ng-show='buildingDdModeler' style="color:blue; font-size:12px">
-										Build started!. It usually takes a couple of minutes to complete. Please be patient...
+										Build started! It usually takes around a minute to complete.<br>
+										<br/>
+										<div class="progress" style="width:600px">
+											<div class="progress-bar" role="progressbar" aria-valuenow="{{modeler.percentageDone}}" aria-valuemin="0" aria-valuemax="100"
+													ng-style="{width : ( getModelerPercentageValue() + '%' ) }"
+											>
+												<span class="sr-only">{{modeler.percentageDone | roundup}}% Complete</span>
+										   <!--style="width: {{modeler.percentageDone}}%;"-->
+											</div>
+											<!--Progress = {{modeler.percentageDone | roundup}}%-->
+											<span>&nbsp;{{modeler.percentageDone | roundup}}%</span>
+										</div>
 									</span>
-									<span ng-show='workspace.page_model.model' style="color:green; font-size:12px">
-										Initial model completed. You should update it if you label more results from 'Search URLs'.<br/>
+									<!--<span ng-show='workspace.page_model.model' style="color:green; font-size:12px">-->
+									<span ng-show='modeler.model' style="color:green; font-size:12px">
+										Model completed. You should rebuild it if you label more results.<br/>
 									</span>
 
 									<br/>
 									<br/>
 
-									<div id="classifier-quality-container" >
+									<div id="classifier-quality-container" style="padding-right: 100px">
 
-										<div ng-repeat="adviceItem in modelerProgress.advice">
+										<div ng-repeat="adviceItem in modeler.quality.advice" >
 											<div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
 												<b>{{adviceItem.kind}}!</b>
 													<span ng-repeat="message in adviceItem.messages">
@@ -357,11 +369,11 @@
 										<div ng-show="showMoreStatus">
 											<div>
 												<dl class="dl-horizontal">
-													<div  ng-repeat="descriptionItem in modelerProgress.description" >
+													<div  ng-repeat="descriptionItem in modeler.quality.description" >
 														<dt>{{descriptionItem.heading}}
 
 															<span ng-show="['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1" tooltip-trigger data-toggle="tooltip" data-placement="bottom"
-																  title="{{modelerProgress.tooltips[descriptionItem.heading]}}">
+																  title="{{modeler.quality.tooltips[descriptionItem.heading]}}">
 																<span class="question glyphicon glyphicon-question-sign"></span>
 															</span>
 														</dt>
@@ -381,7 +393,7 @@
 											<!--<div id="clf-weights" class="collapse weights">-->
 											<div ng-show="showFeatureWeightsStatus" style="padding-left:40px">
 												<table class="eli5-weights" style="border-collapse: collapse; border: none;"
-													ng-show="modelerProgress.weights.pos.length + modelerProgress.weights.neg.length>0"
+													ng-show="modeler.quality.weights.pos.length + modeler.quality.weights.neg.length>0"
 												>
 												<thead>
 												<tr style="border: none;">
@@ -390,7 +402,7 @@
 												</tr>
 												</thead>
 												<tbody>
-													<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.pos">
+													<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modeler.quality.weights.pos">
 														<td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
 															+<span ng-bind='item["weight"] | number:3'></span>
 														</td>
@@ -399,20 +411,20 @@
 														</td>
 													</tr>
 													<tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
-														ng-show="modelerProgress.weights.pos.length>0"
+														ng-show="modeler.quality.weights.pos.length>0"
 													>
 														<td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
-															<i>&hellip; {{modelerProgress.weights.pos_remaining}} more positive &hellip;</i>
+															<i>&hellip; {{modeler.quality.weights.pos_remaining}} more positive &hellip;</i>
 														</td>
 													</tr>
 													<tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
-														ng-show="modelerProgress.weights.neg.length>0"
+														ng-show="modeler.quality.weights.neg.length>0"
 													>
 														<td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
-															<i>&hellip;  {{modelerProgress.weights.neg_remaining}} more negative &hellip;</i>
+															<i>&hellip;  {{modeler.quality.weights.neg_remaining}} more negative &hellip;</i>
 														</td>
 													</tr>
-													<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.weights.neg">
+													<tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modeler.quality.weights.neg">
 														<td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
 															<span ng-bind='item["weight"] | number:3'></span>
 														</td>
@@ -444,13 +456,15 @@
 								</p>
 								<div style="padding-left:20px">
 									<div>
+												<!--ng-disabled='!(workspace.page_model.model) || ddTrainerJobId'-->
 										<button
-												ng-disabled='!(workspace.page_model.model) || ddTrainerJobId'
+												ng-disabled='!(modeler.model) || ddTrainerJobId'
 												type="button" class="btn btn-primary btn-sm" ng-click="startDdTrainer()">
 											Start Trainer Crawler
 										</button>
+												<!--ng-disabled='!(workspace.page_model.model) || !ddTrainerJobId'-->
 										<button
-												ng-disabled='!(workspace.page_model.model) || !ddTrainerJobId'
+												ng-disabled='!(modeler.model) || !ddTrainerJobId'
 												type="button" class="btn btn-primary btn-sm" ng-click="stopDdTrainer()">
 											Stop Trainer Crawler
 										</button>
@@ -468,11 +482,14 @@
 											<!--</span>-->
 										<!--</h6>-->
 									</div>
-									<h6><span ng-hide='workspace.page_model.model' style="color:red">(Requires an initial model)</span></h6>
-									<div style="padding:10px" ng-hide='trainerProgress==""'>
+									<!--<h6><span ng-hide='workspace.page_model.model' style="color:red">(Requires an initial model)</span></h6>-->
+									<h6><span ng-hide='modeler.model' style="color:red">(Requires an initial model)</span></h6>
+									<div style="padding:10px" ng-hide='trainer.progress==""'>
 										<div >
 											<h5>Crawler Progress:</h5>
-											<h6><span style="padding:20px" ng-bind="trainerProgress"></span></h6>
+											<h6><span style="padding:20px" ng-bind="trainer.progress"></span></h6>
+											<h5>Percentage done:</h5>
+											<h6><span style="padding:20px" ng-bind="trainer.percentageDone"></span></h6>
 										</div>
 										<h5 ng-show='resultStruct["DD"]["total"]>0'>
 											<a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>

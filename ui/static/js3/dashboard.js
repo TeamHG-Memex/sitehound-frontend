@@ -212,14 +212,18 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		.finally(function(){
 			$scope.loading = false;
 		});
-	}
+	};
 
-    $scope.buildingDdModeler=false;
+
 
     $scope.startDdModeler = function(){
         eventFactory.postDdModeler($scope.workspaceId, "start");
-        $scope.workspace.page_model.model=false;
         $scope.buildingDdModeler=true;
+        // $scope.workspace.page_model.model=false;
+        $scope.modeler = {};
+        // $rootScope.backgroundServicePromise_getModelerProgress = $timeout(getModelerProgress, 2000, 2000);
+        // getModelerProgress();
+        $timeout(getModelerProgress, 2000)
     };
 
 	// aka crawler
@@ -250,8 +254,9 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     // };
 
 
-    $scope.modelerProgress = [];
-    $scope.trainerProgress = "";
+    $scope.trainer = {};
+    $scope.trainer.progress = "";
+    $scope.trainer.progress = 0;
     $scope.broadcrawlerProgress = "";
 
     $scope.getAllProgress = function(workspaceId){
@@ -262,7 +267,8 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
             // insert request here!
 
             //trainer
-            $scope.trainerProgress = data.trainer;
+            $scope.trainer.progress = data.trainer.progress;
+            $scope.trainer.percentageDone = data.trainer.percentage_done;
 
             //broadcrawl
             $scope.broadcrawlerProgress = data.crawler;
@@ -276,34 +282,56 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		});
     }
 
+    $scope.modeler= {};
+    $scope.modeler.model = false;
+    $scope.modeler.quality = {};
+    $scope.buildingDdModeler=false;
 
+    $scope.modeler.init=true;
 
-    $scope.modelerProgress = [];
-    $scope.getModelerProgress = function(workspaceId){
-        progressFactory.getModelerProgress(workspaceId)
-		.success(function (data) {
-            $scope.modelerProgress = data.quality;
-            $scope.modelerProgress.advice = $scope.adviceParser($scope.modelerProgress.advice, $scope.modelerProgress.tooltips);
-        })
-		.error(function (error) {
-			$scope.status = 'Unable to load data: ' + error.message;
-        })
-		.finally(function(){
-			$scope.loading = false;
-		});
-    }
-//
+    function getModelerProgress(){
+        if($scope.buildingDdModeler || $scope.modeler.init){
+
+            progressFactory.getModelerProgress($scope.workspaceId)
+            .success(function (data) {
+                $scope.modeler = data;
+                $scope.modeler.quality.advice = $scope.adviceParser($scope.modeler.quality.advice, $scope.modeler.quality.tooltips);
+                if($scope.modeler.model){
+                    $scope.buildingDdModeler=false;
+                }
+            })
+            .error(function (error) {
+                $scope.status = 'Unable to load data: ' + error.message;
+            })
+            .finally(function(){
+                $scope.loading = false;
+                $rootScope.backgroundServicePromise_getModelerProgress = $timeout(getModelerProgress, 2000);
+            });
+        }
+    };
+
+    $scope.getModelerPercentageValue = function(){
+        var res =0;
+        if($scope.modeler && $scope.modeler.percentageDone){
+            res = $scope.modeler.percentageDone;
+        }
+        return res;
+    };
+
+    getModelerProgress(); // to set the initial states
+
+    //
 //    $scope.getModelerProgress($scope.workspaceId);
 //    $interval.cancel($rootScope.modelerPromise);
 //    $rootScope.modelerPromise = $interval($scope.getModelerProgress, 5000, 0, true, $scope.workspaceId);
 
 
 /*
-    $scope.trainerProgress = "";
+    $scope.trainer.progress = "";
     $scope.getTrainerProgress = function(workspaceId){
         progressFactory.getTrainerProgress(workspaceId)
 		.success(function (data) {
-            $scope.trainerProgress = data;
+            $scope.trainer.progress = data;
         })
 		.error(function (error) {
 			$scope.status = 'Unable to load data: ' + error.message;
@@ -350,7 +378,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
             $scope.getAggregated();
             $scope.getWorkspace();
 
-            $scope.getModelerProgress($scope.workspaceId);
+            // $scope.getModelerProgress();
 //            $scope.getTrainerProgress($scope.workspaceId);
             $scope.getAllProgress($scope.workspaceId);
             $scope.getLoginInputStats($scope.workspaceId);
@@ -359,7 +387,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		}
 	}
 
-    backgroundService();
+    // backgroundService();
 
     $scope.stopBroadCrawl = function(){
 		eventFactory.postDdCrawler($rootScope.ddCrawlerJobId, "stop");
@@ -396,9 +424,9 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     };
 
     $scope.getMoreStatusIsNotEmpty = function(){
-        return $scope.modelerProgress &&
-                $scope.modelerProgress.description &&
-                $scope.modelerProgress.description.length>0;
+        return $scope.modeler.quality &&
+                $scope.modeler.quality.description &&
+                $scope.modeler.quality.description.length>0;
     };
 
 
@@ -408,11 +436,11 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     };
 
     $scope.getFeatureWeightsStatusIsNotEmtpy = function(){
-        return  $scope.modelerProgress &&
-                $scope.modelerProgress.weights &&
-                $scope.modelerProgress.weights.pos &&
-                $scope.modelerProgress.weights.neg &&
-                ($scope.modelerProgress.weights.pos.length + $scope.modelerProgress.weights.neg.length)>0;
+        return  $scope.modeler.quality &&
+                $scope.modeler.quality.weights &&
+                $scope.modeler.quality.weights.pos &&
+                $scope.modeler.quality.weights.neg &&
+                ($scope.modeler.quality.weights.pos.length + $scope.modeler.quality.weights.neg.length)>0;
     };
 
 

@@ -208,6 +208,18 @@ ngApp.config(function ($routeProvider) {
 			})
 });
 
+ngApp.filter('roundup', function () {
+
+        return function (value) {
+        	if(value>0){
+	            return Math.ceil(value);
+			}
+			else{
+        		return 0;
+			}
+        };
+});
+
 
 
 ngApp.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
