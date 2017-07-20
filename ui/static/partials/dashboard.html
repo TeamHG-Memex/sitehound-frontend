@@ -21,7 +21,7 @@
 					<div>
 						<div>
 							<div style="float:left">
-								<h4>Keywords
+								<h4>1. Keywords
 									<a href="" ng-click="navigateToSeed()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 								</h4>
 							</div>
@@ -66,65 +66,11 @@
 					</div>
 					<hr>
 
-
-					<!--<h4>Seed URLs </h4>-->
-					<div>
-						<div>
-							<div style="float:left">
-								<h4>Seed URLs (optional)</h4>
-							</div>
-							<div style="float:right">
-								<i class="material-icons cursorable" ng-hide="seed_url_div_content" ng-click='toggleSeedUrl(true)'>expand_more</i>
-								<i class="material-icons cursorable" ng-show="seed_url_div_content" ng-click='toggleSeedUrl(false)'>expand_less</i>
-							</div>
-							<div style="clear:both"></div>
-							<div>
-								<p style="font-style:italic">You can provide your own list of URLs relevant to the domain</p>
-								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-										<li>
-											Importing URLs with this feature works exactly the same as if you would found a result on the Search URLs results, and marked it relevant.
-										</li>
-										<li>
-											Onions are supported!
-										</li>
-									</ul>
-								</p>
-							</div>
-						</div>
-						<div ng-show="seed_url_div_content" style="padding-left:20px">
-							<!--<h4>Seed URLs </h4>-->
-							<div>
-								<br/>
-								<button type="button" class="btn btn-primary btn-sm" ng-click="navigateToImportUrl()">
-									Import
-								</button>
-								<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["SE"]["total"]>0' ng-click="resetResults('searchengine')">
-									Delete
-								</button>
-								<span style="padding: 5px">&nbsp;</span>
-								<a href="" ng-click="viewDetailsByCrawlTypeSource('imported')">View results</a>
-								<br/>
-								<br/>
-								<h5>Summary:</h5>
-								<div style=" column-count: 4">
-									<ul >
-										<li>Relevant: {{resultStruct["MANUAL"]["relevant"]}}</li>
-										<li>Irrelevant: {{resultStruct["MANUAL"]["irrelevant"]}}</li>
-										<li>Neutral: {{resultStruct["MANUAL"]["neutral"]}}</li>
-									</ul>
-								</div>
-								<br>
-							</div>
-						</div>
-					</div>
-					<hr>
-
 					<!--<h4>Search URLs </h4>-->
 					<div>
 						<div>
 							<div style="float:left">
-								<h4>Search URLs </h4>
+								<h4>2. Search URLs </h4>
 							</div>
 							<div style="float:right">
 								<i class="material-icons cursorable" ng-hide="search_url_div_content" ng-click='toggleSearchUrl(true)'>expand_more</i>
@@ -232,11 +178,68 @@
 					</div>
 					<hr  style="display:none">
 
+
+
+					<!--<h4>Seed URLs </h4>-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Seed URLs (optional)</h4>
+							</div>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="seed_url_div_content" ng-click='toggleSeedUrl(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="seed_url_div_content" ng-click='toggleSeedUrl(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">You can provide your own list of URLs relevant to the domain</p>
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											Importing URLs with this feature works exactly the same as if you would found a result on the Search URLs results, and marked it relevant.
+										</li>
+										<li>
+											Onions are supported!
+										</li>
+									</ul>
+								</p>
+							</div>
+						</div>
+						<div ng-show="seed_url_div_content" style="padding-left:20px">
+							<!--<h4>Seed URLs </h4>-->
+							<div>
+								<br/>
+								<button type="button" class="btn btn-primary btn-sm" ng-click="navigateToImportUrl()">
+									Import
+								</button>
+								<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["SE"]["total"]>0' ng-click="resetResults('searchengine')">
+									Delete
+								</button>
+								<span style="padding: 5px">&nbsp;</span>
+								<a href="" ng-click="viewDetailsByCrawlTypeSource('imported')">View results</a>
+								<br/>
+								<br/>
+								<h5>Summary:</h5>
+								<div style=" column-count: 4">
+									<ul >
+										<li>Relevant: {{resultStruct["MANUAL"]["relevant"]}}</li>
+										<li>Irrelevant: {{resultStruct["MANUAL"]["irrelevant"]}}</li>
+										<li>Neutral: {{resultStruct["MANUAL"]["neutral"]}}</li>
+									</ul>
+								</div>
+								<br>
+							</div>
+						</div>
+					</div>
+					<hr>
+
+
+
 					<!--<h4>Machine Learning</h4>-->
 					<div>
 						<div>
 							<div style="float:left">
-								<h4>Machine Learning</h4>
+								<h4>3. Machine Learning</h4>
 							</div>
 							<div style="float:right">
 								<i class="material-icons cursorable" ng-hide="deep_learning_div_content" ng-click='toggleDeepLearning(true)'>expand_more</i>
@@ -249,11 +252,11 @@
 						</div>
 						<div ng-show="deep_learning_div_content" style="padding-left:30px">
 							<div>
-								<h5>1. Train with Deep-Deep</h5>
+								<h5>3.1. Train with Deep-Deep</h5>
 								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 										<li>
-											This builds the model for the classifier
+											Builds the model for the classifier based on the labeled pages.
 										</li>
 									</ul>
 								</p>
@@ -386,7 +389,7 @@
 
 							<!--TRAINER-->
 							<div style="padding-top:20px">
-								<h5>2. Crawl some more documents, using Deep-Deep with the generated model. Then label them</h5>
+								<h5>3.2. Crawl some more documents, using Deep-Deep with the generated model. Then label them</h5>
 								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 										<li>
@@ -468,7 +471,7 @@
 
 							<!--CRAWLER-->
 							<div style="margin-top:40px">
-								<h5>3. Broad Crawl using Deep-Deep</h5>
+								<h5>3.3. Broad Crawl using Deep-Deep</h5>
 								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 										<li>
