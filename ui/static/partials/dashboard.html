@@ -178,12 +178,6 @@
 									</ul>
 								</div>
 								<br/>
-								<!--<h5>Crawl by Google and Bing -->
-
-									<!--</h5>-->
-								<!--<p style="font-style:italic">Will perform the search on the engines based on the keywords defined</p>-->
-
-
 							</div>
 							<br>
 						</div>
@@ -191,7 +185,7 @@
 					<hr>
 
 					<!--<h4>Label User Defined Categories (optional)</h4>-->
-					<div>
+					<div  style="display:none">
 						<div>
 							<div style="float:left">
 								<h4>Label User Defined Categories (optional)</h4>
@@ -236,65 +230,7 @@
 							<a ng-show="userDefinedCategoriesCounted.length>0" href="" ng-click="navigateToLabelUserDefinedCategories()">Label urls</a>
 						</div>
 					</div>
-					<hr>
-
-					<!--<h4>Deep Web (optional)</h4>-->
-					<div>
-						<div>
-							<div style="float:left">
-								<h4>Deep Web (optional)</h4>
-							</div>
-							<div style="float:right">
-								<i class="material-icons cursorable" ng-hide="deep_web_div_content" ng-click='toggleDeepWeb(true)'>expand_more</i>
-								<i class="material-icons cursorable" ng-show="deep_web_div_content" ng-click='toggleDeepWeb(false)'>expand_less</i>
-							</div>
-							<div style="clear:both"></div>
-							<div>
-								<p style="font-style:italic">Will perform the search on the Deep Web on the keywords defined</p>
-
-								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
-										<li>
-											This feature works as the Search URLs tab but will retrieve results from a onion search index instead of from Search Engines, using the current defined keywords.
-										</li>
-										<li>
-											You can label the results if you wish, but displaying the results is actually the end of the workflow for the deep web search right now. We are working on the next step.
-										</li>
-									</ul>
-								</p>
-							</div>
-						</div>
-						<div ng-show="deep_web_div_content" style="padding-left:20px">
-							<div>
-								<div>
-									<a href="" ng-click="viewDetailsByCrawlTypeSource('tor')">View results</a>
-									<h5>Summary:</h5>
-									<div style=" column-count: 4">
-										<ul>
-											<li>Relevant: {{resultStruct["TOR"]["relevant"]}}</li>
-											<li>Irrelevant: {{resultStruct["TOR"]["irrelevant"]}}</li>
-											<li>Neutral: {{resultStruct["TOR"]["neutral"]}}</li>
-										</ul>
-									</div>
-									<br>
-									<button ng-disabled='!(relevantWords().length>0)'
-											type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('TOR')">
-										Fetch URLs
-									</button>
-									<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('TOR')">
-										Delete
-									</button>
-									<br/>
-									<h6>
-										<span ng-hide='relevantWords().length>0'
-											  style="color:red">(Requires Keywords to be entered first)</span>
-									</h6>
-									<br/>
-								</div>
-							</div>
-						</div>
-					</div>
-					<hr>
+					<hr  style="display:none">
 
 					<!--<h4>Machine Learning</h4>-->
 					<div>
@@ -652,10 +588,70 @@
 
 
 
+					<!--<h4>Deep Web (optional)</h4>-->
+					<div>
+						<div>
+							<div style="float:left">
+								<h4>Deep Web (optional)</h4>
+							</div>
+							<div style="float:right">
+								<i class="material-icons cursorable" ng-hide="deep_web_div_content" ng-click='toggleDeepWeb(true)'>expand_more</i>
+								<i class="material-icons cursorable" ng-show="deep_web_div_content" ng-click='toggleDeepWeb(false)'>expand_less</i>
+							</div>
+							<div style="clear:both"></div>
+							<div>
+								<p style="font-style:italic">Will perform the search on the Deep Web on the keywords defined</p>
+
+								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
+										<li>
+											This feature works as the Search URLs tab but will retrieve results from a onion search index instead of from Search Engines, using the current defined keywords.
+										</li>
+										<li>
+											You can label the results if you wish, but displaying the results is actually the end of the workflow for the deep web search right now. We are working on the next step.
+										</li>
+									</ul>
+								</p>
+							</div>
+						</div>
+						<div ng-show="deep_web_div_content" style="padding-left:20px">
+							<div>
+								<div>
+									<br>
+									<button ng-disabled='!(relevantWords().length>0)'
+											type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('TOR')">
+										Fetch URLs
+									</button>
+									<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('TOR')">
+										Delete
+									</button>
+									<span style="padding: 5px">&nbsp;</span>
+									<a href="" ng-click="viewDetailsByCrawlTypeSource('tor')">View results</a>
+									<br/>
+									<h6 ng-hide='relevantWords().length>0'>
+										<span
+											  style="color:red">(Requires Keywords to be entered first)</span>
+									</h6>
+									<br/>
+									<h5>Summary:</h5>
+									<div style=" column-count: 4">
+										<ul>
+											<li>Relevant: {{resultStruct["TOR"]["relevant"]}}</li>
+											<li>Irrelevant: {{resultStruct["TOR"]["irrelevant"]}}</li>
+											<li>Neutral: {{resultStruct["TOR"]["neutral"]}}</li>
+										</ul>
+									</div>
+									<br/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+
 
 
 					<!--<h4>Credentials for the crawler (optional)</h4>-->
-					<div>
+					<div style="display:none">
 						<div>
 							<div style="float:left">
 								<h4>Credentials for the crawler (optional)</h4>
@@ -694,7 +690,7 @@
 							</div>
 						</div>
 					</div>
-					<hr>
+					<hr  style="display:none">
 
 
 					<!--<div class="panel-footer">-->
