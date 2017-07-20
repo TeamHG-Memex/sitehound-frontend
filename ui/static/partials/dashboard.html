@@ -443,9 +443,15 @@
 												<span ng-bind="trainer.job._id"></span>
 												<a href="" ng-click="navigateToJobs()">View jobs</a>
 											</h6>
-											<h6>Status: <span ng-bind="trainer.job.status"></span></h6>
+											<h6>Status: <span ng-bind='trainer.job.status=="FINISHED" && trainer.percentageDone<99? "STARTED": trainer.job.status'></span></h6>
 											<h6>Started: <span ng-bind="trainer.job.strTimestamp"> &nbsp; UTC</span></h6>
+											<h6>Page Model Generated: <span ng-class="{'green' : trainer.model}" ng-bind="trainer.model?'YES':'NO'"> </span></h6>
 										</div>
+										<style>
+											.green{
+												color: green;
+											}
+										</style>
 
 										<div ng-hide='trainer.progress==""'>
 											<!--progressbar-->
@@ -501,7 +507,7 @@
 												<!--ng-disabled='ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'-->
 												<!--ng-disabled='!trainer.model || !resultStruct["DD"]["relevant"]>0'-->
 										<button
-												ng-disabled='!(trainer.model) || crawler.job==null || (crawler.job!=null && (crawler.job.status=="STARTED" || crawler.job.status=="QUEUED")) '
+												ng-disabled='!(trainer.model) || !resultStruct["DD"]["relevant"]>0' || (crawler.job==null || (crawler.job!=null && (crawler.job.status=="STARTED" || crawler.job.status=="QUEUED"))) '
 												type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
 											Start Crawler...
 										</button>
@@ -537,7 +543,6 @@
 										</h6>
 
 										<div ng-show="ddCrawlerJobId">
-											<br>
 											<h6>Requested job with id:
 												<span ng-bind="crawler.job._id"></span>
 												<a href="" ng-click="navigateToJobs()">View jobs</a>
