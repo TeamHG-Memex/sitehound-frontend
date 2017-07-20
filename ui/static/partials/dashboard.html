@@ -95,7 +95,17 @@
 						<div ng-show="seed_url_div_content" style="padding-left:20px">
 							<!--<h4>Seed URLs </h4>-->
 							<div>
-								<h5><a href="" ng-click="viewDetailsByCrawlTypeSource('imported')">View results</a></h5>
+								<br/>
+								<button type="button" class="btn btn-primary btn-sm" ng-click="navigateToImportUrl()">
+									Import
+								</button>
+								<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["SE"]["total"]>0' ng-click="resetResults('searchengine')">
+									Delete
+								</button>
+								<span style="padding: 5px">&nbsp;</span>
+								<a href="" ng-click="viewDetailsByCrawlTypeSource('imported')">View results</a>
+								<br/>
+								<br/>
 								<h5>Summary:</h5>
 								<div style=" column-count: 4">
 									<ul >
@@ -104,14 +114,6 @@
 										<li>Neutral: {{resultStruct["MANUAL"]["neutral"]}}</li>
 									</ul>
 								</div>
-								<br/>
-								<button type="button" class="btn btn-primary btn-sm" ng-click="navigateToImportUrl()">
-									Import
-								</button>
-								<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["SE"]["total"]>0' ng-click="resetResults('searchengine')">
-									Delete
-								</button>
-								<br>
 								<br>
 							</div>
 						</div>
@@ -162,8 +164,6 @@
 								</button>
 								<span style="padding: 5px">&nbsp;</span>
 								<a href="" ng-click="viewDetailsByCrawlTypeSource('searchengine')">View results</a>
-
-
 								<br/>
 								<h6 ng-hide='relevantWords().length>0'>
 									<span  style="color:red">(Requires Keywords to be entered first)</span>
