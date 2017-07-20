@@ -445,7 +445,7 @@
 											</h6>
 											<h6>Status: <span ng-bind='trainer.job.status=="FINISHED" && trainer.percentageDone<99? "STARTED": trainer.job.status'></span></h6>
 											<h6>Started: <span ng-bind="trainer.job.strTimestamp"> &nbsp; UTC</span></h6>
-											<h6>Page Model Generated: <span ng-class="{'green' : trainer.model}" ng-bind="trainer.model?'YES':'NO'"> </span></h6>
+											<h6>Checkpoint generated: <span ng-class="{'green' : trainer.model}" ng-bind="trainer.model?'Yes':'No'"> </span></h6>
 										</div>
 										<style>
 											.green{
