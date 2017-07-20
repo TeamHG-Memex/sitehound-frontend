@@ -6,81 +6,81 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
     $scope.workspaceId = $routeParams.workspaceId;
 	$scope.source = $routeParams.source;
 	domFactory.setWorkspaceName($scope.workspaceId);
-
-    $scope.startDdModeler = function(){
-        eventFactory.postDdModeler($scope.workspaceId, "start");
-    };
-
-    $scope.startDdTrainer = function(){
-        eventFactory.postDdTrainer($scope.workspaceId, "start");
-    };
-
-    $scope.stopDdTrainer = function(){
-        eventFactory.postDdTrainer($scope.workspaceId, "stop");
-    };
-
-    $scope.postDdCrawler = function(){
-        eventFactory.postDdCrawler($scope.workspaceId, "stop");
-    };
+    //
+    // $scope.startDdModeler = function(){
+    //     eventFactory.postDdModeler($scope.workspaceId, "start");
+    // };
+    //
+    // $scope.startDdTrainer = function(){
+    //     eventFactory.postDdTrainer($scope.workspaceId, "start");
+    // };
+    //
+    // $scope.stopDdTrainer = function(){
+    //     eventFactory.postDdTrainer($scope.workspaceId, "stop");
+    // };
+    //
+    // $scope.postDdCrawler = function(){
+    //     eventFactory.postDdCrawler($scope.workspaceId, "stop");
+    // };
 
 
 	$scope.navigateToDashboard = function(){
 		domFactory.navigateToDashboard();
-	}
-
-
-
-    $scope.modelerProgress = [];
-    $scope.getModelerProgress = function(workspaceId){
-        progressFactory.getModelerProgress(workspaceId)
-		.success(function (data) {
-            $scope.modelerProgress = data;
-        })
-		.error(function (error) {
-			$scope.status = 'Unable to load data: ' + error.message;
-        })
-		.finally(function(){
-			$scope.loading = false;
-		});
-    }
-
-    $scope.getModelerProgress($scope.workspaceId);
-    $interval.cancel($rootScope.modelerPromise);
-    $rootScope.modelerPromise = $interval($scope.getModelerProgress, 5000, 0, true, $scope.workspaceId);
-
-
-    $scope.trainerProgress = "";
-    $scope.getTrainerProgress = function(workspaceId){
-        progressFactory.getTrainerProgress(workspaceId)
-		.success(function (data) {
-            $scope.trainerProgress = data;
-        })
-		.error(function (error) {
-			$scope.status = 'Unable to load data: ' + error.message;
-        })
-		.finally(function(){
-			$scope.loading = false;
-		});
-    }
-
-    $scope.getTrainerProgress($scope.workspaceId);
-    $interval.cancel($rootScope.trainerPromise);
-    $rootScope.trainerPromise = $interval($scope.getTrainerProgress, 5000, 0, true, $scope.workspaceId);
-
-
-    $scope.trainTheModelInRealTime = function(){
-        console.log('navigating');
-        domFactory.navigateToDDtraining();
-    }
-
-
-	$scope.checkFetchRunning = false;
-
-	domFactory.highlightNavbar(".navbar-seed-url");
-
-	$scope.next = function(){
-		domFactory.navigateToBroadcrawlNew();
-	}
+	};
+    //
+    //
+    //
+    // $scope.modelerProgress = [];
+    // $scope.getModelerProgress = function(workspaceId){
+     //    progressFactory.getModelerProgress(workspaceId)
+	// 	.success(function (data) {
+     //        $scope.modelerProgress = data;
+     //    })
+	// 	.error(function (error) {
+	// 		$scope.status = 'Unable to load data: ' + error.message;
+     //    })
+	// 	.finally(function(){
+	// 		$scope.loading = false;
+	// 	});
+    // }
+    //
+    // $scope.getModelerProgress($scope.workspaceId);
+    // $interval.cancel($rootScope.modelerPromise);
+    // $rootScope.modelerPromise = $interval($scope.getModelerProgress, 5000, 0, true, $scope.workspaceId);
+    //
+    //
+    // $scope.trainerProgress = "";
+    // $scope.getTrainerProgress = function(workspaceId){
+     //    progressFactory.getTrainerProgress(workspaceId)
+	// 	.success(function (data) {
+     //        $scope.trainerProgress = data;
+     //    })
+	// 	.error(function (error) {
+	// 		$scope.status = 'Unable to load data: ' + error.message;
+     //    })
+	// 	.finally(function(){
+	// 		$scope.loading = false;
+	// 	});
+    // };
+    //
+    // $scope.getTrainerProgress($scope.workspaceId);
+    // $interval.cancel($rootScope.trainerPromise);
+    // $rootScope.trainerPromise = $interval($scope.getTrainerProgress, 5000, 0, true, $scope.workspaceId);
+    //
+    //
+    // $scope.trainTheModelInRealTime = function(){
+     //    console.log('navigating');
+     //    domFactory.navigateToDDtraining();
+    // };
+    //
+    //
+	// $scope.checkFetchRunning = false;
+    //
+	// domFactory.highlightNavbar(".navbar-seed-url");
+    //
+	// $scope.next = function(){
+	// 	domFactory.navigateToBroadcrawlNew();
+	// }
 
 	//pagination
 	$scope.seedUrls = [];

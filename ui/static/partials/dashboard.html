@@ -152,10 +152,23 @@
 						</div>
 						<div ng-show="search_url_div_content" style="padding-left:20px">
 							<div>
-								<!--<h5>Crawl by Google and Bing -->
-									<a href="" ng-click="viewDetailsByCrawlTypeSource('searchengine')">View results</a>
-									<!--</h5>-->
-								<!--<p style="font-style:italic">Will perform the search on the engines based on the keywords defined</p>-->
+								<br/>
+								<button ng-disabled='!(relevantWords().length>0)'
+										type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('SE')">
+									Fetch URLs
+								</button>
+								<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('searchengine')">
+									Delete
+								</button>
+								<span style="padding: 5px">&nbsp;</span>
+								<a href="" ng-click="viewDetailsByCrawlTypeSource('searchengine')">View results</a>
+
+
+								<br/>
+								<h6 ng-hide='relevantWords().length>0'>
+									<span  style="color:red">(Requires Keywords to be entered first)</span>
+								</h6>
+								<br/>
 								<h5>Summary:</h5>
 								<div style=" column-count: 4">
 									<ul>
@@ -165,17 +178,12 @@
 									</ul>
 								</div>
 								<br/>
-								<button ng-disabled='!(relevantWords().length>0)'
-										type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('SE')">
-									Fetch URLs
-								</button>
-								<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('searchengine')">
-									Delete
-								</button>
-								<br/>
-								<h6>
-									<span ng-hide='relevantWords().length>0' style="color:red">(Requires Keywords to be entered first)</span>
-								</h6>
+								<!--<h5>Crawl by Google and Bing -->
+
+									<!--</h5>-->
+								<!--<p style="font-style:italic">Will perform the search on the engines based on the keywords defined</p>-->
+
+
 							</div>
 							<br>
 						</div>
