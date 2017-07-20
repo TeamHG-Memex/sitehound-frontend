@@ -283,8 +283,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         return res;
     };
 
-    getModelerProgress(); // to set the initial states
-
+    $rootScope.backgroundServicePromise_getModelerProgress = $timeout(getModelerProgress, 2000);
 
 
     //trainer
@@ -338,7 +337,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 			$scope.status = 'Unable to load data: ' + error.message;
         })
 		.finally(function(){
-			if($scope.trainer && $scope.trainer.job && $scope.trainer.job.status=="STOPPED"){ //$scope.trainer.job.status=="FINISHED" ||
+			if($scope.trainer && $scope.trainer.job && ($scope.trainer.job.status=="FINISHED" ||$scope.trainer.job.status=="STOPPED") ){
                 console.log("no reason to keep polling trainer status");
                 return;
             }
@@ -355,8 +354,8 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         }
         return res;
     };
-    getTrainerProgress();
 
+    $rootScope.backgroundServicePromise_getTrainerProgress = $timeout(getTrainerProgress, 2000);
 
 
 //CRAWLER
@@ -398,7 +397,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         return res;
     };
 
-    getCrawlerProgress();
+    $rootScope.backgroundServicePromise_getCrawlerProgress = $timeout(getCrawlerProgress, 2000);
 
 // LOGIN
 

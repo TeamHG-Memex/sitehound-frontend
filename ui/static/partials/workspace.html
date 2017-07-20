@@ -18,7 +18,7 @@
 							<div class="panel-body">
 
 								<div id="header" style="padding:20px">
-									<h3>Choose one workspace or create a new one first</h3>
+									<h3>Choose one workspace or create a new one first.</h3>
 								</div>
 
 								<div id="wsList" class="list-group">
@@ -27,21 +27,28 @@
 											<thead>
 											  <tr>
 												<th width="2%">&nbsp;</th>
-												<th width="2%">#</th>
+												<!--<th width="2%">#</th>-->
 												<th>Name</th>
 												<th>Date created</th>
 												<th># Keywords</th>
+												<th>Modeler progress (%)</th>
+												<th>Trainer progress (%)</th>
+												<th>Trainer checkpoint</th>
+												<th>Crawler progress (%)</th>
 												<th>&nbsp;</th>
 											  </tr>
 											</thead>
 											<tbody>
 											<tr ng-repeat="workspace in workspaces track by workspace._id"  ng-class-even="workspace.selected ? '':'workspace-row-even'" class='{{ workspace.selected ? "workspace-row-selected" : ""}}'>
-												<td>
-												</td>
-												<th >{{ $index + 1 }}</th>
+												<td></td>
+												<!--<th>{{ $index + 1 }}</th>-->
 												<td><a ng-click="selectWorkspace(workspace._id) && navigateToDashboard(workspace._id)">{{ workspace.name }}</a></td>
 												<td>{{ workspace.created }}</td>
 												<td>{{ getLength(workspace.words) }}</td>
+												<td>{{(workspace.page_model && workspace.page_model.percentage_done)? (workspace.page_model.percentage_done  | roundup) : 0}}</td>
+												<td>{{(workspace.dd_trainer && workspace.dd_trainer.percentage_done)? (workspace.page_model.percentage_done  | roundup) : 0}}</td>
+												<td>{{(workspace.dd_trainer && workspace.dd_trainer.trainer_model)? "Yes" : "No"}}</td>
+												<td>{{(workspace.dd_crawler && workspace.dd_crawler.percentageDone)? (workspace.dd_crawler.percentageDone | roundup) : 0}}</td>
 												<td>
 													<a>
 														<span class="glyphicon glyphicon-trash" ng-click="deleteWorkspace(workspace._id, workspace.name)" title="remove"></span>
@@ -49,9 +56,15 @@
 												</td>
 											  </tr>
 											  <tr>
-												<td></td>
+												<td colspan="9">&nbsp;</td>
+											  </tr>
+											  <tr>
 												<td>&nbsp;</td>
 												<td><input type="text" ng-model="workspace.name" ng-keyup="$event.keyCode == 13 && addWorkspace()" placeholder=" Add a new one"></td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
 												<td>&nbsp;</td>
 												<td>&nbsp;</td>
 												<td>
