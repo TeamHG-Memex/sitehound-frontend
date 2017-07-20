@@ -37,13 +37,17 @@ function ($scope, $filter, $routeParams, domFactory, seedFactory) {
 	}
 
 	$scope.addIncludedWord = function(word) {
-		scoreWord(word, 5);
-		$scope.includedWord = '';
+		var res = scoreWord(word, 5);
+		if(res){
+			$scope.includedWord = '';
+		}
 	}
 
 	$scope.addExcludedWord = function(word) {
-		scoreWord(word, 1);
-		$scope.excludedWord = '';
+		var res = scoreWord(word, 1);
+		if(res){
+			$scope.excludedWord = '';
+		}
 	}
 
 	$scope.removeWord = function(hash){
@@ -53,9 +57,41 @@ function ($scope, $filter, $routeParams, domFactory, seedFactory) {
 		});
 	}
 
+	function groupByRelevance(words){
+		var relevant =0;
+		var irrelevant =0;
+
+		for (var key in words) {
+		    if (words.hasOwnProperty(key)) {
+				if(words[key].score >=3){
+					relevant+=1;
+				}
+				else if(words[key].score <3){
+					irrelevant+=1;
+				}
+		    }
+		}
+
+		return {"relevant":relevant , "irrelevant":irrelevant};
+	}
+
 	var scoreWord = function (wordList, score) {
+		debugger;
+		var res = groupByRelevance($scope.words);
+		var maxQuota=5;
+		if(score >= 3 && res.relevant>maxQuota-1){
+			alert("You reached the max of Relevant words allowed. Delete one to keep adding");
+			return false;
+		}
+
+		if(score <3 && res.irrelevant>maxQuota-1){
+			alert("You reached the max of Irrelevant words allowed. Delete one to keep adding");
+			return false;
+		}
+
+
 		if(wordList == '' || wordList == null || wordList.trim()== ""){
-			getSeeds();
+			// getSeeds();
 			return;
 		}
 		wordList = wordList.trim();
@@ -75,10 +111,12 @@ function ($scope, $filter, $routeParams, domFactory, seedFactory) {
 		else{
 			seedFactory.save($scope.workspaceId, word, score)
 			.success(function (data) {
+				getSeeds();
 				scoreWord(newWordList, score);
 			});
 		}
-	}
+		return true;
+	};
 
 	getSeeds();
 }]);

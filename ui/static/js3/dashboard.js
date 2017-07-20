@@ -152,9 +152,9 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         $scope.resultStruct = resultStruct ;
 
     }
-
-	$scope.getWorkspace();
-	$scope.getAggregated();
+    //
+	// $scope.getWorkspace();
+	// $scope.getAggregated();
 
 
 	$scope.submittedOk = false;
@@ -345,8 +345,6 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		});
     };
 
-
-
     $scope.getTrainerPercentageValue = function(){
         var res =0;
         if($scope.trainer && $scope.trainer.percentageDone){
@@ -441,7 +439,8 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		}
 	}
 
-    // backgroundService();
+    $rootScope.backgroundServicePromise = $interval(backgroundService, 5000);
+
 
     $scope.stopBroadCrawl = function(){
 		eventFactory.postDdCrawler($rootScope.ddCrawlerJobId, "stop");
@@ -450,6 +449,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 
 
     //container toggle
+    $rootScope.keywords_div_content = true;
     $scope.toggleKeywords = function(state){
         $rootScope.keywords_div_content = state;
     };
