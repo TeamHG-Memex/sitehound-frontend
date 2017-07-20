@@ -162,10 +162,10 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 
 	$scope.hideSubmittedOk = function(){
 		$scope.submittedOk = false;
-	}
+	};
 	$scope.hideSubmittedError = function(){
 		$scope.submittedError = false;
-	}
+	};
 
 
 	$scope.generateSeedUrls = function(crawlSourceType){
@@ -192,7 +192,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		.finally(function(){
 			$scope.loading = false;
 		});
-	}
+	};
 
 
 	$scope.resetResults = function(crawlSourceType){
@@ -219,68 +219,33 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     $scope.startDdModeler = function(){
         eventFactory.postDdModeler($scope.workspaceId, "start");
         $scope.buildingDdModeler=true;
-        // $scope.workspace.page_model.model=false;
         $scope.modeler = {};
-        // $rootScope.backgroundServicePromise_getModelerProgress = $timeout(getModelerProgress, 2000, 2000);
-        // getModelerProgress();
         $timeout(getModelerProgress, 2000)
     };
 
-	// aka crawler
-    $scope.startDdTrainer = function(){
-        var crawlSources = "DD";
-        var crawlType = "DD-TRAINER";
-        var nResults = 1000;
-        jobFactory.createJob($scope.workspaceId, crawlSources, crawlType, nResults)
-            .success(function (data){
-                $rootScope.ddTrainerJobId = data.jobId;
-                eventFactory.postDdTrainer($scope.workspaceId, "start", $rootScope.ddTrainerJobId);
-            })
-            .error(function (error) {
-                console.log(error);
-                alert("the job could not be started");
-            });
-    };
 
-    $scope.stopDdTrainer = function(){
-        eventFactory.postDdTrainer($scope.workspaceId, "stop", $rootScope.ddTrainerJobId);
-        $rootScope.ddTrainerJobId = null;
-    };
-
-
-    // aka broadcrawler
-    // $scope.postDdCrawler = function(){
-    //     eventFactory.postDdCrawler($scope.workspaceId, "stop");
+    // $scope.getAllProgress = function(workspaceId){
+    //     progressFactory.getAllProgress(workspaceId)
+		// .success(function (data) {
+		//     //model
+    //
+    //         // insert request here!
+    //
+    //         //trainer
+    //         // $scope.trainer.progress = data.trainer.progress;
+    //         // $scope.trainer.percentageDone = data.trainer.percentage_done;
+    //
+    //         //broadcrawl
+    //         $scope.broadcrawlerProgress = data.crawler;
+    //
+    //     })
+		// .error(function (error) {
+		// 	$scope.status = 'Unable to load data: ' + error.message;
+    //     })
+		// .finally(function(){
+		// 	$scope.loading = false;
+		// });
     // };
-
-
-    $scope.trainer = {};
-    $scope.trainer.progress = "";
-    $scope.trainer.progress = 0;
-    $scope.broadcrawlerProgress = "";
-
-    $scope.getAllProgress = function(workspaceId){
-        progressFactory.getAllProgress(workspaceId)
-		.success(function (data) {
-		    //model
-
-            // insert request here!
-
-            //trainer
-            $scope.trainer.progress = data.trainer.progress;
-            $scope.trainer.percentageDone = data.trainer.percentage_done;
-
-            //broadcrawl
-            $scope.broadcrawlerProgress = data.crawler;
-
-        })
-		.error(function (error) {
-			$scope.status = 'Unable to load data: ' + error.message;
-        })
-		.finally(function(){
-			$scope.loading = false;
-		});
-    }
 
     $scope.modeler= {};
     $scope.modeler.model = false;
@@ -320,32 +285,118 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 
     getModelerProgress(); // to set the initial states
 
-    //
-//    $scope.getModelerProgress($scope.workspaceId);
-//    $interval.cancel($rootScope.modelerPromise);
-//    $rootScope.modelerPromise = $interval($scope.getModelerProgress, 5000, 0, true, $scope.workspaceId);
 
 
-/*
+    //trainer
+    $scope.trainer={};
     $scope.trainer.progress = "";
-    $scope.getTrainerProgress = function(workspaceId){
-        progressFactory.getTrainerProgress(workspaceId)
+    $scope.trainer.percentageDone=0;
+    $scope.buildingDdTrainer=false;
+
+    $scope.startDdTrainer = function(){
+        var crawlSources = "DD";
+        var crawlType = "DD-TRAINER";
+        var nResults = 1000;
+        $scope.trainer={};
+        jobFactory.createJob($scope.workspaceId, crawlSources, crawlType, nResults)
+            .success(function (data){
+                $rootScope.ddTrainerJobId = data.jobId;
+                eventFactory.postDdTrainer($scope.workspaceId, "start", $rootScope.ddTrainerJobId);
+                $timeout(getTrainerProgress, 2000)
+            })
+            .error(function (error) {
+                console.log(error);
+                alert("the job could not be started");
+            });
+    };
+
+    $scope.stopDdTrainer = function(){
+        eventFactory.postDdTrainer($scope.workspaceId, "stop", $rootScope.ddTrainerJobId);
+        $rootScope.ddTrainerJobId = null;
+    };
+
+    function getTrainerProgress(){
+        progressFactory.getTrainerProgress($scope.workspaceId)
 		.success(function (data) {
-            $scope.trainer.progress = data;
-        })
+            // $scope.trainer.progress = data;
+            $scope.trainer.progress = data.progress;
+            $scope.trainer.percentageDone = data.percentageDone;
+            $scope.trainer.model = data.model;
+            if(data.jobs!=null && data.jobs.length==1){
+                $scope.trainer.job = data.jobs[0];
+                $rootScope.ddTrainerJobId =$scope.trainer.job["_id"];
+            }
+            else{
+                 $scope.trainer.job={};
+            }
+		})
 		.error(function (error) {
 			$scope.status = 'Unable to load data: ' + error.message;
         })
 		.finally(function(){
-			$scope.loading = false;
+			if($scope.trainer && $scope.trainer.job && $scope.trainer.job.status=="STOPPED"){ //$scope.trainer.job.status=="FINISHED" ||
+                console.log("no reason to keep polling trainer status");
+                return;
+            }
+            $rootScope.backgroundServicePromise_getTrainerProgress = $timeout(getTrainerProgress, 2000);
 		});
-    }
+    };
 
-//    $scope.getTrainerProgress($scope.workspaceId);
-//    $interval.cancel($rootScope.trainerPromise);
-//    $rootScope.trainerPromise = $interval($scope.getTrainerProgress, 5000, 0, true, $scope.workspaceId);
 
-*/
+
+    $scope.getTrainerPercentageValue = function(){
+        var res =0;
+        if($scope.trainer && $scope.trainer.percentageDone){
+            res = $scope.trainer.percentageDone;
+        }
+        return res;
+    };
+    getTrainerProgress();
+
+
+
+//CRAWLER
+
+    $scope.crawler = {};
+    $scope.crawler.progress = "";
+    function getCrawlerProgress(){
+        progressFactory.getCrawlerProgress($scope.workspaceId)
+		.success(function (data) {
+		    $scope.crawler.progress = data.progress;
+		    $scope.crawler.percentageDone = data.percentageDone;
+		    $scope.crawler.jobs = data.jobs;
+            if(data.jobs!=null && data.jobs.length==1){
+                $scope.crawler.job = data.jobs[0];
+                $rootScope.ddCrawlerJobId =$scope.crawler.job["_id"];
+            }
+            else{
+                 $scope.crawler.job={};
+            }
+		})
+		.error(function (error) {
+			$scope.status = 'Unable to load data: ' + error.message;
+        })
+		.finally(function(){
+			if($scope.crawler && $scope.crawler.job && ( $scope.crawler.job.status=="STOPPED")){
+			    // even when finished, it continues working on the bg //$scope.crawler.job.status=="FINISHED" ||
+                console.log("no reason to keep polling crawler progress");
+                return;
+            }
+			$rootScope.backgroundServicePromise_getCrawlerProgress = $timeout(getCrawlerProgress, 2000);
+		});
+    };
+
+    $scope.getCrawlerPercentageValue = function(){
+        var res =0;
+        if($scope.crawler && $scope.crawler.percentageDone){
+            res = $scope.crawler.percentageDone;
+        }
+        return res;
+    };
+
+    getCrawlerProgress();
+
+// LOGIN
 
     $scope.loginInputStats = {};
     $scope.getLoginInputStats = function(workspaceId){
@@ -376,11 +427,11 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		if(!isRunning){
 			isRunning = true;
             $scope.getAggregated();
-            $scope.getWorkspace();
+            $scope.getWorkspace(); // TODO try to remove this!
 
             // $scope.getModelerProgress();
 //            $scope.getTrainerProgress($scope.workspaceId);
-            $scope.getAllProgress($scope.workspaceId);
+//             $scope.getAllProgress($scope.workspaceId);
             $scope.getLoginInputStats($scope.workspaceId);
             $interval.cancel($rootScope.backgroundServicePromise);
             $rootScope.backgroundServicePromise = $interval(backgroundService, 5000);
@@ -393,6 +444,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		eventFactory.postDdCrawler($rootScope.ddCrawlerJobId, "stop");
         $rootScope.ddCrawlerJobId = null;
     };
+
 
     //container toggle
     $scope.toggleKeywords = function(state){

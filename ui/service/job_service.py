@@ -64,6 +64,14 @@ def get_jobs_by_workspace_dao(workspace_id):
     return list(docs)
 
 
+def get_last_job_by_workspace_dao(workspace_id, crawl_type):
+    docs = Singleton.getInstance().mongo_instance.get_crawl_job_collection()\
+        .find({'workspaceId': workspace_id, 'crawlType': crawl_type})\
+        .limit(1)\
+        .sort('_id', pymongo.DESCENDING)
+    return list(docs)
+
+
 def get_job_dao(job_id):
     return Singleton.getInstance().mongo_instance.get_crawl_job_collection().find_one({'jobId': job_id})
 

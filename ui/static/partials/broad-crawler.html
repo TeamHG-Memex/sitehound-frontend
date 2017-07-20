@@ -133,18 +133,26 @@
 
 							<div class="col-lg-12" style="margin-top:30px">
 								<div class="col-lg-12">
-									<button id="publish2BroadCrawl" ng-click="loadModal()" class="btn btn-primary" type="button" ng-disabled="ddCrawlerJobId">
+									<button id="publish2BroadCrawl" ng-disabled="isDisabled" ng-click="disableButton() && loadModal()" class="btn btn-primary" type="button" >
 										Launch
 									</button>
-									<button id="stopBroadCrawl" ng-click="stopBroadCrawl()" class="btn btn-default" type="button" ng-disabled="!ddCrawlerJobId">
-										Stop Current
-									</button>
+									<!--<button id="stopBroadCrawl" ng-click="stopBroadCrawl()" class="btn btn-default" type="button" ng-disabled="!ddCrawlerJobId">-->
+										<!--Stop Current-->
+									<!--</button>-->
 								</div>
 							</div>
+							<!--<div class="col-lg-12" style="margin-top:10px; margin-left: 20px">-->
+								<!--<h6 ng-show="ddCrawlerJobId">-->
+									<!--<span>-->
+										<!--Requested job with id: <span ng-bind="ddCrawlerJobId"></span>-->
+									<!--</span>-->
+								<!--</h6>-->
+							<!--</div>-->
+							<br/>
 							<div class="col-lg-12" style="margin-top:10px; margin-left: 20px">
-								<h6 ng-show="ddCrawlerJobId">
+								<h6 ng-show="isDisabled">
 									<span>
-										Requested job with id: <span ng-bind="ddCrawlerJobId"></span>
+										Job Started! You can follow the progress and the results on the dashboard.
 									</span>
 								</h6>
 							</div>
@@ -152,36 +160,32 @@
 							<!--Result Statistics-->
 							<br/>
 							<br/>
-							<div class="col-lg-12" style="margin-top:24px" ng-show="nResultsFound>0">
-								<div class="col-lg-12">
-									<label>Sample results: </label>
-									<span >
-										{{ nResultsFound }}
-									</span>
-								</div>
-								<div class="col-lg-12">
-									<label ng-bind="labelCategories"></label>
-									<ul>
-										<li ng-repeat="category in categories">{{ category }}</li>
-									</ul>
-								</div>
-								<div class="col-lg-12">
-									<label ng-bind="labelLanguages"></label>
-									<ul>
-										<li ng-repeat="language in languages">
-											{{ language | fullLanguageName}}
-										</li>
-									</ul>
-								</div>
 							<br/>
 							<br/>
-							</div>
-
-
-							<!--<div class="progress">-->
-								<!--<div class="progress-bar" role="progressbar" aria-valuenow="70"-->
-									<!--aria-valuemin="0" aria-valuemax="100" style="width:80%">-->
-									<!--<span class="sr-only">70% Complete</span>-->
+							<!--<div class="col-lg-12" style="margin-top:24px" ng-show="nResultsFound>0">-->
+								<!--<div class="col-lg-12">-->
+									<!--<label>Sample results: </label>-->
+									<!--<span >-->
+										<!--{{ nResultsFound }}-->
+									<!--</span>-->
 								<!--</div>-->
+								<!--<div class="col-lg-12">-->
+									<!--<label ng-bind="labelCategories"></label>-->
+									<!--<ul>-->
+										<!--<li ng-repeat="category in categories">{{ category }}</li>-->
+									<!--</ul>-->
+								<!--</div>-->
+								<!--<div class="col-lg-12">-->
+									<!--<label ng-bind="labelLanguages"></label>-->
+									<!--<ul>-->
+										<!--<li ng-repeat="language in languages">-->
+											<!--{{ language | fullLanguageName}}-->
+										<!--</li>-->
+									<!--</ul>-->
+								<!--</div>-->
+							<!--<br/>-->
+							<!--<br/>-->
+							<!--</div>-->
+
 						</div>
 					</div>

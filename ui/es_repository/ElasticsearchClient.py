@@ -32,3 +32,12 @@ class ElasticsearchClient(object):
             return res['_source']['result']['crawlResultDto']['image']['content']
         except:
             logging.info(url)
+
+    def get_modeler_model_results(self, id):
+        try:
+            res = self.es.get(index="modeler", doc_type="model", id=id,
+                              _source_exclude="model"
+                              )
+            return res['_source']
+        except:
+            logging.info("not found modeler-model for " + id)

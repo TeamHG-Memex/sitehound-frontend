@@ -18,6 +18,8 @@ var progressFactory = ngApp.factory('progressFactory',['$http', function($http){
 		return dataFactory.getProgress(workspaceId, phase);
     };
 
+
+
     dataFactory.getProgress = function (workspaceId, phase){
 		var url =  String.format(urlBase, workspaceId, phase);
 		return $http.get(url);

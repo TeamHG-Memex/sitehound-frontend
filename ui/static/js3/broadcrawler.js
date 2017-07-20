@@ -49,6 +49,13 @@ function ($scope, $rootScope, $filter, $location, $routeParams, $modal, domFacto
 		});
 	}
 
+   $scope.isDisabled = false;
+
+    $scope.disableButton = function() {
+        $scope.isDisabled = true;
+        return true;
+    };
+
     $scope.stopBroadCrawl = function(){
 		eventFactory.postDdCrawler($rootScope.ddCrawlerJobId, "stop");
         $rootScope.ddCrawlerJobId = null;

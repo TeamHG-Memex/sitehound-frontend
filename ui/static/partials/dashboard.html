@@ -439,6 +439,8 @@
 									</div>
 								</div>
 							</div>
+
+							<!--TRAINER-->
 							<div style="padding-top:20px">
 								<h5>2. Crawl some more documents, using Deep-Deep with the generated model. Then label them</h5>
 								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
@@ -457,25 +459,24 @@
 								<div style="padding-left:20px">
 									<div>
 												<!--ng-disabled='!(workspace.page_model.model) || ddTrainerJobId'-->
+												<!--ng-disabled='!(modeler.model) || ddTrainerJobId || trainer.percentageDone <99'-->
 										<button
-												ng-disabled='!(modeler.model) || ddTrainerJobId'
+												ng-disabled='!(modeler.model) || trainer.job==null || (trainer.job!=null && (trainer.job.status=="STARTED" || trainer.job.status=="QUEUED")) '
 												type="button" class="btn btn-primary btn-sm" ng-click="startDdTrainer()">
 											Start Trainer Crawler
 										</button>
 												<!--ng-disabled='!(workspace.page_model.model) || !ddTrainerJobId'-->
 										<button
-												ng-disabled='!(modeler.model) || !ddTrainerJobId'
+												ng-disabled='trainer.job==null || (trainer.job.status!="STARTED" && trainer.job.status!="QUEUED") '
 												type="button" class="btn btn-primary btn-sm" ng-click="stopDdTrainer()">
 											Stop Trainer Crawler
 										</button>
 										<button type="button" class="btn btn-danger btn-sm" ng-show='resultStruct["DD"]["total"]>0' ng-click="resetResults('DD')">
 											Delete Results
 										</button>
-										<h6 ng-show="ddTrainerJobId">
-											<span>
-												Requested job with id: <span ng-bind="ddTrainerJobId"></span>
-											</span>
-										</h6>
+										<span style="padding: 5px">&nbsp;</span>
+										<!--<a href="" ng-click="navigateToJobs()">View jobs</a>-->
+											<a ng-show='resultStruct["DD"]["total"]>0' href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View and label results</a><span style="margin:10px"></span>
 										<!--<h6>-->
 											<!--<span ng-show='resultStruct["DD"]["relevant"]==0' style="color:red">-->
 												<!--("Start" requires a prior training using Deepdeep's crawling results)-->
@@ -483,22 +484,46 @@
 										<!--</h6>-->
 									</div>
 									<!--<h6><span ng-hide='workspace.page_model.model' style="color:red">(Requires an initial model)</span></h6>-->
-									<h6><span ng-hide='modeler.model' style="color:red">(Requires an initial model)</span></h6>
-									<div style="padding:10px" ng-hide='trainer.progress==""'>
-										<div >
-											<h5>Crawler Progress:</h5>
-											<h6><span style="padding:20px" ng-bind="trainer.progress"></span></h6>
-											<h5>Percentage done:</h5>
-											<h6><span style="padding:20px" ng-bind="trainer.percentageDone"></span></h6>
+
+									<!--<div style="padding:20px; padding-bottom: 0px" >-->
+									<div style="padding:0px; padding-bottom: 0px" >
+										<h6 ng-hide='modeler.model' ><span style="color:red">(Requires an initial model)</span></h6>
+
+										<div ng-show="ddTrainerJobId">
+											<br>
+											<h6>Requested job with id:
+												<span ng-bind="trainer.job._id"></span>
+												<a href="" ng-click="navigateToJobs()">View jobs</a>
+											</h6>
+											<h6>Job status: <span ng-bind="trainer.job.status"></span></h6>
+											<h6>Job started: <span ng-bind="trainer.job.strTimestamp"> &nbsp; UTC</span></h6>
 										</div>
-										<h5 ng-show='resultStruct["DD"]["total"]>0'>
-											<a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')">View results</a>
-											<a href="" ng-click="navigateToJobs()">View jobs</a>
-										</h5>
+
+										<div ng-hide='trainer.progress==""'>
+											<!--progressbar-->
+											<div class="progress" style="width:600px; margin-top: 20px" ng-show="trainer.percentageDone >0 && trainer.percentageDone <99 ">
+												<div class="progress-bar" role="progressbar" aria-valuenow="{{trainer.percentageDone}}" aria-valuemin="0" aria-valuemax="100"
+														ng-style="{width : ( getTrainerPercentageValue() + '%' ) }"
+												>
+													<span class="sr-only">{{trainer.percentageDone | roundup}}% Complete</span>
+												</div>
+												<span>&nbsp;{{trainer.percentageDone | roundup}}%</span>
+												<br>
+											</div>
+											<h6><span ng-bind="trainer.progress"></span></h6>
+											<br>
+											<span ng-show='trainer.percentageDone >99' style="margin-bottom:20px">
+												<span style="color:green; font-size:12px;" >Trainer crawler finished successfully! </span>
+												<span style="font-size:12px;">Please  <a href="javascript:void(0)" ng-click="viewDetailsByCrawlTypeSource('deepdeep')"> label the results</a></span>
+											</span>
+										</div>
+
 									</div>
 								</div>
 							</div>
-							<div style="padding-top:20px">
+
+							<!--CRAWLER-->
+							<div style="margin-top:40px">
 								<h5>3. Broad Crawl using Deep-Deep</h5>
 								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
 									<ul style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
@@ -515,36 +540,99 @@
 								</p>
 								<div style="padding-left:20px">
 									<div>
+										<h6>
+											<b>
+												Before starting the broad crawl, please rebuild the model (from Step 1)
+											</b>
+										</h6>
+									</div>
+								</div>
+								<br>
+								<div style="padding-left:20px">
+									<div>
+												<!--ng-disabled='ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'-->
+												<!--ng-disabled='!trainer.model || !resultStruct["DD"]["relevant"]>0'-->
 										<button
-												ng-disabled='ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+												ng-disabled='!(trainer.model) || crawler.job==null || (crawler.job!=null && (crawler.job.status=="STARTED" || crawler.job.status=="QUEUED")) '
 												type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
 											Start Crawler...
 										</button>
+												<!--ng-disabled='!ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'-->
 										<button
-												ng-disabled='!ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'
+												ng-disabled='crawler.job==null || (crawler.job.status!="STARTED" && crawler.job.status!="QUEUED") '
 												type="button" class="btn btn-primary btn-sm" ng-click="stopBroadCrawl()">
 											Stop Crawler
 										</button>
 										<button type="button" class="btn btn-danger btn-sm" ng-click="resetResults('deepdeep')" ng-hide="true">
 											Delete
 										</button>
-										<h6 ng-show="ddCrawlerJobId">
-											<span>
-												Requested job with id: <span ng-bind="ddCrawlerJobId"></span>
+										<span style="padding: 5px">&nbsp;</span>
+										<a href="" ng-click="navigateToBroadcrawlResults()">View results</a>
+										<span style="padding: 5px">&nbsp;</span>
+										<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>
+										<!--<h6 ng-show="ddCrawlerJobId">-->
+											<!--<span>-->
+												<!--Requested job with id: <span ng-bind="ddCrawlerJobId"></span>-->
+											<!--</span>-->
+										<!--</h6>-->
+										<!--<span style="padding: 5px">&nbsp;</span>-->
+										<!--<a href="" ng-click="navigateToJobs()">View jobs</a>-->
+
+									</div>
+
+									<br>
+									<div style="padding:0px; padding-bottom: 0px" >
+										<h6 ng-hide='trainer.model && resultStruct["DD"]["relevant"]>0' >
+											<span style="color:red">
+												Requires a previous training with Deep-Deep and a checkpoint from the previous step.
 											</span>
 										</h6>
-									</div>
-									<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>
-										<div >
-											<h5>Broadcrawler Progress:</h5>
-											<span style="padding:20px" ng-bind="broadcrawlerProgress"></span>
+
+										<div ng-show="ddCrawlerJobId">
+											<br>
+											<h6>Requested job with id:
+												<span ng-bind="crawler.job._id"></span>
+												<a href="" ng-click="navigateToJobs()">View jobs</a>
+
+											</h6>
+											<h6>Job status: <span ng-bind="crawler.job.status"></span></h6>
+											<h6>Job started: <span ng-bind="crawler.job.strTimestamp"> &nbsp; UTC</span></h6>
 										</div>
+
+										<div ng-hide='crawler.progress==""'>
+											<!--progressbar-->
+											<div class="progress" style="width:600px; margin-top: 20px" ng-show="crawler.percentageDone >0 && crawler.percentageDone <99 ">
+												<div class="progress-bar" role="progressbar" aria-valuenow="{{crawler.percentageDone}}" aria-valuemin="0" aria-valuemax="100"
+														ng-style="{width : ( getCrawlerPercentageValue() + '%' ) }"
+												>
+													<span class="sr-only">{{crawler.percentageDone | roundup}}% Complete</span>
+												</div>
+												<span>&nbsp;{{crawler.percentageDone | roundup}}%</span>
+												<br>
+											</div>
+											<h6><span ng-bind="crawler.progress"></span></h6>
+											<br>
+											<span ng-show='crawler.percentageDone >99' style="margin-bottom:20px">
+												<span style="color:green; font-size:12px;" >Crawler crawler finished successfully! </span>
+											</span>
+										</div>
+
 									</div>
-									<h6><span ng-hide='workspace.link_model.model && resultStruct["DD"]["relevant"]>0'
-											style="color:red">(Requires a previous training with Deep-Deep and a checkpoint from the previous step)</span></h6>
-									<a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;
-									<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;
-									<a href="" ng-click="navigateToJobs()">View jobs</a>
+									<br>
+									<br>
+
+
+									<!--<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>-->
+										<!--<div >-->
+											<!--<h5>Broadcrawler Progress:</h5>-->
+											<!--<span style="padding:20px" ng-bind="broadcrawlerProgress"></span>-->
+										<!--</div>-->
+									<!--</div>-->
+									<!--<h6><span ng-hide='workspace.link_model.model && resultStruct["DD"]["relevant"]>0'-->
+											<!--style="color:red">(Requires a previous training with Deep-Deep and a checkpoint from the previous step)</span></h6>-->
+									<!--<a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;-->
+									<!--<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;-->
+									<!--<a href="" ng-click="navigateToJobs()">View jobs</a>-->
 								</div>
 							</div>
 
