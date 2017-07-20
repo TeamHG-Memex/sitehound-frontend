@@ -53,7 +53,7 @@ def get_trainer_progress(workspace_id):
     for doc in docs:
         progress = ""
         percentage_done = 0
-        trainer_model = False
+        model = False
         if "dd_trainer" in doc and "trainer_progress" in doc["dd_trainer"]:
             progress = doc["dd_trainer"]["trainer_progress"]
 

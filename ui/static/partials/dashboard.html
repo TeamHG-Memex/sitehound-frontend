@@ -251,6 +251,7 @@
 							</div>
 						</div>
 						<div ng-show="deep_learning_div_content" style="padding-left:30px">
+
 							<div>
 								<h5>3.1. Train with Deep-Deep</h5>
 								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
@@ -408,7 +409,7 @@
 												<!--ng-disabled='!(workspace.page_model.model) || ddTrainerJobId'-->
 												<!--ng-disabled='!(modeler.model) || ddTrainerJobId || trainer.percentageDone <99'-->
 										<button
-												ng-disabled='!(modeler.model) || trainer.job==null || (trainer.job!=null && (trainer.job.status=="STARTED" || trainer.job.status=="QUEUED")) '
+												ng-disabled='!modeler.model || trainer.job==null || (trainer.job!=null && (trainer.job.status=="STARTED" || trainer.job.status=="QUEUED")) '
 												type="button" class="btn btn-primary btn-sm" ng-click="startDdTrainer()">
 											Start Trainer Crawler
 										</button>
@@ -442,8 +443,8 @@
 												<span ng-bind="trainer.job._id"></span>
 												<a href="" ng-click="navigateToJobs()">View jobs</a>
 											</h6>
-											<h6>Job status: <span ng-bind="trainer.job.status"></span></h6>
-											<h6>Job started: <span ng-bind="trainer.job.strTimestamp"> &nbsp; UTC</span></h6>
+											<h6>Status: <span ng-bind="trainer.job.status"></span></h6>
+											<h6>Started: <span ng-bind="trainer.job.strTimestamp"> &nbsp; UTC</span></h6>
 										</div>
 
 										<div ng-hide='trainer.progress==""'>
