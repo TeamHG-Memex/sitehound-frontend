@@ -7,13 +7,13 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 
 	domFactory.highlightNavbar(".navbar-workspace");
 
-	$scope.next = function(){
-		domFactory.navigateToSeed();
-	}
+	// $scope.next = function(){
+	// 	domFactory.navigateToSeed();
+	// };
 
 	$scope.navigateToDashboard = function(){
 		domFactory.navigateToDashboard();
-	}
+	};
 
 
 	$scope.status = "";
@@ -22,12 +22,12 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 	//TODO move this 2 to domFactory
 	$scope.startLoading = function(){
 		return $timeout(function(){$scope.loading = true;}, 1000);
-	}
+	};
 
 	$scope.endLoading = function(timeoutHandle){
 		$timeout.cancel(timeoutHandle);
 		$scope.loading = false;
-	}
+	};
 
 	function getWorkspaces(callback) {
 		var tOut = $scope.startLoading();
@@ -95,7 +95,8 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 	$scope.selectWorkspace = function (id){
 		$scope.workspaceId = id;
 		workspaceStateFactory.set(id, $scope.workspaces);
-	}
+		return true;
+	};
 
 	$scope.getLength = function(obj) {
 		if(obj == undefined)

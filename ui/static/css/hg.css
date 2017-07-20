@@ -299,12 +299,12 @@ li.list-wrapper {
 */
 
 .workspace-row-selected{
-	background-color: #9954bb;
+	background-color: #bba0b2;
 	color: #ffffff;
 	font-weight:bold;
 }
 .workspace-row-even{
-	background-color: #dddddd;
+	background-color: #f3efef;
 }
 
 
