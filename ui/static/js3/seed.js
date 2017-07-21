@@ -76,7 +76,6 @@ function ($scope, $filter, $routeParams, domFactory, seedFactory) {
 	}
 
 	var scoreWord = function (wordList, score) {
-		debugger;
 		var res = groupByRelevance($scope.words);
 		var maxQuota=5;
 		if(score >= 3 && res.relevant>maxQuota-1){
