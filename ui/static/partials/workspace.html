@@ -60,18 +60,26 @@
 											  </tr>
 											  <tr>
 												<td>&nbsp;</td>
-												<td><input type="text" ng-model="workspace.name" ng-keyup="$event.keyCode == 13 && addWorkspace()" placeholder=" Add a new one"></td>
-												<td>&nbsp;</td>
-												<td>&nbsp;</td>
-												<td>&nbsp;</td>
-												<td>&nbsp;</td>
-												<td>&nbsp;</td>
-												<td>&nbsp;</td>
+												<td><input type="text" ng-model="workspace.name" ng-keyup="$event.keyCode == 13 && addWorkspace()" placeholder=" new one"></td>
 												<td>
-													<a ng-click="addWorkspace()">
-														<span class="glyphicon glyphicon-plus-sign"></span>
-													</a>
+													<button ng-disabled='!workspace.name'
+															type="button" class="btn btn-primary btn-sm"
+															ng-click="addWorkspace()">
+														Add workspace
+													</button>
+
 												</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+												<!--<td>-->
+													<!--<a ng-click="addWorkspace()">-->
+														<!--<span class="glyphicon glyphicon-plus-sign"></span>-->
+													<!--</a>-->
+												<!--</td>-->
 											  </tr>
 												<!--<tr>-->
 													<!--<td colspan="8" style="text-alignment:right">-->
