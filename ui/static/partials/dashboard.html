@@ -261,6 +261,7 @@
 						</div>
 						<div ng-show="deep_learning_div_content" style="padding-left:30px">
 
+							<!--MODELER-->
 							<div>
 								<h5>3.1. Train with Deep-Deep</h5>
 								<p style="font-size:12px; font-style:italic; padding-right:20px; padding-top:0px">
@@ -446,7 +447,7 @@
 									<div style="padding:0px; padding-bottom: 0px" >
 										<h6 ng-hide='modeler.model' ><span style="color:red">(Requires an initial model)</span></h6>
 
-										<div ng-show="ddTrainerJobId">
+										<div ng-show="trainer.job._id">
 											<br>
 											<h6>Requested job with id:
 												<span ng-bind="trainer.job._id"></span>
@@ -553,7 +554,7 @@
 											</span>
 										</h6>
 
-										<div ng-show="ddCrawlerJobId">
+										<div ng-show="crawler.job._id">
 											<h6>Requested job with id:
 												<span ng-bind="crawler.job._id"></span>
 												<a href="" ng-click="navigateToJobs()">View jobs</a>
@@ -583,20 +584,6 @@
 
 									</div>
 									<br>
-									<br>
-
-
-									<!--<div style="padding:10px" ng-hide='broadcrawlerProgress==""'>-->
-										<!--<div >-->
-											<!--<h5>Broadcrawler Progress:</h5>-->
-											<!--<span style="padding:20px" ng-bind="broadcrawlerProgress"></span>-->
-										<!--</div>-->
-									<!--</div>-->
-									<!--<h6><span ng-hide='workspace.link_model.model && resultStruct["DD"]["relevant"]>0'-->
-											<!--style="color:red">(Requires a previous training with Deep-Deep and a checkpoint from the previous step)</span></h6>-->
-									<!--<a href="" ng-click="navigateToBroadcrawlResults()">View results</a> &nbsp; &nbsp;-->
-									<!--<a href="" ng-click="navigateToBroadcrawlResultsSummary()">View results summary</a>  &nbsp; &nbsp;-->
-									<!--<a href="" ng-click="navigateToJobs()">View jobs</a>-->
 								</div>
 							</div>
 

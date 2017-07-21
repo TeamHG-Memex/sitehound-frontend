@@ -321,11 +321,8 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
             $scope.trainer.model = data.model;
             if(data.jobs!=null && data.jobs.length==1){
                 $scope.trainer.job = data.jobs[0];
-
                 $scope.trainer.job.status = ($scope.trainer.job.status =="FINISHED" && $scope.trainer.percentageDone<99) ? "STARTED": $scope.trainer.job.status;
                 $rootScope.ddTrainerJobId =$scope.trainer.job["_id"];
-
-
             }
             else{
                  $scope.trainer.job={};
