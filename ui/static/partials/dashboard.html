@@ -52,19 +52,19 @@
 								<div style="padding-top: 10px;padding-bottom: 10px;">
 									<a href="" ng-click="navigateToSeed()">Edit keywords</a>
 								</div>
-								<div ng-show="relevantWords().length>0">
+								<div ng-show="workspace.relevantWords.length>0">
 									<h6>Relevant Keywords:</h6>
 									<div style=" column-count: 4">
 										<ul>
-											<li ng-repeat="word in relevantWords()">{{word}}</li>
+											<li ng-repeat="word in workspace.relevantWords">{{word}}</li>
 										</ul>
 									</div>
 								</div>
-								<div ng-show="irrelevantWords().length>0">
+								<div ng-show="workspace.irrelevantWords.length>0">
 									<h6>Irrelevant Keywords:</h6>
 									<div style=" column-count: 4">
 										<ul>
-											<li ng-repeat="word in irrelevantWords()">{{word}}</li>
+											<li ng-repeat="word in workspace.irrelevantWords">{{word}}</li>
 										</ul>
 									</div>
 								</div>
@@ -108,7 +108,12 @@
 						<div ng-show="search_url_div_content" style="padding-left:20px">
 							<div>
 								<br/>
-								<button ng-disabled='!(relevantWords().length>0)'
+								<!--length: {{workspace.relevantWords.length}}<br>-->
+								<!--relevant: {{workspace.relevantWords}}<br>-->
+								<!--words: {{workspace.words}}<br>-->
+								<!--ws: {{workspace}}<br>-->
+								<!--<br>-->
+								<button ng-disabled='!(workspace.relevantWords.length>0)'
 										type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('SE')">
 									Fetch URLs
 								</button>
@@ -118,7 +123,7 @@
 								<span style="padding: 5px">&nbsp;</span>
 								<a href="" ng-click="viewDetailsByCrawlTypeSource('searchengine')">View results</a>
 								<br/>
-								<h6 ng-hide='relevantWords().length>0'>
+								<h6 ng-hide='workspace.relevantWords.length>0'>
 									<span  style="color:red">(Requires Keywords to be entered first)</span>
 								</h6>
 								<br/>
@@ -511,8 +516,10 @@
 												<!--ng-disabled='ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'-->
 												<!--ng-disabled='!trainer.model || !resultStruct["DD"]["relevant"]>0'-->
 										<button
-												ng-disabled='!(trainer.model) || !resultStruct["DD"]["relevant"]>0' || (crawler.job==null || (crawler.job!=null && (crawler.job.status=="STARTED" || crawler.job.status=="QUEUED"))) '
-												type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
+												ng-disabled=' !trainer.model ||
+															  !(resultStruct["DD"]["relevant"]>0) ||
+																(crawler.job==null || (crawler.job!=null && (crawler.job.status=="STARTED" || crawler.job.status=="QUEUED"))) '
+										type="button" class="btn btn-primary btn-sm" ng-click="navigateToBroadcrawlNew()">
 											Start Crawler...
 										</button>
 												<!--ng-disabled='!ddCrawlerJobId || !(workspace.link_model.model && resultStruct["DD"]["relevant"]>0)'-->
@@ -631,7 +638,7 @@
 							<div>
 								<div>
 									<br>
-									<button ng-disabled='!(relevantWords().length>0)'
+									<button ng-disabled='!(workspace.relevantWords.length>0)'
 											type="button" class="btn btn-primary btn-sm" ng-click="generateSeedUrls('TOR')">
 										Fetch URLs
 									</button>
@@ -641,7 +648,7 @@
 									<span style="padding: 5px">&nbsp;</span>
 									<a href="" ng-click="viewDetailsByCrawlTypeSource('tor')">View results</a>
 									<br/>
-									<h6 ng-hide='relevantWords().length>0'>
+									<h6 ng-hide='workspace.relevantWords.length>0'>
 										<span
 											  style="color:red">(Requires Keywords to be entered first)</span>
 									</h6>

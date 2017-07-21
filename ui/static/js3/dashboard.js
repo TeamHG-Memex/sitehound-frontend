@@ -54,10 +54,13 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 
 
 	$scope.getWorkspace = function() {
+	    console.log("getting workspace");
         var tOut = $scope.startLoading();
 		workspaceFactory.getWorkspace($scope.workspaceId)
 			.success(function (data) {
+			    debugger
     			$scope.workspace = data;
+    			$scope.recalculateWords($scope.workspace.words);
 				$scope.endLoading(tOut);
 				$scope.getAggregatedLabelUserDefinedCategories();
 			})
@@ -65,27 +68,31 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 				$scope.endLoading(tOut);
 				$scope.status = 'Unable to load data: ' + error.message;
 			});
-	}
+	};
 
-    $scope.relevantWords = function(){
-        var words = [];
-        angular.forEach($scope.workspace.words, function(value,key){
+	$scope.workspace.relevantWords=[];
+	$scope.workspace.irrelevantWords=[];
+
+    $scope.recalculateWords = function(allWords){
+	    // console.log("getting relevant keywords");
+        var relevantWords = [];
+        var irrelevantWords = [];
+        angular.forEach(allWords, function(value,key){
             if(value.score>3){
-                words.push(value.word);
+                relevantWords.push(value.word);
+            }
+            else {
+                irrelevantWords.push(value.word);
             }
         });
-        return words;
-    }
+	    // console.log("words:" + relevantWords);
+        $scope.workspace.relevantWords= relevantWords;
+        $scope.workspace.irrelevantWords= irrelevantWords;
+    };
 
-    $scope.irrelevantWords = function(){
-        var words = [];
-        angular.forEach($scope.workspace.words, function(value,key){
-            if(value.score<3){
-                words.push(value.word);
-            }
-        });
-        return words;
-    }
+
+
+    // USER-DEFINED-CATEGORIES
 
     $scope.userDefinedCategoriesCounted = [];
 
@@ -168,6 +175,10 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 	};
 
 
+
+    $scope.getWorkspace();
+
+
 	$scope.generateSeedUrls = function(crawlSourceType){
 		$scope.errorMessage = "";
 		$scope.loading = true;
@@ -216,36 +227,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 
 
 
-    $scope.startDdModeler = function(){
-        eventFactory.postDdModeler($scope.workspaceId, "start");
-        $scope.buildingDdModeler=true;
-        $scope.modeler = {};
-        $timeout(getModelerProgress, 2000)
-    };
-
-
-    // $scope.getAllProgress = function(workspaceId){
-    //     progressFactory.getAllProgress(workspaceId)
-		// .success(function (data) {
-		//     //model
-    //
-    //         // insert request here!
-    //
-    //         //trainer
-    //         // $scope.trainer.progress = data.trainer.progress;
-    //         // $scope.trainer.percentageDone = data.trainer.percentage_done;
-    //
-    //         //broadcrawl
-    //         $scope.broadcrawlerProgress = data.crawler;
-    //
-    //     })
-		// .error(function (error) {
-		// 	$scope.status = 'Unable to load data: ' + error.message;
-    //     })
-		// .finally(function(){
-		// 	$scope.loading = false;
-		// });
-    // };
+	//MODELER
 
     $scope.modeler= {};
     $scope.modeler.model = false;
@@ -253,6 +235,15 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     $scope.buildingDdModeler=false;
 
     $scope.modeler.init=true;
+
+       $scope.startDdModeler = function(){
+        eventFactory.postDdModeler($scope.workspaceId, "start");
+        $scope.buildingDdModeler=true;
+        $scope.modeler = {};
+        $timeout(getModelerProgress, 2000)
+        $rootScope.backgroundServicePromise_getModelerProgress = $interval(getModelerProgress, 1000);
+    };
+
 
     function getModelerProgress(){
         if($scope.buildingDdModeler || $scope.modeler.init){
@@ -263,6 +254,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
                 $scope.modeler.quality.advice = $scope.adviceParser($scope.modeler.quality.advice, $scope.modeler.quality.tooltips);
                 if($scope.modeler.model){
                     $scope.buildingDdModeler=false;
+                    $interval.cancel($rootScope.backgroundServicePromise_getModelerProgress);
                 }
             })
             .error(function (error) {
@@ -270,7 +262,6 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
             })
             .finally(function(){
                 $scope.loading = false;
-                $rootScope.backgroundServicePromise_getModelerProgress = $timeout(getModelerProgress, 2000);
             });
         }
     };
@@ -283,8 +274,13 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         return res;
     };
 
-    $rootScope.backgroundServicePromise_getModelerProgress = $timeout(getModelerProgress, 2000);
+    getModelerProgress();
 
+
+    // $rootScope.backgroundServicePromise_getModelerProgress = $timeout(getModelerProgress, 2000);
+    // console.log("-canceling: backgroundServicePromise getModelerProgress" );
+    // $interval.cancel($rootScope.backgroundServicePromise_getModelerProgress);
+    // console.log("-- schedulling: backgroundServicePromise getModelerProgress" );
 
     //trainer
     $scope.trainer={};
@@ -301,7 +297,9 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
             .success(function (data){
                 $rootScope.ddTrainerJobId = data.jobId;
                 eventFactory.postDdTrainer($scope.workspaceId, "start", $rootScope.ddTrainerJobId);
-                $timeout(getTrainerProgress, 2000)
+                // $timeout(getTrainerProgress, 2000)
+                console.log("-- scheduling: backgroundServicePromise getTrainerProgress");
+                $rootScope.backgroundServicePromise_getTrainerProgress = $interval(getTrainerProgress, 5000);
             })
             .error(function (error) {
                 console.log(error);
@@ -339,9 +337,11 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 		.finally(function(){
 			if($scope.trainer && $scope.trainer.job && ($scope.trainer.job.status=="FINISHED" ||$scope.trainer.job.status=="STOPPED") ){
                 console.log("no reason to keep polling trainer status");
+                console.log("-canceling: backgroundServicePromise getTrainerProgress" );
+                $interval.cancel($rootScope.backgroundServicePromise_getTrainerProgress);
                 return;
             }
-            $rootScope.backgroundServicePromise_getTrainerProgress = $timeout(getTrainerProgress, 2000);
+            // $rootScope.backgroundServicePromise_getTrainerProgress = $timeout(getTrainerProgress, 2000);
 		});
     };
 
@@ -353,7 +353,14 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         return res;
     };
 
-    $rootScope.backgroundServicePromise_getTrainerProgress = $timeout(getTrainerProgress, 2000);
+
+    getTrainerProgress();
+    // $rootScope.backgroundServicePromise_getTrainerProgress = $timeout(getTrainerProgress, 2000);
+    console.log("-canceling: backgroundServicePromise getTrainerProgress" );
+    $interval.cancel($rootScope.backgroundServicePromise_getTrainerProgress);
+    console.log("-- schedulling: backgroundServicePromise getTrainerProgress"  );
+    $rootScope.backgroundServicePromise_getTrainerProgress = $interval(getTrainerProgress, 2000);
+
 
 
 //CRAWLER
@@ -378,12 +385,13 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 			$scope.status = 'Unable to load data: ' + error.message;
         })
 		.finally(function(){
-			if($scope.crawler && $scope.crawler.job && ( $scope.crawler.job.status=="STOPPED")){
-			    // even when finished, it continues working on the bg //$scope.crawler.job.status=="FINISHED" ||
+			if($scope.crawler && $scope.crawler.job && ($scope.crawler.job.status=="FINISHED" || $scope.crawler.job.status=="STOPPED")){
+			    // even when finished, it continues working on the bg //
                 console.log("no reason to keep polling crawler progress");
+                console.log("-canceling: backgroundServicePromise getCrawlerProgress" );
+                $interval.cancel($rootScope.backgroundServicePromise_getCrawlerProgress);
                 return;
             }
-			$rootScope.backgroundServicePromise_getCrawlerProgress = $timeout(getCrawlerProgress, 2000);
 		});
     };
 
@@ -395,7 +403,18 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         return res;
     };
 
-    $rootScope.backgroundServicePromise_getCrawlerProgress = $timeout(getCrawlerProgress, 2000);
+    getCrawlerProgress();
+
+    // $rootScope.backgroundServicePromise_getCrawlerProgress = $timeout(getCrawlerProgress, 2000);
+    // $rootScope.backgroundServicePromise_getCrawlerProgress = $interval(getCrawlerProgress, 2000);
+
+    console.log("-canceling: backgroundServicePromise getCrawlerProgress" );
+    $interval.cancel($rootScope.backgroundServicePromise_getCrawlerProgress);
+    console.log("-- schedulling: backgroundServicePromise getCrawlerProgress" );
+    $rootScope.backgroundServicePromise_getCrawlerProgress = $interval(getCrawlerProgress, 3000);
+
+
+
 
 // LOGIN
 
@@ -429,16 +448,16 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 			isRunning = true;
             $scope.getAggregated();
             $scope.getWorkspace(); // TODO try to remove this!
-
-            // $scope.getModelerProgress();
-//            $scope.getTrainerProgress($scope.workspaceId);
-//             $scope.getAllProgress($scope.workspaceId);
-            $scope.getLoginInputStats($scope.workspaceId);
-            $interval.cancel($rootScope.backgroundServicePromise);
-            $rootScope.backgroundServicePromise = $interval(backgroundService, 5000);
+            // $scope.getLoginInputStats($scope.workspaceId); // # TODO enable this later
 		}
-	}
+	};
 
+
+	backgroundService();
+
+    // console.log("-canceling: backgroundServicePromise");
+    $interval.cancel($rootScope.backgroundServicePromise);
+    // console.log("-- schedulling: backgroundServicePromise");
     $rootScope.backgroundServicePromise = $interval(backgroundService, 5000);
 
 
