@@ -55,7 +55,8 @@ def save_blur_level(level):
 
 
 def dao_list_workspace():
-    docs = Singleton.getInstance().mongo_instance.workspace_collection.find({}, {'name': 1, 'created': 1, 'words': 1}).sort('created', pymongo.ASCENDING)
+    # docs = Singleton.getInstance().mongo_instance.workspace_collection.find({}, {'name': 1, 'created': 1, 'words': 1}).sort('created', pymongo.ASCENDING)
+    docs = Singleton.getInstance().mongo_instance.workspace_collection.find({}).sort('created', pymongo.ASCENDING)
 
     return list(docs)
 
@@ -70,7 +71,7 @@ def dao_add_workspace(name, ts):
 
 
 def dao_get_workspace_by_id(id):
-    return Singleton.getInstance().mongo_instance.workspace_collection.find_one({'_id': ObjectId(id)})
+        return Singleton.getInstance().mongo_instance.workspace_collection.find_one({'_id': ObjectId(id)})
 
 
 def dao_delete_workspace(id):

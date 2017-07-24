@@ -32,8 +32,8 @@
 								<a id="memtool" class="glyphicon glyphicon-question-sign" style="opacity:1;"></a>
 								<a ng-click="navigateToDashboard(workspace._id)" >
 									<span class="next-step">
+										<span style="margin-left:5px" class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
 										Back to Dashboard
-										<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
 									</span>
 								</a>
 							</div>
@@ -46,10 +46,10 @@
 										</h3>
 									</div>
 									<div ng-show='source=="deepdeep"'>
-										<div style="padding-left:20px" ng-hide='trainerProgress==""'>
+										<div style="padding-left:20px" ng-hide='trainer.progress==""'>
 											<div >
 												<h4>Progress:</h4>
-												<span ng-bind="trainerProgress"></span>
+												<span ng-bind="trainer.progress"></span>
 											</div>
 										</div>
 										<hr>

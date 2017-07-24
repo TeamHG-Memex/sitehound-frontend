@@ -25,14 +25,19 @@
 							<a id="memtool" class="glyphicon glyphicon-question-sign" style="opacity:1;"></a>
 							<a ng-click="navigateToDashboard(workspace._id)" >
 								<span class="next-step">
+									<span style="margin-left:5px" class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
 									Back to Dashboard
-									<span style="margin-left:5px" class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
 								</span>
 							</a>				</div>
 						<div class="panel-body">
+							<div style="padding: 20px">
+								<h4>
+									Keyword to be used on the Search Engines (Max. 5 per category)
+								</h4>
+							</div>
 							<section>
 								<form name="includeForm" validate>
-									<label>Enter keywords to Include </label>&nbsp;
+									<label>Include </label>&nbsp;
 									<input id="includeButton" ng-model="includedWord" ng-minlength="3" placeholder=" at least 3 chars" custom-validation
 										ng-keypress="($event.which === 13) && includedWord.length && includeForm.$valid && addIncludedWord(includedWord)"
 											/>
@@ -57,7 +62,7 @@
 								</div>
 								<br/>
 								<form name="excludeForm">
-									<label>Enter keywords to Exclude </label>&nbsp;
+									<label>Exclude </label>&nbsp;
 									<input id="excludeInput" ng-model="excludedWord" ng-minlength="3" placeholder=" at least 3 chars" custom-validation
 									ng-keypress="($event.which === 13 || $event.which === 44)  && excludedWord.length && excludeForm.$valid && addExcludedWord(excludedWord)"
 									/>

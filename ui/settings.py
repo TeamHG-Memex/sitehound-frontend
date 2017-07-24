@@ -10,9 +10,6 @@ MONGO_HOST_PORT = 27017
 KAFKA_HOST_NAME = "hh-kafka"
 KAFKA_HOST_PORT = "9092"
 
-ARACHNADO_HOST_NAME ="hh-arachnado"
-ARACHNADO_HOST_PORT ="8888"
-
 # Elasticsearch index
 ES_HOST = "hh-elasticsearch"
 ES_PORT = "9200"

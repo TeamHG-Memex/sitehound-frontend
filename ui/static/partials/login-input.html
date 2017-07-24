@@ -1,0 +1,102 @@
+<!--accordion-->
+<script type="text/ng-template" id="group-template.html">
+	<div class="panel {{panelClass || 'panel-default'}}">
+		<div class="panel-heading" ng-click="toggleOpen()">
+			<h6 class="panel-title" href tabindex="0"  accordion-transclude="heading">
+				<span ng-class="{'text-muted': isDisabled}">{{heading}}</span>
+			</h6>
+		</div>
+		<div class="panel-collapse collapse" collapse="!isOpen">
+			<div class="panel-body" ng-transclude>
+			</div>
+		</div>
+	</div>
+</script>
+
+
+
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="submittedOk">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedOk()">&times;</span></button>
+	<strong>Success!</strong> The URLs were submitted. The results will be available in some seconds.</a>
+</div>
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="submittedError">
+	<button type="button" class="close" aria-label="Close"><span aria-hidden="true" ng-click="hideSubmittedError()">&times;</span></button>
+	<strong>Something went wrong!</strong> {{errorMessage ? errorMessage : errorMessageDefault}}
+</div>
+
+
+
+		<div class="panel panel-default" >
+			<div class="panel-heading">
+				<h3 class="panel-title" style="display:inline;">Credentials for the crawler </h3>
+				<a id="memtool" class="glyphicon glyphicon-question-sign" style="opacity:1;"></a>
+				<a ng-click="navigateToDashboard(workspace._id)" >
+					<span class="next-step">
+						<span style="margin-left:5px" class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+						Back to Dashboard
+					</span>
+				</a>
+			</div>
+			<div class="panel-body">
+				<div col-lg="12">
+					<div>
+						<h3>
+							Here you can provide credentials for the crawler.
+						</h3>
+						<h5>
+							The results will be hidden once you submit them
+						</h5>
+					</div>
+
+					<div style="clear:both"></div>
+					<br>
+				</div>
+				<accordion close-others="false">
+					<!--<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in seedUrls | filter : isSearchEngine | filter : relevancy | filter: deletedFilter">-->
+					<div infinite-scroll='fetch()' infinite-scroll-disabled='crawlStatusBusy' infinite-scroll-distance='5' infinite-scroll-listen-for-event="list:filtered">
+						<!--<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in loginInputs | filter : relevancy | filter: deletedFilter">-->
+						<accordion-group ng-init="status.open = true" is-open="status.open" template-url="group-template.html" ng-repeat="elem in loginInputs | filter: completedFilter">
+						<accordion-heading >
+							<span ng-hide="status.open">
+								{{elem.host}}
+							</span>
+							<span ng-show="status.open">
+								&nbsp;
+							</span>
+							<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+						</accordion-heading>
+						<accordion-body>
+							<div>
+								<!--<div style="float:left;" class="imageBox">-->
+									<!--<img ng-src="api/workspace/{{workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210"/>-->
+								<!--</div>-->
+								<div style="float:left; padding-left:20px; padding-right:10px;width:55%; min-height:170px">
+									<p>
+										<a href="{{elem.url}}" target="_blank" style="margin-right:5px;margin-bottom:10px">
+											<span class="url" style="font-size:14px">{{elem.url}}</span>
+										</a>
+									</p>
+									<div class="span5" style="margin-top: 15px">
+										<fieldset ng-repeat="k in elem.keysOrder">
+											<span class="input-login-label">{{k}}</span>
+											<input ng-model="elem.keyValues[k]"/><br/>
+										</fieldset>
+									</div>
+									<div style="padding:10px; padding-bottom:0px; margin-top: 10px">
+										<input type="submit" value="Submit" class="btn btn-primary" ng-click="saveUserInputForm(elem)"/>
+									</div>
+								</div>
+							</div>
+							<div style="clear:both">
+							</div>
+						</accordion-body>
+					</accordion-group>
+					</div>
+					<div ng-hide="loginInputs.length > 0">
+						No new results found.
+					</div>
+				</accordion>
+			</div>
+			<div class="panel-footer">
+			</div>
+		</div>

@@ -1,0 +1,206 @@
+
+<style type="text/css">
+  <!--.css-form input.ng-invalid.ng-touched {-->
+    <!--background-color: #FA787E;-->
+  <!--}-->
+
+  <!--.css-form input.ng-valid.ng-touched {-->
+    <!--background-color: #78FA89;-->
+  <!--}-->
+</style>
+<!--<script type="text/ng-template" id="myModalContent.html">-->
+	<!--<div class="modal-header">-->
+		<!--<h3 class="modal-title">Export Results</h3>-->
+		<!--<h5>-->
+			<!--Your are about to export the broadcrawl results with the following settings:-->
+		<!--</h5>-->
+	<!--</div>-->
+	<!--<div class="modal-body">-->
+	<!--<form novalidate class="css-form" id="myForm" name="myForm">-->
+		<!--<div class="form-group" ng-class="{'has-error': myForm.filename.$invalid}">-->
+			<!--<label for="filename">Filename </label>-->
+			<!--<input type="text" id="filename" name="filename" class="form-control" ng-model="items.filename" value="{{items.filename}}" required>-->
+			<!--&lt;!&ndash;<span class="css-form" ng-show="myForm.filename.$touched && myForm.filename.$invalid">required</span>&ndash;&gt;-->
+		<!--</div>-->
+
+		<!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+			<!--&lt;!&ndash;<label for="separator">Field separator</label>&ndash;&gt;-->
+			<!--&lt;!&ndash;<input type="text" id="separator" class="form-control" ng-model="items.separator" required>&ndash;&gt;-->
+		<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+		<!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+			<!--&lt;!&ndash;<label for="decimal-separator">Decimal separator</label>&ndash;&gt;-->
+			<!--&lt;!&ndash;<input type="text" id="decimal-separator" class="form-control" ng-model="items.decimalSeparator" required>&ndash;&gt;-->
+		<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+		<!--<div class="form-group">-->
+			<!--<label for="include-bom">Include BOM</label>-->
+			<!--<select id="include-bom" ng-model="items.includeBom" class="form-control" >-->
+				<!--<option value="NO">No</option>-->
+				<!--<option value="YES">Yes</option>-->
+			<!--</select>-->
+		<!--</div>-->
+	<!--</form>-->
+		<!--&lt;!&ndash;<button class="btn btn-default"&ndash;&gt;-->
+		      <!--&lt;!&ndash;ng-csv="getArray" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}" add-bom="true"&ndash;&gt;-->
+		<!--&lt;!&ndash;&gt;With BOM</button>&ndash;&gt;-->
+
+		<!--&lt;!&ndash;<button class="btn btn-default" ng-click="addRandomRow()">Add row</button>&ndash;&gt;-->
+	<!--</div>-->
+	<!--<div class="modal-footer">-->
+		<!--<button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="!myForm.$valid" ng-click="items.bla"-->
+			<!--ng-csv="items.getArray" csv-header="items.getHeader()" filename="{{items.filename}}.csv" field-separator="{{items.separator}}" decimal-separator="{{items.decimalSeparator}}" lazy-load="true">Export</button>-->
+
+		<!--<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>-->
+	<!--</div>-->
+<!--</script>-->
+
+
+<!--<div id="mySpinner" ng-show="loading">-->
+  <!--<img  src="/static/images/spinner_485.gif"  />-->
+<!--</div>-->
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title" style="display:inline;">Broad Crawler Results Summary</h3>
+							<a ng-click="navigateToDashboard(workspace._id)" >
+								<span class="next-step">
+									<span style="margin-left:5px" class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span>
+									Back to Dashboard
+								</span>
+							</a>
+						</div>
+						<section class="panel-body">
+
+							<section>
+								<div id="wrapper" class="col-lg-12 .container"  >
+
+									<div class="btn-toolbar" style="margin-bottom:10px">
+										<div class="col-lg-12" style="margin-top:24px">
+											<div class="btn-group" style="float:left">
+												<input type="text" ng-model="filterExpression" ng-model-options="{debounce: 150}" class="form-control" placeholder="type here to search">
+											</div>
+											<!--<div style="float:right">-->
+												<!--<button id="export" ng-click="loadExportModal()" class="btn btn-primary" type="button">-->
+													<!--Export-->
+												<!--</button>-->
+											<!--</div>-->
+										</div>
+
+									</div>
+									<!--<script type="text/ng-template" id="detailsTemplate.html">-->
+										<!--<div class="panel panel-default">-->
+											<!--&lt;!&ndash;<div class="panel-body" ng-controller="detailsController">&ndash;&gt;-->
+											<!--<div class="panel-body">-->
+												<!--<div class="row">-->
+													<!--&lt;!&ndash;<iframe class="col-md-12" frameborder="0" style="border:0; height: 400px" ng-src="{{ getMapUrl() }}" allowfullscreen></iframe>&ndash;&gt;-->
+													<!--<div style="clear:both"></div>-->
+													<!--<div style="float:left; padding-left:20px" class="imageBox">-->
+														<!--<img ng-src="api/workspace/{{workspaceId}}/keywords/screenshot/{{elem._id}}" width="280" height="210"/>-->
+													<!--</div>-->
+													<!--<div style="float:left; padding-left:20px">-->
+														<!--<a href="{{row.data.url}}" target="_blank" style="font-size: 16px; margin-right:2px">-->
+															<!--<span class="url" title='{{row.data.url}}'>-->
+																<!--{{row.data.url.length<53? row.data.url : (row.data.url | ellipsis:true:50:'...')}}-->
+															<!--</span>-->
+														<!--</a>-->
+														<!--<p> <strong> Host: </strong> {{ row.data.host }}</p>-->
+														<!--<p><strong>Title: </strong> {{ row.data.title }} </p>-->
+														<!--<p ng-if="row.data.categories.length > 0">-->
+															<!--<strong>Categories: </strong>-->
+															<!--{{row.data.categories.join(', ')}}-->
+														<!--</p>-->
+														<!--<p ng-if="row.data.language != 'unidentified'"><strong>Language: </strong>{{ row.data.language | fullLanguageName }} </p>-->
+														<!--<p ng-if="row.data.score != 'unidentified'"><strong>Score: </strong>{{ row.data.score | number : 2 }} </p>-->
+													<!--</div>-->
+
+												<!--</div>-->
+											<!--</div>-->
+										<!--</div>-->
+									<!--</script>-->
+
+									<table lg-grid class="table table-striped light-grid" model="dataProvider.getGridModel()">
+										<lgHeaderView>
+										<thead>
+											<tr>
+												<th><span lg-sorter sort-property="score" data-provider="dataProvider">Score</span></th>
+												<th><span lg-sorter sort-property="pinned" data-provider="dataProvider">Pin</span></th>
+												<th><span lg-sorter sort-property="host" data-provider="dataProvider">Host</span></th>
+												<th><span lg-sorter sort-property="url" data-provider="dataProvider">URL</span></th>
+												<!--<th><span lg-sorter sort-property="language" data-provider="dataProvider">Language</span></th>-->
+											</tr>
+										</thead>
+										</lgHeaderView>
+										<tbody style="font-size:13px">
+											<tr lg-row-start>
+												<td>
+													<lg-view view="read, edit">
+														{{ row.data.score | number : 2 }}
+													</lg-view>
+												</td>
+												<td>
+													<!--<lg-view view="read">-->
+														<!--<span ng-if="row.data.pinned==true" class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>-->
+													<!--</lg-view>-->
+													<lg-view view="read">
+														{{row.data.pinned ? "Yes": "No"}}
+													</lg-view>
+													<!--<span lg-view view="read" ng-if="row.data.pinned==true" class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>-->
+													<lg-view view="edit">
+														<!--<input ng-model="row.viewModel.pinned" class="form-control input-sm">-->
+														<!--{{row.data.pinned}}-->
+														<select name="singleSelect" ng-model="row.viewModel.pinned"
+														        ng-options="value.teamId as value.teamName for (key, value) in bookmarkValues"
+														        class="form-control input-sm" style="padding-left:3px">
+														</select>
+
+													</lg-view>
+												</td>
+												<td>
+													<lg-view view="read, edit">
+														{{ row.data.host }}
+													</lg-view>
+												</td>
+												<td>
+													<lg-view view="read, edit">
+														<a href="{{row.data.url}}" target="_blank" style="font-size: 16px; margin-right:2px">
+															<span class="url ellipses" title='{{row.data.url | decodeURIComponent}}'>
+																{{(row.data.url | decodeURIComponent).length<80? (row.data.url | decodeURIComponent) : (row.data.url | decodeURIComponent | ellipsis:true:77:'...') }}
+															</span>
+														</a>
+													</lg-view>
+												</td>
+												<!--<td>-->
+													<!--<lg-view view="read, edit">-->
+														<!--{{ row.data.language | fullLanguageName }}-->
+													<!--</lg-view>-->
+												<!--</td>-->
+												<td style="width: 140px; text-align: right;">
+													<div lg-view view="read">
+														<button class="btn btn-default btn-sm" lg-switch-view="edit">Edit</button>
+														<button class="btn btn-default btn-sm" ng-click="remove(row)">Delete</button>
+														<!--{{row.data.deleted}}-->
+														<!--<button class="btn btn-default btn-sm" lg-toggle-expanded-row="detailsTemplate.html">Details</button>-->
+													</div>
+													<div lg-view="edit">
+														<!--<button class="btn btn-primary btn-sm" lg-persist-data data-provider="dataProvider">Save</button>-->
+														<button class="btn btn-primary btn-sm" ng-click="bookmark(row.data, row)">Save</button>
+														<button class="btn btn-default btn-sm" lg-switch-view="read">Cancel</button>
+														<!--<button class="btn btn-default btn-sm" lg-toggle-expanded-row>Details</button>-->
+													</div>
+												</td>
+											</tr>
+											<tr lg-row-end lg-expanded-row>
+												<td colspan="7" ng-include="'detailsTemplate.html'"></td>
+											</tr>
+										</tbody>
+									</table>
+
+									<lg-pager data-provider="dataProvider"></lg-pager>
+
+								</div>
+							</section>
+						</section>
+						<div class="panel-footer">
+						</div>
+					</div>

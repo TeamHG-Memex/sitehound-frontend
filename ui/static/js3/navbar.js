@@ -158,7 +158,19 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 	domFactory.navigateToUserDefinedCategoriesDownload = function(qs){
 		var url = "api/workspace/" + $routeParams.workspaceId + "/label-user-defined-categories/all" + qs;
         window.location.assign(url);
-	}
+	};
+
+	domFactory.navigateToUserLoginInput = function(){
+		var url = "/workspace/" + $routeParams.workspaceId + "/login-input";
+        reload(url);
+	};
+
+	domFactory.navigateToUserLoginInputSummary = function(){
+		var url = "/workspace/" + $routeParams.workspaceId + "/login-input-summary";
+        reload(url);
+	};
+
+
 
 
     $(".navbar-deep-crawl").bind("click", function(e){

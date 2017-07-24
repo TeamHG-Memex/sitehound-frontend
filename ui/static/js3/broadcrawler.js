@@ -49,6 +49,13 @@ function ($scope, $rootScope, $filter, $location, $routeParams, $modal, domFacto
 		});
 	}
 
+   $scope.isDisabled = false;
+
+    $scope.disableButton = function() {
+        $scope.isDisabled = true;
+        return true;
+    };
+
     $scope.stopBroadCrawl = function(){
 		eventFactory.postDdCrawler($rootScope.ddCrawlerJobId, "stop");
         $rootScope.ddCrawlerJobId = null;
@@ -64,10 +71,11 @@ function ($scope, $rootScope, $filter, $location, $routeParams, $modal, domFacto
 		broadcrawlerFactory.publish2BroadCrawl($scope.workspaceId, nResults, $scope.crawlProvider, crawlSources, broadness)
 		.success(function(data){
 			$rootScope.ddCrawlerJobId = data.jobId;
-			$scope.getCrawlStatus(data.jobId);
+			// $scope.getCrawlStatus(data.jobId);
 			$scope.status='';
 			$scope.submittedOk = true;
 			$scope.submittedError = false;
+			$scope.isDisabled=true;
 		})
 		.error(function(error){
 			$scope.status = 'Unable to post the Job. ' + (error.message || error || '');
@@ -79,29 +87,29 @@ function ($scope, $rootScope, $filter, $location, $routeParams, $modal, domFacto
 		});
 	};
 
-	$scope.getCrawlStatus = function(jobId) {
-		clearInterval($scope.crawlStatusTimeout);
-		broadcrawlerFactory.getCrawlStatus($scope.workspaceId, jobId)
-		.success(function(data){
-			$scope.status = 'Data loaded';
-			$scope.categories = data.categories;
-			$scope.languages = data.languages;
-			$scope.nResultsFound = data.nResults;
-			$scope.labelCategories = $scope.categories.length > 0 ? 'Categories Found: ' : '' ;
-			$scope.labelLanguages = $scope.languages.length > 0 ? 'Languages Found: ' : '' ;
-			$scope.labelnResultsFound = $scope.nResultsFound > 0 ? 'Results Found: ' : '' ;
-
-			$scope.crawlStatusTimeout = setTimeout(function() { $scope.getCrawlStatus(data.jobId);}, 5000);
-
-		})
-		.error(function(error){
-			$scope.crawlStatusTimeout = setTimeout(function() { $scope.getCrawlStatus(data.jobId);}, 5000);
-			$scope.status = 'Unable to load data: ' + error;
-		})
-		.finally(function(){
-			$scope.loading = false;
-		});
-	}
+	// $scope.getCrawlStatus = function(jobId) {
+	// 	clearInterval($scope.crawlStatusTimeout);
+	// 	broadcrawlerFactory.getCrawlStatus($scope.workspaceId, jobId)
+	// 	.success(function(data){
+	// 		$scope.status = 'Data loaded';
+	// 		$scope.categories = data.categories;
+	// 		$scope.languages = data.languages;
+	// 		$scope.nResultsFound = data.nResults;
+	// 		$scope.labelCategories = $scope.categories.length > 0 ? 'Categories Found: ' : '' ;
+	// 		$scope.labelLanguages = $scope.languages.length > 0 ? 'Languages Found: ' : '' ;
+	// 		$scope.labelnResultsFound = $scope.nResultsFound > 0 ? 'Results Found: ' : '' ;
+    //
+	// 		$scope.crawlStatusTimeout = setTimeout(function() { $scope.getCrawlStatus(data.jobId);}, 5000);
+    //
+	// 	})
+	// 	.error(function(error){
+	// 		$scope.crawlStatusTimeout = setTimeout(function() { $scope.getCrawlStatus(data.jobId);}, 5000);
+	// 		$scope.status = 'Unable to load data: ' + error;
+	// 	})
+	// 	.finally(function(){
+	// 		$scope.loading = false;
+	// 	});
+	// }
 
 
 	/**** modal ****/

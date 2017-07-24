@@ -6,6 +6,7 @@ var ngApp = angular.module('ngApp', ['ngResource', 'ngRoute','ngAnimate', 'ui.bo
 //	, 'ngSanitize'
 	, 'ngCsv'])
 
+angular.module('infinite-scroll').value('THROTTLE_MILLISECONDS', 1000)
 
 ngApp.run(function(editableOptions, editableThemes) {
 	editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'. This is for xeditable
@@ -192,9 +193,31 @@ ngApp.config(function ($routeProvider) {
 				controller: 'dashboardController',
 				templateUrl: '/static/partials/dashboard.html'
 			})
+		.when('/workspace/:workspaceId/login-input',
+			{
+				controller: 'loginInputController',
+				templateUrl: '/static/partials/login-input.html'
+			})
+		.when('/workspace/:workspaceId/login-input-summary',
+			{
+				controller: 'loginInputSummaryController',
+				templateUrl: '/static/partials/login-input-summary.html'
+			})
 		.otherwise({
 			redirectTo: '/'
 			})
+});
+
+ngApp.filter('roundup', function () {
+
+        return function (value) {
+        	if(value>0){
+	            return Math.ceil(value);
+			}
+			else{
+        		return 0;
+			}
+        };
 });
 
 

@@ -23,6 +23,7 @@ crawl_job_collection_name = "crawl_job"
 workspace_collection_name = "workspace"
 user_collection_name = "user"
 role_collection_name = "role"
+login_input = "login_input"
 
 
 class MongoInstance(object):
@@ -53,6 +54,9 @@ class MongoInstance(object):
     def get_role_collection(self):
         return self.db[role_collection_name]
 
+    def get_login_input_collection(self):
+        return self.db[login_input]
+
     def initialize(self):
         collections = self.db.collection_names()
 
@@ -66,6 +70,10 @@ class MongoInstance(object):
         if broad_crawler_collection_name not in collections:
             self.db.create_collection(broad_crawler_collection_name)
             self.db[broad_crawler_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("score", pymongo.DESCENDING), ("_id", pymongo.ASCENDING)], name="scoring_search_index")
+
+        if login_input not in collections:
+            self.db.create_collection(login_input)
+            self.db[login_input].create_index([("workspaceId", pymongo.ASCENDING), ("url", pymongo.ASCENDING)], unique=True, name="workspaceId_url_index")
 
     def get_workspace_by_id(self, id):
         return self.workspace_collection.find_one({"_id": ObjectId(id)})

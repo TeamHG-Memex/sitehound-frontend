@@ -7,8 +7,12 @@
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 	<title>Site Hound</title>
 
-	<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+	<!--<script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<!--<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
 	<script src="{{ url_for('static', filename='js/jquery.tooltipster.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/d3.v3.min.js') }}" charset=utf-8></script>
@@ -16,7 +20,9 @@
 	<script src="{{ url_for('static', filename='js/URI.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/pinterest_grid.js') }}"></script>
 
-	<link href="{{ url_for('static', filename='css/jquery-ui.css') }}" rel=stylesheet>
+	<!--<link href="{{ url_for('static', filename='css/jquery-ui.css') }}" rel=stylesheet>-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.min.css" />
+
 
 	<!-- Latest compiled and minified CSS -->
 	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
@@ -107,11 +113,20 @@
 	</div>
 
 
-	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-route.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-resource.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-animate.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-cookies.min.js') }}"></script>
+	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular.min.js') }}"></script>-->
+	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-route.min.js') }}"></script>-->
+	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-resource.min.js') }}"></script>-->
+	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-animate.min.js') }}"></script>-->
+	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-cookies.min.js') }}"></script>-->
+	<!--<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-sanitize.min.js') }}"></script>-->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-resource.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-animate.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-cookies.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-sanitize.min.js"></script>
+
 	<script src="{{ url_for('static', filename='lib/angular-ui/bootstrap/v0.13.4/ui-bootstrap-tpls-0.13.4.min.js') }}"></script>
 	<!--<script src="{{ url_for('static', filename='lib/bootstrap/v3.3.5/bootstrap.min.js') }}"></script>-->
 
@@ -132,7 +147,7 @@
 	<link href="{{ url_for('static', filename='lib/angular-ui/light-grid/light-grid-custom.css') }}" rel="stylesheet">
 
 	<script src="{{ url_for('static', filename='lib/angular/ng-csv/ng-csv.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='lib/angular/v1.4.7/angular-sanitize.min.js') }}"></script>
+
 
 
 	<script src="{{ url_for('static', filename='js3/ngapp.js') }}"></script>
@@ -156,6 +171,8 @@
 	<script src="{{ url_for('static', filename='js3/job.js') }}"></script>
 	<script src="{{ url_for('static', filename='js3/navbar.js') }}"></script>
 	<script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/login-input.js') }}"></script>
+	<script src="{{ url_for('static', filename='js3/login-input-summary.js') }}"></script>
 
 	<!--slider-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>

@@ -26,6 +26,7 @@ from ui.controller import event_handler
 from ui.controller import progress_handler
 from ui.controller import user_defined_categories_handler
 from ui.controller import label_user_defined_categories_handler
+from ui.controller import login_input_handler
 
 # services
 from brokers.broker_service import BrokerService
