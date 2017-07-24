@@ -58,7 +58,6 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
         var tOut = $scope.startLoading();
 		workspaceFactory.getWorkspace($scope.workspaceId)
 			.success(function (data) {
-			    debugger
     			$scope.workspace = data;
     			$scope.recalculateWords($scope.workspace.words);
 				$scope.endLoading(tOut);
