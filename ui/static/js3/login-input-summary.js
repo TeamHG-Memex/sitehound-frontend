@@ -1,23 +1,20 @@
 ngApp.controller('loginInputSummaryController', ['$scope', '$filter', '$modal', '$routeParams', 'domFactory', 'broadcrawlerFactory', 'broadcrawlerResultsFactory', '$http',
  'lgLocalDataProviderFactory',
  'lgServerDataProviderFactory',
- 'bookmarkFactory', '$q'
+ 'bookmarkFactory', '$q', 'loginInputFactory'
 ,function ($scope, $filter, $modal, $routeParams, domFactory, broadcrawlerFactory, broadcrawlerResultsFactory, $http,
 			lgLocalDataProviderFactory,
 			lgServerDataProviderFactory,
-			bookmarkFactory, $q){
+			bookmarkFactory, $q, loginInputFactory){
 
 	$scope.workspaceId = $routeParams.workspaceId;
 	domFactory.setWorkspaceName($scope.workspaceId);
-	domFactory.highlightNavbar("#navbar-broad-crawl");
-
 
 	$scope.navigateToDashboard = function(){
 		domFactory.navigateToDashboard();
-	}
+	};
 
-
-	var urlBase = "/api/workspace/{0}/broad-crawl-results-summary";
+	var urlBase = "/api/workspace/{0}/login-input/summary";
 	var resourceUrl = String.format(urlBase, $scope.workspaceId);
 
 //	var defaultViewSettings = {
@@ -39,12 +36,12 @@ ngApp.controller('loginInputSummaryController', ['$scope', '$filter', '$modal', 
         {teamId: 1, teamName: 'Yes'},
     ];
 
-	$scope.bookmark = function(modelBefore, rowScope){
-		var modelAfter = rowScope.viewModel;
-		rowScope.viewModel.pinned = parseInt(rowScope.viewModel.pinned, 10);
-		var isPinned = modelAfter.pinned == 1;
-		console.log('bookmarking: ' + modelAfter.url + ' as ' + isPinned);
-		bookmarkFactory.bookmark($scope.workspaceId, modelAfter.id, isPinned)
+	$scope.update = function(modelAfter, rowScope){
+		rowScope.viewModel.url = modelAfter.url;
+		rowScope.viewModel.keyValues = modelAfter.keyValues;
+		// loginInputFactory.update($scope.workspaceId, modelAfter._id, modelAfter.url, modelAfter.keyValues)
+		debugger;
+		loginInputFactory.save($scope.workspaceId, modelAfter.jobId, modelAfter.url, modelAfter._id, modelAfter.keyValues)
 		.success(function(data){
 			var rowController = rowScope.controller;
 				rowController.acceptViewModel();
@@ -56,37 +53,37 @@ ngApp.controller('loginInputSummaryController', ['$scope', '$filter', '$modal', 
 		.finally(function(){
 			$scope.loading = false;
 		});
-	}
+	};
 
-		function detailsController($scope, $sce) {
+
+	function detailsController($scope, $sce) {
 //			$scope.getMapUrl = function () {
 //				return $sce.trustAsResourceUrl("https://www.google.com/maps/embed/v1/view?key=AIzaSyAQfMqap7X0mJ7MVcPsheEJyyp0WDRFNHA&center=" + $scope.row.data.loc[1] + ',' + $scope.row.data.loc[0] + "&zoom=14");
 //			}
+	}
+
+	$scope.remove = function(row){
+		var model = row.data;
+		var confirmed = confirm('Are you sure you want to remove ' + model.url +'?');
+		if (!confirmed){
+			return;
 		}
-
-		$scope.remove = function(row){
-			var model = row.data;
-			var confirmed = confirm('Are you sure you want to remove ' + model.url +'?');
-			if (!confirmed){
-				return;
-			}
-
-			broadcrawlerResultsFactory.remove($scope.workspaceId, model.id)
-			.success(function(data){
-				$scope.status = 'document deleted';
-				model.deleted = true;
-				var rowController = row.controller;
-				row.viewModel.deleted = 1;
-				rowController.acceptViewModel();
-				$scope.dataProvider.refresh();
-			})
-			.error(function(error){
-				$scope.status = 'Unable to load data: ' + error;
-			})
-			.finally(function(){
-				$scope.loading = false;
-			})
-		};
+		loginInputFactory.remove($scope.workspaceId, model._id)
+		.success(function(data){
+			$scope.status = 'document deleted';
+			model.deleted = true;
+			var rowController = row.controller;
+			row.viewModel.deleted = 1;
+			rowController.acceptViewModel();
+			$scope.dataProvider.refresh();
+		})
+		.error(function(error){
+			$scope.status = 'Unable to load data: ' + error;
+		})
+		.finally(function(){
+			$scope.loading = false;
+		})
+	};
 
 
 	$scope.results = [];
@@ -108,8 +105,10 @@ ngApp.controller('loginInputSummaryController', ['$scope', '$filter', '$modal', 
 			var searchText = "";
 			$scope.pageNumber++;
 
-			broadcrawlerResultsFactory.search($scope.workspaceId, $scope.searchText, $scope.selectedLanguages, $scope.selectedCategories, $scope.bookmarkSwitchStatus, $scope.lastId, $scope.maxId, $scope.jobId, $scope.pageNumber)
+			// broadcrawlerResultsFactory.search($scope.workspaceId, $scope.searchText, $scope.selectedLanguages, $scope.selectedCategories, $scope.bookmarkSwitchStatus, $scope.lastId, $scope.maxId, $scope.jobId, $scope.pageNumber)
+			loginInputFactory.search($scope.workspaceId, $scope.searchText, $scope.lastId, $scope.maxId, $scope.jobId, $scope.pageNumber)
 			.success(function(data){
+				debugger;
 				var tempResults = $.parseJSON(data.results);
 				Array.prototype.push.apply($scope.results, tempResults);
 				$scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1].id :
@@ -139,60 +138,5 @@ ngApp.controller('loginInputSummaryController', ['$scope', '$filter', '$modal', 
 
 	}
 
-	$scope.getArray = function(){
-
-		var csvArray = [];
-		angular.forEach($scope.results, function(value, key) {
-			var obj = {};
-			obj.a = value.score;
-			obj.b = value.pinned;
-			obj.c = value.host;
-			obj.d = value.url;
-			obj.e = value.language;
-			obj.f = (value.categories && value.categories.length >0) ? value.categories.join("|") : value.categories;
-		  csvArray.push(obj);
-		});
-		return csvArray;
-	}
-
-
-	$scope.loadExportModal = function(){
-		var args = {};
-		args.decimalSeparator = '.';
-		args.separator=',';
-		args.filename='export';
-		args.includeBom='NO';
-		args.getHeader = function () {return ["Score", "Pinned", "Host", "URL", "Language", "Categories"]};
-		args.getArray = $scope.getArray;
-		var deferred = $q.defer();
-
-		$scope.getBatchWrapper(deferred).then(function(response){
-			$scope.openModal('default', args);
-		}, function(err){
-			console.log("something went wrong");
-		});
-
-	}
-
-
-	$scope.openModal = function (size, args) {
-		var modalInstance = $modal.open({
-			animation: $scope.animationsEnabled,
-			templateUrl: 'myModalContent.html',
-			controller: 'ModalInstanceCtrl',
-			size: size,
-			resolve: {
-				items: function () {
-					return args;
-				}
-			}
-		});
-
-		modalInstance.result.then(function (selectedItem) {
-			console.log('Modal accepted at: ' + new Date());
-		}, function () {
-			console.log('Modal dismissed at: ' + new Date());
-		});
-	};
 
 }]);

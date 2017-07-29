@@ -132,10 +132,6 @@ def get_search_results_mongo_dao(workspace_id, input_search_query):
 
     url_search_condition = {'url': {'$regex': search_text}}
     host_search_condition = {'host': {'$regex': search_text}}
-#    urldesc_search_condition = {'urlDesc': {'$regex': search_text}} #fixme get this from ES
-#   desc_search_condition = {'desc': {'$regex': search_text}} #fixme get this from ES
-#    words_search_condition = {'words': {'$regex': search_text}}
-    #text_search_conditions = [url_search_condition, host_search_condition, urldesc_search_condition, desc_search_condition, words_search_condition]
     text_search_conditions = [url_search_condition, host_search_condition]
 
     text_search_object = {}

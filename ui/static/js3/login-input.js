@@ -148,9 +148,37 @@ var loginInputFactory = ngApp.factory('loginInputFactory',['$http', function($ht
 		return $http.put(url, po);
 	};
 
+	dataFactory.update= function (workspaceId, _id, loginUrl, keyValues) {
+		var url =  String.format(urlBase, workspaceId) + "/" + _id +"/summary";
+		var po = {};
+		po.workspaceId = workspaceId;
+		po._id = _id;
+		po.url = loginUrl;
+		po.keyValues = keyValues;
+		return $http.put(url, po);
+	};
+
+
+	dataFactory.remove = function(workspaceId, id){
+		var url =  String.format(urlBase, workspaceId);
+		return $http.delete(url + "/" + id);
+	};
+
+
 	dataFactory.getStats = function(workspaceId){
         var url =  String.format(urlBase, workspaceId) + "/stats";
         return $http.get(url);
+	};
+
+	dataFactory.search = function(workspaceId, searchText, lastId, maxId, jobId, pageNumber){
+		var url =  String.format(urlBase, workspaceId) + "/summary";
+		var po = {};
+		po.searchText = searchText;
+		po.lastId = lastId;
+		po.maxId = maxId;
+		po.jobId = jobId;
+		po.pageNumber = pageNumber;
+		return $http.post(url, po); //TODO this should be GET!
 	};
 
 	return dataFactory;

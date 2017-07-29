@@ -418,16 +418,14 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
     $scope.getLoginInputStats = function(workspaceId){
         loginInputFactory.getStats(workspaceId)
             .success(function (data) {
-                $scope.loginInputStats["PENDING"]= 0;
-                $scope.loginInputStats["COMPLETED"]= 0;
-                angular.forEach(data, function (e, i) {
-                    if(e["_id"]=="pending"){
-                        $scope.loginInputStats["PENDING"]= e["count"]
-                    }
-                    else if(e["_id"]=="completed"){
-                        $scope.loginInputStats["COMPLETED"]= e["count"]
-                    }
-                });
+                //     debugger;
+                // $scope.loginInputStats["PENDING"]= 0;
+                // $scope.loginInputStats["COMPLETED"]= 0;
+                $scope.loginInputStats["PENDING"]= data["pending"]
+                $scope.loginInputStats["COMPLETED"]= data["completed"]
+                // angular.forEach(data, function (e, i) {
+                //     };
+                // });
             })
             .error(function (error) {
                 $scope.status = 'Unable to load data: ' + error.message;
@@ -444,7 +442,7 @@ ngApp.controller('dashboardController', ['$scope', '$rootScope', '$filter', '$in
 			isRunning = true;
             $scope.getAggregated();
             $scope.getWorkspace(); // TODO try to remove this!
-            // $scope.getLoginInputStats($scope.workspaceId); // # TODO enable this later
+            $scope.getLoginInputStats($scope.workspaceId); // # TODO enable this later
 		}
 	};
 

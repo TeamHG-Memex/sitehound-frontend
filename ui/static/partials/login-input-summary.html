@@ -123,53 +123,76 @@
 										<lgHeaderView>
 										<thead>
 											<tr>
-												<th><span lg-sorter sort-property="score" data-provider="dataProvider">Score</span></th>
-												<th><span lg-sorter sort-property="pinned" data-provider="dataProvider">Pin</span></th>
-												<th><span lg-sorter sort-property="host" data-provider="dataProvider">Host</span></th>
 												<th><span lg-sorter sort-property="url" data-provider="dataProvider">URL</span></th>
+												<th><span data-provider="dataProvider">User</span></th>
+												<th><span data-provider="dataProvider">Password</span></th>
+												<!--<th><span lg-sorter sort-property="pinned" data-provider="dataProvider">Pin</span></th>-->
+												<!--<th><span lg-sorter sort-property="host" data-provider="dataProvider">Host</span></th>-->
 												<!--<th><span lg-sorter sort-property="language" data-provider="dataProvider">Language</span></th>-->
+												<th></th>
 											</tr>
 										</thead>
 										</lgHeaderView>
 										<tbody style="font-size:13px">
 											<tr lg-row-start>
 												<td>
-													<lg-view view="read, edit">
-														{{ row.data.score | number : 2 }}
-													</lg-view>
-												</td>
-												<td>
-													<!--<lg-view view="read">-->
-														<!--<span ng-if="row.data.pinned==true" class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>-->
-													<!--</lg-view>-->
 													<lg-view view="read">
-														{{row.data.pinned ? "Yes": "No"}}
-													</lg-view>
-													<!--<span lg-view view="read" ng-if="row.data.pinned==true" class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>-->
-													<lg-view view="edit">
-														<!--<input ng-model="row.viewModel.pinned" class="form-control input-sm">-->
-														<!--{{row.data.pinned}}-->
-														<select name="singleSelect" ng-model="row.viewModel.pinned"
-														        ng-options="value.teamId as value.teamName for (key, value) in bookmarkValues"
-														        class="form-control input-sm" style="padding-left:3px">
-														</select>
-
-													</lg-view>
-												</td>
-												<td>
-													<lg-view view="read, edit">
-														{{ row.data.host }}
-													</lg-view>
-												</td>
-												<td>
-													<lg-view view="read, edit">
 														<a href="{{row.data.url}}" target="_blank" style="font-size: 16px; margin-right:2px">
 															<span class="url ellipses" title='{{row.data.url | decodeURIComponent}}'>
 																{{(row.data.url | decodeURIComponent).length<80? (row.data.url | decodeURIComponent) : (row.data.url | decodeURIComponent | ellipsis:true:77:'...') }}
 															</span>
 														</a>
 													</lg-view>
+													<lg-view view="edit">
+														<input ng-model="row.data.url" class="form-control input-sm">
+													</lg-view>
 												</td>
+												<!--<td>-->
+													<!--<lg-view view="read, edit">-->
+														<!--{{ row.data.keys | number : 2 }}-->
+													<!--</lg-view>-->
+												<!--</td>-->
+												<td>
+													<lg-view view="read">
+														{{ row.data.keyValues["user"]}}
+													</lg-view>
+													<lg-view view="edit">
+														<input ng-model="row.data.keyValues['user']" class="form-control input-sm">
+													</lg-view>
+												</td>
+												<td>
+													<lg-view view="read">
+														{{ row.data.keyValues["password"]}}
+													</lg-view>
+													<lg-view view="edit">
+														<input ng-model="row.data.keyValues['password']" class="form-control input-sm">
+													</lg-view>
+												</td>
+
+												<!--<td>-->
+													<!--&lt;!&ndash;<lg-view view="read">&ndash;&gt;-->
+														<!--&lt;!&ndash;<span ng-if="row.data.pinned==true" class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>&ndash;&gt;-->
+													<!--&lt;!&ndash;</lg-view>&ndash;&gt;-->
+													<!--<lg-view view="read">-->
+														<!--{{row.data.pinned ? "Yes": "No"}}-->
+													<!--</lg-view>-->
+													<!--&lt;!&ndash;<span lg-view view="read" ng-if="row.data.pinned==true" class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>&ndash;&gt;-->
+													<!--<lg-view view="edit">-->
+														<!--&lt;!&ndash;<input ng-model="row.viewModel.pinned" class="form-control input-sm">&ndash;&gt;-->
+														<!--&lt;!&ndash;{{row.data.pinned}}&ndash;&gt;-->
+														<!--<select name="singleSelect" ng-model="row.viewModel.pinned"-->
+														        <!--ng-options="value.teamId as value.teamName for (key, value) in bookmarkValues"-->
+														        <!--class="form-control input-sm" style="padding-left:3px">-->
+														<!--</select>-->
+
+													<!--</lg-view>-->
+												<!--</td>-->
+												<!--<td>-->
+													<!--<lg-view view="read, edit">-->
+														<!--{{ row.data.host }}-->
+													<!--</lg-view>-->
+												<!--</td>-->
+
 												<!--<td>-->
 													<!--<lg-view view="read, edit">-->
 														<!--{{ row.data.language | fullLanguageName }}-->
@@ -184,7 +207,7 @@
 													</div>
 													<div lg-view="edit">
 														<!--<button class="btn btn-primary btn-sm" lg-persist-data data-provider="dataProvider">Save</button>-->
-														<button class="btn btn-primary btn-sm" ng-click="bookmark(row.data, row)">Save</button>
+														<button class="btn btn-primary btn-sm" ng-click="update(row.data, row)">Save</button>
 														<button class="btn btn-default btn-sm" lg-switch-view="read">Cancel</button>
 														<!--<button class="btn btn-default btn-sm" lg-toggle-expanded-row>Details</button>-->
 													</div>
