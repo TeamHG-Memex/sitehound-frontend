@@ -168,3 +168,51 @@ DD Crawler also accepts hints, that makes the crawler fetch deeper on that domai
 Using ``workspace_id`` instead of ``id`` because several deepcrawl request could come
 from the same workspace almost simultaneously, but that doesn't imply the need to cancel
 the current crawling because a new one has the same id.
+
+Login workflow
+==============
+
+Assumptions for the first iteration:
+
+1) The login feature will be implemented only on the broadcrawl results (i.e. not on the trainer, the seeds or seeds-url)
+2) The login will be only on-(dd's)-demand. (i.e the user won't be able to load some url+usr+pwd as seeds or the like)
+
+Basic Flow:
+
+1) While DD is broadcrawling, it would be able to identify sites that requires logging in's for further crawling.
+2) DD will report these sites to a ``dd-login-input`` topic.
+3) Sitehound-backend will listen to the queue and it will:
+
+    a) take a screenshot of the page (may be useful in case of catcha, so we don't waste time, etc.)
+    b) store this message
+
+4) A option will be added on Sitehound to show the users this snapshot, along with the fields to be completed,
+   as label + inputs, where each label is one keys from dd-login-input
+5) When the user fulfills one message from the step above, the data is stored(wo encryption by now),
+   and sent to DD via the ``dd-login-output`` topic.
+6) DD receives this message and performs the logging in and deeper crawl of that domain.
+
+dd-login-input
+--------------
+
+Topic: ``dd-login-input``. New login form found::
+
+    {
+        "workspace_id":"57ea86a9d11ff300054a3519",
+        "job_id":"57ea86a9d11ff300054a3519",
+        "url": "http://example.com/login", // login page
+        "keys": ["txtUser", "txtPassword"], // identifiers of the fields required to be completed by the user, whatever it makes sense to use them back by dd
+        "screenshot":"57ea86a9d11ff300054a351.....afazzz9" // b64 representation of the bytes of the image. (PNG format)
+    }
+
+dd-login-output
+---------------
+
+Topic: ``dd-login-output``. Credentials provided by the user and sent for crawling::
+
+    {
+        "workspace_id":"57ea86a9d11ff300054a3519",
+        "job_id":"57ea86a9d11ff300054a",
+        "url": "http://example.com/login", // login page as provided
+        "key_values": {"txtUser":"user1234", "txtPassword":"12345678"} // identifiers of the fields with the value entered by the user.
+    }
