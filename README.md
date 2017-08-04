@@ -60,5 +60,6 @@ Follow the [installation guide](sitehound-deploy/README.md).
 
 Check the [walk-through](docs/sh-how-to-guide.pdf) for a better understanding of the workflow.
 
+[API docs](docs/API.rst) describe kafka message format for integration with crawling component.
 
 
