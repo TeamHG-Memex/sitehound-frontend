@@ -80,22 +80,26 @@ This is for page classifier training.
 dd-modeler-input
 ----------------
 
-Topic: ``dd-modeler-input``. Training page classifier model::
+Topic: ``dd-modeler-input``. Training page classifier model (only new pages are sent,
+all previously sent are used for training)::
 
     {
         "id": "workspace id",
         "pages": [
             {
+                "id": "page id",  // pages are updated based on this id
                 "url": "http://example.com",
                 "html": "<h1>hi</h1>",
                 "relevant": true
             },
             {
+                "id": "page id",
                 "url": "http://example.com/1",
                 "html": "<h1>hi 1</h1>",
                 "relevant": false
             },
             {
+                "id": "page id",
                 "url": "http://example.com/2",
                 "html": "<h1>hi 2</h1>",
                 "relevant": null
@@ -127,6 +131,9 @@ Topic: ``dd-modeler-output``. Result of training the model::
 JSON data format::
 
     {
+        "main_score": 89.2,
+        "n_labeled": 20,
+        "n_positive": 10,
         "advice": "advice for improving the model",
         "description": ["item1", "item2"],
         "weights": {"pos": ..., "neg": ..., "pos_remaining": 0, "neg_remaining": 0},
@@ -198,6 +205,8 @@ DD Crawler
 
 This is the main crawler.
 
+**TODO** deep crawling.
+
 dd-crawler-input
 ----------------
 
@@ -207,9 +216,7 @@ Topic ``dd-crawler-input``. Start the crawl::
         "id": "some crawl id",
         "workspace_id": "the workspace_id",
         "page_model": "b64-encoded page classifier",
-        "link_model": "b64-encoded deep-deep model",
         "seeds": ["http://example.com", "http://example.com/2"],
-        "hints": ["http://example2.com", "http://example2.com/2"],
         "broadness": "DEEP" // Valid codes are ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"],
         "page_limit": 100
     }
@@ -225,21 +232,6 @@ Topic ``dd-crawler-output-pages``: exactly the same as ``dd-trainer-output-pages
 
 Topic ``dd-crawler-output-progress``: exactly the same as ``dd-trainer-output-progress``.
 
-dd-crawler-hints-input
-----------------------
-
-Topic ``dd-crawler-hints-input``.
-DD Crawler also accepts hints, that makes the crawler fetch deeper on that domain::
-
-    {
-        "workspace_id": "id of the workspace",
-        "url": "the pinned url",
-        "pinned": true / false
-    }
-
-Using ``workspace_id`` instead of ``id`` because several deepcrawl request could come
-from the same workspace almost simultaneously, but that doesn't imply the need to cancel
-the current crawling because a new one has the same id.
 
 Login workflow
 ==============
