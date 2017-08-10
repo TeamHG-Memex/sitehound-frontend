@@ -1,0 +1,138 @@
+<div style="padding:8px; padding-top:48px">
+
+<!--<div ng-cloak>-->
+    <!--<md-content >-->
+    <div ng-controller="seedsController" layout="column">
+        <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
+            <div class="mdl-card mdl-cell mdl-cell--6-col mdl-shadow--2dp" style="width:48%">
+                <div class="mdl-card__supporting-text">
+                    <h4>Add keywords</h4>
+                    <p> Enter keyword for your domain and press Enter to generate an initial set of URLs.</p>
+                    <form name="relevantKeywordsForm">
+                        <h6>Include</h6>
+                        <md-chips ng-model="relevantKeywordsObj"
+                                  name="relevantKeywords"
+                                  md-separator-keys="splitKeys"
+                                  readonly="false"
+                                  md-removable="true"
+                                  md-max-chips="15"
+                                  md-on-add="add($chip)"
+                                  md-on-remove="remove($chip)"
+                                  md-transform-chip="keywordHash($chip, null, 5)"
+                        >
+                        <md-chip-template>
+                            <span>
+                              <strong>{{$chip.word}}</strong>
+                            </span>
+                        </md-chip-template>
+                        </md-chips>
+                        <div class="errors" ng-messages="relevantKeywordsForm.relevantKeywords.$error">
+                            <div ng-message="md-max-chips">Maximum number of tags reached.</div>
+                        </div>
+                    </form>
+                    <br/>
+                    <form name="irrelevantKeywordsForm">
+                        <h6>Exclude</h6>
+                        <md-chips ng-model="irrelevantKeywordsObj"
+                                  name="irrelevantKeywords"
+                                  md-separator-keys="splitKeys"
+                                  readonly="false"
+                                  md-removable="true"
+                                  md-max-chips="maxChips"
+                                  md-on-add="add($chip)"
+                                  md-on-remove="remove($chip)"
+                                  md-transform-chip="keywordHash($chip, null, 1)"
+                        >
+                        <md-chip-template>
+                            <span>
+                              <strong>{{$chip.word}}</strong>
+                            </span>
+                        </md-chip-template>
+                        </md-chips>
+                        <div class="errors" ng-messages="irrelevantKeywordsForm.irrelevantKeywords.$error">
+                            <div ng-message="md-max-chips">Maximum number of tags reached.</div>
+                        </div>
+                    </form>
+                    <br/>
+                </div>
+                <div class="mdl-card__actions">
+                    <div layout="row" layout-align="space-between center">
+                        <!--<div layout="row" layout-align="space-between center">-->
+                            <!--<label style="margin-right:10px">Label this training set as </label>-->
+                            <!--<md-select id="relevance-combo" ng-model="upload.relevance"  class="md-no-underline" aria-label="Relevance">-->
+                                <!--<md-option value="relevant">Relevant</md-option>-->
+                                <!--<md-option value="neutral" selected="selected">Neutral</md-option>-->
+                                <!--<md-option value="irrelevant">Irrelevant</md-option>-->
+                            <!--</md-select>-->
+                        <md-button class="md-primary md-raised" >Fetch Open</md-button>
+                        <md-button class="md-primary md-raised" >Fetch Dark</md-button>
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mdl-card mdl-cell mdl-cell--6-col mdl-shadow--2dp" style="width:48%">
+                <div class="mdl-card__supporting-text">
+                    <h4>Add URLs</h4>
+                    <p>Enter URLs or import them from file
+                        &nbsp;
+                        &nbsp;
+                        <md-button class="md-primary md-raised" ng-click="todo()" >Import</md-button>
+                    </p>
+                    <md-input-container class="md-block">
+                        <!--<label>Add known URLs from the domain you want to discover</label>-->
+                        <textarea ng-model="upload.urlsToAdd" max-rows="15" md-select-on-focus placeholder="i.e. https://www.google.com"></textarea>
+                    </md-input-container>
+                </div>
+                <div class="mdl-card__actions" mdl-card--border>
+                    <div layout="row" layout-align="space-between center">
+                        <div layout="row" layout-align="space-between center">
+                            <!--<label style="margin-right:10px">Label this training set as </label>-->
+                            <!--<md-select id="relevance-combo" ng-model="upload.relevance"  class="md-no-underline" aria-label="Relevance">-->
+                                <!--<md-option value="relevant">Relevant</md-option>-->
+                                <!--<md-option value="neutral" selected="selected">Neutral</md-option>-->
+                                <!--<md-option value="irrelevant">Irrelevant</md-option>-->
+                            <!--</md-select>-->
+                        </div>
+                        <md-button class="md-primary md-raised" ng-click="import()" >Fetch</md-button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+        <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
+            <div class="mdl-card mdl-cell mdl-cell--6-col mdl-shadow--2dp" style="width:98%">
+
+                            <div class="mdl-grid portfolio-max-width" >
+
+                                <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in results">
+
+                                    <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
+                                        <a href="javascript:void(0)">
+                                            <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class="mdl-card__title">
+                                        <h4 class="mdl-card__title-text">
+                                            <span ng-bind="elem.host | capitalize"></span>
+                                        </h4>
+                                    </div>
+                                    <div class="mdl-card__supporting-text" style="margin:0px;margin-left:20px;margin-right:20px; width: 85%" layout="column" layout-align="space-between start">
+                                        <h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span></h3>
+                                    </div>
+                                </div>
+
+                            </div>
+            </div>
+        </section>
+
+    <!--</md-content>-->
+<!--</div>-->
+    </div>
+</div>

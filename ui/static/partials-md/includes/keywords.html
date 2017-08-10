@@ -1,5 +1,5 @@
 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-controller="keywordsController">
-    <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <div class="mdl-card mdl-cell mdl-cell--12-col" style="width:50%">
         <div class="mdl-card__supporting-text">
             <h4>Keywords</h4>
             <p> Will be used as search terms in the main search engines to provide a initial set of URLs.</p>
@@ -55,11 +55,33 @@
             <a href="#" class="mdl-button">How do we use this?</a>
         </div>
     </div>
-    <!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon" id="btn3">-->
-        <!--<i class="material-icons">more_vert</i>-->
-    <!--</button>-->
-    <!--<ul class="mdl-menu mdl-js-menu mdl-menu&#45;&#45;bottom-right" for="btn3">-->
-        <!--<li class="mdl-menu__item">Collapse</li>-->
-        <!--<li class="mdl-menu__item" disabled>Expand</li>-->
-    <!--</ul>-->
+    <div class="mdl-card mdl-cell mdl-cell--12-col" style="width:50%">
+        <div class="mdl-card__supporting-text">
+            <h4>Known URLs</h4>
+            <!--<p> Add keywords to include and exclude relevant to the domain you want to discover</p>-->
+            <p>Add known URLs from the subject that you want to discover. Don't forget to include the protocol (http or https)!</p>
+            <md-input-container class="md-block">
+                <!--<label>Add known URLs from the domain you want to discover</label>-->
+                <textarea ng-model="upload.urlsToAdd" max-rows="15" md-select-on-focus placeholder="i.e. https://www.google.com"></textarea>
+            </md-input-container>
+        </div>
+        <div class="mdl-card__actions" mdl-card--border>
+            <div layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="space-between center">
+                    <label style="margin-right:10px">Label this training set as </label>
+                    <md-select id="relevance-combo" ng-model="upload.relevance"  class="md-no-underline" aria-label="Relevance">
+                        <md-option value="relevant">Relevant</md-option>
+                        <md-option value="neutral" selected="selected">Neutral</md-option>
+                        <md-option value="irrelevant">Irrelevant</md-option>
+                    </md-select>
+                </div>
+                <md-button class="md-primary md-raised" ng-click="import()" >Import</md-button>
+            </div>
+        </div>
+        <!--<div class="mdl-card__actions" mdl-card&#45;&#45;border>-->
+        <!--<a href="#" class="mdl-button">Read our features</a>-->
+        <!--&lt;!&ndash;<md-button class="md-primary md-raised" ng-click="import()" >Import</md-button>&ndash;&gt;-->
+        <!--</div>-->
+    </div>
+
 </section>

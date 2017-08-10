@@ -173,6 +173,11 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'seedInputController',
 				templateUrl: '/static/partials-md/seed-input-md.html'
 			})
+		.when('/seeds',
+			{
+				controller: 'seedsController',
+				templateUrl: '/static/partials-md/seeds.html'
+			})
 		.when('/label',
 			{
 				controller: 'labelController',
