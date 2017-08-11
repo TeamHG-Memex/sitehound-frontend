@@ -75,11 +75,10 @@
             <div class="mdl-card mdl-cell mdl-cell--6-col mdl-shadow--2dp" style="width:48%">
                 <div class="mdl-card__supporting-text">
                     <h4>Add URLs</h4>
-                    <p>Enter URLs or import them from file
-                        &nbsp;
-                        &nbsp;
+                    <div layout="row"  layout-align="space-between center">
+                        <p>Enter URLs or import them from file</p>
                         <md-button class="md-primary md-raised" ng-click="todo()" >Browse</md-button>
-                    </p>
+                    </div>
                     <md-input-container class="md-block">
                         <!--<label>Add known URLs from the domain you want to discover</label>-->
                         <textarea ng-model="upload.urlsToAdd" max-rows="15" md-select-on-focus placeholder="i.e. https://www.google.com"></textarea>
@@ -108,9 +107,9 @@
                 <div class="mdl-card__supporting-text">
 
                     <h4>Results</h4>
-                    <md-content class="mdl-grid portfolio-max-width" style="height: 700px">
+                    <md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached()">
                         <!--<md-content layout="row">-->
-                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in results">
+                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in results" >
 
                                 <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
                                     <a href="javascript:void(0)">

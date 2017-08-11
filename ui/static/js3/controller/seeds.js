@@ -1,7 +1,7 @@
 ngApp.controller('seedsController', ['$scope', '$filter', '$mdConstant','seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService', 'importUrlFactory',
 function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, trainingService, importUrlFactory) {
 
-    $scope.master.init();
+    // $scope.master.init();
 
     /// BEGIN KEYWORD SEEDS
 
@@ -114,5 +114,21 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
         {"id":"_adfaf9", "host": "host9", "title": "title afaf 9"},
     ];
 
+    $scope.results2=[
+        {"id":"_adfaf21", "host": "host1", "title": "title afaf 1"},
+        {"id":"_adfaf22", "host": "host2", "title": "title afaf 2"},
+        {"id":"_adfaf23", "host": "host3", "title": "title afaf 3"},
+        {"id":"_adfaf24", "host": "host4", "title": "title afaf 4"},
+        {"id":"_adfaf25", "host": "host5", "title": "title afaf 5"},
+        {"id":"_adfaf26", "host": "host6", "title": "title afaf 6"},
+        {"id":"_adfaf27", "host": "host7", "title": "title afaf 7"},
+        {"id":"_adfaf28", "host": "host8", "title": "title afaf 8"},
+        {"id":"_adfaf29", "host": "host9", "title": "title afaf 9"},
+    ];
 
+
+	$scope.bottomOfPageReached = function(){
+		Array.prototype.push.apply($scope.results, $scope.results2);
+		// console.log("afafaf");
+	}
 }]);
