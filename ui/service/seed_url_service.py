@@ -26,17 +26,18 @@ class Relevance:
     FAILED = "failed"
 
 
-def add_known_urls_handler(workspace_id, urls_raw, relevance):
+def add_known_urls_handler(workspace_id, urls_raw, is_relevant):
 
-    if relevance == Relevance.NEUTRAL:
-        is_relevant = None
-    elif relevance == Relevance.RELEVANT:
-        is_relevant = True
-    elif relevance == Relevance.IRRELEVANT:
-        is_relevant = False
-    else:
-        print("UNSUPPORTED relevance: " + relevance)
-        return
+    # if relevance == Relevance.NEUTRAL:
+    #     is_relevant = None
+    # elif relevance == Relevance.RELEVANT:
+    #     is_relevant = True
+    # elif relevance == Relevance.IRRELEVANT:
+    #     is_relevant = False
+    # else:
+    #     print("UNSUPPORTED relevance: " + relevance)
+    #     return
+    #
     for url in urls_raw.splitlines():
         url = validate_url(url)
         try:

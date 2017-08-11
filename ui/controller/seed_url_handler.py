@@ -106,7 +106,7 @@ def schedule_spider_searchengine_api(workspace_id):
 @login_required
 def reset_results_api(workspace_id, source):
     reset_results(workspace_id, source)
-    return Response(json.dumps({}), mimetype="application/json")
+    return Response("{}", mimetype="application/json")
 
 
 @app.route("/api/workspace/<workspace_id>/import-url", methods=['POST'])
@@ -114,9 +114,10 @@ def reset_results_api(workspace_id, source):
 def post_add_known_urls(workspace_id):
     json_payload = request.json
     urls_raw = json_payload['urls']
-    relevance = json_payload['relevance']
+    # relevance = json_payload['relevance']
+    relevance = True
     add_known_urls_handler(workspace_id, urls_raw, relevance)
-    return Response(json.dumps({}), mimetype="application/json")
+    return Response("{}", mimetype="application/json")
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url/aggregated", methods=['GET'])

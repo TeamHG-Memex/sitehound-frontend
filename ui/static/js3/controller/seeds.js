@@ -3,7 +3,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
     // $scope.master.init();
 
-    /// BEGIN KEYWORD SEEDS
+    /** BEGIN KEYWORD SEEDS **/
 
 	$scope.relevantKeywordsObj=[];
 	$scope.irrelevantKeywordsObj=[];
@@ -59,14 +59,14 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 		var onError = function (response) {};
 
 		seedFactory.save($scope.master.workspaceId, chip.word, chip.score).then(onSuccess, onError);
-	}
+	};
 
 	$scope.remove = function(chip){
 		seedFactory.delete($scope.master.workspaceId, chip.hash).then(function(){
 //		$scope.getSeeds()
 		},
 		function(){})
-	}
+	};
 
     $scope.getSeeds($scope.master.workspaceId);
 
@@ -74,25 +74,81 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
 
 
+
+
+
+	/** Begins Fetch Keywords**/
+
+	$scope.showKeywordsProgress = false;
+
+	function generateSeedUrls (ev, source, nResults){
+
+
+        if($scope.master.keywordsCount==0){
+            var custom = {};
+            custom.title = 'Included Keywords not provided';
+            custom.textContent = 'Please enter some Included Keywords for querying the Source/s.';
+            $scope.master.showAlert(ev, custom);
+            return;
+		}
+		$scope.showKeywordsProgress = true;
+
+        var sources = [source];
+
+		fetchService.generate($scope.master.workspaceId, nResults, $scope.master.crawlProvider, sources)
+		.then(
+			function (response) {
+				$scope.jobId = response.data.jobId;
+				$scope.showKeywordsProgress = false;
+			},
+			function(response) {
+				$scope.showKeywordsProgress = false;
+				console.log(response);
+			}
+		);
+	}
+
+	$scope.fetchOpen = function(ev){
+		var source='SE';
+		var nResults=50;
+		generateSeedUrls(ev, source, nResults);
+	};
+
+
+	$scope.fetchDark = function(ev){
+		var source='TOR';
+		var nResults=100;
+		generateSeedUrls(ev, source, nResults);
+	};
+	/** Ends Fetch Dark **/
+
+
+
     // BEGIN UPLOAD
 	$scope.upload = {};
+
+	$scope.showAddUrlsProgress = false;
 
 	$scope.import = function(ev) {
 		if ($scope.upload.urlsToAdd == undefined || $scope.upload.urlsToAdd.length == 0){
 			// alert('Please enter some urls');
             var custom = {};
-            custom.title = 'URL/s not provided';
-            custom.textContent = 'Please enter some URLs to fetch the data from.';
+            custom.title = 'URLs were not provided';
+            custom.textContent = 'Please enter some URLs (or Onions) to fetch the data from.';
             $scope.master.showAlert(ev, custom);
             return;
 		}
+
+		$scope.showAddUrlsProgress = true;
+
 		importUrlFactory.save($scope.master.workspaceId, $scope.upload.urlsToAdd, $scope.upload.relevance).then(
 			function(response){
-				console.log(response.data);
+        		$scope.showAddUrlsProgress = false;
 			    $scope.upload.urlsToAdd="";
-                $scope.showByurlProgressTab = true;
+				console.log(response.data);
 			},
 			function(response){
+        		$scope.showAddUrlsProgress = false;
 				console.log(response);
 			}
 		)

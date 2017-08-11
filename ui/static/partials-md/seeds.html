@@ -64,9 +64,14 @@
                                 <!--<md-option value="neutral" selected="selected">Neutral</md-option>-->
                                 <!--<md-option value="irrelevant">Irrelevant</md-option>-->
                             <!--</md-select>-->
-                        <md-button class="md-primary md-raised" >Fetch Open</md-button>
-                        <md-button class="md-primary md-raised" >Fetch Dark</md-button>
+                        <md-button class="md-primary md-raised" ng-click="fetchOpen($event)">Fetch Open</md-button>
+                        <md-button class="md-primary md-raised" ng-click="fetchDark($event)">Fetch Dark</md-button>
                         <!--</div>-->
+                    </div>
+                    <div>
+                        <div layout="row" layout-sm="column" layout-align="space-around" ng-show="showKeywordsProgress">
+                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,7 +81,7 @@
                 <div class="mdl-card__supporting-text">
                     <h4>Add URLs</h4>
                     <div layout="row"  layout-align="space-between center">
-                        <p>Enter URLs or import them from file</p>
+                        <p>Enter URLs (or Onions) or import them from file</p>
                         <md-button class="md-primary md-raised" ng-click="todo()" >Browse</md-button>
                     </div>
                     <md-input-container class="md-block">
@@ -95,6 +100,11 @@
                             <!--</md-select>-->
                         </div>
                         <md-button class="md-primary md-raised" ng-click="import()" >Fetch</md-button>
+                    </div>
+                    <div>
+                        <div layout="row" layout-sm="column" layout-align="space-around" ng-show="showAddUrlsProgress">
+                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                        </div>
                     </div>
                 </div>
             </div>

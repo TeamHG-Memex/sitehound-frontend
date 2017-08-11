@@ -1,3 +1,21 @@
+NEW UI
+
+1) don't store keywords in master.
+2) don't use endOfPageReached in master, use scrolly on md-content instead.
+
+
+
+
+
+
+
+
+
+
+
+
+/************************ deprecated ******************/
+
 #Known Issue:
 Import as X always is imported as neutral:
 
