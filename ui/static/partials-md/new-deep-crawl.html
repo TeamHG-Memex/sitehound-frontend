@@ -1,0 +1,88 @@
+<div style="padding:8px; padding-top:48px">
+    <div ng-controller="newDeepCrawlController" layout="column">
+
+        <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
+            <div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+                <div class="mdl-card__supporting-text">
+                    <div class="mdl-card__title">
+                        <span class="mdl-card__title-text">
+                            <h4>New Deep Crawl</span>
+                        </span>
+                    </div>
+                    <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px">
+                        <!--<div class="mdl-card__title-text" >-->
+                            <!--<span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>-->
+
+                            <h5>Select URLs to deep crawl</h5>
+                            <div layout="row" layout-align="space-between center" style="width: 100%">
+                                <div >
+                                    <md-checkbox
+                                        aria-label="Select All"
+                                         ng-checked="isChecked()"
+                                         md-indeterminate="isIndeterminate()"
+                                         ng-click="toggleAll()">
+                                        <span ng-if="isChecked()">Un-</span>Select All
+                                    </md-checkbox>
+                                </div>
+                                <div  layout="row" >
+                                    <div flex="100" ng-repeat="item in items" style="margin-left:10px">
+                                        <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                                        {{ item }}
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                                <div >
+                                    <md-input-container>
+                                         <label>Search by URL</label>
+                                        <input name="searchTerm" ng-model="searchTerm" style="margin-left:10px"/>
+                                    </md-input-container>
+                                </div>
+                            </div>
+
+                        <!--</div>-->
+                    </div>
+
+                    <md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached()">
+                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in seedUrls" >
+
+                                <div class="mdl-card__title">
+                                    <span class="mdl-card__title-text">
+                                        <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
+                                    </span>
+                                </div>
+                                <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
+                                    <a href="javascript:void(0)">
+                                        <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">-->
+                                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
+                                    </a>
+                                </div>
+
+                                <div class="mdl-card__supporting-text" style="margin:20px;margin-left:20px;margin-right:20px; width: 85%" layout="column" layout-align="space-between start">
+                                    <span class="mdl-card__title-text">
+                                        <span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>
+                                    </span>
+                                </div>
+                                <div class="mdl-card__actions" mdl-card--border>
+                                    <div layout="row" layout-align="space-between center">
+                                        <span style="text-align:justify; font-size:12px;">
+                                            Source:
+                                            <span ng-bind="elem.crawlEntityType"></span>
+                                        </span>
+                                        <span style="text-align:justify; font-size:12px;">
+                                            <a href="{{elem.url}}" target="_blank">open in new tab</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                    </md-content>
+                </div>
+                <div class="mdl-card__actions">
+                    <div layout="row" layout-align="space-between center">
+                        <md-button class="md-primary md-raised" ng-click="newDeepCrawl($event)">Start Deep Crawl</md-button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>

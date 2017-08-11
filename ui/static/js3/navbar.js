@@ -196,6 +196,12 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 		}
 	}
 
+	domFactory.navigateToUrl = function(url){
+		// $location.path(url);
+		// $route.reload();
+ 		window.location.assign(url);
+	};
+
 	return domFactory;
 
 }]);

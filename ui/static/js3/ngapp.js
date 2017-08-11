@@ -132,6 +132,21 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'welcomeController',
 				templateUrl: '/static/partials-md/overview-md.html'
 			})
+		.when('/seeds',
+			{
+				controller: 'seedsController',
+				templateUrl: '/static/partials-md/seeds.html'
+			})
+		.when('/new-deep-crawl',
+			{
+				controller: 'newDeepCrawlController',
+				templateUrl: '/static/partials-md/new-deep-crawl.html'
+			})
+		.when('/new-smart-crawl',
+			{
+				controller: 'newSmartCrawlController',
+				templateUrl: '/static/partials-md/new-smart-crawl.html'
+			})
 		// .when('/welcome',
 		// 	{
 		// 		controller: 'welcomeController',
@@ -173,11 +188,7 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'seedInputController',
 				templateUrl: '/static/partials-md/seed-input-md.html'
 			})
-		.when('/seeds',
-			{
-				controller: 'seedsController',
-				templateUrl: '/static/partials-md/seeds.html'
-			})
+
 		.when('/label',
 			{
 				controller: 'labelController',
