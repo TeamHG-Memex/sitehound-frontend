@@ -1,11 +1,14 @@
 NEW UI
 
 #Seeds:
+ - accept onions
  - Browse function.
+ - check pagination on seeds results.
  - Don't store keywords in master.
  - Don't use endOfPageReached in master, use scrolly on md-content instead.
  - Results> show close icon and delete the results?
  - Results> show refresh icon and re-fetch result?
+ - show progress bar on all fetching
 
 
 
