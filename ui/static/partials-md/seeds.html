@@ -82,7 +82,7 @@
                     <h4>Add URLs</h4>
                     <div layout="row"  layout-align="space-between center">
                         <p>Enter URLs (or Onions) or import them from file</p>
-                        <md-button class="md-primary md-raised" ng-click="todo()" >Browse</md-button>
+                        <md-button class="md-primary md-raised" ng-click="browse()" >Browse</md-button>
                     </div>
                     <md-input-container class="md-block">
                         <!--<label>Add known URLs from the domain you want to discover</label>-->
@@ -119,22 +119,40 @@
                     <h4>Results</h4>
                     <md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached()">
                         <!--<md-content layout="row">-->
-                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in results" >
+                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in seedUrls" >
 
+                                <div class="mdl-card__title">
+                                    <span class="mdl-card__title-text">
+                                        <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
+                                    </span>
+                                </div>
                                 <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
                                     <a href="javascript:void(0)">
-                                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">
+                                        <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">-->
+                                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
                                     </a>
                                 </div>
 
-                                <div class="mdl-card__title">
-                                    <h4 class="mdl-card__title-text">
-                                        <span ng-bind="elem.host | capitalize"></span>
-                                    </h4>
+                                <div class="mdl-card__supporting-text" style="margin:20px;margin-left:20px;margin-right:20px; width: 85%" layout="column" layout-align="space-between start">
+                                    <span class="mdl-card__title-text">
+                                        <span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>
+                                    </span>
                                 </div>
-                                <div class="mdl-card__supporting-text" style="margin:0px;margin-left:20px;margin-right:20px; width: 85%" layout="column" layout-align="space-between start">
-                                    <h3 class="mdl-card__title-text"> <span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span></h3>
+                                <div class="mdl-card__actions" mdl-card--border>
+                                    <div layout="row" layout-align="space-between center">
+                                        <div layout="row" layout-align="space-between center">
+                                        </div>
+                                        <!--<md-button class="md-primary md-raised" ng-click="import()" >Fetch</md-button>-->
+                                        <span style="text-align:justify; font-size:12px;">
+                                            <a href="{{elem.url}}" target="_blank">open in new tab</a>
+                                        </span>
+                                        <span style="text-align:justify; font-size:12px;">
+                                            Source:
+                                            <span ng-bind="elem.crawlEntityType"></span>
+                                        </span>
+                                    </div>
                                 </div>
+
                             </div>
 
                         <!--</md-content>-->
@@ -142,16 +160,8 @@
                 </div>
                 <div class="mdl-card__actions">
                     <div layout="row" layout-align="space-between center">
-                        <!--<div layout="row" layout-align="space-between center">-->
-                            <!--<label style="margin-right:10px">Label this training set as </label>-->
-                            <!--<md-select id="relevance-combo" ng-model="upload.relevance"  class="md-no-underline" aria-label="Relevance">-->
-                                <!--<md-option value="relevant">Relevant</md-option>-->
-                                <!--<md-option value="neutral" selected="selected">Neutral</md-option>-->
-                                <!--<md-option value="irrelevant">Irrelevant</md-option>-->
-                            <!--</md-select>-->
-                        <md-button class="md-primary md-raised" >New Deep Crawl</md-button>
-                        <md-button class="md-primary md-raised" >New Smart Crawl</md-button>
-                        <!--</div>-->
+                        <md-button class="md-primary md-raised" ng-click="deepCrawl($event)">Deep Crawl</md-button>
+                        <md-button class="md-primary md-raised" ng-click="smartCrawl($event)" >Smart Crawl</md-button>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,11 @@
 NEW UI
 
-1) don't store keywords in master.
-2) don't use endOfPageReached in master, use scrolly on md-content instead.
+#Seeds:
+ - Browse function.
+ - Don't store keywords in master.
+ - Don't use endOfPageReached in master, use scrolly on md-content instead.
+ - Results> show close icon and delete the results?
+ - Results> show refresh icon and re-fetch result?
 
 
 
