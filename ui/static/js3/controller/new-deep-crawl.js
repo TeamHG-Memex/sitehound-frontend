@@ -40,7 +40,6 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         };
 
 
-/** results */
 
     /** Begins results */
 
