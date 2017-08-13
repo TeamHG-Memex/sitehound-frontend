@@ -11,11 +11,28 @@
                     </div>
 
 
-                    <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px">
+                    <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;margin-left: 27px">
                         <!--<div class="mdl-card__title-text" >-->
                             <!--<span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>-->
 
-                            <h6>Select domains to deep crawl</h6>
+                            <h5>Select domains to deep crawl</h5>
+                            <div layout="row" layout-align="space-between center" style="width: 100%" flex>
+                                <div layout="row" flex="80">
+                                    <span flex="20">Filter by source</span>
+                                    <div flex="20" ng-repeat="source in sources" style="margin-left:10px">
+                                        <!--<md-checkbox ng-checked="exists(source, selected)" ng-click="toggleBySource(source, selected, source)">-->
+                                        <md-checkbox ng-click="filterBySource(source.code)">
+                                        {{ source.name }} ({{source.results}})
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                                <div flex="20">
+                                    <md-input-container>
+                                         <label>Filter by URL</label>
+                                        <input name="searchTerm" ng-model="searchTerm" style="margin-left:10px"/>
+                                    </md-input-container>
+                                </div>
+                            </div>
                             <div layout="row" layout-align="space-between center" style="width: 100%" flex>
                                 <div flex="20">
                                     <md-checkbox
@@ -25,20 +42,6 @@
                                          ng-click="toggleAll()">
                                         <span ng-if="isChecked()">Un-</span>Select All
                                     </md-checkbox>
-                                </div>
-                                <div layout="row" flex="60">
-                                    <span flex="20">Filter by source</span>
-                                    <div flex="15" ng-repeat="item in items" style="margin-left:10px">
-                                        <md-checkbox ng-checked="exists(item, selected)" ng-click="toggleBySource(item, selected, item)">
-                                        {{ item }}
-                                        </md-checkbox>
-                                    </div>
-                                </div>
-                                <div flex="20">
-                                    <md-input-container>
-                                         <label>Filter by URL</label>
-                                        <input name="searchTerm" ng-model="searchTerm" style="margin-left:10px"/>
-                                    </md-input-container>
                                 </div>
                             </div>
                     </div>

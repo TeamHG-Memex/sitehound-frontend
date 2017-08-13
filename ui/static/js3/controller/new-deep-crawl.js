@@ -6,18 +6,24 @@ ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'seedFactory', 
 function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, $mdDialog) {
 
 /** filters **/
-    $scope.items = ["Seeds", "Onions", "Google", "Bing"];
+    $scope.sources = [
+            {"name":"Seeds", "code":"MANUAL", "results":123},
+            {"name":"Onions", "code":"TOR", "results":123},
+            {"name":"Google", "code":"GOOGLE", "results":123},
+            {"name":"Bing", "code":"BING", "results":123}
+    ];
+
     $scope.selected = [];//["Seeds", "Onions", "Google", "Bing"];
 
     $scope.seedUrls = [];
     $scope.selectedResults=[];
 
-        $scope.toggleAll = function() {
-        if ($scope.selected.length === $scope.items.length) {
-            $scope.selected = [];
+    $scope.toggleAll = function() {
+        if ($scope.selectedResults.length === $scope.seedUrls.length) {
+            // $scope.selected = [];
             $scope.selectedResults = [];
-        } else if ($scope.selected.length === 0 || $scope.selected.length > 0) {
-            $scope.selected = $scope.items.slice();
+        } else if ($scope.selectedResults.length === 0 || $scope.selectedResults.length > 0) {
+            // $scope.selected = $scope.items.slice();
             $scope.selectedResults = $scope.seedUrls.slice();
         }
     };
@@ -32,59 +38,24 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         }
     };
 
-    function traslate(userTerm){
-        if(userTerm=="Seeds"){
-            return "MANUAL";
-        }
-        else if(userTerm=="Onions"){
-            return "TOR";
-        }
-        else if(userTerm=="Google"){
-            return "GOOGLE";
-        }
-        else if(userTerm=="Bing"){
-            return "BING";
-        }
-        else{
-            console.log("unkonwn " + userTerm);
-        }
-    }
 
     $scope.exists = function (item, list) {
         return list.indexOf(item) > -1;
     };
 
     $scope.isIndeterminate = function() {
-        return  ($scope.selected.length !== 0 && $scope.selected.length !== $scope.items.length ) ||
-                ($scope.selectedResults.length != 0 && $scope.selectedResults.length !== $scope.seedUrls.length);
+        return $scope.selectedResults.length !== 0 && $scope.selectedResults.length !== $scope.seedUrls.length;
     };
 
     $scope.isChecked = function() {
-        return $scope.selected.length === $scope.items.length && $scope.selectedResults.length === $scope.seedUrls.length;
+        return $scope.selectedResults.length === $scope.seedUrls.length;
     };
 
 
 
     // sub-main
-    $scope.toggleBySource = function (item, list, source) {
-        source = traslate(source);
-        var idx = list.indexOf(item);
-        if (idx > -1) {
-            list.splice(idx, 1);
-            for(var i=$scope.selectedResults.length-1; i>=0; i--){
-                if($scope.selectedResults[i].crawlEntityType==source) {
-                    $scope.selectedResults.splice(i, 1);
-                }
-            }
-        }
-        else {
-            list.push(item);
-            for(var i=0; i<$scope.seedUrls.length; i++){
-                if($scope.seedUrls[i].crawlEntityType==source){
-                    $scope.selectedResults.push($scope.seedUrls[i]);
-                }
-            }
-        }
+    $scope.filterBySource = function (source) {
+        console.log(source);
     };
 
 
