@@ -6,23 +6,24 @@
                 <div class="mdl-card__supporting-text">
                     <div class="mdl-card__title">
                         <span class="mdl-card__title-text">
-                            <h4>New Deep Crawl</span>
+                            <h4>New Deep Crawl</h4>
                         </span>
                     </div>
 
 
-                    <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;margin-left: 27px">
+                    <!--/*margin-left: 27px;margin-right: 27px-->
+                    <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
                         <!--<div class="mdl-card__title-text" >-->
                             <!--<span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>-->
 
                             <h5>Select domains to deep crawl</h5>
                             <div layout="row" layout-align="space-between center" style="width: 100%" flex>
                                 <div layout="row" flex="80">
-                                    <span flex="20">Filter by source</span>
-                                    <div flex="20" ng-repeat="source in sources" style="margin-left:10px">
+                                    <span flex="15">Filter by source</span>
+                                    <div  ng-repeat="source in sources" style="margin-left:10px">
                                         <!--<md-checkbox ng-checked="exists(source, selected)" ng-click="toggleBySource(source, selected, source)">-->
-                                        <md-checkbox ng-click="filterBySource(source.code)">
-                                        {{ source.name }} ({{source.results}})
+                                        <md-checkbox ng-click="filterBySource(source)">
+                                            {{ source.name }} ({{source.results}})
                                         </md-checkbox>
                                     </div>
                                 </div>
@@ -33,8 +34,8 @@
                                     </md-input-container>
                                 </div>
                             </div>
-                            <div layout="row" layout-align="space-between center" style="width: 100%" flex>
-                                <div flex="20">
+                            <div layout="row" layout-align="space-between center" style="width: 100%" flex="30">
+                                <div>
                                     <md-checkbox
                                         aria-label="Select All"
                                          ng-checked="isChecked()"
@@ -73,7 +74,7 @@
                                 <!--layout-align="space-between center"-->
                                 <div layout="row" flex layout-align="start center">
                                     <div flex="5" layout="column" layout-align="center center">
-                                        <md-checkbox style="margin-left:8px" ng-checked="exists(elem, selectedResults)" ng-click="toggle(elem, selectedResults)">
+                                        <md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, selectedResults)" ng-click="toggle(elem._id, selectedResults)">
                                                 <!--ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"-->
                                             <!--{{ item }}-->
                                         </md-checkbox>
