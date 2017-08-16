@@ -111,9 +111,9 @@ def publish_to_import_url_queue(workspace_id, url, is_relevant= True):
 #     return mongo_result
 
 
-def get_seeds_urls_by_workspace(workspace_id, page_size, source, relevances, categories, udcs, last_id):
+def get_seeds_urls_by_workspace(workspace_id, page_size, sources, relevances, categories, udcs, last_id):
     try:
-        mongo_result = get_seeds_urls_by_workspace_dao(workspace_id, page_size, source, relevances, categories, udcs, last_id)
+        mongo_result = get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id)
     except Exception, e:
         print e
         logging.info("item failed")

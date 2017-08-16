@@ -10,13 +10,35 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         {"name":"Search Engines", "code":"searchengine", "shortCode":"SE", "results":0},
         {"name":"Seeds", "code":"imported", "shortCode":"MANUAL", "results":0},
         {"name":"Onions", "code":"tor", "shortCode":"TOR", "results":0},
-        {"name":"DeepDeep", "code":"deepdeep", "shortCode":"DD", "results":0}
+        // {"name":"DeepDeep", "code":"deepdeep", "shortCode":"DD", "results":0}
     ];
 
     $scope.selected = [];//["Seeds", "Onions", "Google", "Bing"];
-
     $scope.seedUrls = [];
     $scope.selectedResults=[];
+
+    /** tabs */
+    $scope.tabs = {};
+    $scope.selectedTabIndex = 0;
+
+    function init(){
+        for(var i=0; i<$scope.sources.length; i++){
+            var source = $scope.sources[i];
+            var tab = {};
+            tab.source=source;
+            tab.nResults=null;
+            tab.elems=[];
+            tab.lastId=null;
+            tab.selected=[];
+            tab.allSelected=false;
+            $scope.tabs[source.shortCode] = tab;
+            fetch(tab);
+        }
+        $scope.getAggregated();
+    }
+
+
+
 
     $scope.toggleAll = function() {
         if ($scope.selectedResults.length >= $scope.seedUrls.length) {
@@ -68,7 +90,6 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
     };
 
 
-
     // sub-main
     $scope.filterBySource = function (source) {
         console.log(source);
@@ -76,25 +97,66 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         $scope.filters.lastId = null;
         $scope.seedUrls=[];
         fetch();
-
-
     };
 
 
     /** Begins results */
 
-	$scope.bottomOfPageReached = function(){
-		fetch();
+	$scope.currentResults=0;
+    $scope.showProgress=false;
+	$scope.bottomOfPageReached = function(tab){
+	    if($scope.showProgress){
+	        return; // don't double do it
+        }
+	    $scope.showProgress=true;
+	    console.log("bottomOfPageReached:" + tab);
+		fetch(tab);
 	};
 
+    function fetch(tab){
+        var filters = {};
+        filters["sources"] = [tab.source.code];
+        if(tab.lastId){
+            filters["lastId"] = [tab.lastId];
+        }
+
+        seedUrlFactory.get($scope.master.workspaceId, filters)
+		.then(
+			function (response) {
+				console.log("finish fetching seed Urls");
+				var tempResults = response.data;
+				for(var i=0; i<tempResults.length;i++){
+
+                }
+				// Array.prototype.push.apply($scope.seedUrls, tempResults);
+				Array.prototype.push.apply(tab.elems, tempResults);
+
+				// $scope.filters.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+				// 	($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
+
+				tab.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+					(tab.elems.length > 0 ? tab.elems[tab.elems.length-1]._id : null) ;
+
+				$scope.showProgress=false;
+
+			},
+			function(response) {
+				$scope.showProgress=false;
+				console.log(response);
+			});
+    }
+
+    // TODO: how often to recalculate this?
+    // $scope.currentResults=getTotalResults();
+
+
+
+/*
     $scope.filters = {};
 	$scope.filters.sources = [];
-	$scope.filters.relevances = [];
-	$scope.filters.categories = [];
-	$scope.filters.udcs = [];
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
 
-	$scope.currentResults=0;
+
 	function fetch(){
 
         seedUrlFactory.get($scope.master.workspaceId, $scope.filters)
@@ -118,47 +180,23 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 	}
 
     fetch();
+*/
 
 
 
 
-	/** tabs */
-	  var tabs = [
-          { title: 'Search Engines', content: "Tabs will become paginated if there isn't enough room for them."},
-          // { title: 'Two', content: "You can swipe left and right on a mobile device to change tabs."},
-          { title: 'Seeds', content: "You can bind the selected tab via the selected attribute on the md-tabs element."},
-          { title: 'Onions', content: "If you set the selected tab binding to -1, it will leave no tab selected."},
-          { title: 'DeepDeep', content: "If you remove a tab, it will try to select a new one."},
-          // { title: 'Six', content: "There's an ink bar that follows the selected tab, you can turn it off if you want."},
-          // { title: 'Seven', content: "If you set ng-disabled on a tab, it becomes unselectable. If the currently selected tab becomes disabled, it will try to select the next tab."},
-          // { title: 'Eight', content: "If you look at the source, you're using tabs to look at a demo for tabs. Recursion!"},
-          // { title: 'Nine', content: "If you set md-theme=\"green\" on the md-tabs element, you'll get green tabs."},
-          // { title: 'Ten', content: "If you're still reading this, you should just go check out the API docs for tabs!"}
-        ];
-        selected = null,
-        previous = null;
-    $scope.tabs = tabs;
-    $scope.selectedIndex = 2
+//TODO count the total results:
 
 
 /** aggregated results by source */
-    /*
-    var resultStructOriginal = {
-        "SE":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "DD":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "MANUAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        // "TOR":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "TOTAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0}
-    };
-*/
+
 	$scope.getAggregated = function() {
         // var tOut = $scope.startLoading();
 		seedUrlFactory.getAggregated($scope.master.workspaceId)
 
 			.then(
 			    function (response) {
-                    $scope.seedUrlAggregated = response.data;
-                    buildAggregatedBy($scope.seedUrlAggregated);
+                    buildAggregatedBy(response.data);
                     // $scope.endLoading(tOut);
                 },
                 function (error) {
@@ -185,33 +223,35 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         // $scope.resultStruct = resultStruct ;
 
 
-        setSourcesValue("SE", resultStruct["SE"]["total"]);
-        setSourcesValue("MANUAL", resultStruct["MANUAL"]["total"]);
-        setSourcesValue("TOR", resultStruct["TOR"]["total"]);
-        setSourcesValue("DD", resultStruct["DD"]["total"]);
+        setTabsValue("SE", resultStruct["SE"]["total"]);
+        setTabsValue("MANUAL", resultStruct["MANUAL"]["total"]);
+        setTabsValue("TOR", resultStruct["TOR"]["total"]);
+        // setTabsValue("DD", resultStruct["DD"]["total"]);
     }
 
-    function setSourcesValue(shortCode, value){
-        for(var i=0; i<$scope.sources.length;i++){
-            if($scope.sources[i].shortCode==shortCode){
-                $scope.sources[i].results=value;
-                break;
-            }
-        }
+    // function setSourcesValue(shortCode, value){
+    //     for(var i=0; i<$scope.sources.length;i++){
+    //         if($scope.sources[i].shortCode==shortCode){
+    //             $scope.sources[i].results=value;
+    //             break;
+    //         }
+    //     }
+    // }
+
+    function setTabsValue(shortCode, value){
+        $scope.tabs[shortCode].nResults=value;
     }
 
     function getTotalResults(){
         var acum =0;
-         for(var i=0; i<$scope.sources.length;i++){
-            if($scope.filters.sources.length==0 || $scope.filters.sources.indexOf($scope.sources[i].code)>-1){
-                acum += $scope.sources[i].results;
-            }
-         }
+         // for(var i=0; i<$scope.sources.length;i++){
+         //    if($scope.filters.sources.length==0 || $scope.filters.sources.indexOf($scope.sources[i].code)>-1){
+         //        acum += $scope.sources[i].results;
+         //    }
+         // }
          return acum;
     }
 
-
-    $scope.getAggregated();
 
     /**
      * sends
@@ -224,5 +264,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         alert("deepcrawl!");
     }
 
+
+    init();
 }]);
 

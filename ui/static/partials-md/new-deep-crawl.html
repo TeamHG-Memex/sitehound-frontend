@@ -6,7 +6,8 @@
                 <div class="mdl-card__supporting-text">
                     <div class="mdl-card__title">
                         <span class="mdl-card__title-text">
-                            <h4>New Deep Crawl</h4>
+                            <!--<h4>New Deep Crawl</h4>-->
+                            <h4>Select domains to deep crawl</h4>
                         </span>
                     </div>
 
@@ -16,12 +17,12 @@
                         <!--<div class="mdl-card__title-text" >-->
                             <!--<span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>-->
 
+                        <!--
                             <h5>Select domains to deep crawl</h5>
                             <div layout="row" layout-align="space-between center" style="width: 100%" flex>
                                 <div layout="row" flex="80">
                                     <span flex="15">Filter by source</span>
                                     <div  ng-repeat="source in sources" style="margin-left:10px">
-                                        <!--<md-checkbox ng-checked="exists(source, selected)" ng-click="toggleBySource(source, selected, source)">-->
                                         <md-checkbox ng-click="filterBySource(source)">
                                             {{ source.name }} ({{source.results}})
                                         </md-checkbox>
@@ -45,6 +46,7 @@
                                     </md-checkbox>
                                 </div>
                             </div>
+                        -->
                             <!--<div layout="row" layout-align="space-between center" flex="100">-->
                                       <!--<md-content class="md-padding" flex="100">-->
                                         <!--<md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect>-->
@@ -62,64 +64,70 @@
                             <!--</div>-->
 
                     </div>
+
+
                     <!--<md-content class="mdl-grid portfolio-max-width" style="height: 700px" >-->
-                    <div class="mdl-grid portfolio-max-width" style="height: 700px" >
-                                        <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect flex="100">
-                                          <md-tab ng-repeat="tab in tabs"
-                                                  ng-disabled="tab.disabled"
-                                                  label="{{tab.title}}">
+                    <div class="mdl-grid portfolio-max-width" style="height: 851px" >
+                        <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100">
+                            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}}  ({{tab.nResults}})">
                                             <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
-                                              <!--<div ng-bind="tab.content"></div>-->
-                                                    <!--<md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached()">-->
-                                                    <div class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached()">
-                                                        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in seedUrls" >
+                                                <div layout="row" layout-align="start center" flex="100">
+                                                    <md-checkbox
+                                                        aria-label="Select All"
+                                                         ng-checked="isChecked()"
+                                                         md-indeterminate="isIndeterminate()"
+                                                         ng-click="toggleAll()">
+                                                        <span ng-if="isChecked()">Un-</span>Select All
+                                                    </md-checkbox>
+                                                </div>
 
+                                                <md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached(tab)">
 
-                                                            <!--layout-align="space-between center"-->
-                                                            <div layout="row" flex layout-align="start center">
-                                                                <div flex="5" layout="column" layout-align="center center">
-                                                                    <md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, selectedResults)" ng-click="toggle(elem._id, selectedResults)">
-                                                                            <!--ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"-->
-                                                                        <!--{{ item }}-->
-                                                                    </md-checkbox>
+                                                    <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.elems" >
+                                                        <div layout="row" flex layout-align="start center">
+                                                            <div flex="5" layout="column" layout-align="center center">
+                                                                <md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, selectedResults)" ng-click="toggle(elem._id, selectedResults)">
+                                                                        <!--ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"-->
+                                                                    <!--{{ item }}-->
+                                                                </md-checkbox>
+                                                            </div>
+                                                            <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px">
+                                                                <a href="javascript:void(0)">
+                                                                    <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <div layout="column" layout-align="space-between start" style="margin-left:20px;margin-right: 20px;">
+                                                                <div class="mdl-card__title">
+                                                                    <span class="mdl-card__title-text">
+                                                                        <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
+                                                                    </span>
                                                                 </div>
-                                                                <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px">
-                                                                    <a href="javascript:void(0)">
-                                                                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
-                                                                    </a>
+                                                                <div class="mdl-card__supporting-text"  layout="column" layout-align="space-between start">
+                                                                    <span class="mdl-card__title-text">
+                                                                        <span ng-bind="elem.title" style="font-size:16px;"> </span>
+                                                                    </span>
                                                                 </div>
-                                                                <div layout="column" layout-align="space-between start" style="margin-left:20px;margin-right: 20px;">
-                                                                    <div class="mdl-card__title">
-                                                                        <span class="mdl-card__title-text">
-                                                                            <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
+                                                                <div class="mdl-card__actions" mdl-card--border>
+                                                                    <div layout="row" layout-align="space-between center">
+                                                                        <span style="text-align:justify; font-size:12px;">
+                                                                            Source:
+                                                                            <span ng-bind="elem.crawlEntityType"></span>
                                                                         </span>
-                                                                    </div>
-                                                                    <div class="mdl-card__supporting-text"  layout="column" layout-align="space-between start">
-                                                                        <span class="mdl-card__title-text">
-                                                                            <span ng-bind="elem.title" style="font-size:16px;"> </span>
+                                                                        <span style="text-align:justify; font-size:12px;">
+                                                                            <a href="{{elem.url}}" target="_blank">open in new tab</a>
                                                                         </span>
-                                                                    </div>
-                                                                    <div class="mdl-card__actions" mdl-card--border>
-                                                                        <div layout="row" layout-align="space-between center">
-                                                                            <span style="text-align:justify; font-size:12px;">
-                                                                                Source:
-                                                                                <span ng-bind="elem.crawlEntityType"></span>
-                                                                            </span>
-                                                                            <span style="text-align:justify; font-size:12px;">
-                                                                                <a href="{{elem.url}}" target="_blank">open in new tab</a>
-                                                                            </span>
-                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    <!--</md-content>-->
                                                     </div>
-                                              <!--<br/>-->
-                                              <!--<md-button class="md-primary md-raised" ng-click="removeTab( tab )" ng-disabled="tabs.length <= 1">Remove Tab</md-button>-->
+                                                    <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%">
+                                                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                                                    </div>
+                                                </md-content>
                                             </div>
-                                          </md-tab>
-                                        </md-tabs>
+                            </md-tab>
+                        </md-tabs>
                     </div>
                   <!--</md-content>-->
 
