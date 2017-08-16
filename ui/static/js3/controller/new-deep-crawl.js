@@ -13,9 +13,9 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         // {"name":"DeepDeep", "code":"deepdeep", "shortCode":"DD", "results":0}
     ];
 
-    $scope.selected = [];//["Seeds", "Onions", "Google", "Bing"];
-    $scope.seedUrls = [];
-    $scope.selectedResults=[];
+    // $scope.selected = [];//["Seeds", "Onions", "Google", "Bing"];
+    // $scope.seedUrls = [];
+    // $scope.selectedResults=[];
 
     /** tabs */
     $scope.tabs = {};
@@ -32,38 +32,51 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
             tab.selected=[];
             tab.allSelected=false;
             $scope.tabs[source.shortCode] = tab;
+
+            // tab.nResultsChecked = tab.selected.length + (tab.nResults - tab.elems.length);
             fetch(tab);
         }
         $scope.getAggregated();
     }
 
 
+    // $scope.getCheckedResults= function(tab){
+    //    return tab.selected.length + (tab.selected.nResults - tab.elems.length);
+    // };
 
-
-    $scope.toggleAll = function() {
-        if ($scope.selectedResults.length >= $scope.seedUrls.length) {
+    $scope.toggleAll = function(tab) {
+        // if ((tab.selected.length == tab.elems.length)||tab.allSelected){
+        if (tab.selected.length == tab.elems.length){
             // $scope.selected = [];
-            $scope.selectedResults = [];
-        } else if ($scope.selectedResults.length === 0 || $scope.selectedResults.length > 0) {
-            // $scope.selected = $scope.items.slice();
-            for(var i=0; i<$scope.seedUrls.length; i++){
-                var idx = $scope.selectedResults.indexOf($scope.seedUrls[i]._id);
+            tab.selected = [];
+            tab.allSelected=false;
+        } else {
+            // if (tab.selected.length === 0) {
+            for(var i=0; i<tab.elems.length; i++){
+                var idx = tab.selected.indexOf(tab.elems[i]._id);
                 if (idx == -1) {
-                    $scope.selectedResults.push($scope.seedUrls[i]._id);
+                    tab.selected.push(tab.elems[i]._id);
                 }
             }
-            var res = confirm("Mark all results?");
-            if(res){
-                console.log("in");
+
+            if(tab.elems.length!=tab.nResults){
+                // not all were displayed yet
+                var res = confirm("Also apply selection to all " + tab.nResults + " results?");
+                if(res){
+                    console.log("in");
+                    tab.allSelected= true;
+                }
+                else{
+                    tab.allSelected=false;
+                    console.log("out");
+                }
             }
-            else{
-                console.log("out");
-            }
+
         }
-        console.log($scope.selectedResults);
+        console.log(tab.selected);
     };
 
-    $scope.toggle = function (item, list) {
+    $scope.toggle = function (item, list, tab) {
         var idx = list.indexOf(item);
         if (idx > -1) {
             list.splice(idx, 1);
@@ -71,7 +84,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         else {
             list.push(item);
         }
-        console.log($scope.selectedResults);
+        console.log(list);
     };
 
 
@@ -79,30 +92,23 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         return list.indexOf(item) > -1;
     };
 
-    $scope.isIndeterminate = function() {
+    $scope.isIndeterminate = function(tab) {
         // return $scope.selectedResults.length !== 0 && $scope.selectedResults.length !== $scope.seedUrls.length;
-        return $scope.selectedResults.length !== 0 && $scope.selectedResults.length !== getTotalResults();
+        // return $scope.selectedResults.length !== 0 && $scope.selectedResults.length !== getTotalResults();
+        // return tab.selected.length !== 0 && (tab.selected.length !== tab.nResults);
+        return tab.selected.length !== 0 && (tab.selected.length !== tab.elems.length);
     };
 
-    $scope.isChecked = function() {
+    $scope.isChecked = function(tab) {
         // return  $scope.selectedResults.length !== 0 && $scope.selectedResults.length === $scope.seedUrls.length;
-        return  $scope.selectedResults.length !== 0 && $scope.selectedResults.length === getTotalResults();
+        return tab.selected.length !== 0 && (tab.selected.length === tab.elems.length);
     };
 
-
-    // sub-main
-    $scope.filterBySource = function (source) {
-        console.log(source);
-        $scope.toggle(source.code, $scope.filters.sources)
-        $scope.filters.lastId = null;
-        $scope.seedUrls=[];
-        fetch();
-    };
 
 
     /** Begins results */
 
-	$scope.currentResults=0;
+	// $scope.currentResults=0;
     $scope.showProgress=false;
 	$scope.bottomOfPageReached = function(tab){
 	    if($scope.showProgress){
@@ -125,11 +131,14 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 			function (response) {
 				console.log("finish fetching seed Urls");
 				var tempResults = response.data;
-				for(var i=0; i<tempResults.length;i++){
-
-                }
 				// Array.prototype.push.apply($scope.seedUrls, tempResults);
 				Array.prototype.push.apply(tab.elems, tempResults);
+
+				if(tab.allSelected){
+                    for(var i=0; i<tempResults.length;i++){
+                        tab.selected.push(tempResults[i]._id);
+                    }
+                }
 
 				// $scope.filters.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 				// 	($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;

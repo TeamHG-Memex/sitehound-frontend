@@ -71,22 +71,32 @@
                         <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100">
                             <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}}  ({{tab.nResults}})">
                                             <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
-                                                <div layout="row" layout-align="start center" flex="100">
-                                                    <md-checkbox
-                                                        aria-label="Select All"
-                                                         ng-checked="isChecked()"
-                                                         md-indeterminate="isIndeterminate()"
-                                                         ng-click="toggleAll()">
-                                                        <span ng-if="isChecked()">Un-</span>Select All
-                                                    </md-checkbox>
+                                                <div layout="row" layout-align="space-between space-between" flex="100" style="width: 100%">
+                                                    <div>
+                                                        <md-checkbox
+                                                            aria-label="Select All"
+                                                             ng-checked="isChecked(tab)"
+                                                             md-indeterminate="isIndeterminate(tab)"
+                                                             ng-click="toggleAll(tab)">
+                                                            <span ng-if="isChecked(tab)">Un-</span>Select All
+                                                        </md-checkbox>
+                                                    </div>
+
+                                                    <div>
+                                                        {{tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0)}}  selected
+                                                    </div>
+                                                    <div>
+                                                        Showing {{tab.elems.length}} of {{tab.nResults}}
+                                                    </div>
                                                 </div>
+
 
                                                 <md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached(tab)">
 
                                                     <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.elems" >
                                                         <div layout="row" flex layout-align="start center">
                                                             <div flex="5" layout="column" layout-align="center center">
-                                                                <md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, selectedResults)" ng-click="toggle(elem._id, selectedResults)">
+                                                                <md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, tab.selected)" ng-click="toggle(elem._id, tab.selected, tab)">
                                                                         <!--ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"-->
                                                                     <!--{{ item }}-->
                                                                 </md-checkbox>
