@@ -9,11 +9,11 @@ function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
 		$scope.master.workspaceId = workspaceId;
 		$cookies.put("workspaceId", workspaceId);
 		$scope.master.reloadWorkspace(workspaceId);
-	}
+	};
 
     $scope.master.getWorkspace = function(){
         return $scope.master.workspaceId;
-    }
+    };
 
 	$scope.master.onRemovedWorkspaceId = function(removedWorkspaceId){
 		if(removedWorkspaceId == $scope.master.workspaceId){
@@ -21,7 +21,7 @@ function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
 			$cookies.remove("workspaceId");
 			$scope.master.workspaceName = null;
 		}
-	}
+	};
 
 
 	//use this when we allow the user to rename the workspace
@@ -35,7 +35,7 @@ function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
 			console.log(response)
 			$scope.workspaceName = null;
 		});
-	}
+	};
 
 
 	//main
@@ -125,10 +125,10 @@ function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
 
 
     // scrolly directive implementation for every page that registers a listener
-
     $scope.master.init = function(){
-        $scope.master.bottomOfPageReachedCallbacks = [];
+        // $scope.master.bottomOfPageReachedCallbacks = [];
     }
+/*
 
 
     $scope.master.bottomOfPageReached = function() {
@@ -151,7 +151,7 @@ function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
     };
 
     $scope.master.init();
-
+*/
 
     // modal alert
     $scope.master.showAlert = function(ev, custom) {

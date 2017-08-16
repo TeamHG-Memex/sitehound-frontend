@@ -230,6 +230,13 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
 
     };
 
+    $scope.setWorkspace = function (workspaceId){
+        console.log("workspace selected: " + workspaceId);
+        $scope.master.setWorkspace(workspaceId);
+    };
+
+
+
 //     function getDesserts(query) {
 //         // $scope.selected = [];
 //         var qry = query || $scope.query;

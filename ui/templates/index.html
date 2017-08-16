@@ -48,7 +48,7 @@
                 <div flex="70" layout="row" layout-align="center center">
                     <h1>Site Hound</h1>
                 </div>
-                <div flex hide-sm hide-xs layout="row" layout-align="center end">
+                <div flex layout="column" layout-align="space-between end" style="margin-right: 20px">
                     <!--<h3>Users Area</h3>-->
 
 		        <!--&lt;!&ndash;<div class="mdl-layout__header-row">&ndash;&gt;-->
@@ -88,6 +88,24 @@
                                 <!--<a ng-href="/logout" class="mdl-button"><li class="mdl-menu__item">Log out</li></a>-->
 				                <li class="mdl-menu__item" ng-click="go('/change')">Change password</li>
                                 <li class="mdl-menu__item" ng-click="go('/logout')">Log out</li>
+				            </ul>
+				        </div>
+					</div>
+					<div>
+				       <!--<img src="https://getmdl.io/templates/dashboard/images/user.jpg" class="demo-avatar">-->
+				        <div class="demo-avatar-dropdown">
+                            <span>Workspace: </span>
+				            <span ng-bind="master.workspaceName"></span>
+				            <!--<div class="mdl-layout-spacer"></div>-->
+				            <button id="wsbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+				                <i class="material-icons" role="presentation">arrow_drop_down</i>
+				                <!--<span class="visuallyhidden">Accounts</span>-->
+				            </button>
+				            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="wsbtn">
+				                <!--<a ng-href="/change" class="mdl-button"><li class="mdl-menu__item">Change password</li></a>-->
+                                <!--<a ng-href="/logout" class="mdl-button"><li class="mdl-menu__item">Log out</li></a>-->
+				                <li class="mdl-menu__item" ng-click="go('#/workspace')">Change workspace</li>
+                                <!--<li class="mdl-menu__item" ng-click="go('/logout')">Log out</li>-->
 				            </ul>
 				        </div>
 					</div>
@@ -307,7 +325,7 @@
 <script src="{{ url_for('static', filename='js3/controller/label.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/crawling-results.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/datafactory/broadcrawler-results.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/feature-extraction.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/model.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js3/controller/includes/training-stats.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/includes/broadcrawl-stats.js') }}"></script>
