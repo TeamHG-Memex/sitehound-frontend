@@ -11,6 +11,10 @@ NEW UI
  - show progress bar on all fetching
 
 
+#New Deep crawl:
+ - Implement button Start Deep crawl
+ - Improve alert "select all x"
+
 
 
 
