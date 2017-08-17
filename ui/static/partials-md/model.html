@@ -7,7 +7,7 @@
                     <div class="mdl-card__title">
                         <span class="mdl-card__title-text">
                             <!--<h4>New Deep Crawl</h4>-->
-                            <h4>Select results to deep crawl</h4>
+                            <h4>Label results to build the model</h4>
                         </span>
                     </div>
 
@@ -19,7 +19,7 @@
                     <div class="mdl-grid portfolio-max-width" style="height: 851px" >
                         <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100">
                             <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}}  ({{tab.nResults}})">
-                                    <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
+                                    <div class="tab{{$index%4}}" style="padding: 25px;">
                                         <div layout="row" layout-align="space-between space-between" flex="100" style="width: 100%">
                                             <div>
                                                 <md-checkbox
@@ -43,28 +43,41 @@
                                         <md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached(tab)">
 
                                             <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.elems" >
-                                                <div layout="row" flex layout-align="start center">
-                                                    <div flex="5" layout="column" layout-align="center center">
-                                                        <md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, tab.selected)" ng-click="toggle(elem._id, tab.selected)">
-                                                                <!--ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"-->
-                                                            <!--{{ item }}-->
-                                                        </md-checkbox>
-                                                    </div>
+                                                <div layout="row" layout-align="start end">
+                                                    <!--<div flex="5" layout="column" layout-align="center center">-->
+                                                        <!--<md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, tab.selected)" ng-click="toggle(elem._id, tab.selected)">-->
+                                                        <!--</md-checkbox>-->
+                                                    <!--</div>-->
                                                     <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px">
                                                         <a href="javascript:void(0)">
                                                             <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
                                                         </a>
                                                     </div>
-                                                    <div layout="column" layout-align="space-between start" style="margin-left:20px;margin-right: 20px;">
+                                                    <div layout="column" layout-align="start start" style="margin-left:30px;margin-right: 30px; width: 100%">
                                                         <div class="mdl-card__title">
-                                                            <span class="mdl-card__title-text">
+                                                            <span>
                                                                 <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
                                                             </span>
                                                         </div>
-                                                        <div class="mdl-card__supporting-text"  layout="column" layout-align="space-between start">
-                                                            <span class="mdl-card__title-text">
-                                                                <span ng-bind="elem.title" style="font-size:16px;"> </span>
-                                                            </span>
+                                                        <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin: 0px; padding: 16px; width: 100%">
+                                                            <!--<div class="mdl-card__title-text" flex="100">-->
+                                                            <div flex="100">
+                                                                <div layout="column" layout-align="start start" flex="100">
+                                                                    <span ng-bind="elem.title" style="font-size:16px"> </span>
+                                                                </div>
+                                                            </div>
+                                                            <div layout="row" layout-align="space-between center" style="margin-top:40px; width: 100%">
+                                                                <div layout="row" layout-align="space-between center" >
+                                                                    <md-button class="md-raised" ng-click="newDeepCrawl($event)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                        Not relevant</md-button>
+                                                                    <md-button class="md-raised" ng-click="newDeepCrawl($event)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                        Relevant</md-button>
+                                                                </div>
+                                                                <div  layout="row" layout-align="space-between center">
+                                                                    <md-button class="md-raised" md-no-ink ng-click="newDeepCrawl($event)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                        Skip</md-button>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="mdl-card__actions" mdl-card--border>
                                                             <div layout="row" layout-align="space-between center">
