@@ -147,6 +147,13 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'newSmartCrawlController',
 				templateUrl: '/static/partials-md/new-smart-crawl.html'
 			})
+		.when('/model',
+			{
+				controller: 'modelController',
+				templateUrl: '/static/partials-md/model.html'
+			})
+
+
 		// .when('/welcome',
 		// 	{
 		// 		controller: 'welcomeController',
