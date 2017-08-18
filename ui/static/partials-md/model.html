@@ -1,5 +1,5 @@
 <div style="padding:8px; padding-top:48px">
-    <div ng-controller="newDeepCrawlController" layout="column">
+    <div ng-controller="modelController" layout="column">
 
         <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
             <div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
@@ -16,23 +16,24 @@
 
                     </div>
 
-                    <div class="mdl-grid portfolio-max-width" style="height: 851px" >
-                        <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100">
-                            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}}  ({{tab.nResults}})">
-                                    <div class="tab{{$index%4}}" style="padding: 25px;">
+                    <!--<div class="mdl-grid portfolio-max-width" style="height: 851px" >-->
+                    <div class="mdl-grid portfolio-max-width" style="height: 950px">
+                        <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >
+                            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}}  ({{tab.nResults}})" >
+                                    <div class="tab{{$index%4}}" style="padding: 25px;" >
                                         <div layout="row" layout-align="space-between space-between" flex="100" style="width: 100%">
-                                            <div>
-                                                <md-checkbox
-                                                    aria-label="Select All"
-                                                     ng-checked="isChecked(tab)"
-                                                     md-indeterminate="isIndeterminate(tab)"
-                                                     ng-click="toggleAll(tab)">
-                                                    <span ng-if="isChecked(tab)">Un-</span>Select All
-                                                </md-checkbox>
-                                            </div>
+                                            <!--<div>-->
+                                                <!--<md-checkbox-->
+                                                    <!--aria-label="Select All"-->
+                                                     <!--ng-checked="isChecked(tab)"-->
+                                                     <!--md-indeterminate="isIndeterminate(tab)"-->
+                                                     <!--ng-click="toggleAll(tab)">-->
+                                                    <!--<span ng-if="isChecked(tab)">Un-</span>Select All-->
+                                                <!--</md-checkbox>-->
+                                            <!--</div>-->
 
                                             <div>
-                                                {{tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0)}}  selected
+                                                34 relevant /223 not relevant /233 skipped / 1000 pending
                                             </div>
                                             <div>
                                                 Showing {{tab.elems.length}} of {{tab.nResults}}
@@ -40,14 +41,11 @@
                                         </div>
 
 
-                                        <md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached(tab)">
+                                        <!--<md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached(tab)">-->
+                                        <md-content class="mdl-grid portfolio-max-width" style="margin-top:40px" >
 
-                                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.elems" >
+                                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.currentElem" >
                                                 <div layout="row" layout-align="start end">
-                                                    <!--<div flex="5" layout="column" layout-align="center center">-->
-                                                        <!--<md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, tab.selected)" ng-click="toggle(elem._id, tab.selected)">-->
-                                                        <!--</md-checkbox>-->
-                                                    <!--</div>-->
                                                     <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px">
                                                         <a href="javascript:void(0)">
                                                             <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
