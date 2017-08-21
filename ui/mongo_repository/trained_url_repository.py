@@ -21,8 +21,8 @@ def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances
             if source == "searchengine":
                 source_search_conditions.append({'crawlEntityType': "BING"})
                 source_search_conditions.append({'crawlEntityType': "GOOGLE"})
-            elif source == "twitter":
-                source_search_conditions.append({'crawlEntityType': "TWITTER"})
+            # elif source == "twitter":
+            #     source_search_conditions.append({'crawlEntityType': "TWITTER"})
             elif source == "tor":
                 source_search_conditions.append({'crawlEntityType': "TOR"})
             elif source == "imported":
@@ -39,10 +39,13 @@ def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances
     #relevances
     if len(relevances) > 0:
         relevances_search_conditions = []
-        for relevance in relevances:
-            relevances_search_conditions.append({'relevant': relevance})
+        if "unset" in relevances:
+            relevances_search_object = {'relevant': {"$exists": False}}
+        else:
+            for relevance in relevances:
+                relevances_search_conditions.append({'relevant': relevance})
 
-        relevances_search_object = {'$or': relevances_search_conditions}
+            relevances_search_object = {'$or': relevances_search_conditions}
         and_condition_list.append(relevances_search_object)
 
 

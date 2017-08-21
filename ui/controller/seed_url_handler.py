@@ -35,6 +35,8 @@ def get_seed_urls_by_workspace_api(workspace_id):
             relevances.append(False)
         elif rel == 'null':
             relevances.append(None)
+        elif rel == 'unset':
+            relevances.append('unset')
         else:
             print "unsupported relevance type: " + rel
 

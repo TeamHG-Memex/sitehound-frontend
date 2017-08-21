@@ -7,10 +7,10 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 
 /** filters **/
     $scope.sources = [
-        {"name":"Search Engines", "code":"searchengine", "shortCode":"SE", "results":0},
-        // {"name":"Seeds", "code":"imported", "shortCode":"MANUAL", "results":0},
-        {"name":"Onions", "code":"tor", "shortCode":"TOR", "results":0},
-        // {"name":"DeepDeep", "code":"deepdeep", "shortCode":"DD", "results":0}
+        {"name":"Clear web", "codes":["searchengine", "deepdeep"], "shortCode":"SE"},
+        // {"name":"Seeds", "code":"imported", "shortCode":"MANUAL"},
+        {"name":"Dark web", "codes":["tor"], "shortCode":"TOR"},
+        // {"name":"DeepDeep", "code":"deepdeep", "shortCode":"DD"}
     ];
 
     /** tabs */
@@ -22,7 +22,8 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
             var source = $scope.sources[i];
             var tab = {};
             tab.source=source;
-            tab.nResults=null;
+            // tab.nResults=null;
+            tab.aggregatedResults=null;
             tab.elems=[];
             tab.lastId=null;
             tab.selected=[];
@@ -31,7 +32,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
             fetch(tab, getNextElem);
             tab.currentElem=null;
         }
-        $scope.getAggregated();
+        getAggregated();
     }
 
     function getNextElem(tab){
@@ -50,76 +51,28 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 
     $scope.label= function (ev, tab, elem, relevance) {
         tab.currentElem=null;
+        seedUrlFactory.label($scope.master.workspaceId, elem._id, relevance)
+        .then(
+			function (response) {
+                getAggregated();
+            },
+			function(response) {
+				$scope.showProgress=false;
+				console.log(response);
+			}
+        );
         getNextElem(tab);
-        seedUrlFactory.label($scope.master.workspaceId, elem._id, relevance);
     };
-
-/*
-    $scope.toggleAll = function(tab) {
-        if (tab.selected.length == tab.elems.length){
-            tab.selected = [];
-            tab.allSelected=false;
-        } else {
-            for(var i=0; i<tab.elems.length; i++){
-                var idx = tab.selected.indexOf(tab.elems[i]._id);
-                if (idx == -1) {
-                    tab.selected.push(tab.elems[i]._id);
-                }
-            }
-            if(tab.elems.length!=tab.nResults){
-                // not all were displayed yet
-                var res = confirm("Also apply selection to all " + tab.nResults + " results?");
-                if(res){
-                    tab.allSelected= true;
-                }
-                else{
-                    tab.allSelected=false;
-                }
-            }
-
-        }
-    };
-
-    $scope.toggle = function (item, list) {
-        var idx = list.indexOf(item);
-        if (idx > -1) {
-            list.splice(idx, 1);
-        }
-        else {
-            list.push(item);
-        }
-    };
-
-    $scope.exists = function (item, list) {
-        return list.indexOf(item) > -1;
-    };
-
-    $scope.isIndeterminate = function(tab) {
-        return tab.selected.length !== 0 && (tab.selected.length !== tab.elems.length);
-    };
-
-    $scope.isChecked = function(tab) {
-        return tab.selected.length !== 0 && (tab.selected.length === tab.elems.length);
-    };
-*/
 
 
     /** Begins results */
 
-	// $scope.currentResults=0;
     $scope.showProgress=false;
-	// $scope.bottomOfPageReached = function(tab){
-	//     if($scope.showProgress){
-	//         return; // don't double do it
-     //    }
-	//     $scope.showProgress=true;
-	//     console.log("bottomOfPageReached:" + tab);
-	// 	fetch(tab);
-	// };
 
     function fetch(tab, callback){
         var filters = {};
-        filters["sources"] = [tab.source.code];
+        filters["sources"] = tab.source.codes;
+        filters["relevances"] = ["unset"];
         if(tab.lastId){
             filters["lastId"] = [tab.lastId];
         }
@@ -156,7 +109,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 
     /** aggregated results by source */
 
-	$scope.getAggregated = function() {
+	function getAggregated() {
         // var tOut = $scope.startLoading();
 		seedUrlFactory.getAggregated($scope.master.workspaceId)
 			.then(
@@ -171,28 +124,33 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 			);
 	};
 
+    // var foo = function Status() {
+    //       // constructor() {
+    //         this.relevant = 0;
+    //         this.irrelevant=0;
+    //         this.skipped=0;
+    //         this.pending=0;
+    // };
+
     function buildAggregatedBy(seedUrlAggregated){
+
         var resultStruct = {
-        "SE":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "DD":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "MANUAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "TOR":{"relevant":0, "irrelevant":0, "neutral":0, "total":0}
+        "SE":{"relevant":0, "irrelevant":0, "skipped":0, "pending":0, "total":0},
+        // "DD":{"relevant":0, "irrelevant":0, "skipped":0, "pending":0, "total":0},
+        // "MANUAL":{"relevant":0, "irrelevant":0, "skipped":0, "pending":0, "total":0},
+        "TOR":{"relevant":0, "irrelevant":0, "skipped":0, "pending":0, "total":0}
         };
+
         angular.forEach(seedUrlAggregated, function(value, index){
-            var crawlEntityType = value._id.crawlEntityType =="GOOGLE" || value._id.crawlEntityType =="BING" ? "SE": value._id.crawlEntityType;
-            var relevance = value._id.relevant === undefined || value._id.relevant === null ? "neutral" : (value._id.relevant === false? "irrelevant" : "relevant");
+            var crawlEntityType = value._id.crawlEntityType =="GOOGLE" || value._id.crawlEntityType =="BING" || value._id.crawlEntityType =="DD" || value._id.crawlEntityType =="MANUAL" ? "SE": value._id.crawlEntityType;
+            var relevance = value._id.relevant === undefined ? "pending" : value._id.relevant === null ? "skipped" : (value._id.relevant === false? "irrelevant" : "relevant");
             resultStruct[crawlEntityType][relevance] = resultStruct[crawlEntityType][relevance] + value.count;
-            resultStruct[crawlEntityType]["total"] = resultStruct[crawlEntityType]["relevant"] + resultStruct[crawlEntityType]["irrelevant"] + resultStruct[crawlEntityType]["neutral"] ;
+            resultStruct[crawlEntityType]["total"] = resultStruct[crawlEntityType]["relevant"] + resultStruct[crawlEntityType]["irrelevant"] + resultStruct[crawlEntityType]["skipped"] + resultStruct[crawlEntityType]["pending"];
         });
 
-        setTabsValue("SE", resultStruct["SE"]["total"]);
-        // setTabsValue("MANUAL", resultStruct["MANUAL"]["total"]);
-        setTabsValue("TOR", resultStruct["TOR"]["total"]);
-        // setTabsValue("DD", resultStruct["DD"]["total"]);
-    }
+        $scope.tabs["SE"].aggregatedResults=resultStruct["SE"];
+        $scope.tabs["TOR"].aggregatedResults=resultStruct["TOR"];
 
-    function setTabsValue(shortCode, value){
-        $scope.tabs[shortCode].nResults=value;
     }
 
 
@@ -202,7 +160,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
      * 2) for the ones not yet fetched, the main/submain checkbox status
      * @param ev
      */
-	$scope.newDeepCrawl = function (ev) {
+	$scope.newSmartCrawl = function (ev) {
 	    console.log(ev);
         alert("deepcrawl!");
     };

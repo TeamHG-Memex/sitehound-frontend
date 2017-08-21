@@ -7,25 +7,32 @@
                     <div class="mdl-card__title">
                         <span class="mdl-card__title-text">
                             <!--<h4>New Deep Crawl</h4>-->
-                            <h4>Label results to build the model</h4>
+                            <h4>Label fetched pages to build the model</h4>
                         </span>
                     </div>
 
                     <!--/*margin-left: 27px;margin-right: 27px-->
                     <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
+                        Model metrics with some BIG HUGE numbers here! Score: 78.2% on 10 annotated pages (12% relevant).
 
+                        <br>
                     </div>
 
                     <!--<div class="mdl-grid portfolio-max-width" style="height: 851px" >-->
                     <!--<div class="mdl-grid portfolio-max-width" style="height: 950px">-->
                     <div class="mdl-grid portfolio-max-width" style="height: 440px; min-height: 441px">
                         <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >
-                            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}}  ({{tab.nResults}})" >
+                            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}} " >
                                     <div class="tab{{$index%4}}" style="padding: 25px;" >
                                         <div layout="row" layout-align="end space-between" flex="100" style="width: 100%">
 
                                             <div>
-                                                34 relevant /223 not relevant /233 skipped / 1000 pending {{tab.elems.length}} of {{tab.nResults}}
+                                                Relevant: {{tab.aggregatedResults["relevant"]}} /
+                                                Not relevant: {{tab.aggregatedResults["irrelevant"]}} /
+                                                Skipped: {{tab.aggregatedResults["skipped"]}} /
+                                                Pending: {{tab.aggregatedResults["pending"]}} /
+                                                Total: {{tab.aggregatedResults["total"]}}
+                                                <!--223 not relevant /233 skipped / 1000 pending {{tab.elems.length}} of {{tab.nResults}}-->
                                             </div>
                                         </div>
 
