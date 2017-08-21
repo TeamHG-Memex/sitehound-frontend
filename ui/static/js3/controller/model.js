@@ -39,12 +39,17 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
             tab.currentElem = tab.elems.splice(0, 1);
         }
         else{
+            $scope.showProgress=true;
             fetch(tab, getNextElem);
+        }
+        if(tab.elems.length<4){
+            fetch(tab);
         }
     }
 
 
     $scope.label= function (ev, tab, elem, relevance) {
+        tab.currentElem=null;
         getNextElem(tab);
         seedUrlFactory.label($scope.master.workspaceId, elem._id, relevance);
     };
@@ -112,7 +117,6 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 	// 	fetch(tab);
 	// };
 
-	    $scope.showProgress=true;
     function fetch(tab, callback){
         var filters = {};
         filters["sources"] = [tab.source.code];

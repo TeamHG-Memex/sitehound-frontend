@@ -18,26 +18,14 @@
 
                     <!--<div class="mdl-grid portfolio-max-width" style="height: 851px" >-->
                     <!--<div class="mdl-grid portfolio-max-width" style="height: 950px">-->
-                    <div class="mdl-grid portfolio-max-width" style="height: 440px">
+                    <div class="mdl-grid portfolio-max-width" style="height: 440px; min-height: 441px">
                         <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >
                             <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}}  ({{tab.nResults}})" >
                                     <div class="tab{{$index%4}}" style="padding: 25px;" >
-                                        <div layout="row" layout-align="space-between space-between" flex="100" style="width: 100%">
-                                            <!--<div>-->
-                                                <!--<md-checkbox-->
-                                                    <!--aria-label="Select All"-->
-                                                     <!--ng-checked="isChecked(tab)"-->
-                                                     <!--md-indeterminate="isIndeterminate(tab)"-->
-                                                     <!--ng-click="toggleAll(tab)">-->
-                                                    <!--<span ng-if="isChecked(tab)">Un-</span>Select All-->
-                                                <!--</md-checkbox>-->
-                                            <!--</div>-->
+                                        <div layout="row" layout-align="end space-between" flex="100" style="width: 100%">
 
                                             <div>
-                                                34 relevant /223 not relevant /233 skipped / 1000 pending
-                                            </div>
-                                            <div>
-                                                Showing {{tab.elems.length}} of {{tab.nResults}}
+                                                34 relevant /223 not relevant /233 skipped / 1000 pending {{tab.elems.length}} of {{tab.nResults}}
                                             </div>
                                         </div>
 
