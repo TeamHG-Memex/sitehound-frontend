@@ -51,6 +51,17 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', '$httpParamSeriali
 		return $http.put(url + "/url/" + id, po);
 	};
 
+	dataFactory.label = function(workspaceId, id, relevance){
+		var urlBase = '/api/workspace/{0}/label';
+		var url =  String.format(urlBase, workspaceId);
+		var po = {};
+		po.relevance = relevance;
+		// po.categories = categories;
+		// po.udc = udc;
+//		console.log("id: " + id + " , relevance: " + relevance);
+		return $http.put(url + "/url/" + id, po);
+	};
+
 
 
 // Moved to fetch-service

@@ -9,7 +9,7 @@ from mongo_repository.trained_url_repository import dao_reset_results, \
 from mongo_repository.trained_url_repository import get_seeds_urls_url
 from mongo_repository.trained_url_repository import get_seeds_urls_categorized
 from mongo_repository.trained_url_repository import dao_delete_seed_url
-from mongo_repository.trained_url_repository import dao_update_relevance
+from mongo_repository.trained_url_repository import dao_update_relevance, label
 from mongo_repository.trained_url_repository import dao_update_relevanceByid
 from service.job_service import save_job
 from service.seed_service import dao_get_keywords_by_relevance
@@ -58,6 +58,10 @@ def update_seeds_urls_relevance(evaluated_seeds_urls):
 
 def update_seeds_url_relevancy(workspace_id, id, relevance, categories, udc):
     dao_update_relevanceByid(workspace_id, id, relevance, categories, udc)
+
+
+def label_seeds_url_relevancy(workspace_id, id, relevance):
+    label(workspace_id, id, relevance)
 
 
 def delete_seeds_url(workspace_id, id):

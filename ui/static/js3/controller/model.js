@@ -28,17 +28,26 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
             tab.selected=[];
             tab.allSelected=false;
             $scope.tabs[source.shortCode] = tab;
-            fetch(tab);
+            fetch(tab, getNextElem);
             tab.currentElem=null;
         }
         $scope.getAggregated();
     }
 
-    function recharge(tab){
+    function getNextElem(tab){
         if(tab.elems.length>0){
             tab.currentElem = tab.elems.splice(0, 1);
         }
+        else{
+            fetch(tab, getNextElem);
+        }
     }
+
+
+    $scope.label= function (ev, tab, elem, relevance) {
+        getNextElem(tab);
+        seedUrlFactory.label($scope.master.workspaceId, elem._id, relevance);
+    };
 
 /*
     $scope.toggleAll = function(tab) {
@@ -94,16 +103,17 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 
 	// $scope.currentResults=0;
     $scope.showProgress=false;
-	$scope.bottomOfPageReached = function(tab){
-	    if($scope.showProgress){
-	        return; // don't double do it
-        }
-	    $scope.showProgress=true;
-	    console.log("bottomOfPageReached:" + tab);
-		fetch(tab);
-	};
+	// $scope.bottomOfPageReached = function(tab){
+	//     if($scope.showProgress){
+	//         return; // don't double do it
+     //    }
+	//     $scope.showProgress=true;
+	//     console.log("bottomOfPageReached:" + tab);
+	// 	fetch(tab);
+	// };
 
-    function fetch(tab){
+	    $scope.showProgress=true;
+    function fetch(tab, callback){
         var filters = {};
         filters["sources"] = [tab.source.code];
         if(tab.lastId){
@@ -125,10 +135,13 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 				tab.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 					(tab.elems.length > 0 ? tab.elems[tab.elems.length-1]._id : null) ;
 
-				$scope.showProgress=false;
                 tab.disabled= (tab.elems.length ==0);
 
-                recharge(tab);
+                // everything was labeled
+                if(tempResults.length>0 && callback!=null){
+                    callback(tab);
+                }
+				$scope.showProgress=false;
 			},
 			function(response) {
 				$scope.showProgress=false;

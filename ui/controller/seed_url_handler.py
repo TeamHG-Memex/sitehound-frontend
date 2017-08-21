@@ -13,7 +13,7 @@ from utils.json_encoder import JSONEncoder
 from service.seed_url_service \
     import add_known_urls_handler, schedule_spider_searchengine, update_seeds_urls_relevance, \
     update_seeds_url_relevancy, delete_seeds_url, reset_results, \
-    get_seeds_urls_by_workspace, get_seeds_udc_by_workspace
+    get_seeds_urls_by_workspace, get_seeds_udc_by_workspace, label_seeds_url_relevancy
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url", methods=["GET"])
@@ -74,6 +74,21 @@ def update_seeds_url_relevancy_api(workspace_id, id):
     categories = request.json['categories']
     udc = request.json['udc']
     update_seeds_url_relevancy(workspace_id, id, relevance, categories, udc)
+    return Response("{}", mimetype="application/json")
+
+
+@app.route("/api/workspace/<workspace_id>/label/url/<id>", methods=["PUT"])
+@login_required
+def label_seeds_url_relevancy_api(workspace_id, id):
+
+    if "relevance" in request.json:
+        relevance = request.json['relevance']
+    else:
+        relevance = None
+
+    # categories = request.json['categories']
+    # udc = request.json['udc']
+    label_seeds_url_relevancy(workspace_id, id, relevance)
     return Response("{}", mimetype="application/json")
 
 

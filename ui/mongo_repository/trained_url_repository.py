@@ -192,6 +192,13 @@ def dao_update_relevanceByid(workspace_id, id, relevance, categories, udc):
     collection.update({"_id": ObjectId(id)}, {'$set': update_object}, True)
 
 
+def label(workspace_id, id, relevance):
+    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+    update_object= {}
+    update_object['relevant'] = relevance
+    collection.update({"_id": ObjectId(id)}, {'$set': update_object}, True)
+
+
 def dao_delete_seed_url(workspace_id, id):
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     update_object= {}

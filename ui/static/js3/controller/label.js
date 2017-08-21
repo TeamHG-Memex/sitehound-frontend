@@ -97,7 +97,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 	};
 
 
-    $scope.master.bottomOfPageReachedAddListener($scope.fetch);
+    // $scope.master.bottomOfPageReachedAddListener($scope.fetch);
 
     $scope.updateSeedUrl = function(seedUrl){
         trainingService.updateSeedUrl($scope.master.workspaceId, seedUrl, refreshUdcOnSuccess);

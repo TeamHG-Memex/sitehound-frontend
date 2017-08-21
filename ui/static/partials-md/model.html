@@ -17,7 +17,8 @@
                     </div>
 
                     <!--<div class="mdl-grid portfolio-max-width" style="height: 851px" >-->
-                    <div class="mdl-grid portfolio-max-width" style="height: 950px">
+                    <!--<div class="mdl-grid portfolio-max-width" style="height: 950px">-->
+                    <div class="mdl-grid portfolio-max-width" style="height: 440px">
                         <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >
                             <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}}  ({{tab.nResults}})" >
                                     <div class="tab{{$index%4}}" style="padding: 25px;" >
@@ -66,13 +67,13 @@
                                                             </div>
                                                             <div layout="row" layout-align="space-between center" style="margin-top:40px; width: 100%">
                                                                 <div layout="row" layout-align="space-between center" >
-                                                                    <md-button class="md-raised" ng-click="newDeepCrawl($event)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                    <md-button class="md-raised" ng-click="label($event, tab, elem, false)" style="  font-size: 14px;text-align: center;  text-transform: none;">
                                                                         Not relevant</md-button>
-                                                                    <md-button class="md-raised" ng-click="newDeepCrawl($event)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                    <md-button class="md-raised" ng-click="label($event, tab, elem, true)" style="  font-size: 14px;text-align: center;  text-transform: none;">
                                                                         Relevant</md-button>
                                                                 </div>
                                                                 <div  layout="row" layout-align="space-between center">
-                                                                    <md-button class="md-raised" md-no-ink ng-click="newDeepCrawl($event)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                    <md-button class="md-raised" md-no-ink ng-click="label($event, tab, elem, null)" style="  font-size: 14px;text-align: center;  text-transform: none;">
                                                                         Skip</md-button>
                                                                 </div>
                                                             </div>
@@ -91,10 +92,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%">
-                                                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                                            </div>
                                         </md-content>
+                                        <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%">
+                                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                                        </div>
                                     </div>
                             </md-tab>
                         </md-tabs>
@@ -102,7 +103,8 @@
                 </div>
                 <div class="mdl-card__actions">
                     <div layout="row" layout-align="space-between center">
-                        <md-button class="md-primary md-raised" ng-click="newDeepCrawl($event)">Start Deep Crawl</md-button>
+                        <a href="#/all-labeled-data" class="mdl-button">View all labeled data</a>
+                        <md-button class="md-primary md-raised" ng-click="newSmartCrawl($event)">Start Smart Crawl</md-button>
                     </div>
                 </div>
             </div>
