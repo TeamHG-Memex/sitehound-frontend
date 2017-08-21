@@ -8,9 +8,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 /** filters **/
     $scope.sources = [
         {"name":"Clear web", "codes":["searchengine", "deepdeep"], "shortCode":"SE"},
-        // {"name":"Seeds", "code":"imported", "shortCode":"MANUAL"},
         {"name":"Dark web", "codes":["tor"], "shortCode":"TOR"},
-        // {"name":"DeepDeep", "code":"deepdeep", "shortCode":"DD"}
     ];
 
     /** tabs */
@@ -122,15 +120,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
                     $scope.status = 'Unable to load data: ' + error.message;
                 }
 			);
-	};
-
-    // var foo = function Status() {
-    //       // constructor() {
-    //         this.relevant = 0;
-    //         this.irrelevant=0;
-    //         this.skipped=0;
-    //         this.pending=0;
-    // };
+	}
 
     function buildAggregatedBy(seedUrlAggregated){
 
