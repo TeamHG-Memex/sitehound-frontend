@@ -153,6 +153,12 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				templateUrl: '/static/partials-md/model.html'
 			})
 
+		.when('/all-labeled',
+			{
+				controller: 'allLabeledController',
+				templateUrl: '/static/partials-md/all-labeled.html'
+			})
+
 
 		// .when('/welcome',
 		// 	{

@@ -39,13 +39,13 @@ def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances
     #relevances
     if len(relevances) > 0:
         relevances_search_conditions = []
-        if "unset" in relevances:
-            relevances_search_object = {'relevant': {"$exists": False}}
-        else:
-            for relevance in relevances:
+        for relevance in relevances:
+            if relevance == "unset":
+                relevances_search_conditions.append({'relevant': {"$exists": False}})
+            else:
                 relevances_search_conditions.append({'relevant': relevance})
 
-            relevances_search_object = {'$or': relevances_search_conditions}
+        relevances_search_object = {'$or': relevances_search_conditions}
         and_condition_list.append(relevances_search_object)
 
 
