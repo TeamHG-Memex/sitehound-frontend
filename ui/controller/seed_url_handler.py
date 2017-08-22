@@ -22,10 +22,10 @@ def get_seed_urls_by_workspace_api(workspace_id):
 
     sources = request.args.getlist('sources')
     relevances_as_string = request.args.getlist('relevances')
-    categories = request.args.getlist('categories')
-    udcs = request.args.getlist('udcs')
+    # categories = request.args.getlist('categories')
+    # udcs = request.args.getlist('udcs')
     last_id = request.args.get('lastId')
-    page_size = 4
+    page_size = 3
 
     relevances = []
     for rel in relevances_as_string:

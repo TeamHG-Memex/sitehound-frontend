@@ -12,21 +12,16 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
     ];
 
     $scope.relevances= [
-        {"name": "Relevant", "code":"true", "aggCode": "relevant"},
-        {"name": "Not relevant", "code":"false", "aggCode": "irrelevant"},
-        {"name": "Skipped", "code":"null", "aggCode": "skipped"},
-        {"name": "Pending", "code":"unset", "aggCode": "pending"}
+        {"name": "Relevant", "code":"true", "aggCode": "relevant", "jsCode": true},
+        {"name": "Not relevant", "code":"false", "aggCode": "irrelevant", "jsCode": false},
+        {"name": "Skipped", "code":"null", "aggCode": "skipped", "jsCode": null},
+        {"name": "Pending", "code":"unset", "aggCode": "pending", "jsCode": undefined}
     ];
 
     /** tabs */
     $scope.tabs = {};
     $scope.selectedTabIndex = 0;
 
-    $scope.relevanceSelection = [];
-
-    for(var i=0; i<$scope.relevances.length; i++){
-        $scope.relevanceSelection.push($scope.relevances[i].code);
-    }
 
     $scope.toggleSelection = function (item, list) {
         var idx = list.indexOf(item);
@@ -44,6 +39,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
         return idx > -1;
     };
 
+
     $scope.clear = function(tab){
         tab.elems = [];
         tab.lastId = null;
@@ -51,19 +47,23 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
     };
 
     function init(){
+
         for(var i=0; i<$scope.sources.length; i++){
             var source = $scope.sources[i];
             var tab = {};
             tab.source=source;
-            // tab.nResults=null;
             tab.aggregatedResults=null;
             tab.elems=[];
             tab.lastId=null;
-            // tab.selected=[];
-            // tab.allSelected=false;
+            tab.relevanceSelection = [];
+            tab.disabled=false;
+
+            for(var j=0; j<$scope.relevances.length; j++){
+                tab.relevanceSelection.push($scope.relevances[j].code);
+            }
             $scope.tabs[source.shortCode] = tab;
+            console.log("ready to fetch: " + source.shortCode);
             fetch(tab);
-            // tab.currentElem=null;
         }
         getAggregated();
     }
@@ -72,12 +72,42 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
 	    if($scope.showProgress){
 	        return; // don't double do it
         }
-	    $scope.showProgress=true;
 	    console.log("bottomOfPageReached:" + tab);
 		fetch(tab);
 	};
 
     $scope.label= function (ev, tab, elem, relevance) {
+        elem.relevant=relevance;
+
+        var code;
+        if(elem.relevant===true){
+            code="true";
+        } else if(elem.relevant===false){
+            code="false";
+        } else if(elem.relevant===null){
+            code="null";
+        } else if(elem.relevant===undefined){
+            code="unset";
+        }
+
+        if(!$scope.inSelection(code, tab.relevanceSelection)){
+            var found=false;
+            var i =0
+            for(i; i<tab.elems.length; i++){
+                if(tab.elems[i]._id==elem._id){
+                    found=true;
+                    break;
+                }
+            }
+            if(found){
+                var removed = tab.elems.splice(i, 1);
+                console.log(removed.url);
+                if(tab.elems.length<3){
+                    fetch(tab);
+                }
+            }
+        }
+
         seedUrlFactory.label($scope.master.workspaceId, elem._id, relevance)
         .then(
 			function (response) {
@@ -98,15 +128,17 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
     $scope.filters = {};
     $scope.filters.relevance = {};
     function fetch(tab){
-        $scope.showProgress=true;
         var filters = {};
         filters["sources"] = tab.source.codes;
-        filters["relevances"] = $scope.relevanceSelection;
-        debugger;
+        if(tab.relevanceSelection.length==0){
+            return;
+        }
+        filters["relevances"] = tab.relevanceSelection;
         if(tab.lastId){
             filters["lastId"] = [tab.lastId];
         }
 
+        $scope.showProgress=true;
         seedUrlFactory.get($scope.master.workspaceId, filters)
 		.then(
 			function (response) {
@@ -122,7 +154,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
 				tab.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 					(tab.elems.length > 0 ? tab.elems[tab.elems.length-1]._id : null) ;
 
-                tab.disabled= (tab.elems.length ==0);
+                // tab.disabled= (tab.elems.length ==0);
 
                 $scope.showProgress=false;
 			},
@@ -185,6 +217,22 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
 
 
     init();
+    // $scope.relevanceFilter = function(input, tab){
+    //     debugger;
+		// return !input.deleted ;//&& $scope.inSelection(elem, );
+	// };
 }]);
 
 
+/*
+
+ngApp.filter('relevanceFilter', function () {
+return function (arr, tab) {
+    debugger;
+    if(arr.length>0){
+
+    }
+    return tab.relevanceSelection.indexOf(elem.relevant)>-1;
+
+}});
+ */

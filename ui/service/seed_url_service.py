@@ -121,17 +121,17 @@ def get_seeds_urls_by_workspace(workspace_id, page_size, sources, relevances, ca
     except Exception, e:
         print e
         logging.info("item failed")
-    for item in mongo_result:
-        try:
-            es_result = Singleton.getInstance().es_client.get_open_crawled_index_results(item['url'])
-            item['desc'] = es_result["text"]
-            # already stored in mongo
-            # item['title'] = es_result["crawlResultDto"]["title"]
-            # item['words'] = es_result["words"]
-            # item['language'] = es_result["language"]
-            # item['categories'] = es_result["categories"]
-        except:
-            logging.info("item failed")
+    # for item in mongo_result:
+    #     try:
+    #         es_result = Singleton.getInstance().es_client.get_open_crawled_index_results(item['url'])
+    #         item['desc'] = es_result["text"]
+    #         # already stored in mongo
+    #         # item['title'] = es_result["crawlResultDto"]["title"]
+    #         # item['words'] = es_result["words"]
+    #         # item['language'] = es_result["language"]
+    #         # item['categories'] = es_result["categories"]
+    #     except:
+    #         logging.info("item failed")
     return mongo_result
 
 

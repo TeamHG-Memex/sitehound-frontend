@@ -82,7 +82,8 @@ def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances
     # field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'urlDesc', 'categories', 'language', 'relevant']
     # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant', 'words']
     # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant']
-    field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'title', 'language', 'relevant', 'categories', 'udc']
+    # field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'title', 'language', 'relevant', 'categories', 'udc']
+    field_names_to_include = ['_id', 'host', 'crawlEntityType', 'url', 'title', 'language', 'relevant']
 
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     res = collection\
