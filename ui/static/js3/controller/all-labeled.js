@@ -124,11 +124,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
 
                 tab.disabled= (tab.elems.length ==0);
 
-                // everything was labeled
-                // if(tempResults.length>0 && callback!=null){
-                //     callback(tab);
-                // }
-                // $scope.showProgress=false;
+                $scope.showProgress=false;
 			},
 			function(response) {
 				$scope.showProgress=false;

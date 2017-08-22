@@ -26,7 +26,6 @@
                                     <div class="tab{{$index%4}}" style="padding: 25px;" layout="column">
                                         <div layout="row" layout-align="space-between center" flex="100" style="width: 100%">
                                             <div flex="75">
-                                                <!--<span>Show &nbsp;&nbsp;&nbsp;</span>-->
                                                 <md-checkbox
                                                     ng-repeat="relevance in relevances"
                                                     aria-label="{{relevance.name}}"
@@ -34,42 +33,8 @@
                                                     ng-click="toggleSelection(relevance.code, relevanceSelection) && clear(tab) && bottomOfPageReached(tab)">
                                                     {{relevance.name}} ({{tab.aggregatedResults[relevance.aggCode]}})
                                                 </md-checkbox>
-                                                    <!--value="{{relevance}}"-->
-
-                                                <!--<md-checkbox-->
-                                                    <!--ng-model=filters.relevance["relevant"]-->
-                                                <!--&gt;-->
-                                                <!--Relevant ({{tab.aggregatedResults["relevant"]}})-->
-                                                <!--</md-checkbox>-->
-                                                <!--<md-checkbox-->
-                                                    <!--aria-label="Not relevant"-->
-                                                    <!--ng-model=filters.relevance["irrelevant"]-->
-                                                <!--&gt;-->
-                                                <!--Not relevant ({{tab.aggregatedResults["irrelevant"]}})-->
-                                                <!--</md-checkbox>-->
-                                                <!--<md-checkbox-->
-                                                    <!--aria-label="Skipped"-->
-                                                    <!--ng-model=filters.relevance["skipped"]-->
-                                                <!--&gt;-->
-                                                <!--Skipped ({{tab.aggregatedResults["skipped"]}})-->
-                                                <!--</md-checkbox>-->
-                                                <!--<md-checkbox-->
-                                                    <!--aria-label="Pending"-->
-                                                    <!--ng-model=filters.relevance["pending"]-->
-                                                <!--&gt;-->
-                                                <!--Pending ({{tab.aggregatedResults["pending"]}})-->
-                                                <!--</md-checkbox>-->
                                             </div>
-
-                                            <!--<div>-->
-                                                <!--{{tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0)}}  selected-->
-                                            <!--</div>-->
-                                            <!--<div>-->
-                                                <!--Showing {{tab.elems.length}} of {{tab.aggregatedResults["total"]}}-->
-                                            <!--</div>-->
                                         </div>
-
-
 
                                         <md-content class="mdl-grid portfolio-max-width" style="max-height: 700px; margin-top:40px" scrolly="bottomOfPageReached(tab)">
                                         <!--<md-content class="mdl-grid portfolio-max-width" style="margin-top:40px" >-->
@@ -131,13 +96,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%; margin:10px">
+                                                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                                            </div>
                                         </md-content>
                                     </div>
                             </md-tab>
                         </md-tabs>
-                        <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%">
-                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                        </div>
                     </div>
                 </div>
                 <div class="mdl-card__actions">
