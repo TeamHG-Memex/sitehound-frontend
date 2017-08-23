@@ -9,7 +9,7 @@ Sitehound, hh-deep-deep and hh-page-classifier.
 
 
 DD Deepcrawler
-==========
+==============
 
 This is for deep crawling.
 
@@ -18,14 +18,18 @@ Input
 
 Topic: ``dd-deepcrawler-input``
 Message:
-        {
-            "id": "3413adfdf4dfdf4",
-            "urls": ["https://example1.com","https://example2.com","https://example3.com"]
-        }
+    {
+        "id": "some crawl id",
+        "urls": [
+            "https://example1.com",
+            "https://example2.com",
+            "https://example3.com"
+        ]
+    }
 
-        where:
-            id: (String) The id of the job
-            urls: (List<String>) All URLs selected for deepcrawl
+    where:
+        id: (String) The id of the job
+        urls: (List<String>) All URLs selected for deepcrawl
 
 
 Progress
