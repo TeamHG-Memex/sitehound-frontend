@@ -68,7 +68,7 @@ dd-modeler-input
 Topic: ``dd-modeler-input``. Training page classifier model::
 
     {
-        "id": "some id that will be returned in the answer message", // the workspace_id
+        "id": "workspace id",
         "pages": [
             {
                 "url": "http://example.com",
@@ -105,10 +105,18 @@ Topic: ``dd-modeler-output``. Result of training the model::
 
     {
         "id": "the same id as in the input",
-        "quality": "[[\"Accuracy\", \"0.84\"], [\"some other metric\", \"0.89\"]]",
+        "quality": "json data",
         "model": "b64-encoded page classifier model"
     }
 
+JSON data format::
+
+    {
+        "advice": "advice for improving the model",
+        "description": ["item1", "item2"],
+        "weights": {"pos": ..., "neg": ..., "pos_remaining": 0, "neg_remaining": 0},
+        "tooltips": {"ROC AUC": "some description"}
+    }
 
 DD Trainer
 ==========

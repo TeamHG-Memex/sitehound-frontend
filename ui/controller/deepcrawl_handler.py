@@ -16,8 +16,6 @@ def deep_get_config():
     return Response(json.dumps({'ARACHNADO_HOST_NAME': app.config['ARACHNADO_HOST_NAME'], 'ARACHNADO_HOST_PORT': app.config['ARACHNADO_HOST_PORT']}), mimetype="application/json")
 
 
-
-
 @app.route("/api/deep-crawl", methods=["POST"])
 @login_required
 def deep_crawl_url():
