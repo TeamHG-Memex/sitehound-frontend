@@ -13,8 +13,8 @@ DD Deepcrawler
 
 This is for deep crawling.
 
-Input:
-------
+Input
+-----
 
 Topic: ``dd-deepcrawler-input``
 Message:
@@ -28,19 +28,21 @@ Message:
             urls: (List<String>) All URLs selected for deepcrawl
 
 
-Progress:
----------
-TBD
+Progress
+--------
+Topic: ``dd-deepcrawler-progress``
+Message: TBD
 
-Output:
--------
+Output
+------
 TBD, but probably do not needed since results would be stored outside Sitehound
 
 
 
 
 
------------------------------ TO REVIEW ----------------------------------------
+From here needs REVIEW
+
 DD Modeler
 ==========
 
