@@ -126,7 +126,7 @@ Stop the crawl::
     }
 
 dd-trainer-output-*
-===================
+-------------------
 
 Topic: ``dd-trainer-output-model``.
 Update of the link model (to be saved and posted as ``link_model`` to ``dd-crawler-input`` later)::
