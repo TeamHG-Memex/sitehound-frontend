@@ -16,8 +16,8 @@ This is for deep crawling.
 Input
 -----
 
-Topic: ``dd-deepcrawler-input``
-Message:
+Topic: ``dd-deepcrawler-input``::
+
     {
         "id": "some crawl id",
         "urls": [
@@ -28,8 +28,9 @@ Message:
     }
 
 where:
-  id: (String) The id of the job
-  urls: (List<String>) All URLs selected for deepcrawl
+
+- id: (String) The id of the job,
+- urls: (List<String>) All URLs selected for deepcrawl
 
 
 Progress
