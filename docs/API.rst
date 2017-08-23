@@ -46,7 +46,16 @@ TBD, but probably do not needed since results would be stored outside Sitehound
 
 
 
-From here needs REVIEW
+
+
+
+------------  **The protocol below needs REVIEW** --------------
+================================================================
+
+
+
+
+
 
 DD Modeler
 ==========
