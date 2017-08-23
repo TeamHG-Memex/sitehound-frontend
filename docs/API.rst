@@ -20,6 +20,7 @@ Topic: ``dd-deepcrawler-input``::
 
     {
         "id": "some crawl id",
+        "page_limit": 10000000,
         "urls": [
             "https://example1.com",
             "https://example2.com",
@@ -30,7 +31,8 @@ Topic: ``dd-deepcrawler-input``::
 where:
 
 - id: (String) The id of the job,
-- urls: (List<String>) All URLs selected for deepcrawl
+- urls: (List<String>) All URLs selected for deepcrawl,
+- page_limit: (Integer) (optional) (defaulting to 10M items). The maximum number of pages to fetch
 
 
 Progress
