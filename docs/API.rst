@@ -27,9 +27,9 @@ Message:
         ]
     }
 
-    where:
-        id: (String) The id of the job
-        urls: (List<String>) All URLs selected for deepcrawl
+where:
+  id: (String) The id of the job
+  urls: (List<String>) All URLs selected for deepcrawl
 
 
 Progress
