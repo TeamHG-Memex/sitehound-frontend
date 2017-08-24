@@ -44,9 +44,14 @@ Topic: ``dd-deepcrawler-progress``::
 
     {
         "id": "some crawl id",
-        "progress": [
-            {"url":"http://example1.com", "domain": "example1.com", "pages_fetched": 1234, "finished": false, "rpm":12000},
-            {"url":"http://example2.com", "domain": "example2.com", "pages_fetched": 234, "finished": true, "rpm":12000}
+        "progress": {
+            "status": "running",
+            "pages_fetched": 1468,
+            "rpm": 24000,
+            "domains": [
+                {"url":"http://example1.com", "domain": "example1.com", "pages_fetched": 1234, "finished": false, "rpm":12000},
+                {"url":"http://example2.com", "domain": "example2.com", "pages_fetched": 234, "finished": true, "rpm":12000}
+             ]
         ],
         "statistics": "json_data"
     }
