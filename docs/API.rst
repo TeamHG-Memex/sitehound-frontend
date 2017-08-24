@@ -19,7 +19,8 @@ Input
 Topic: ``dd-deepcrawler-input``::
 
     {
-        "id": "some crawl id",
+        "id": "crawl id",
+        "workspace_id": "workspace id",
         "page_limit": 10000000,
         "urls": [
             "https://example1.com",
@@ -31,12 +32,14 @@ Topic: ``dd-deepcrawler-input``::
 where:
 
 - id: (String) The id of the job,
+- workspace_id: (String) The id of the workspace,
 - urls: (List<String>) All URLs selected for deepcrawl,
 - page_limit: (Integer) (optional) (defaulting to 10M items). The maximum number of pages to fetch
 
 
 Progress
 --------
+
 Topic: ``dd-deepcrawler-progress``
 
     {
@@ -153,10 +156,10 @@ Topic: ``dd-trainer-input``.
 Start the crawl::
 
     {
-        "id": "some crawl id",
-        "workspace_id": "the workspace id",
+        "id": "crawl id",
+        "workspace_id": "workspace id",
         "page_model": "b64-encoded page classifier",
-        "seeds": ["http://example.com", "http://example.com/2"],
+        "urls": ["http://example.com", "http://example.com/2"],
         "page_limit": 100
     }
 
@@ -205,7 +208,6 @@ DD Crawler
 
 This is the main crawler.
 
-**TODO** deep crawling.
 
 dd-crawler-input
 ----------------
@@ -213,11 +215,11 @@ dd-crawler-input
 Topic ``dd-crawler-input``. Start the crawl::
 
     {
-        "id": "some crawl id",
-        "workspace_id": "the workspace_id",
+        "id": "crawl id",
+        "workspace_id": "workspace id",
         "page_model": "b64-encoded page classifier",
-        "seeds": ["http://example.com", "http://example.com/2"],
-        "broadness": "DEEP" // Valid codes are ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"],
+        "urls": ["http://example.com", "http://example.com/2"],
+        "broadness": "DEEP" // Valid codes are ["N10", "N100", "N1000", "N10000", "BROAD"],
         "page_limit": 100
     }
 
