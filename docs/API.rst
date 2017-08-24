@@ -40,7 +40,7 @@ where:
 Progress
 --------
 
-Topic: ``dd-deepcrawler-progress``
+Topic: ``dd-deepcrawler-progress``::
 
     {
         "id": "some crawl id",
@@ -54,7 +54,7 @@ Topic: ``dd-deepcrawler-progress``
 Output
 ------
 
-Topic: ``dd-deepcrawler-output``
+Topic: ``dd-deepcrawler-output``::
 
     {
         "id": "some crawl id",
@@ -65,14 +65,9 @@ Topic: ``dd-deepcrawler-output``
     }
 
 
-
-
-------------  **The protocol below needs REVIEW** --------------
-================================================================
-
-
-
-
+===================================
+**The protocol below needs REVIEW**
+===================================
 
 
 DD Modeler
@@ -188,8 +183,8 @@ Topic ``dd-trainer-output-pages``. Sample of crawled pages::
     {
         "id": "some crawl id",
         "page_sample": [
-            {"url": "http://example1.com", "score": 80},
-            {"url": "http://example2.com", "score": 90}
+            {"url": "http://example1.com", "domain": example1.com", "score": 80},
+            {"url": "http://example2.com", "domain": example2.com", "score": 90}
         ]
     }
 
