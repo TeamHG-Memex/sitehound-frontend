@@ -14,6 +14,17 @@
 
                     <!--/*margin-left: 27px;margin-right: 27px-->
                     <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
+                        <div layout="row" layout-align="start center">
+                            <span>Max pages to fetch</span>
+                            <md-input-container style="margin-left: 10px">
+                                <!--<label>Max pages to fetch</label>-->
+                                <md-select ng-model="maxPages">
+                                    <md-option ng-repeat="max in maxPagesOptions" ng-value="max">
+                                      {{max}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
                         <!--<div class="mdl-card__title-text" >-->
                             <!--<span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>-->
 
@@ -96,7 +107,11 @@
                                                     <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.elems" >
                                                         <div layout="row" flex layout-align="start center">
                                                             <div flex="5" layout="column" layout-align="center center">
-                                                                <md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, tab.selected)" ng-click="toggle(elem._id, tab.selected)">
+                                                                <md-checkbox
+                                                                        aria-label="elem.url"
+                                                                        style="margin-left:8px"
+                                                                        ng-checked="exists(elem._id, tab.selected)"
+                                                                        ng-click="toggle(elem._id, tab.selected)">
                                                                         <!--ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"-->
                                                                     <!--{{ item }}-->
                                                                 </md-checkbox>
@@ -187,7 +202,7 @@
                 </div>
                 <div class="mdl-card__actions">
                     <div layout="row" layout-align="space-between center">
-                        <md-button class="md-primary md-raised" ng-click="newDeepCrawl($event)">Start Deep Crawl</md-button>
+                        <md-button class="md-primary md-raised" ng-click="newDeepCrawlConfirmation($event)">Start Deep Crawl</md-button>
                     </div>
                 </div>
             </div>

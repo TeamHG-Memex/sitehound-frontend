@@ -1,0 +1,51 @@
+<md-dialog aria-label="Details">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <!--<h2 ng-bind="elem.host | capitalize"></h2>-->
+                <h2>Deep crawl settings</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon>close_dialog</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" layout="column" layout-align="start start">
+                <!--<h5>Start a new deep crawl confirmation</h5>-->
+                <!--<h3 ng-bind="elem.title"></h3>-->
+                <!--<p>-->
+                    <!--The mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit. The majority of these species are found in nature as wild mangoes. They all belong to the flowering plant family Anacardiaceae. The mango is native to South and Southeast Asia, from where it has been distributed worldwide to become one of the most cultivated fruits in the tropics.-->
+                <!--</p>-->
+                <!--<p>-->
+                    <!--It originated in Indian subcontinent (present day India and Pakistan) and Burma. It is the national fruit of India, Pakistan, and the Philippines, and the national tree of Bangladesh. In several cultures, its fruit and leaves are ritually used as floral decorations at weddings, public celebrations, and religious ceremonies.-->
+                <!--</p>-->
+                <span>
+                    Selected pages to deepcrawl:
+                </span>
+                <ul>
+                    <li ng-repeat="tab in elem.tabs">
+                        {{tab.source.name}}: {{tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0)}}
+                    </li>
+                </ul>
+                <p>
+                    Max total pages to fetch: {{elem.maxPages}}
+                </p>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <!--<md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>-->
+                <!--More on Wikipedia-->
+            <!--</md-button>-->
+            <!--<span flex></span>-->
+            <md-button class="md-raised" ng-click="answer('not useful')">
+                Cancel
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="answer('useful')" md-autofocus>
+                Start
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

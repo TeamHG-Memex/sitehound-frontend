@@ -2,14 +2,18 @@
  * Created by tomas on 11/08/17.
  */
 
-ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService',
-function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, $mdDialog) {
+ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', '$mdDialog',
+function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog) {
+
+
+    $scope.maxPagesOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
+    $scope.maxPages ="10.000.000";
 
 /** filters **/
     $scope.sources = [
         {"name":"Search Engines", "code":"searchengine", "shortCode":"SE", "results":0},
         {"name":"Seeds", "code":"imported", "shortCode":"MANUAL", "results":0},
-        {"name":"Onions", "code":"tor", "shortCode":"TOR", "results":0},
+        {"name":"Onions", "code":"tor", "shortCode":"TOR", "results":0}
         // {"name":"DeepDeep", "code":"deepdeep", "shortCode":"DD", "results":0}
     ];
 
@@ -169,17 +173,37 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
     }
 
 
-    /**
-     * sends
-     * 1) for the ones displayed, the checked status
-     * 2) for the ones not yet fetched, the main/submain checkbox status
-     * @param ev
-     */
-	$scope.newDeepCrawl = function (ev) {
-	    console.log(ev);
-        alert("deepcrawl!");
+    $scope.newDeepCrawlConfirmation = function(ev) {
+        var elem = {};
+    	elem.workspaceId = $scope.master.workspaceId;
+        elem.maxPages = parseInt($scope.maxPages.replaceAll("\\.",""));
+    	elem.tabs= $scope.tabs;
+
+        $mdDialog.show({
+            title:"bla",
+            controller: 'myDialogController',
+            // controller: DialogController,
+            locals:{item: elem},
+            // templateUrl: 'dialog1.tmpl.html',
+            templateUrl: 'static/partials-md/templates/new-deep-crawl-confirm.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+            .then(function(answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+                console.log($scope.status);
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+                console.log($scope.status);
+            });
     };
 
+    function deepcrawl(config){
+
+
+    }
 
     init();
 }]);
