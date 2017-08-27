@@ -2,14 +2,15 @@
  * Created by tomas on 11/08/17.
  */
 
-ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', '$mdDialog',
-function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog) {
+ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'deepcrawlerFactory', '$mdDialog',
+function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, deepcrawlerFactory, $mdDialog) {
 
+    $scope.nResultsOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
+    $scope.nResults ="10.000.000";
 
-    $scope.maxPagesOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
-    $scope.maxPages ="10.000.000";
+    $scope.sourcesCodes = ["SE", "MANUAL", "TOR"];
 
-/** filters **/
+    /** filters **/
     $scope.sources = [
         {"name":"Search Engines", "code":"searchengine", "shortCode":"SE", "results":0},
         {"name":"Seeds", "code":"imported", "shortCode":"MANUAL", "results":0},
@@ -28,9 +29,9 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
             tab.source=source;
             tab.nResults=null;
             tab.elems=[];
-            tab.lastId=null;
             tab.selected=[];
             tab.allSelected=false;
+            tab.lastId=null;
             $scope.tabs[source.shortCode] = tab;
             fetch(tab);
         }
@@ -176,7 +177,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
     $scope.newDeepCrawlConfirmation = function(ev) {
         var elem = {};
     	elem.workspaceId = $scope.master.workspaceId;
-        elem.maxPages = parseInt($scope.maxPages.replaceAll("\\.",""));
+        elem.nResults = parseInt($scope.nResults.replaceAll("\\.",""));
     	elem.tabs= $scope.tabs;
 
         $mdDialog.show({
@@ -192,17 +193,45 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog)
             fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
             .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
-                console.log($scope.status);
+                if(answer){
+                    deepcrawl();
+                }
+                else{
+                    $scope.status = 'You cancelled the dialog.';
+                    console.log($scope.status);
+                }
             }, function() {
                 $scope.status = 'You cancelled the dialog.';
                 console.log($scope.status);
             });
     };
 
-    function deepcrawl(config){
+    function deepcrawl(){
 
+        var data = {};
+        for(var i=0; i<$scope.sourcesCodes.length; i++){
+            var sourceCode = $scope.sourcesCodes[i];
+            data[sourceCode] = {};
 
+            data[sourceCode].selected = $scope.tabs[sourceCode].selected;
+            data[sourceCode].allSelected = $scope.tabs[sourceCode].allSelected;
+            data[sourceCode].source =$scope.tabs[sourceCode].source.code;
+
+            if(data[sourceCode].allSelected){
+                var elems = $scope.tabs[sourceCode].elems;
+                var unselected = [];
+                for(var j=0; j<elems.length; j++){
+                    var elem = elems[j];
+                    if(data[sourceCode].selected.indexOf(elem._id)<0){
+                        unselected.push(elem._id);
+                    }
+                }
+                data[sourceCode].unselected = unselected;
+            }
+        }
+
+        var nResults = parseInt($scope.nResults.replaceAll("\\.",""));
+        deepcrawlerFactory.publish2DeepCrawl($scope.master.workspaceId, nResults, data);
     }
 
     init();

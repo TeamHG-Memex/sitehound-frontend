@@ -18,7 +18,10 @@ class BrokerService(object):
 
         self.broad_crawler_topic = "broadcrawler"
         self.broad_crawler_topic_input = self.broad_crawler_topic + "-input"
-        self.broad_crawler_topic_input_frontera = self.broad_crawler_topic + "-frontera-input"
+        # self.broad_crawler_topic_input_frontera = self.broad_crawler_topic + "-frontera-input"
+
+        self.deep_crawler_topic = "deepcrawler"
+        self.deep_crawler_topic_input = self.deep_crawler_topic + "-input"
 
         self.scraping_topic = "scraping"
         self.scraping_topic_input = self.scraping_topic + "-input"
@@ -38,6 +41,7 @@ class BrokerService(object):
 
         self.create_topics_for_googlecrawler(app_instance)
         self.create_topics_for_broadcrawler(app_instance)
+        self.create_topics_for_deepcrawler(app_instance)
         self.create_topics_for_scraping(app_instance)
         self.create_topics_for_splash(app_instance)
         self.create_topics_for_import_url(app_instance)
@@ -80,31 +84,34 @@ class BrokerService(object):
     '''
     def create_topics_for_broadcrawler(self, app_instance):
         self.app_instance = app_instance
-        suffix = "" if app_instance == "" else ("-" + app_instance)
-        self.broad_crawler_topic_output = self.broad_crawler_topic + "-output" #+ suffix # TODO
-        self.broad_crawler_topic_group = self.broad_crawler_topic + "-group" #+ suffix
+        # suffix = "" if app_instance == "" else ("-" + app_instance)
+        # self.broad_crawler_topic_output = self.broad_crawler_topic + "-output" #+ suffix # TODO
+        # self.broad_crawler_topic_group = self.broad_crawler_topic + "-group" #+ suffix
 
         logging.info("creating topic " + self.broad_crawler_topic_input)
         self.kafka_connector.create_topic(self.broad_crawler_topic_input)
 
-        logging.info("=========creating topic " + self.broad_crawler_topic_input_frontera)
-        self.kafka_connector.create_topic(self.broad_crawler_topic_input_frontera)
+        # logging.info("creating topic " + self.broad_crawler_topic_output)
+        # self.kafka_connector.create_topic(self.broad_crawler_topic_output)
 
-        logging.info("creating topic " + self.broad_crawler_topic_output)
-
-        self.kafka_connector.create_topic(self.broad_crawler_topic_output)
 
     def add_message_to_broadcrawler(self, message, set_broad_crawler = None):
 
         logging.info("set broad crawler: %s " % set_broad_crawler)
-        # if set_broad_crawler == "FRONTERA":
-        #     self.post_to_queue(message, self.broad_crawler_topic_input_frontera, self.broad_crawler_topic_output)
-        # else:
         self.post_to_queue(message, self.broad_crawler_topic_input, self.broad_crawler_topic_output)
 
     def read_topic_from_broadcrawler(self, callback):
         logging.info('registering read_topic_from_broadcrawler')
         self.read_from_queue(callback, self.broad_crawler_topic_group, self.broad_crawler_topic_output)
+
+    ###### DEEP CRAWL ########
+    def create_topics_for_deepcrawler(self, app_instance):
+        self.app_instance = app_instance
+        logging.info("creating topic " + self.deep_crawler_topic_input)
+        self.kafka_connector.create_topic(self.deep_crawler_topic_input)
+
+    def add_message_to_deepcrawler(self, message):
+        self.post_to_queue_no_extra_headers(message, self.deep_crawler_topic_input)
 
 
     ###### SCRAPING BASE URL########
@@ -195,11 +202,13 @@ class BrokerService(object):
         message['strTimestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
         json_message = json.dumps(message)
+        print "sending to " + input_queue + " message: " + json_message
         self.kafka_connector.send_message(input_queue, json_message)
 
     #post
     def post_to_queue_no_extra_headers(self, message, input_queue):
         json_message = json.dumps(message)
+        print "sending to " + input_queue + " message: " + json_message
         self.kafka_connector.send_message(input_queue, json_message)
 
     #read

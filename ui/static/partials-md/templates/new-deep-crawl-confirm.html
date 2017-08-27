@@ -30,7 +30,7 @@
                     </li>
                 </ul>
                 <p>
-                    Max total pages to fetch: {{elem.maxPages}}
+                    Max total pages to fetch: {{elem.nResults}}
                 </p>
             </div>
         </md-dialog-content>
@@ -40,10 +40,10 @@
                 <!--More on Wikipedia-->
             <!--</md-button>-->
             <!--<span flex></span>-->
-            <md-button class="md-raised" ng-click="answer('not useful')">
+            <md-button class="md-raised" ng-click="answer(false)">
                 Cancel
             </md-button>
-            <md-button class="md-primary md-raised" ng-click="answer('useful')" md-autofocus>
+            <md-button class="md-primary md-raised" ng-click="answer(true)" md-autofocus>
                 Start
             </md-button>
         </md-dialog-actions>

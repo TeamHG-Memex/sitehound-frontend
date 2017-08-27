@@ -29,7 +29,7 @@ def get_job(jobId):
 
 
 # def save_job(num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type, job_id, workspace_name, workspace_id):
-def save_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type):
+def save_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type, status="QUEUED"):
 
     job = {}
     job["crawlType"] = crawl_type
@@ -39,7 +39,7 @@ def save_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_s
     job['timestamp'] = time.time()
     job['strTimestamp'] = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
     job["workspaceId"] = workspace_id
-    job["status"] = "QUEUED"
+    job["status"] = status
 
     # _id = Singleton.getInstance().mongo_instance.get_crawl_job_collection().insert(job)
     collection = Singleton.getInstance().mongo_instance.get_crawl_job_collection()
