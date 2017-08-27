@@ -19,7 +19,8 @@ Input
 Topic: ``dd-deepcrawler-input``::
 
     {
-        "id": "some crawl id",
+        "id": "crawl id",
+        "workspace_id": "workspace id",
         "page_limit": 10000000,
         "urls": [
             "https://example1.com",
@@ -31,19 +32,26 @@ Topic: ``dd-deepcrawler-input``::
 where:
 
 - id: (String) The id of the job,
+- workspace_id: (String) The id of the workspace,
 - urls: (List<String>) All URLs selected for deepcrawl,
 - page_limit: (Integer) (optional) (defaulting to 10M items). The maximum number of pages to fetch
 
 
 Progress
 --------
-Topic: ``dd-deepcrawler-progress``
+
+Topic: ``dd-deepcrawler-progress``::
 
     {
         "id": "some crawl id",
-        "progress": [
-            {"url":"http://example1.com", "domain": "example1.com", "pages_fetched": 1234, "finished": false, "rpm":12000},
-            {"url":"http://example2.com", "domain": "example2.com", "pages_fetched": 234, "finished": true, "rpm":12000}
+        "progress": {
+            "status": "running",
+            "pages_fetched": 1468,
+            "rpm": 24000,
+            "domains": [
+                {"url":"http://example1.com", "domain": "example1.com", "pages_fetched": 1234, "finished": false, "rpm":12000},
+                {"url":"http://example2.com", "domain": "example2.com", "pages_fetched": 234, "finished": true, "rpm":12000}
+             ]
         ],
         "statistics": "json_data"
     }
@@ -51,7 +59,7 @@ Topic: ``dd-deepcrawler-progress``
 Output
 ------
 
-Topic: ``dd-deepcrawler-output``
+Topic: ``dd-deepcrawler-output``::
 
     {
         "id": "some crawl id",
@@ -62,14 +70,9 @@ Topic: ``dd-deepcrawler-output``
     }
 
 
-
-
-------------  **The protocol below needs REVIEW** --------------
-================================================================
-
-
-
-
+===================================
+**The protocol below needs REVIEW**
+===================================
 
 
 DD Modeler
@@ -80,22 +83,26 @@ This is for page classifier training.
 dd-modeler-input
 ----------------
 
-Topic: ``dd-modeler-input``. Training page classifier model::
+Topic: ``dd-modeler-input``. Training page classifier model (only new pages are sent,
+all previously sent are used for training)::
 
     {
         "id": "workspace id",
         "pages": [
             {
+                "id": "page id",  // pages are updated based on this id
                 "url": "http://example.com",
                 "html": "<h1>hi</h1>",
                 "relevant": true
             },
             {
+                "id": "page id",
                 "url": "http://example.com/1",
                 "html": "<h1>hi 1</h1>",
                 "relevant": false
             },
             {
+                "id": "page id",
                 "url": "http://example.com/2",
                 "html": "<h1>hi 2</h1>",
                 "relevant": null
@@ -127,6 +134,9 @@ Topic: ``dd-modeler-output``. Result of training the model::
 JSON data format::
 
     {
+        "main_score": 89.2,
+        "n_labeled": 20,
+        "n_positive": 10,
         "advice": "advice for improving the model",
         "description": ["item1", "item2"],
         "weights": {"pos": ..., "neg": ..., "pos_remaining": 0, "neg_remaining": 0},
@@ -146,10 +156,10 @@ Topic: ``dd-trainer-input``.
 Start the crawl::
 
     {
-        "id": "some crawl id",
-        "workspace_id": "the workspace id",
+        "id": "crawl id",
+        "workspace_id": "workspace id",
         "page_model": "b64-encoded page classifier",
-        "seeds": ["http://example.com", "http://example.com/2"],
+        "urls": ["http://example.com", "http://example.com/2"],
         "page_limit": 100
     }
 
@@ -178,8 +188,8 @@ Topic ``dd-trainer-output-pages``. Sample of crawled pages::
     {
         "id": "some crawl id",
         "page_sample": [
-            {"url": "http://example1.com", "score": 80},
-            {"url": "http://example2.com", "score": 90}
+            {"url": "http://example1.com", "domain": example1.com", "score": 80},
+            {"url": "http://example2.com", "domain": example2.com", "score": 90}
         ]
     }
 
@@ -198,19 +208,18 @@ DD Crawler
 
 This is the main crawler.
 
+
 dd-crawler-input
 ----------------
 
 Topic ``dd-crawler-input``. Start the crawl::
 
     {
-        "id": "some crawl id",
-        "workspace_id": "the workspace_id",
+        "id": "crawl id",
+        "workspace_id": "workspace id",
         "page_model": "b64-encoded page classifier",
-        "link_model": "b64-encoded deep-deep model",
-        "seeds": ["http://example.com", "http://example.com/2"],
-        "hints": ["http://example2.com", "http://example2.com/2"],
-        "broadness": "DEEP" // Valid codes are ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"],
+        "urls": ["http://example.com", "http://example.com/2"],
+        "broadness": "DEEP" // Valid codes are ["N10", "N100", "N1000", "N10000", "BROAD"],
         "page_limit": 100
     }
 
@@ -225,21 +234,6 @@ Topic ``dd-crawler-output-pages``: exactly the same as ``dd-trainer-output-pages
 
 Topic ``dd-crawler-output-progress``: exactly the same as ``dd-trainer-output-progress``.
 
-dd-crawler-hints-input
-----------------------
-
-Topic ``dd-crawler-hints-input``.
-DD Crawler also accepts hints, that makes the crawler fetch deeper on that domain::
-
-    {
-        "workspace_id": "id of the workspace",
-        "url": "the pinned url",
-        "pinned": true / false
-    }
-
-Using ``workspace_id`` instead of ``id`` because several deepcrawl request could come
-from the same workspace almost simultaneously, but that doesn't imply the need to cancel
-the current crawling because a new one has the same id.
 
 Login workflow
 ==============
