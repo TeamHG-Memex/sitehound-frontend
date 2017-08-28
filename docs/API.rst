@@ -40,7 +40,7 @@ where:
 Progress
 --------
 
-Topic: ``dd-deepcrawler-progress``::
+Topic: ``dd-deepcrawler-output-progress``::
 
     {
         "id": "some crawl id",
@@ -58,7 +58,7 @@ Topic: ``dd-deepcrawler-progress``::
 Output
 ------
 
-Topic: ``dd-deepcrawler-output``::
+Topic: ``dd-deepcrawler-output-pages``::
 
     {
         "id": "some crawl id",
