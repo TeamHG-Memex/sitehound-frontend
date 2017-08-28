@@ -52,7 +52,7 @@ Topic: ``dd-deepcrawler-progress``::
                 {"url":"http://example1.com", "domain": "example1.com", "pages_fetched": 1234, "finished": false, "rpm":12000},
                 {"url":"http://example2.com", "domain": "example2.com", "pages_fetched": 234, "finished": true, "rpm":12000}
              ]
-        ]
+        }
     }
 
 Output
@@ -63,8 +63,8 @@ Topic: ``dd-deepcrawler-output``::
     {
         "id": "some crawl id",
         "page_samples": [
-            {"url": "http://example.com/pag1", "domain": "example1.com"},
-            {"url": "http://example.com/pag2", "domain": "example1.com"}
+            {"url": "http://example.com/pag1", "domain": "example.com"},
+            {"url": "http://example.com/pag2", "domain": "example.com"}
         ]
     }
 
