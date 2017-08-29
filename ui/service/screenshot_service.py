@@ -7,6 +7,10 @@ from ui import Singleton
 def get_screenshot(crawl_type, id):
     if crawl_type == "broadcrawl":
         collection = Singleton.getInstance().mongo_instance.get_broad_crawler_collection()
+    elif crawl_type == "deepcrawl":
+        collection = Singleton.getInstance().mongo_instance.get_deep_crawler_collection()
+    elif crawl_type == "deepcrawl-domains":
+        collection = Singleton.getInstance().mongo_instance.get_deep_crawler_domains_collection()
     elif crawl_type == "keywords":
         collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
     else:

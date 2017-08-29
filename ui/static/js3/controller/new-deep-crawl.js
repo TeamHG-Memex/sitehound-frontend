@@ -2,8 +2,8 @@
  * Created by tomas on 11/08/17.
  */
 
-ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'deepcrawlerFactory', '$mdDialog',
-function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, deepcrawlerFactory, $mdDialog) {
+ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'domFactory', 'seedFactory', 'fetchService', 'seedUrlFactory', 'deepcrawlerFactory', '$mdDialog',
+function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory, deepcrawlerFactory, $mdDialog) {
 
     $scope.nResultsOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
     $scope.nResults ="10.000.000";
@@ -231,7 +231,17 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, deepcrawle
         }
 
         var nResults = parseInt($scope.nResults.replaceAll("\\.",""));
-        deepcrawlerFactory.publish2DeepCrawl($scope.master.workspaceId, nResults, data);
+        deepcrawlerFactory.publish2DeepCrawl($scope.master.workspaceId, nResults, data).then(
+            function(response){
+                console.log(response);
+                var jobId = response.data.jobId;
+                domFactory.navigateToDeepcrawlJob(jobId);
+            },
+            function(err){
+                console.log(err);
+            }
+        )
+
     }
 
     init();
