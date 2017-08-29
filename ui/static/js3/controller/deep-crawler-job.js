@@ -8,10 +8,10 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
     $scope.jobId = $routeParams.jobId;
 
 /** filters **/
-    $scope.sources = [
-        {"name":"Clear web", "codes":["searchengine", "deepdeep"], "shortCode":"SE"},
-        {"name":"Dark web", "codes":["tor"], "shortCode":"TOR"}
-    ];
+    // $scope.sources = [
+    //     {"name":"Clear web", "codes":["searchengine", "deepdeep"], "shortCode":"SE"},
+    //     {"name":"Dark web", "codes":["tor"], "shortCode":"TOR"}
+    // ];
 /*
     $scope.relevances= [
         {"name": "Relevant", "code":"true", "aggCode": "relevant", "jsCode": true},
@@ -21,11 +21,17 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
     ];
 */
     /** tabs */
-    $scope.tabs = {};
-    $scope.selectedTabIndex = 0;
+    // $scope.tabs = {};
+    // $scope.selectedTabIndex = 0;
 
 
+    $scope.elems=[];
+    $scope.lastId=null;
+
+    /*
     function init(){
+
+
 
         for(var i=0; i<$scope.sources.length; i++){
             var source = $scope.sources[i];
@@ -46,15 +52,16 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
         }
         // getAggregated();
     }
-
-	$scope.bottomOfPageReached = function(tab){
+    */
+/*
+	$scope.bottomOfPageReached = function(){
 	    if($scope.showProgress){
 	        return; // don't double do it
         }
-	    console.log("bottomOfPageReached:" + tab);
-		fetch(tab);
+	    // console.log("bottomOfPageReached:" + tab);
+		fetch();
 	};
-
+*/
     /** Begins results */
 
     $scope.crawlJob = {};
@@ -62,16 +69,16 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 
     $scope.filters = {};
 
-    function fetch(tab){
+    function fetch(){
         var filters = {};
-        filters["sources"] = tab.source.codes;
+        // filters["sources"] = tab.source.codes;
         // if(tab.relevanceSelection.length==0){
         //     return;
         // }
         // filters["relevances"] = tab.relevanceSelection;
 
-        if(tab.lastId){
-            filters["lastId"] = [tab.lastId];
+        if($scope.lastId){
+            filters["lastId"] = [$scope.lastId];
         }
 
         $scope.showProgress=true;
@@ -93,13 +100,14 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 
 				    if(response.data["progress"]["domains"]){
 				        var tempResults = response.data["progress"]["domains"];
-                        Array.prototype.push.apply(tab.elems, tempResults);
-
-                        tab.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-                            (tab.elems.length > 0 ? tab.elems[tab.elems.length-1]._id : null) ;
+				        $scope.elems = tempResults;
+                        // Array.prototype.push.apply($scope.elems, tempResults);
+                        //
+                        // $scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+                        //     ($scope.elems.length > 0 ? $scope.elems[$scope.elems.length-1]._id : null) ;
                     }
                 }
-                tab.disabled= (tab.elems.length ==0);
+                // tab.disabled= (tab.elems.length ==0);
                 $scope.showProgress=false;
 			},
 			function(response) {
@@ -108,5 +116,5 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 			});
     }
 
-    init();
+    fetch();
 }]);

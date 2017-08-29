@@ -22,29 +22,14 @@
                     </div>
 
                     <div class="mdl-grid portfolio-max-width" style="height: 900px" >
-                    <!--<div class="mdl-grid portfolio-max-width" style="height: 950px">-->
-                    <!--<div class="mdl-grid portfolio-max-width" style="height: 440px; min-height: 441px">-->
-                        <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >
-                            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}} " >
-                                    <div class="tab{{$index%4}}" style="padding: 25px;" layout="column">
-                                        <!--<div layout="row" layout-align="space-between center" flex="100" style="width: 100%">-->
-                                            <!--<div flex="75">-->
-                                                <!--<md-checkbox-->
-                                                    <!--ng-repeat="relevance in relevances"-->
-                                                    <!--aria-label="{{relevance.name}}"-->
-                                                    <!--ng-checked="inSelection(relevance.code, tab.relevanceSelection)"-->
-                                                    <!--ng-click="toggleSelection(relevance.code, tab.relevanceSelection) && clear(tab) && bottomOfPageReached(tab)"-->
-                                                    <!--ng-disabled="showProgress"-->
-                                                <!--&gt;-->
-                                                    <!--{{relevance.name}} ({{tab.aggregatedResults[relevance.aggCode]}})-->
-                                                <!--</md-checkbox>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
+                        <!--<md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >-->
+                            <!--<md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}} " >-->
+                                    <!--<div class="tab{{$index%4}}" style="padding: 25px;" layout="column">-->
 
-                                        <md-content class="mdl-grid portfolio-max-width" style="max-height: 400px; margin-top:20px; width: 100%" scrolly="bottomOfPageReached(tab)">
-                                        <!--<md-content class="mdl-grid portfolio-max-width" style="margin-top:40px" >-->
+                                        <!--<md-content class="mdl-grid portfolio-max-width" style="max-height: 400px; margin-top:20px; width: 100%" scrolly="bottomOfPageReached()">-->
+                                        <md-content class="mdl-grid portfolio-max-width" style="max-height: 700px; margin-top:20px; width: 100%">
 
-                                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%; height:125px;min-height:125px;" ng-repeat="elem in tab.elems" >
+                                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%; height:125px;min-height:125px;" ng-repeat="elem in elems" >
                                                 <div layout="row" layout-align="start end" style="width: 100%;">
                                                     <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)">
                                                         <a href="javascript:void(0)">
@@ -113,15 +98,16 @@
                                                 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                                             </div>
                                         </md-content>
-                                    </div>
-                            </md-tab>
-                        </md-tabs>
+                                    <!--</div>-->
+                            <!--</md-tab>-->
+                        <!--</md-tabs>-->
                     </div>
                 </div>
                 <div class="mdl-card__actions">
                     <div layout="row" layout-align="space-between center">
-                        <a href="#/model" class="mdl-button">Back to Label More Pages</a>
-                        <md-button class="md-primary md-raised" ng-click="newSmartCrawl($event)">Start Smart Crawl</md-button>
+                        <a href="#/new-deep-crawl" class="mdl-button">Launch a new Deep crawl</a>
+                        <a href="#/jobs" class="mdl-button">See all jobs</a>
+
                     </div>
                 </div>
             </div>
