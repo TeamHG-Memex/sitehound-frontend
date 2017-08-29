@@ -152,11 +152,16 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'modelController',
 				templateUrl: '/static/partials-md/model.html'
 			})
-
 		.when('/all-labeled',
 			{
 				controller: 'allLabeledController',
 				templateUrl: '/static/partials-md/all-labeled.html'
+			})
+
+		.when('/deepcrawler-job/:jobId',
+			{
+				controller: 'deepcrawlerController',
+				templateUrl: '/static/partials-md/deep-crawler-job.html'
 			})
 
 

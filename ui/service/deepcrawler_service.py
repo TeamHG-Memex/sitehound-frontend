@@ -103,3 +103,57 @@ def __get_seeds_url_by_selection(workspace_id, selection):
         urls.append(item["url"])
 
     return urls
+
+
+def get_deepcrawl_progress(workspace_id, job_id):
+    job_doc = get_job_by_id(job_id)
+    domains_detail_docs = get_domains_by_job_id(workspace_id, job_id)
+
+    if "progress" in job_doc:
+        progress = job_doc["progress"]
+        for domain in progress["domains"]:
+            domain_detail = __find_domain_detail_by_domain(domain["domain"], domains_detail_docs)
+            domain["domain_detail"] = domain_detail
+
+    return job_doc
+
+
+def __find_domain_detail_by_domain(domain, domains_detail_docs):
+
+    for domain_detail in domains_detail_docs:
+        if domain_detail["domain"] == domain:
+            return domain_detail
+
+    return None
+
+
+def get_job_by_id(job_id):
+    collection = Singleton.getInstance().mongo_instance.get_crawl_job_collection()
+
+    and_source_conditions = []
+
+    job_search_object = {'_id': ObjectId(job_id)}
+    and_source_conditions.append(job_search_object)
+
+    query = {'$and': and_source_conditions}
+    cursor = collection.find(query)
+    docs = list(cursor)
+    return docs[0]
+
+
+def get_domains_by_job_id(workspace_id, job_id):
+
+    collection = Singleton.getInstance().mongo_instance.get_deep_crawler_domains_collection()
+
+    and_source_conditions = []
+
+    workspace_search_object = {'workspaceId': workspace_id}
+    and_source_conditions.append(workspace_search_object)
+
+    job_search_object = {'jobId': job_id}
+    and_source_conditions.append(job_search_object)
+
+    query = {'$and': and_source_conditions}
+    cursor = collection.find(query)
+    docs = list(cursor)
+    return docs

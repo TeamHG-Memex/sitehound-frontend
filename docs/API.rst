@@ -40,7 +40,7 @@ where:
 Progress
 --------
 
-Topic: ``dd-deepcrawler-progress``::
+Topic: ``dd-deepcrawler-output-progress``::
 
     {
         "id": "some crawl id",
@@ -78,19 +78,19 @@ Topic: ``dd-deepcrawler-progress``::
                     "rpm": 0
                 },
              ]
-        ]
+        }
     }
 
 Output
 ------
 
-Topic: ``dd-deepcrawler-output``::
+Topic: ``dd-deepcrawler-output-pages``::
 
     {
         "id": "some crawl id",
-        "page_sample": [
-            {"url": "http://example.com/pag1", "domain": "example1.com"},
-            {"url": "http://example.com/pag2", "domain": "example1.com"}
+        "page_samples": [
+            {"url": "http://example.com/pag1", "domain": "example.com"},
+            {"url": "http://example.com/pag2", "domain": "example.com"}
         ]
     }
 

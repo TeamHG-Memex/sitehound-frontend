@@ -20,7 +20,7 @@ class BrokerService(object):
         self.broad_crawler_topic_input = self.broad_crawler_topic + "-input"
         # self.broad_crawler_topic_input_frontera = self.broad_crawler_topic + "-frontera-input"
 
-        self.deep_crawler_topic = "deepcrawler"
+        self.deep_crawler_topic = "dd-deepcrawler"
         self.deep_crawler_topic_input = self.deep_crawler_topic + "-input"
 
         self.scraping_topic = "scraping"

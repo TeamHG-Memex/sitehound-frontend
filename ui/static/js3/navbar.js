@@ -179,6 +179,8 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 
 
 /* imported, deepdeep, tor, searchengine, twitter */
+
+/*
 	domFactory.navigateTo = function(crawlType){
         var url = "/workspace/" + $routeParams.workspaceId + "/seed-url/"  + crawlType;
 		reload(url);
@@ -195,6 +197,18 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 			$route.reload();
 		}
 	}
+*/
+
+	domFactory.navigateToDeepcrawlJob = function(jobId){
+        var url = "/deepcrawler-job/"  + jobId;
+		reload(url);
+	};
+
+	function reload(url){
+		$location.path(url);
+		$route.reload();
+	}
+
 
 	domFactory.navigateToUrl = function(url){
 		// $location.path(url);

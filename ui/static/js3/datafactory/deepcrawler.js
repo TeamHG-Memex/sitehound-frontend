@@ -2,7 +2,8 @@
  * Created by tomas on 26/08/17.
  */
 
-var deepcrawlerFactory = ngApp.factory('deepcrawlerFactory',['$http', function($http){
+var deepcrawlerFactory = ngApp.factory('deepcrawlerFactory',['$http', '$httpParamSerializer',
+	function($http, $httpParamSerializer){
 
 	var urlBase = '/api/workspace/{0}/deepcrawl';
 	var dataFactory = {};
@@ -15,12 +16,12 @@ var deepcrawlerFactory = ngApp.factory('deepcrawlerFactory',['$http', function($
 		return $http.post(url, po);
 	};
 
-	/*
-	dataFactory.getCrawlStatus = function(workspaceId, id){
-		var url =  String.format(urlBase, workspaceId);
-		return $http.get(url + '/status');
-	};
-    */
+	dataFactory.getDomainsByJobId = function (workspaceId, jobId, query) {
+		var urlBase = '/api/workspace/{0}/deepcrawl-domains/{1}';
+		var url =  String.format(urlBase, workspaceId, jobId);
+		var qs = $httpParamSerializer(query);
+        return $http.get(url + (qs ? '?' + qs : ""));
+    };
 
 	return dataFactory;
 
