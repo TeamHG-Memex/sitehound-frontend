@@ -49,8 +49,34 @@ Topic: ``dd-deepcrawler-output-progress``::
             "pages_fetched": 1468,
             "rpm": 24000,
             "domains": [
-                {"url":"http://example1.com", "domain": "example1.com", "pages_fetched": 1234, "finished": false, "rpm":12000},
-                {"url":"http://example2.com", "domain": "example2.com", "pages_fetched": 234, "finished": true, "rpm":12000}
+                {
+                    "url": "http://example1.com",
+                    "domain": "example1.com",
+                    "status": "running",
+                    "pages_fetched": 1234,
+                    "rpm": 12000
+                },
+                {
+                    "url": "http://example2.com",
+                    "domain": "example2.com",
+                    "status": "finished",
+                    "pages_fetched": 234,
+                    "rpm": 12000
+                },
+                {
+                    "url": "http://example3.com",
+                    "domain": "example3.com",
+                    "status": "failed",
+                    "pages_fetched": 0,
+                    "rpm": 0
+                },
+                {
+                    "url": "http://example4.com",
+                    "domain": "example4.com",
+                    "status": "running",
+                    "pages_fetched": 0,
+                    "rpm": 0
+                },
              ]
         }
     }
