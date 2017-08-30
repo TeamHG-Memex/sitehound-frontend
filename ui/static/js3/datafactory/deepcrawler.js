@@ -23,6 +23,22 @@ var deepcrawlerFactory = ngApp.factory('deepcrawlerFactory',['$http', '$httpPara
         return $http.get(url + (qs ? '?' + qs : ""));
     };
 
+	dataFactory.getDeepcrawlDomainById = function (workspaceId, jobId, deepcrawlDomainId, query) {
+		var urlBase = '/api/workspace/{0}/deepcrawl-domains/{1}/id/{2}';
+		var url =  String.format(urlBase, workspaceId, jobId, deepcrawlDomainId);
+		var qs = $httpParamSerializer(query);
+        return $http.get(url + (qs ? '?' + qs : ""));
+    };
+
+	dataFactory.getDeepcrawlDomainsByDomainName = function (workspaceId, jobId, domainName, query) {
+		var urlBase = '/api/workspace/{0}/deepcrawl-domains/{1}/domain-name/{2}';
+		var url =  String.format(urlBase, workspaceId, jobId, domainName);
+		var qs = $httpParamSerializer(query);
+        return $http.get(url + (qs ? '?' + qs : ""));
+    };
+
+
+
 	return dataFactory;
 
 }]);

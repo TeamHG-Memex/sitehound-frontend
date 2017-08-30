@@ -160,34 +160,6 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
     $scope.showByurlProgressTab = false;
 
-
-
-    $scope.results=[
-        {"id":"_adfaf1", "host": "host1", "title": "title afaf 1"},
-        {"id":"_adfaf2", "host": "host2", "title": "title afaf 2"},
-        {"id":"_adfaf3", "host": "host3", "title": "title afaf 3"},
-        {"id":"_adfaf4", "host": "host4", "title": "title afaf 4"},
-        {"id":"_adfaf5", "host": "host5", "title": "title afaf 5"},
-        {"id":"_adfaf6", "host": "host6", "title": "title afaf 6"},
-        {"id":"_adfaf7", "host": "host7", "title": "title afaf 7"},
-        {"id":"_adfaf8", "host": "host8", "title": "title afaf 8"},
-        {"id":"_adfaf9", "host": "host9", "title": "title afaf 9"},
-    ];
-
-    $scope.results2=[
-        {"id":"_adfaf21", "host": "host1", "title": "title afaf 1"},
-        {"id":"_adfaf22", "host": "host2", "title": "title afaf 2"},
-        {"id":"_adfaf23", "host": "host3", "title": "title afaf 3"},
-        {"id":"_adfaf24", "host": "host4", "title": "title afaf 4"},
-        {"id":"_adfaf25", "host": "host5", "title": "title afaf 5"},
-        {"id":"_adfaf26", "host": "host6", "title": "title afaf 6"},
-        {"id":"_adfaf27", "host": "host7", "title": "title afaf 7"},
-        {"id":"_adfaf28", "host": "host8", "title": "title afaf 8"},
-        {"id":"_adfaf29", "host": "host9", "title": "title afaf 9"},
-    ];
-
-
-
     /**  Ends upload */
 
 

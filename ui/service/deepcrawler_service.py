@@ -157,3 +157,32 @@ def get_domains_by_job_id(workspace_id, job_id):
     cursor = collection.find(query)
     docs = list(cursor)
     return docs
+
+
+def get_deep_crawl_domains_by_domain_name(workspace_id, job_id, domain_name, limit, last_id):
+
+    collection = Singleton.getInstance().mongo_instance.get_deep_crawler_collection()
+
+    and_source_conditions = []
+
+    workspace_search_object = {'workspaceId': workspace_id}
+    and_source_conditions.append(workspace_search_object)
+
+    job_search_object = {'jobId': job_id}
+    and_source_conditions.append(job_search_object)
+
+    domain_name_search_object = {'domain': domain_name}
+    and_source_conditions.append(domain_name_search_object)
+
+    page_search_object = {}
+    if last_id is not None:
+        page_search_object = {"_id": {"$gt": ObjectId(last_id)}}
+    and_source_conditions.append(page_search_object)
+
+    query = {'$and': and_source_conditions}
+    cursor = collection.find(query) \
+            .sort('_id', pymongo.ASCENDING) \
+            .limit(limit)
+
+    docs = list(cursor)
+    return docs

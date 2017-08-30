@@ -129,8 +129,9 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 	$routeProvider
 		.when('/',
 			{
-				controller: 'welcomeController',
-				templateUrl: '/static/partials-md/overview-md.html'
+				// controller: 'welcomeController',
+				// templateUrl: '/static/partials-md/overview-md.html'
+				redirectTo: '/seeds'
 			})
 		.when('/seeds',
 			{
@@ -162,6 +163,11 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 			{
 				controller: 'deepcrawlerController',
 				templateUrl: '/static/partials-md/deep-crawler-job.html'
+			})
+		.when('/deepcrawler-job/:jobId/deepcrawler-domain/:domain',
+			{
+				controller: 'deepcrawlerDomainController',
+				templateUrl: '/static/partials-md/deep-crawler-domain.html'
 			})
 
 
@@ -323,7 +329,7 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 //			})
 		.otherwise({
 			redirectTo: '/'
-			})
+			});
 
     // enable html5Mode for pushstate ('#'-less URLs)
 //    $locationProvider.html5Mode({
