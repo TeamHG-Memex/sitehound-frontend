@@ -40,9 +40,10 @@
         </div>
         <div>
             <div layout="row" >
-                <div flex="15">
+                <div flex="15" style="margin-left: 10px">
                     <a href="/">
-                        <img src="{{ url_for('static', filename='images/sitehounds-transparent-256x182.png') }}"/>
+                        <!--<img src="{{ url_for('static', filename='images/sitehounds-transparent-256x182.png') }}"/>-->
+                        <img src="{{ url_for('static', filename='images/sitehounds-transparent-256x182.png') }}" width="179" height="128"/>
                     </a>
                 </div>
                 <div flex="70" layout="row" layout-align="center center">
@@ -137,12 +138,12 @@
                 <!--<md-nav-item md-nav-href="#workspace" name="workspace">-->
                     <!--<span class="custom-mdl-layout__tab">(Old) Workspaces</span>-->
                 <!--</md-nav-item>-->
-                <md-nav-item md-nav-href="#seed-input" name="seed-input">
-                    <span class="custom-mdl-layout__tab">(Old) Seed</span>
-                </md-nav-item>
-                <md-nav-item md-nav-href="#label" name="label">
-                    <span class="custom-mdl-layout__tab">(Old) Label</span>
-                </md-nav-item>
+                <!--<md-nav-item md-nav-href="#seed-input" name="seed-input">-->
+                    <!--<span class="custom-mdl-layout__tab">(Old) Seed</span>-->
+                <!--</md-nav-item>-->
+                <!--<md-nav-item md-nav-href="#label" name="label">-->
+                    <!--<span class="custom-mdl-layout__tab">(Old) Label</span>-->
+                <!--</md-nav-item>-->
                 <!--<md-nav-item md-nav-href="#training-by-keyword" name="training-by-keyword">-->
                     <!--<span class="custom-mdl-layout__tab">Train by keywords</span>-->
                 <!--</md-nav-item>-->
@@ -152,18 +153,17 @@
                 <!--<md-nav-item md-nav-href="#deep-web" name="deep-web">-->
                     <!--<span class="custom-mdl-layout__tab">deep web</span>-->
                 <!--</md-nav-item>-->
+                <!--
                 <md-nav-item md-nav-href="#ml-crawling" name="ml-crawling">
                     <span class="custom-mdl-layout__tab">(Old) ML crawling</span>
                 </md-nav-item>
                 <md-nav-item md-nav-href="#crawling-results" name="crawling-results">
                     <span class="custom-mdl-layout__tab">(Old) Crawling results</span>
                 </md-nav-item>
-                <!--<md-nav-item md-nav-href="#feature-extraction" name="feature-extraction">-->
-                    <!--<span class="custom-mdl-layout__tab">(Old) feature extraction</span>-->
-                <!--</md-nav-item>-->
                 <md-nav-item md-nav-href="#dashboard" name="dashboard">
                     <span class="custom-mdl-layout__tab">(Old) Dashboard</span>
                 </md-nav-item>
+                -->
         		{% if is_admin %}
                 <md-nav-item md-nav-href="#user" name="user">
                     <span class="custom-mdl-layout__tab">Users</span>

@@ -7,67 +7,19 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 
     $scope.jobId = $routeParams.jobId;
 
-/** filters **/
-    // $scope.sources = [
-    //     {"name":"Clear web", "codes":["searchengine", "deepdeep"], "shortCode":"SE"},
-    //     {"name":"Dark web", "codes":["tor"], "shortCode":"TOR"}
-    // ];
-/*
-    $scope.relevances= [
-        {"name": "Relevant", "code":"true", "aggCode": "relevant", "jsCode": true},
-        {"name": "Not relevant", "code":"false", "aggCode": "irrelevant", "jsCode": false},
-        {"name": "Skipped", "code":"null", "aggCode": "skipped", "jsCode": null},
-        {"name": "Pending", "code":"unset", "aggCode": "pending", "jsCode": undefined}
-    ];
-*/
-    /** tabs */
-    // $scope.tabs = {};
-    // $scope.selectedTabIndex = 0;
-
-
     $scope.elems=[];
-    $scope.lastId=null;
+    // $scope.lastId=null;
 
-    /*
-    function init(){
-
-
-
-        for(var i=0; i<$scope.sources.length; i++){
-            var source = $scope.sources[i];
-            var tab = {};
-            tab.source=source;
-            tab.aggregatedResults=null;
-            tab.elems=[];
-            tab.lastId=null;
-            // tab.relevanceSelection = [];
-            tab.disabled=false;
-
-            // for(var j=0; j<$scope.relevances.length; j++){
-            //     tab.relevanceSelection.push($scope.relevances[j].code);
-            // }
-            $scope.tabs[source.shortCode] = tab;
-            console.log("ready to fetch: " + source.shortCode);
-            fetch(tab);
-        }
-        // getAggregated();
-    }
-    */
-/*
-	$scope.bottomOfPageReached = function(){
-	    if($scope.showProgress){
-	        return; // don't double do it
-        }
-	    // console.log("bottomOfPageReached:" + tab);
-		fetch();
-	};
-*/
     /** Begins results */
 
     $scope.crawlJob = {};
     $scope.showProgress=false;
 
     $scope.filters = {};
+
+    $scope.fetch = function(){
+        fetch();
+    };
 
     function fetch(){
         var filters = {};
@@ -77,9 +29,9 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
         // }
         // filters["relevances"] = tab.relevanceSelection;
 
-        if($scope.lastId){
-            filters["lastId"] = [$scope.lastId];
-        }
+        // if($scope.lastId){
+        //     filters["lastId"] = [$scope.lastId];
+        // }
 
         $scope.showProgress=true;
         // seedUrlFactory.get($scope.master.workspaceId, filters)
@@ -96,7 +48,7 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 				if(response.data["progress"]){
 				    $scope.crawlJob["pagesFetched"]=response.data["progress"]["pagesFetched"];
                     $scope.crawlJob["status"]=response.data["progress"]["status"];
-                    $scope.crawlJob["rpm"]=response.data["progress"]["rpm"];;
+                    $scope.crawlJob["rpm"]=response.data["progress"]["rpm"];
 
 				    if(response.data["progress"]["domains"]){
 				        var tempResults = response.data["progress"]["domains"];
