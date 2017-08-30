@@ -169,6 +169,11 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'deepcrawlerDomainController',
 				templateUrl: '/static/partials-md/deep-crawler-domain.html'
 			})
+		.when('/job',
+			{
+				controller: 'jobController',
+				templateUrl: '/static/partials-md/job/table.html'
+			})
 
 
 		// .when('/welcome',

@@ -1,0 +1,25 @@
+<md-dialog add-item-dialog>
+  <md-dialog-content class="md-dialog-content">
+
+    <h2 class="md-title">Add Workspace</h2>
+
+    <p ng-if="item.form.$submitted && item.form.$invalid" class="md-warn" layout="row" layout-align="start center">
+      <i class="material-icons">error_outline</i>
+      <span>&nbsp; All fields are required.</span>
+    </p>
+
+    <form name="item.form" ng-submit="addItem()">
+      <div layout="row" class="input-row">
+        <md-input-container flex>
+          <label>Name</label>
+          <input name="name" ng-model="workspace.name" md-maxlength="30" required>
+        </md-input-container>
+      </div>
+    </form>
+
+    <div class="md-dialog-actions">
+      <md-button class="md-primary md-raised" ng-click="addItem()" ng-disabled="item.form.$invalid">Add</md-button>
+      <md-button class="md-primary " ng-click="cancel()">Cancel</md-button>
+    </div>
+  </md-dialog-content>
+</md-dialog>

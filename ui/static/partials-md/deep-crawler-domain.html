@@ -1,23 +1,21 @@
 <div style="padding:8px; padding-top:48px">
     <div ng-controller="deepcrawlerDomainController" layout="column">
-
         <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
             <div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
                 <div class="mdl-card__supporting-text">
                     <div class="mdl-card__title">
                         <span class="mdl-card__title-text">
-                            <!--<h4>New Deep Crawl</h4>-->
                             <h4>Page samples on <b><span ng-bind="domainName"></span></b> </h4>
                         </span>
                     </div>
 
                     <div ng-show="elems.length==0" class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
                         <span>
-                            No resuls yet!
+                            No results found
                         </span><br/>
                     </div>
                     <div ng-show="elems.length==0" class="mdl-card__supporting-text" style="margin-bottom: 0px;margin-top: 0px;" layout="row" layout-align="end end">
-                        <md-button class="md-primary md-raised" ng-click="bottomOfPageReached()">
+                        <md-button class="md-primary md-raised" ng-click="refresh()">
                             Refresh
                         </md-button>
                     </div>
@@ -25,11 +23,6 @@
                     <md-content ng-show="elems.length>0" class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached()">
                             <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in elems" >
 
-                                <!--<div class="mdl-card__title">-->
-                                    <!--<span class="mdl-card__title-text">-->
-                                        <!--<span style="font-size:20px;" ng-bind="elem.domain | capitalize"></span>-->
-                                    <!--</span>-->
-                                <!--</div>-->
                                 <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
                                     <a href="javascript:void(0)">
                                         <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">-->
@@ -50,6 +43,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%; margin:10px">
+                                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                            </div>
                     </md-content>
                 </div>
                 <div class="mdl-card__actions">
@@ -59,6 +55,5 @@
                 </div>
             </div>
         </section>
-
     </div>
 </div>

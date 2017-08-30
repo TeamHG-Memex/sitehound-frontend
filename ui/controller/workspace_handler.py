@@ -1,16 +1,14 @@
-from flask_login import login_required
-
-from controller.InvalidException import InvalidUsage
-
-__author__ = 'tomas'
 import json
+from flask_login import login_required
+from controller.InvalidException import InvalidUsage
 from ui import app
 from flask import Response, request, jsonify
-
 from service.workspace_service import list_workspace, add_workspace, delete_workspace, get_workspace, \
     dao_count_workspace, update_workspace
 from utils.json_encoder import JSONEncoder
 from mongoutils.errors import AddingWorkspaceError
+
+__author__ = 'tomas'
 
 
 @app.errorhandler(InvalidUsage)
