@@ -291,6 +291,7 @@ Topic: ``dd-login-input``. New login form found::
     {
         "workspace_id":"57ea86a9d11ff300054a3519",
         "job_id":"57ea86a9d11ff300054a3519",
+        "domain":"example.com",
         "url": "http://example.com/login", // login page
         "keys": ["txtUser", "txtPassword"], // identifiers of the fields required to be completed by the user, whatever it makes sense to use them back by dd
         "screenshot":"57ea86a9d11ff300054a351.....afazzz9" // b64 representation of the bytes of the image. (PNG format)
@@ -304,6 +305,7 @@ Topic: ``dd-login-output``. Credentials provided by the user and sent for crawli
     {
         "workspace_id":"57ea86a9d11ff300054a3519",
         "job_id":"57ea86a9d11ff300054a",
+        "domain":"example.com",
         "url": "http://example.com/login", // login page as provided
         "key_values": {"txtUser":"user1234", "txtPassword":"12345678"} // identifiers of the fields with the value entered by the user.
     }
