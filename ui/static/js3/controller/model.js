@@ -5,6 +5,8 @@
 ngApp.controller('modelController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService',
 function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, $mdDialog) {
 
+    $scope.master.init();
+
 /** filters **/
     $scope.sources = [
         {"name":"Clear web", "codes":["searchengine", "deepdeep"], "shortCode":"SE"},

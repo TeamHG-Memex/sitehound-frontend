@@ -1,7 +1,7 @@
-ngApp.controller('seedsController', ['$scope', '$filter', '$mdConstant','seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService', 'importUrlFactory', 'domFactory',
-function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, trainingService, importUrlFactory, domFactory) {
+ngApp.controller('seedsController', ['$scope', '$filter', '$mdConstant','seedFactory', 'fetchService', 'seedUrlFactory', 'importUrlFactory', 'domFactory',
+function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, importUrlFactory, domFactory) {
 
-    // $scope.master.init();
+    $scope.master.init();
 
     /** BEGIN KEYWORD SEEDS **/
 

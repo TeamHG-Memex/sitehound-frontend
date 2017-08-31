@@ -1,5 +1,5 @@
 <div style="padding:8px; padding-top:48px">
-    <div ng-controller="modelController" layout="column">
+    <div layout="column">
 
         <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
             <div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
@@ -27,11 +27,11 @@
                                         <div layout="row" layout-align="end space-between" flex="100" style="width: 100%">
 
                                             <div>
-                                                Relevant: {{tab.aggregatedResults["relevant"]}} /
-                                                Not relevant: {{tab.aggregatedResults["irrelevant"]}} /
-                                                Skipped: {{tab.aggregatedResults["skipped"]}} /
-                                                Pending: {{tab.aggregatedResults["pending"]}} /
-                                                Total: {{tab.aggregatedResults["total"]}}
+                                                <span style="margin-right:15px"><b>Relevant</b>: {{tab.aggregatedResults["relevant"]}} </span>
+                                                <span style="margin-right:15px"><b>Not relevant</b>: {{tab.aggregatedResults["irrelevant"]}} </span>
+                                                <span style="margin-right:15px"><b>Skipped</b>: {{tab.aggregatedResults["skipped"]}} </span>
+                                                <span style="margin-right:15px"><b>Pending</b>: {{tab.aggregatedResults["pending"]}} </span>
+                                                <span style="margin-right:15px"><b>Total</b>: {{tab.aggregatedResults["total"]}}</span>
                                                 <!--223 not relevant /233 skipped / 1000 pending {{tab.elems.length}} of {{tab.nResults}}-->
                                             </div>
                                         </div>

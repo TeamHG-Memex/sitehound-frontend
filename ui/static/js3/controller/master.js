@@ -1,9 +1,9 @@
-ngApp.controller('masterController', ['$scope', '$cookies', '$mdConstant', 'workspaceFactory', '$mdDialog',
-function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
+ngApp.controller('masterController', ['$scope', '$location', '$route', '$cookies', '$mdConstant', 'workspaceFactory', '$mdDialog',
+function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
 
 	$scope.master = {};
-	$scope.master.workspaceId = $cookies.get("workspaceId");
     $scope.master.workspace = {};
+	$scope.master.workspaceId = $cookies.get("workspaceId");
 
 	$scope.master.setWorkspace = function(workspaceId){
 		$scope.master.workspaceId = workspaceId;
@@ -42,6 +42,17 @@ function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
 	if($scope.master.workspaceId){
 		$scope.master.reloadWorkspace($scope.master.workspaceId);
 	}
+	else{
+    }
+
+    $scope.master.checkWorkspace = function(){
+	    if(!$scope.master.workspaceId){
+            var url = "/#/workspace";
+            // $location.path(url);
+            // $route.reload();
+            window.location.assign(url);
+        }
+    };
 
     //catalogs
 
@@ -127,7 +138,8 @@ function ($scope, $cookies, $mdConstant, workspaceFactory, $mdDialog) {
     // scrolly directive implementation for every page that registers a listener
     $scope.master.init = function(){
         // $scope.master.bottomOfPageReachedCallbacks = [];
-    }
+        $scope.master.checkWorkspace();
+    };
 /*
 
 

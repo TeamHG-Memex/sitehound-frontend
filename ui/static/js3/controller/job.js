@@ -59,7 +59,6 @@ ngApp.controller('jobController', ['$scope', '$filter', '$timeout','jobFactory',
     function ($scope, $filter, $timeout, jobFactory, domFactory, $mdDialog, $mdEditDialog) {
     'use strict';
 /*
-     $scope.master.init();
 
      $scope.workspace = null;
 
@@ -71,6 +70,8 @@ ngApp.controller('jobController', ['$scope', '$filter', '$timeout','jobFactory',
         $scope.selected[0] = $scope.master.getWorkspace()
     }
 */
+
+    $scope.master.init();
 
     $scope.elems = [];
     $scope.elemsCount = 0;
