@@ -1,18 +1,11 @@
 import logging
-import pymongo
 from bson import ObjectId
-
 from controller.InvalidException import InvalidUsage
+from service.domain_service import extract_domains_from_urls
 from service.job_service import save_job
-from service.seed_service import dao_get_keywords_by_relevance
-from service.seed_url_service import get_seeds_urls_categorized
-
+from service.login_service import get_logins
 from ui import Singleton
 
-
-##################### Service #####################
-
-# This method takes the documents from the db and post them on the queue
 
 def start_deep_crawl_job(workspace_id, num_to_fetch, selection):
     broad_crawler_provider = "HH-JOOGLE"
@@ -24,6 +17,8 @@ def start_deep_crawl_job(workspace_id, num_to_fetch, selection):
             broad_crawler_sources.append(key)
 
     urls = __get_seeds_url_by_selection(workspace_id, selection)
+    domains = extract_domains_from_urls(urls)
+    login_credentials = get_logins(workspace_id, domains)
 
     if len(urls) == 0:
         raise InvalidUsage("No Seed URLS were selected!", status_code=409)
@@ -31,17 +26,18 @@ def start_deep_crawl_job(workspace_id, num_to_fetch, selection):
     job_id = save_job(workspace_id, num_to_fetch=int(num_to_fetch), broad_crawler_provider=broad_crawler_provider,
                       broad_crawler_sources=broad_crawler_sources, crawl_type=crawl_type, status="STARTED")
 
-    queue_deep_crawl(workspace_id, job_id=job_id, num_to_fetch=num_to_fetch, urls=urls)
+    queue_deep_crawl(workspace_id, job_id=job_id, num_to_fetch=num_to_fetch, urls=urls, login_credentials=login_credentials)
     return job_id
 
 
-def queue_deep_crawl(workspace_id, job_id, num_to_fetch, urls):
+def queue_deep_crawl(workspace_id, job_id, num_to_fetch, urls, login_credentials):
     logging.info("preparing deep crawl message")
     message = {
         'id': job_id,
         'workspace_id': workspace_id,
         'page_limit': int(num_to_fetch),
-        'urls': urls
+        'urls': urls,
+        'login_credentials': login_credentials
     }
 
     logging.info(message)
@@ -104,85 +100,3 @@ def __get_seeds_url_by_selection(workspace_id, selection):
 
     return urls
 
-
-def get_deepcrawl_progress(workspace_id, job_id):
-    job_doc = get_job_by_id(job_id)
-    domains_detail_docs = get_domains_by_job_id(workspace_id, job_id)
-
-    if "progress" in job_doc:
-        progress = job_doc["progress"]
-        for domain in progress["domains"]:
-            domain_detail = __find_domain_detail_by_domain(domain["domain"], domains_detail_docs)
-            domain["domain_detail"] = domain_detail
-
-    return job_doc
-
-
-def __find_domain_detail_by_domain(domain, domains_detail_docs):
-
-    for domain_detail in domains_detail_docs:
-        if domain_detail["domain"] == domain:
-            return domain_detail
-
-    return None
-
-
-def get_job_by_id(job_id):
-    collection = Singleton.getInstance().mongo_instance.get_crawl_job_collection()
-
-    and_source_conditions = []
-
-    job_search_object = {'_id': ObjectId(job_id)}
-    and_source_conditions.append(job_search_object)
-
-    query = {'$and': and_source_conditions}
-    cursor = collection.find(query)
-    docs = list(cursor)
-    return docs[0]
-
-
-def get_domains_by_job_id(workspace_id, job_id):
-
-    collection = Singleton.getInstance().mongo_instance.get_deep_crawler_domains_collection()
-
-    and_source_conditions = []
-
-    workspace_search_object = {'workspaceId': workspace_id}
-    and_source_conditions.append(workspace_search_object)
-
-    job_search_object = {'jobId': job_id}
-    and_source_conditions.append(job_search_object)
-
-    query = {'$and': and_source_conditions}
-    cursor = collection.find(query)
-    docs = list(cursor)
-    return docs
-
-
-def get_deep_crawl_domains_by_domain_name(workspace_id, job_id, domain_name, limit, last_id):
-
-    collection = Singleton.getInstance().mongo_instance.get_deep_crawler_collection()
-
-    and_source_conditions = []
-
-    workspace_search_object = {'workspaceId': workspace_id}
-    and_source_conditions.append(workspace_search_object)
-
-    job_search_object = {'jobId': job_id}
-    and_source_conditions.append(job_search_object)
-
-    domain_name_search_object = {'domain': domain_name}
-    and_source_conditions.append(domain_name_search_object)
-
-    page_search_object = {}
-    if last_id is not None:
-        page_search_object = {"_id": {"$gt": ObjectId(last_id)}}
-    and_source_conditions.append(page_search_object)
-
-    query = {'$and': and_source_conditions}
-    cursor = collection.find(query) \
-            .sort('_id', pymongo.ASCENDING) \
-            .limit(limit)
-
-    docs = list(cursor)
-    return docs
