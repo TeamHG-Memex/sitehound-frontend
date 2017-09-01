@@ -26,6 +26,13 @@ Topic: ``dd-deepcrawler-input``::
             "https://example1.com",
             "https://example2.com",
             "https://example3.com"
+        ],
+        "login_credentials": [
+            {
+                "domain":"example1.com",
+                "url": "http://example1.com/login", // login page as provided
+                "key_values": {"txtUser":"user1234", "txtPassword":"12345678"} // identifiers of the fields with the value entered by the user.
+            }
         ]
     }
 
@@ -35,6 +42,7 @@ where:
 - workspace_id: (String) The id of the workspace,
 - urls: (List<String>) All URLs selected for deepcrawl,
 - page_limit: (Integer) (optional) (defaulting to 10M items). The maximum number of pages to fetch
+- login_credentials: (List) (optional) Login credentials already existing in this workspace.
 
 
 Progress
