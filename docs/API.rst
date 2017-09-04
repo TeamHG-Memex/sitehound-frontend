@@ -324,6 +324,7 @@ dd-login-result
 ---------------
 
 Topic: ``dd-login-result``. Credentials result after trying to log in sent from the crawling::
+
     {
         "id":"75ea86a9d11ff300022f", // the id of the credentials
         "result": "success" | "failed"
