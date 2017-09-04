@@ -23,18 +23,9 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 
     function fetch(){
         var filters = {};
-        // filters["sources"] = tab.source.codes;
-        // if(tab.relevanceSelection.length==0){
-        //     return;
-        // }
-        // filters["relevances"] = tab.relevanceSelection;
-
-        // if($scope.lastId){
-        //     filters["lastId"] = [$scope.lastId];
-        // }
 
         $scope.showProgress=true;
-        // seedUrlFactory.get($scope.master.workspaceId, filters)
+
         deepcrawlerFactory.getDomainsByJobId($scope.master.workspaceId, $scope.jobId, filters)
 		.then(
 			function (response) {
@@ -53,13 +44,8 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 				    if(response.data["progress"]["domains"]){
 				        var tempResults = response.data["progress"]["domains"];
 				        $scope.elems = tempResults;
-                        // Array.prototype.push.apply($scope.elems, tempResults);
-                        //
-                        // $scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-                        //     ($scope.elems.length > 0 ? $scope.elems[$scope.elems.length-1]._id : null) ;
                     }
                 }
-                // tab.disabled= (tab.elems.length ==0);
                 $scope.showProgress=false;
 			},
 			function(response) {
@@ -67,6 +53,37 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 				console.log(response);
 			});
     }
+
+
+    /// advanced tab for details
+//    $scope.showAdvanced = function(elem, ev) {
+    $scope.showEnterCredentialsForm = function(elem, ev) {
+
+    	elem.workspaceId = $scope.master.workspaceId;
+
+        $mdDialog.show({
+            controller: 'myDialogController',
+            locals:{item: elem},
+            templateUrl: 'static/partials-md/templates/enter-credentials-form.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+            .then(function(answer) {
+                $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+            });
+    };
+
+
+    $scope.showEnterCredentialsForm = function(elem){
+    }
+
+    $scope.enterCredentials = function(elem){
+    }
+
 
     fetch();
 }]);
