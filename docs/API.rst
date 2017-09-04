@@ -313,7 +313,19 @@ Topic: ``dd-login-output``. Credentials provided by the user and sent for crawli
     {
         "workspace_id":"57ea86a9d11ff300054a3519",
         "job_id":"57ea86a9d11ff300054a",
+        "id":"75ea86a9d11ff300022f", // the id of the credentials
         "domain":"example.com",
         "url": "http://example.com/login", // login page as provided
         "key_values": {"txtUser":"user1234", "txtPassword":"12345678"} // identifiers of the fields with the value entered by the user.
     }
+
+
+dd-login-result
+---------------
+
+Topic: ``dd-login-result``. Credentials result after trying to log in sent from the crawling::
+    {
+        "id":"75ea86a9d11ff300022f", // the id of the credentials
+        "result": "success" | "failed"
+    }
+
