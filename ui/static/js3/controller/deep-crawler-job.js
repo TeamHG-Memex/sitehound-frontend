@@ -2,8 +2,8 @@
  * Created by tomas on 11/08/17.
  */
 
-ngApp.controller('deepcrawlerController', ['$scope', '$filter', '$routeParams', 'deepcrawlerFactory',
-function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
+ngApp.controller('deepcrawlerController', ['$scope', '$filter', '$routeParams', 'deepcrawlerFactory', 'loginFactory', '$mdDialog',
+function ($scope, $filter, $routeParams, deepcrawlerFactory, loginFactory, $mdDialog) {
 
     $scope.jobId = $routeParams.jobId;
 
@@ -54,8 +54,6 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 			});
     }
 
-
-    /// advanced tab for details
 //    $scope.showAdvanced = function(elem, ev) {
     $scope.showEnterCredentialsForm = function(elem, ev) {
 
@@ -70,20 +68,19 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
             clickOutsideToClose:true,
             fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
-            .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
-            });
+        .then(function(answer) {
+            console.log('You said the information was "' + answer + '".');
+            if(answer){
+                sendCredentials(elem);
+            }
+        }, function() {
+            console.log('You cancelled the dialog.');
+        });
     };
 
-
-    $scope.showEnterCredentialsForm = function(elem){
+    function sendCredentials(elem){
+        loginFactory.sendCredentials(elem.workspaceId, elem.credentials);
     }
-
-    $scope.enterCredentials = function(elem){
-    }
-
 
     fetch();
 }]);

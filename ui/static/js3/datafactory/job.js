@@ -2,7 +2,7 @@
 var jobFactory = ngApp.factory('jobFactory',['$http', '$httpParamSerializer', function($http, $httpParamSerializer){
 
     var urlBase = '/api/workspace/{0}/job';
-    var dataFactory = {}
+    var dataFactory = {};
 
     // dataFactory.getJobs = function (workspaceId) {
     //     var url =  String.format(urlBase, workspaceId);

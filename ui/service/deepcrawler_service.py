@@ -29,7 +29,9 @@ def start_deep_crawl_job(workspace_id, num_to_fetch, selection):
     for doc in login_credentials:
         if "keyValues" in doc:
             doc["key_values"] = doc["keyValues"]
+            doc["id"] = doc["_id"]
             doc.pop('keyValues', None)
+            doc.pop('_id', None)
 
     queue_deep_crawl(workspace_id, job_id=job_id, num_to_fetch=num_to_fetch, urls=urls, login_credentials=login_credentials)
     return job_id

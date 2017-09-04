@@ -35,6 +35,8 @@ class BrokerService(object):
         self.events_topic = "events"
         self.events_topic_input = self.events_topic + "-input"
 
+        self.login_topic = "login-output"
+
         self.kafka_connector = KafkaConnector(kafka_host_name, kafka_host_port)
 
         logging.info("connecting with kafka: " + kafka_host_name + ":" + kafka_host_port)
@@ -46,6 +48,7 @@ class BrokerService(object):
         self.create_topics_for_splash(app_instance)
         self.create_topics_for_import_url(app_instance)
         self.create_topics_for_events(app_instance)
+        self.create_topics_for_login(app_instance)
         logging.info("Broker started")
 
     def init_subscribers(self):
@@ -179,6 +182,19 @@ class BrokerService(object):
 
     def add_message_to_events(self, message):
         self.post_to_queue_no_extra_headers(message, self.events_topic_input)
+
+
+    ###### LOGIN ########
+    '''
+    This I/O queues publishes the events queue
+    '''
+    def create_topics_for_login(self, app_instance):
+        logging.info("creating topic " + self.login_topic)
+        self.kafka_connector.create_topic(self.login_topic)
+
+    def add_message_to_login(self, message):
+        self.post_to_queue_no_extra_headers(message, self.login_topic)
+
 
     def get_metadata(self, workspace_id):
         metadata = {}
