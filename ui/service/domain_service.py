@@ -1,3 +1,4 @@
+from service.login_service import get_logins
 from ui import Singleton
 from bson import ObjectId
 import pymongo
@@ -27,11 +28,21 @@ def get_deepcrawl_progress(workspace_id, job_id):
     job_doc = get_job_by_id(job_id)
     domains_detail_docs = get_domains_by_job_id(workspace_id, job_id)
 
+    domains = []
+
     if "progress" in job_doc:
         progress = job_doc["progress"]
         for domain in progress["domains"]:
             domain_detail = __find_domain_detail_by_domain(domain["domain"], domains_detail_docs)
             domain["domain_detail"] = domain_detail
+            domains.append(domain["domain"])
+
+        credentials_docs = get_logins(workspace_id, domains)
+        for domain in progress["domains"]:
+            for credentials_doc in credentials_docs:
+                if domain["domain"] == credentials_doc["domain"]:
+                    domain["credentials"] = credentials_doc
+                    break
 
     return job_doc
 
@@ -94,7 +105,7 @@ def extract_domains_from_urls(urls):
 
     domains = []
     for e in set:
-        domains.append(e)
+        domains.append(e.lower())
 
     return domains
 

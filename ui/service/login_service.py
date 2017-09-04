@@ -21,9 +21,4 @@ def get_logins(workspace_id, domains):
     cursor = collection.find(query, fields)
     docs = list(cursor)
 
-    for doc in docs:
-        if "keyValues" in doc:
-            doc["key_values"] = doc["keyValues"]
-            doc.pop('keyValues', None)
-
     return docs
