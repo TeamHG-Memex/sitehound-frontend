@@ -29,6 +29,7 @@ Topic: ``dd-deepcrawler-input``::
         ],
         "login_credentials": [
             {
+                "id":"75ea86a9d11ff300022f", // the id of the credentials
                 "domain":"example1.com",
                 "url": "http://example1.com/login", // login page as provided
                 "key_values": {"txtUser":"user1234", "txtPassword":"12345678"} // identifiers of the fields with the value entered by the user.
