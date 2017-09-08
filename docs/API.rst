@@ -104,9 +104,69 @@ Topic: ``dd-deepcrawler-output-pages``::
     }
 
 
-===================================
-**The protocol below needs REVIEW**
-===================================
+Login workflow
+==============
+
+Assumptions for the first iteration:
+
+1) The login feature will be implemented only on the deep and broad crawl results (i.e. not on the trainer, the seeds or seeds-url)
+2) The login will be only on-(dd's)-demand. (i.e the user won't be able to load some url+usr+pwd as seeds or the like)
+
+Basic Flow:
+
+1) While DD is crawling, it would be able to identify sites that requires logging in's for further crawling.
+2) DD will report these sites to a ``dd-login-input`` topic.
+3) Sitehound-backend will listen to the queue and it will:
+
+    a) take a screenshot of the page (may be useful in case of catcha, so we don't waste time, etc.)
+    b) store this message
+
+4) A option will be added on Sitehound to show the users this snapshot, along with the fields to be completed,
+   as label + inputs, where each label is one keys from dd-login-input
+5) When the user fulfills one message from the step above, the data is stored(wo encryption by now),
+   and sent to DD via the ``dd-login-output`` topic.
+6) DD receives this message and performs the logging in for that domain.
+7) DD will send a notification once the login was successfull or failed to ``dd-login-result``.
+
+dd-login-input
+--------------
+
+Topic: ``dd-login-input``. New login form found::
+
+    {
+        "workspace_id":"57ea86a9d11ff300054a3519",
+        "job_id":"57ea86a9d11ff300054a3519",
+        "domain":"example.com",
+        "url": "http://example.com/login", // login page
+        "keys": ["txtUser", "txtPassword"], // identifiers of the fields required to be completed by the user, whatever it makes sense to use them back by dd
+        "screenshot":"57ea86a9d11ff300054a351.....afazzz9" // b64 representation of the bytes of the image. (PNG format)
+    }
+
+dd-login-output
+---------------
+
+Topic: ``dd-login-output``. Credentials provided by the user and sent for crawling::
+
+    {
+        "workspace_id":"57ea86a9d11ff300054a3519",
+        "job_id":"57ea86a9d11ff300054a",
+        "id":"75ea86a9d11ff300022f", // the id of the credentials
+        "domain":"example.com",
+        "url": "http://example.com/login", // login page as provided
+        "key_values": {"txtUser":"user1234", "txtPassword":"12345678"} // identifiers of the fields with the value entered by the user.
+    }
+
+
+dd-login-result
+---------------
+
+Topic: ``dd-login-result``. Credentials result after trying to log in sent from the crawling::
+
+    {
+        "id":"75ea86a9d11ff300022f", // the id of the credentials
+        "result": "success" | "failed"
+    }
+
 
 
 DD Modeler
@@ -117,8 +177,8 @@ This is for page classifier training.
 dd-modeler-input
 ----------------
 
-Topic: ``dd-modeler-input``. Training page classifier model (only new pages are sent,
-all previously sent are used for training)::
+Topic: ``dd-modeler-input``. Training page classifier model (only new/changed pages are sent,
+all previous are used for training)::
 
     {
         "id": "workspace id",
@@ -176,6 +236,12 @@ JSON data format::
         "weights": {"pos": ..., "neg": ..., "pos_remaining": 0, "neg_remaining": 0},
         "tooltips": {"ROC AUC": "some description"}
     }
+
+
+===================================
+**The protocol below needs REVIEW**
+===================================
+
 
 DD Trainer
 ==========
@@ -267,67 +333,4 @@ Crawler output.
 Topic ``dd-crawler-output-pages``: exactly the same as ``dd-trainer-output-pages``.
 
 Topic ``dd-crawler-output-progress``: exactly the same as ``dd-trainer-output-progress``.
-
-
-Login workflow
-==============
-
-Assumptions for the first iteration:
-
-1) The login feature will be implemented only on the broadcrawl results (i.e. not on the trainer, the seeds or seeds-url)
-2) The login will be only on-(dd's)-demand. (i.e the user won't be able to load some url+usr+pwd as seeds or the like)
-
-Basic Flow:
-
-1) While DD is broadcrawling, it would be able to identify sites that requires logging in's for further crawling.
-2) DD will report these sites to a ``dd-login-input`` topic.
-3) Sitehound-backend will listen to the queue and it will:
-
-    a) take a screenshot of the page (may be useful in case of catcha, so we don't waste time, etc.)
-    b) store this message
-
-4) A option will be added on Sitehound to show the users this snapshot, along with the fields to be completed,
-   as label + inputs, where each label is one keys from dd-login-input
-5) When the user fulfills one message from the step above, the data is stored(wo encryption by now),
-   and sent to DD via the ``dd-login-output`` topic.
-6) DD receives this message and performs the logging in and deeper crawl of that domain.
-
-dd-login-input
---------------
-
-Topic: ``dd-login-input``. New login form found::
-
-    {
-        "workspace_id":"57ea86a9d11ff300054a3519",
-        "job_id":"57ea86a9d11ff300054a3519",
-        "domain":"example.com",
-        "url": "http://example.com/login", // login page
-        "keys": ["txtUser", "txtPassword"], // identifiers of the fields required to be completed by the user, whatever it makes sense to use them back by dd
-        "screenshot":"57ea86a9d11ff300054a351.....afazzz9" // b64 representation of the bytes of the image. (PNG format)
-    }
-
-dd-login-output
----------------
-
-Topic: ``dd-login-output``. Credentials provided by the user and sent for crawling::
-
-    {
-        "workspace_id":"57ea86a9d11ff300054a3519",
-        "job_id":"57ea86a9d11ff300054a",
-        "id":"75ea86a9d11ff300022f", // the id of the credentials
-        "domain":"example.com",
-        "url": "http://example.com/login", // login page as provided
-        "key_values": {"txtUser":"user1234", "txtPassword":"12345678"} // identifiers of the fields with the value entered by the user.
-    }
-
-
-dd-login-result
----------------
-
-Topic: ``dd-login-result``. Credentials result after trying to log in sent from the crawling::
-
-    {
-        "id":"75ea86a9d11ff300022f", // the id of the credentials
-        "result": "success" | "failed"
-    }
 
