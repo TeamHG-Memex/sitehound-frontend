@@ -109,12 +109,12 @@ Login workflow
 
 Assumptions for the first iteration:
 
-1) The login feature will be implemented only on the broadcrawl results (i.e. not on the trainer, the seeds or seeds-url)
+1) The login feature will be implemented only on the deep and broad crawl results (i.e. not on the trainer, the seeds or seeds-url)
 2) The login will be only on-(dd's)-demand. (i.e the user won't be able to load some url+usr+pwd as seeds or the like)
 
 Basic Flow:
 
-1) While DD is broadcrawling, it would be able to identify sites that requires logging in's for further crawling.
+1) While DD is crawling, it would be able to identify sites that requires logging in's for further crawling.
 2) DD will report these sites to a ``dd-login-input`` topic.
 3) Sitehound-backend will listen to the queue and it will:
 
@@ -125,7 +125,8 @@ Basic Flow:
    as label + inputs, where each label is one keys from dd-login-input
 5) When the user fulfills one message from the step above, the data is stored(wo encryption by now),
    and sent to DD via the ``dd-login-output`` topic.
-6) DD receives this message and performs the logging in and deeper crawl of that domain.
+6) DD receives this message and performs the logging in for that domain.
+7) DD will send a notification once the login was successfull or failed to ``dd-login-result``.
 
 dd-login-input
 --------------
