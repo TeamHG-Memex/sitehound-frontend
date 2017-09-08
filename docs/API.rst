@@ -168,10 +168,6 @@ Topic: ``dd-login-result``. Credentials result after trying to log in sent from 
     }
 
 
-===================================
-**The protocol below needs REVIEW**
-===================================
-
 
 DD Modeler
 ==========
@@ -181,8 +177,8 @@ This is for page classifier training.
 dd-modeler-input
 ----------------
 
-Topic: ``dd-modeler-input``. Training page classifier model (only new pages are sent,
-all previously sent are used for training)::
+Topic: ``dd-modeler-input``. Training page classifier model (only new/changed pages are sent,
+all previous are used for training)::
 
     {
         "id": "workspace id",
@@ -240,6 +236,12 @@ JSON data format::
         "weights": {"pos": ..., "neg": ..., "pos_remaining": 0, "neg_remaining": 0},
         "tooltips": {"ROC AUC": "some description"}
     }
+
+
+===================================
+**The protocol below needs REVIEW**
+===================================
+
 
 DD Trainer
 ==========
