@@ -177,28 +177,22 @@ This is for page classifier training.
 dd-modeler-input
 ----------------
 
-Topic: ``dd-modeler-input``. Training page classifier model (only new/changed pages are sent,
-all previous are used for training)::
+Topic: ``dd-modeler-input``. Training page classifier model. All workspace annotations are sent,
+html is fetched based on ``url`` field from ElasticSearch::
 
     {
         "id": "workspace id",
         "pages": [
             {
-                "id": "page id",  // pages are updated based on this id
                 "url": "http://example.com",
-                "html": "<h1>hi</h1>",
                 "relevant": true
             },
             {
-                "id": "page id",
                 "url": "http://example.com/1",
-                "html": "<h1>hi 1</h1>",
                 "relevant": false
             },
             {
-                "id": "page id",
                 "url": "http://example.com/2",
-                "html": "<h1>hi 2</h1>",
                 "relevant": null
             }
         ]
