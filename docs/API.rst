@@ -299,7 +299,18 @@ dd-crawler-output-*
 
 Crawler output.
 
-Topic ``dd-crawler-output-pages``: exactly the same as ``dd-trainer-output-pages``.
+Topic: ``dd-crawler-output-pages``.
+
+Sample of crawled pages::
+
+    {
+        "id": "crawl id",
+        "workspace_id": "workspace id",
+        "page_sample": [
+            {"url": "http://example1.com", "domain": example1.com", "score": 80},
+            {"url": "http://example2.com", "domain": example2.com", "score": 90}
+        ]
+    }
 
 Topic: ``dd-trainer-output-progress``.
 
