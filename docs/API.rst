@@ -178,21 +178,24 @@ dd-modeler-input
 ----------------
 
 Topic: ``dd-modeler-input``. Training page classifier model. All workspace annotations are sent,
-html is fetched based on ``url`` field from ElasticSearch::
+html is fetched based on ``html_location`` field::
 
     {
         "id": "workspace id",
         "pages": [
             {
                 "url": "http://example.com",
+                "html_location": "specifies-where-to-get-html",
                 "relevant": true
             },
             {
                 "url": "http://example.com/1",
+                "html_location": "specifies-where-to-get-html",
                 "relevant": false
             },
             {
                 "url": "http://example.com/2",
+                "html_location": "specifies-where-to-get-html",
                 "relevant": null
             }
         ]
