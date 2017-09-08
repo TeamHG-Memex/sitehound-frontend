@@ -255,7 +255,7 @@ Start the crawl::
         "urls": ["http://example.com", "http://example.com/2"],
     }
 
-dd-trainer-output-pages
+dd-trainer-output-*
 -----------------------
 
 Topic ``dd-trainer-output-pages``.
@@ -270,6 +270,15 @@ Sample of crawled pages::
         ]
     }
 
+Topic: ``dd-trainer-output-progress``.
+
+Progress update (to be displayed in the UI, probably more fields will be added)::
+
+    {
+        "workspace_id": "workspace id",
+        "progress": "Crawled N pages and M domains, average reward is 0.122",
+        "percentage_done": 98.123
+    }
 
 
 DD Crawler
@@ -312,7 +321,7 @@ Sample of crawled pages::
         ]
     }
 
-Topic: ``dd-trainer-output-progress``.
+Topic: ``dd-crawler-output-progress``.
 
 Progress update (to be displayed in the UI, probably more fields will be added)::
 
