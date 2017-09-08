@@ -181,7 +181,7 @@ Topic: ``dd-modeler-input``. Training page classifier model. All workspace annot
 html is fetched based on ``html_location`` field::
 
     {
-        "id": "workspace id",
+        "workspace_id": "workspace id",
         "pages": [
             {
                 "url": "http://example.com",
@@ -207,7 +207,7 @@ dd-modeler-progress
 Topic: ``dd-modeler-progress``. Progress report when training the model::
 
     {
-        "id": "the same id as in the input",
+        "workspace_id": "workspace id",
         "percentage_done": 98.123
     }
 
@@ -217,12 +217,12 @@ dd-modeler-output
 Topic: ``dd-modeler-output``. Result of training the model::
 
     {
-        "id": "the same id as in the input",
+        "workspace_id": "workspace id",
         "quality": "json data",
         "model": "b64-encoded page classifier model"
     }
 
-JSON data format::
+JSON data format for the ``quality`` field::
 
     {
         "main_score": 89.2,
@@ -235,10 +235,6 @@ JSON data format::
     }
 
 
-===================================
-**The protocol below needs REVIEW**
-===================================
-
 
 DD Trainer
 ==========
@@ -250,51 +246,36 @@ dd-trainer-input
 
 Topic: ``dd-trainer-input``.
 
+This message is sent by the page classifier (DD Modeller).
 Start the crawl::
 
     {
-        "id": "crawl id",
         "workspace_id": "workspace id",
         "page_model": "b64-encoded page classifier",
         "urls": ["http://example.com", "http://example.com/2"],
-        "page_limit": 100
-    }
-
-``page_limit`` field is optional (defaults to 10000).
-
-Stop the crawl::
-
-    {
-        "id": "the same id",
-        "stop": true
     }
 
 dd-trainer-output-*
--------------------
+-----------------------
 
-Topic: ``dd-trainer-output-model``.
-Update of the link model (to be saved and posted as ``link_model`` to ``dd-crawler-input`` later)::
+Topic ``dd-trainer-output-pages``.
 
-    {
-        "id": "some crawl id",
-        "link_model": "b64-encoded link classifier"
-    }
-
-Topic ``dd-trainer-output-pages``. Sample of crawled pages::
+Sample of crawled pages::
 
     {
-        "id": "some crawl id",
+        "workspace_id": "workspace id",
         "page_sample": [
             {"url": "http://example1.com", "domain": example1.com", "score": 80},
             {"url": "http://example2.com", "domain": example2.com", "score": 90}
         ]
     }
 
-Topic ``dd-trainer-output-progress``.
+Topic: ``dd-trainer-output-progress``.
+
 Progress update (to be displayed in the UI, probably more fields will be added)::
 
     {
-        "id": "some crawl id",
+        "workspace_id": "workspace id",
         "progress": "Crawled N pages and M domains, average reward is 0.122",
         "percentage_done": 98.123
     }
@@ -303,7 +284,7 @@ Progress update (to be displayed in the UI, probably more fields will be added):
 DD Crawler
 ==========
 
-This is the main crawler.
+This is the smart crawler.
 
 
 dd-crawler-input
@@ -316,7 +297,7 @@ Topic ``dd-crawler-input``. Start the crawl::
         "workspace_id": "workspace id",
         "page_model": "b64-encoded page classifier",
         "urls": ["http://example.com", "http://example.com/2"],
-        "broadness": "DEEP" // Valid codes are ["N10", "N100", "N1000", "N10000", "BROAD"],
+        "broadness": "BROAD" // Valid codes are ["N10", "N100", "N1000", "N10000", "BROAD"],
         "page_limit": 100
     }
 
@@ -327,7 +308,26 @@ dd-crawler-output-*
 
 Crawler output.
 
-Topic ``dd-crawler-output-pages``: exactly the same as ``dd-trainer-output-pages``.
+Topic: ``dd-crawler-output-pages``.
 
-Topic ``dd-crawler-output-progress``: exactly the same as ``dd-trainer-output-progress``.
+Sample of crawled pages::
 
+    {
+        "id": "crawl id",
+        "workspace_id": "workspace id",
+        "page_sample": [
+            {"url": "http://example1.com", "domain": example1.com", "score": 80},
+            {"url": "http://example2.com", "domain": example2.com", "score": 90}
+        ]
+    }
+
+Topic: ``dd-crawler-output-progress``.
+
+Progress update (to be displayed in the UI, probably more fields will be added)::
+
+    {
+        "id": "crawl id",
+        "workspace_id": "workspace id",
+        "progress": "Crawled N pages and M domains, average reward is 0.122",
+        "percentage_done": 98.123
+    }
