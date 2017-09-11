@@ -198,14 +198,11 @@ html is fetched based on ``html_location`` field::
                 "url": "http://example.com/1",
                 "html_location": "specifies-where-to-get-html",
                 "relevant": false
-            },
-            {
-                "url": "http://example.com/2",
-                "html_location": "specifies-where-to-get-html",
-                "relevant": null
             }
         ]
     }
+    
+``html_location`` looks like this: http://hh-elasticsearch:9200/crawled-open/analyzed/https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fmock_object?_source=result.crawlResultDto.html
 
 dd-modeler-progress
 -------------------
