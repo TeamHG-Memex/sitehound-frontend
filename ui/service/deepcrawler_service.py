@@ -1,9 +1,10 @@
 import logging
+import json
 from bson import ObjectId
 from controller.InvalidException import InvalidUsage
 from service.domain_service import extract_domains_from_urls
 from service.job_service import save_job
-from service.login_service import get_logins
+from service.login_service import get_logins, get_successful_logins
 from ui import Singleton
 
 
@@ -18,7 +19,6 @@ def start_deep_crawl_job(workspace_id, num_to_fetch, selection):
 
     urls = __get_seeds_url_by_selection(workspace_id, selection)
     domains = extract_domains_from_urls(urls)
-    login_credentials = get_logins(workspace_id, domains)
 
     if len(urls) == 0:
         raise InvalidUsage("No Seed URLS were selected!", status_code=409)
@@ -26,11 +26,12 @@ def start_deep_crawl_job(workspace_id, num_to_fetch, selection):
     job_id = save_job(workspace_id, num_to_fetch=int(num_to_fetch), broad_crawler_provider=broad_crawler_provider,
                       broad_crawler_sources=broad_crawler_sources, crawl_type=crawl_type, status="STARTED")
 
+    login_credentials = get_successful_logins(workspace_id, domains)
     for doc in login_credentials:
         if "keyValues" in doc:
             doc["key_values"] = doc["keyValues"]
-            doc["id"] = doc["_id"]
             doc.pop('keyValues', None)
+            doc["id"] = doc["_id"]
             doc.pop('_id', None)
 
     queue_deep_crawl(workspace_id, job_id=job_id, num_to_fetch=num_to_fetch, urls=urls, login_credentials=login_credentials)
