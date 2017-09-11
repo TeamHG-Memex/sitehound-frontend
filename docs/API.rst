@@ -45,6 +45,12 @@ where:
 - page_limit: (Integer) (optional) (defaulting to 10M items). The maximum number of pages to fetch
 - login_credentials: (List) (optional) Login credentials already existing in this workspace.
 
+Stop the crawl::
+
+    {
+        "id": "the same crawl id",
+        "stop": true
+    }
 
 Progress
 --------
@@ -302,6 +308,13 @@ Topic ``dd-crawler-input``. Start the crawl::
     }
 
 ``page_limit`` is optional (defaults to 10000000).
+
+Stop the crawl::
+
+    {
+        "id": "the same crawl id",
+        "stop": true
+    }
 
 dd-crawler-output-*
 -------------------
