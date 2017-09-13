@@ -60,9 +60,6 @@ def update_seeds_url_relevancy(workspace_id, id, relevance, categories, udc):
     dao_update_relevanceByid(workspace_id, id, relevance, categories, udc)
 
 
-def label_seeds_url_relevancy(workspace_id, id, relevance):
-    label(workspace_id, id, relevance)
-
 
 def delete_seeds_url(workspace_id, id):
     dao_delete_seed_url(workspace_id, id)

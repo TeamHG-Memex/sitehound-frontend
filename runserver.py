@@ -29,6 +29,8 @@ from ui.controller import user_defined_categories_handler
 from ui.controller import label_user_defined_categories_handler
 from ui.controller import domain_handler
 from ui.controller import login_handler
+from ui.controller import model_handler
+
 
 # services
 from brokers.broker_service import BrokerService
