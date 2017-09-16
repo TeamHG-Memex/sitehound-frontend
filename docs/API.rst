@@ -267,7 +267,7 @@ Sample of crawled pages::
 
     {
         "workspace_id": "workspace id",
-        "page_sample": [
+        "page_samples": [
             {"url": "http://example1.com", "domain": example1.com", "score": 80},
             {"url": "http://example2.com", "domain": example2.com", "score": 90}
         ]
@@ -325,7 +325,7 @@ Sample of crawled pages::
     {
         "id": "crawl id",
         "workspace_id": "workspace id",
-        "page_sample": [
+        "page_samples": [
             {"url": "http://example1.com", "domain": example1.com", "score": 80},
             {"url": "http://example2.com", "domain": example2.com", "score": 90}
         ]
