@@ -1,6 +1,6 @@
-sitehound_version="5.2.0"
+sitehound_version="5.2.1"
 docker build --tag hyperiongray/sitehound:$sitehound_version .
-docker push hyperiongray/sitehound:$sitehound_version
+#docker push hyperiongray/sitehound:$sitehound_version
 
 # to set different properties
 # docker run -d -p 0.0.0.0:5081:5081 --name=sitehound-$sitehound_version -v settings_prod.py:/root/sitehound/ui/settings.py --hostname=sitehound --link mongodb:mongodb --link kafkacontainer:hh-kafka --link elasticsearch:hh-elasticsearch docker.hyperiongray.com/sitehound:$sitehound_version
