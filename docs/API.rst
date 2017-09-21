@@ -231,7 +231,7 @@ JSON data format for the ``quality`` field::
         "main_score": 89.2,
         "n_labeled": 20,
         "n_positive": 10,
-        "advice": "advice for improving the model",
+        "advice": [{"kind":"INFO", "message": "keep annotating"}, ...],
         "description": ["item1", "item2"],
         "weights": {"pos": ..., "neg": ..., "pos_remaining": 0, "neg_remaining": 0},
         "tooltips": {"ROC AUC": "some description"}
