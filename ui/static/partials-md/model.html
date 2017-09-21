@@ -13,7 +13,151 @@
 
                     <!--/*margin-left: 27px;margin-right: 27px-->
                     <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
-                        Model metrics with some BIG HUGE numbers here! Score: 78.2% on 10 annotated pages (12% relevant).
+<!--                        Model metrics with some BIG HUGE numbers here! Score: 78.2% on 10 annotated pages (12% relevant).<br/><br/>-->
+
+                        <div id="classifier-quality-container" style="width:100%;padding-bottom:20px">
+                                    <style>
+                                        .underlined-dashed {
+                                            border-bottom: 1px dotted #000;
+                                            text-decoration: none;
+                                            color:blue;
+                                        }
+                                    </style>
+                                    <div >
+                                        <div>
+                                            <dl class="dl-horizontal">
+                                                <div>
+                                                    <dt>
+                                                        <span>
+                                                            Model progress:
+                                                        </span>
+                                                        <md-progress-linear md-mode="determinate" value="{{modelerProgress.percentage_done}}"></md-progress-linear>
+                                                    </dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                        <div>
+                                            <dl class="dl-horizontal">
+                                                <div ng-repeat="descriptionItem in modelerProgress.quality.description" style="font-size: 14px">
+                                                    <dt>
+                                                        <span ng-class="{'underlined-dashed' : ['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1}">
+                                                            {{descriptionItem.heading}}:
+                                                            <md-tooltip ng-show="['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1"
+                                                                        md-direction="top">
+                                                                ""{{modelerProgress.quality.tooltips[descriptionItem.heading]}}
+                                                            </md-tooltip>
+                                                        </span>
+                                                        <span style="font-weight: 100">
+                                                            {{descriptionItem.text}}
+                                                        </span>
+                                                    </dt>
+                                                    <!--<dd>{{descriptionItem.text}}</dd>-->
+                                                </div>
+                                            </dl>
+                                        </div>
+                                        <div style="padding:20px">
+                                            <a href="javascript:void(0);" ng-show="!showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Show feature weights &hellip;</a>
+                                            <a href="javascript:void(0);" ng-show="showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Hide feature weights &hellip;</a>
+                                        </div>
+                                        <!--<div id="clf-weights" class="collapse weights">-->
+                                        <div ng-show="showFeatureWeightsStatus" style="padding-left:40px;padding-bottom: 20px">
+                                            <table class="eli5-weights" style="border-collapse: collapse; border: none;"
+                                                ng-show="modelerProgress.quality.weights.pos.length + modelerProgress.quality.weights.neg.length>0"
+                                            >
+                                            <thead>
+                                            <tr style="border: none;">
+                                                <th style="padding: 0 1em 0 0.5em; text-align: right; border: none;">Weight</th>
+                                                <th style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">Feature</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.quality.weights.pos">
+                                                    <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+                                                        +<span ng-bind='item["weight"] | number:3'></span>
+                                                    </td>
+                                                    <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+                                                        <span ng-bind='item["feature"]'></span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
+                                                    ng-show="modelerProgress.quality.weights.pos.length>0"
+                                                >
+                                                    <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+                                                        <i>&hellip; {{modelerProgress.quality.weights.pos_remaining}} more positive &hellip;</i>
+                                                    </td>
+                                                </tr>
+                                                <tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
+                                                    ng-show="modelerProgress.quality.weights.neg.length>0"
+                                                >
+                                                    <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+                                                        <i>&hellip;  {{modelerProgress.quality.weights.neg_remaining}} more negative &hellip;</i>
+                                                    </td>
+                                                </tr>
+                                                <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.quality.weights.neg">
+                                                    <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+                                                        <span ng-bind='item["weight"] | number:3'></span>
+                                                    </td>
+                                                    <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+                                                        <span ng-bind='item["feature"]'></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </div>
+
+
+                                        <div ng-repeat="adviceItem in modelerProgress.quality.advice">
+                                            <div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
+                                                <b>{{adviceItem.kind}}!</b>
+                                                    <span ng-repeat="message in adviceItem.messages">
+                                                        <span>
+                                                            {{message.text}}
+                                                        </span>
+
+                                                        <span>
+                                                            <span class="underlined-dashed">
+                                                                {{ message.tooltipKey }}
+                                                            </span>
+                                                            <md-tooltip ng-show="message.tooltip" md-direction="top">
+                                                              {{ message.tooltip }}
+                                                            </md-tooltip>
+                                                        </span>
+<!--
+                                                        <span ng-show="message.tooltip" data-toggle="tooltip" data-placement="bottom" title="{{message.tooltip}}">
+                                                            <span class="question glyphicon glyphicon-question-sign"></span>
+                                                        </span>
+-->
+                                                    </span>
+                                            </div>
+                                        </div>
+
+                                        <br/>
+
+                                        <div>
+                                            <dl class="dl-horizontal">
+                                                <div>
+                                                    <dt>
+                                                        <span>
+                                                            Trainer progress:
+                                                        </span>
+                                                        <md-progress-linear md-mode="determinate" value="{{trainerProgress.percentage_done}}"></md-progress-linear>
+                                                    </dt>
+                                                </div>
+                                            </dl>
+                                            <dl class="dl-horizontal">
+                                                <div>
+                                                    <dt>
+                                                        <span>
+                                                            {{trainerProgress.progress}}
+                                                        </span>
+                                                    </dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+
+                                    </div>
+                        </div>
+<!--                       end progress -->
 
                         <br>
                     </div>

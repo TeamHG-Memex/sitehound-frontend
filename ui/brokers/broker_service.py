@@ -37,6 +37,7 @@ class BrokerService(object):
 
         self.login_topic = "login-output"
         self.dd_modeler_input = "dd-modeler-input"
+        self.dd_crawler_input = "dd-crawler-input"
 
         self.kafka_connector = KafkaConnector(kafka_host_name, kafka_host_port)
 
@@ -51,6 +52,7 @@ class BrokerService(object):
         self.create_topics_for_events(app_instance)
         self.create_topics_for_login(app_instance)
         self.create_topics_for_dd_modeler_input(app_instance)
+        self.create_topics_for_dd_crawler_input(app_instance)
         logging.info("Broker started")
 
     def init_subscribers(self):
@@ -199,7 +201,7 @@ class BrokerService(object):
 
     ###### DD-MODELER-INPUT ########
     '''
-    This I/O queues publishes the events queue
+    This I/O queues publishes the dd-modeler-input queue
     '''
     def create_topics_for_dd_modeler_input(self, app_instance):
         logging.info("creating topic " + self.dd_modeler_input)
@@ -207,6 +209,18 @@ class BrokerService(object):
 
     def add_message_to_dd_modeler_input(self, message):
         self.post_to_queue_no_extra_headers(message, self.dd_modeler_input)
+
+
+    ###### DD-CRAWLER-INPUT ########
+    '''
+    This I/O queues publishes the dd-crawler-input queue
+    '''
+    def create_topics_for_dd_crawler_input(self, app_instance):
+        logging.info("creating topic " + self.dd_crawler_input)
+        self.kafka_connector.create_topic(self.dd_crawler_input)
+
+    def add_message_to_dd_crawler_input(self, message):
+        self.post_to_queue_no_extra_headers(message, self.dd_crawler_input)
 
 
     ##### private core methods

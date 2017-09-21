@@ -9,21 +9,6 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', '$httpParamSeriali
 		var qs = $httpParamSerializer(filters);
 		return $http.get(url + (qs ? '?' + qs : ""));
 	};
-/*
-
-	dataFactory.get = function (workspaceId, source, filters) {
-		var url =  String.format(urlBase, workspaceId);
-		debugger;
-
-//		po = {};
-//		po.sources = filters.sources;
-//		po.relevances = filters.relevances;
-//		po.categories = filters.categories;
-//		po.udcs = filters.udcs;
-//		po.lastId = lastId;
-		return $http.post(url + '/' + source, filters);
-	};
-*/
 
 	dataFactory.getUdcs = function (workspaceId) {
 		var url =  String.format(urlBase, workspaceId);

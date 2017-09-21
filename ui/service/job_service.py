@@ -58,7 +58,22 @@ def dao_count_jobs(input_search_query):
     return count
 
 
-## def save_job(num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type, job_id, workspace_name, workspace_id):
+def save_smart_crawl_job(workspace_id, num_to_fetch, broadness):
+    job = {}
+    job["workspaceId"] = workspace_id
+    job["broadnesss"] = broadness
+    job["crawlType"] = "SMARTCRAWL"
+    job["nResultsRequested"] = num_to_fetch
+    job['timestamp'] = time.time()
+    job['strTimestamp'] = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
+    job["status"] = "STARTED"
+
+    # _id = Singleton.getInstance().mongo_instance.get_crawl_job_collection().insert(job)
+    collection = Singleton.getInstance().mongo_instance.get_crawl_job_collection()
+    _id = collection.insert(job)
+    return str(_id)
+
+
 def save_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type, status="QUEUED"):
 
     job = {}

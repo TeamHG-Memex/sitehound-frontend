@@ -1,9 +1,9 @@
 import logging
 import json
 from flask_login import login_required
-from service.broadcrawler_service import get_search_results, delete_broadcrawler_result, get_max_id, count_service, \
+from service.broad_crawler_service import get_search_results, delete_broadcrawler_result, get_max_id, count_service, \
     get_existing_categories_service, dao_aggregate_broadcrawl_results
-from service.broadcrawler_service import pin_service
+from service.broad_crawler_service import pin_service
 from ui import app, Singleton
 from flask import render_template, Response, request
 from utils.json_encoder import JSONEncoder

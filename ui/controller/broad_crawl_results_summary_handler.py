@@ -1,6 +1,6 @@
 import json
 from flask_login import login_required
-from service.broadcrawler_service import \
+from service.broad_crawler_service import \
     get_broadcrawl_results_summary, get_broadcrawl_results_summary_count_mongo_dao, pin_service
 from ui import app, Singleton
 from flask import Response, request

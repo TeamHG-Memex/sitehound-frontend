@@ -4,7 +4,7 @@ from time import gmtime, strftime
 from brokers.broker_service import BrokerService
 from dao.mongo_instance import MongoInstance
 from kafkaclient.kafkaclient import KafkaConnector
-from service.broadcrawler_service import get_search_results
+from service.smart_crawler_service import get_search_results
 from ui import Singleton
 
 __author__ = 'tomas'

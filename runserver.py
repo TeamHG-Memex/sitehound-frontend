@@ -30,6 +30,8 @@ from ui.controller import label_user_defined_categories_handler
 from ui.controller import domain_handler
 from ui.controller import login_handler
 from ui.controller import model_handler
+from ui.controller import trainer_handler
+from ui.controller import smart_crawler_handler
 
 
 # services

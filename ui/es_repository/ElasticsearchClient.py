@@ -32,3 +32,10 @@ class ElasticsearchClient(object):
             return res['_source']['result']['crawlResultDto']['image']['content']
         except:
             logging.info(url)
+
+    def get_modeler_model(self, workspace_id):
+        try:
+            res = self.es.get(index="modeler", doc_type="model", id=workspace_id, _source=["result.ddModelerOutput.model"])
+            return res['_source']['result']['ddModelerOutput']['model']
+        except:
+            logging.info(workspace_id)
