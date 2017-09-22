@@ -5,9 +5,6 @@
 ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'domFactory', 'seedFactory', 'fetchService', 'seedUrlFactory', 'deepcrawlerFactory', '$mdDialog',
 function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory, deepcrawlerFactory, $mdDialog) {
 
-    $scope.nResultsOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
-    $scope.nResults ="10.000.000";
-
     $scope.sourcesCodes = ["SE", "MANUAL", "TOR"];
 
     /** filters **/
@@ -32,6 +29,12 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
             tab.selected=[];
             tab.allSelected=false;
             tab.lastId=null;
+
+            tab.countSelected = function(){
+                return tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0);
+            };
+
+
             $scope.tabs[source.shortCode] = tab;
             fetch(tab);
         }
@@ -177,8 +180,21 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
     $scope.newDeepCrawlConfirmation = function(ev) {
         var elem = {};
     	elem.workspaceId = $scope.master.workspaceId;
-        elem.nResults = parseInt($scope.nResults.replaceAll("\\.",""));
     	elem.tabs= $scope.tabs;
+
+        elem.nResultsOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
+        elem.nResults ="10.000.000";
+
+        var selectedPages = 0;
+        for(var i=0; i<$scope.sourcesCodes.length; i++){
+            var tab = $scope.tabs[$scope.sourcesCodes[i]];
+            selectedPages += tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0);
+        }
+
+        if(selectedPages ==0){
+            alert("Please select some pages to deepcrawl first");
+            return;
+        }
 
         $mdDialog.show({
             title:"bla",
@@ -194,6 +210,8 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
         })
             .then(function(answer) {
                 if(answer){
+                    // elem.nResults = parseInt(elem.nResults.replaceAll("\\.",""));
+                    $scope.nResults= parseInt(elem.nResults.replaceAll("\\.",""));
                     deepcrawl();
                 }
                 else{
@@ -230,8 +248,8 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
             }
         }
 
-        var nResults = parseInt($scope.nResults.replaceAll("\\.",""));
-        deepcrawlerFactory.publish2DeepCrawl($scope.master.workspaceId, nResults, data).then(
+        // var nResults = parseInt($scope.nResults.replaceAll("\\.",""));
+        deepcrawlerFactory.publish2DeepCrawl($scope.master.workspaceId, $scope.nResults, data).then(
             function(response){
                 console.log(response);
                 var jobId = response.data.jobId;
