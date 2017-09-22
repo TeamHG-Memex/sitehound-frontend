@@ -53,7 +53,6 @@ function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory
         modelerFactory.getProgress($scope.master.workspaceId)
             .then(
                 function(response){
-                    console.log(response.data);
                     if(response.data["quality"]){
                         $scope.modelerProgress["quality"] = response.data["quality"];
                         $scope.modelerProgress["quality"].advice = $scope.adviceParser($scope.modelerProgress["quality"].advice, $scope.modelerProgress["quality"].tooltips);
@@ -192,7 +191,8 @@ function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory
             $scope.getModelerProgress();
             $scope.getTrainerProgress();
             $interval.cancel($rootScope.backgroundServicePromise);
-            $rootScope.backgroundServicePromise = $interval(backgroundService, 15000);
+            $rootScope.backgroundServicePromise = $interval(backgroundService, 5000);
+			isRunning = false;
 		}
 	}
 
