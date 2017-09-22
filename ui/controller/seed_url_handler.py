@@ -13,7 +13,7 @@ from utils.json_encoder import JSONEncoder
 from service.seed_url_service \
     import add_known_urls_handler, schedule_spider_searchengine, update_seeds_urls_relevance, \
     update_seeds_url_relevancy, delete_seeds_url, reset_results, \
-    get_seeds_urls_by_workspace, get_seeds_udc_by_workspace
+    get_seeds_urls_to_label, get_seeds_udc_by_workspace
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url", methods=["GET"])
@@ -25,6 +25,7 @@ def get_seed_urls_by_workspace_api(workspace_id):
     categories = request.args.getlist('categories')
     udcs = request.args.getlist('udcs')
     last_id = request.args.get('lastId')
+    last_source = request.args.get('lastSource')
     page_size = 4
 
     relevances = []
@@ -40,7 +41,7 @@ def get_seed_urls_by_workspace_api(workspace_id):
         else:
             print "unsupported relevance type: " + rel
 
-    in_doc = get_seeds_urls_by_workspace(workspace_id, page_size, sources, relevances, categories, udcs, last_id)
+    in_doc = get_seeds_urls_to_label(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source)
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 

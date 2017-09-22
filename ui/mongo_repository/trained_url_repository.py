@@ -4,13 +4,7 @@ from bson import ObjectId
 from ui.singleton import Singleton
 
 
-
-def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id):
-
-    # collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
-    # return list(collection.find({'workspaceId': workspace_id}))
-
-# def get_seeds_urls_by_source_dao(workspace_id, source, relevances, categories, udcs, last_id):
+def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source):
 
     and_condition_list = []
 
@@ -68,30 +62,87 @@ def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances
         and_condition_list.append(udcs_search_object)
 
     page_search_object = {}
-    if last_id is not None:
-        # page_search_object = {'_id' > input_search_query['last_id']}
-        page_search_object = {"_id": {"$gt": ObjectId(last_id)}}
+    if last_id is not None and last_source is not None:
+        #even bigger from same source, or any from other source
+        page_search_object = {'$or': [
+            {"$and": [{"_id": {"$gt": ObjectId(last_id)}}, {"crawlEntityType": last_source}]},
+            {"crawlEntityType": {"$ne": last_source}}
+        ]}
         and_condition_list.append(page_search_object)
 
-    deleted_search_object = {'deleted': None}
+    deleted_search_object = {'deleted': {"$exists": False}}
     and_condition_list.append(deleted_search_object)
 
     workspace_search_object = {'workspaceId': workspace_id}
     and_condition_list.append(workspace_search_object)
 
-    # field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'urlDesc', 'categories', 'language', 'relevant']
-    # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant', 'words']
-    # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant']
-    # field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'title', 'language', 'relevant', 'categories', 'udc']
-    field_names_to_include = ['_id', 'host', 'crawlEntityType', 'url', 'title', 'language', 'relevant']
+    field_names_to_include = {'_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1}
+
+    # collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+    # res = collection\
+    #     .find({'$and': and_condition_list}, field_names_to_include)\
+    #     .sort('_id', pymongo.ASCENDING)\
+    #     .limit(page_size)
+
+    # '''
+    # db.task.aggregate([
+    #     { "$project" : {
+    #         '_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1,
+    #         "order" : {
+    #             "$cond" : {
+    #                 if : { "$eq" : ["$status", "new"] }, then : 1,
+    #                 else  : { "$cond" : {
+    #                     "if" : { "$eq" : ["$status", "pending"] }, then : 2,
+    #                     else  : 3
+    #                     }
+    #                 }
+    #             }
+    #         }
+    #     } },
+    #     {"$sort" : {"order" : 1} },
+    #     { "$project" : { "_id" : 1, "task" : 1, "status" : 1 } }
+    # ])'''
+
+    from collections import OrderedDict
+    sort_dict = OrderedDict()
+    sort_dict['order'] = 1
+    sort_dict['_id'] = 1
 
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
-    res = collection\
-        .find({'$and': and_condition_list}, field_names_to_include)\
-        .sort('_id', pymongo.ASCENDING)\
-        .limit(page_size)
 
-    docs = list(res)
+    res = collection.aggregate([
+        { "$project" : {
+            '_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1, 'workspaceId':1, 'deleted':1,
+            "order" : {
+                "$cond" : {
+                    "if": { "$eq" : ["$crawlEntityType", "DD"] }, "then" : 1,
+                    "else": { "$cond" : {
+                        "if": { "$eq" : ["$crawlEntityType", "TOR"] }, "then" : 2,
+                        "else": {"$cond": {
+                            "if": {"$eq": ["$crawlEntityType", "GOOGLE"]}, "then": 3,
+                            "else": {"$cond": {
+                                "if": {"$eq": ["$crawlEntityType", "BING"]}, "then": 4,
+                                "else": 5
+                            }}
+                        }}
+                    }}
+                }
+            }}
+        },
+        {"$match" : {'$and': and_condition_list}},
+        # {"$sort" : {"order" : pymongo.ASCENDING, "_id": pymongo.ASCENDING} },
+        {"$sort" : sort_dict},
+        {"$limit" : page_size },
+        {"$project" : {'_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1, 'order': 1} }
+    ])
+
+
+        # .find({'$and': and_condition_list}, field_names_to_include)\
+        # .sort('_id', pymongo.ASCENDING)\
+        # .limit(page_size)
+
+
+    docs = list(res["result"])
     return docs
 
 

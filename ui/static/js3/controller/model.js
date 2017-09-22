@@ -22,6 +22,7 @@ function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory
             tab.aggregatedResults=null;
             tab.elems=[];
             tab.lastId=null;
+            tab.lastSource=null;
             tab.selected=[];
             tab.allSelected=false;
             $scope.tabs[source.shortCode] = tab;
@@ -228,6 +229,7 @@ function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory
         filters["relevances"] = ["unset"];
         if(tab.lastId){
             filters["lastId"] = [tab.lastId];
+            filters["lastSource"] = [tab.lastSource];
         }
 
         seedUrlFactory.get($scope.master.workspaceId, filters)
@@ -242,10 +244,25 @@ function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory
                         tab.selected.push(tempResults[i]._id);
                     }
                 }
-				tab.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-					(tab.elems.length > 0 ? tab.elems[tab.elems.length-1]._id : null) ;
+				// tab.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+                 //    (tab.elems.length > 0 ? tab.elems[tab.elems.length-1]._id : null) ;
 
-                tab.disabled= (tab.elems.length ==0);
+				if(tempResults.length > 0){
+    				tab.lastId = tempResults[tempResults.length-1]._id;
+    				tab.lastSource = tempResults[tempResults.length-1].crawlEntityType;
+                }
+                else{
+				    if(tab.elems.length > 0){
+				        tab.lastId = tab.elems[tab.elems.length-1]._id
+				        tab.lastSource = tab.elems[tab.elems.length-1].crawlEntityType
+                    }
+                    else{
+				        tab.lastId = null;
+				        tab.lastSource = null;
+                    }
+                }
+
+                tab.disabled= (tab.elems.length == 0);
 
                 // everything was labeled
                 if(tempResults.length>0 && callback!=null){
@@ -297,7 +314,6 @@ function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory
         $scope.tabs["TOR"].aggregatedResults=resultStruct["TOR"];
 
     }
-
 
 
     /** begins smart crawl **/
