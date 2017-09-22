@@ -1,4 +1,5 @@
-import pymongo
+from collections import OrderedDict
+
 from bson import ObjectId
 
 from ui.singleton import Singleton
@@ -15,8 +16,6 @@ def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, ca
             if source == "searchengine":
                 source_search_conditions.append({'crawlEntityType': "BING"})
                 source_search_conditions.append({'crawlEntityType': "GOOGLE"})
-            # elif source == "twitter":
-            #     source_search_conditions.append({'crawlEntityType': "TWITTER"})
             elif source == "tor":
                 source_search_conditions.append({'crawlEntityType': "TOR"})
             elif source == "imported":
@@ -52,14 +51,15 @@ def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, ca
         categories_search_object = {'$or': categories_search_conditions}
         and_condition_list.append(categories_search_object)
 
-    #udcs
-    if len(udcs) > 0:
-        udcs_search_conditions = []
-        for udc in udcs:
-            udcs_search_conditions.append({'udc': udc.lower()})
+    # #udcs
+    # if len(udcs) > 0:
+    #     udcs_search_conditions = []
+    #     for udc in udcs:
+    #         udcs_search_conditions.append({'udc': udc.lower()})
+    #
+    #     udcs_search_object = {'$or': udcs_search_conditions}
+    #     and_condition_list.append(udcs_search_object)
 
-        udcs_search_object = {'$or': udcs_search_conditions}
-        and_condition_list.append(udcs_search_object)
 
     page_search_object = {}
     if last_id is not None and last_source is not None:
@@ -76,34 +76,7 @@ def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, ca
     workspace_search_object = {'workspaceId': workspace_id}
     and_condition_list.append(workspace_search_object)
 
-    field_names_to_include = {'_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1}
 
-    # collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
-    # res = collection\
-    #     .find({'$and': and_condition_list}, field_names_to_include)\
-    #     .sort('_id', pymongo.ASCENDING)\
-    #     .limit(page_size)
-
-    # '''
-    # db.task.aggregate([
-    #     { "$project" : {
-    #         '_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1,
-    #         "order" : {
-    #             "$cond" : {
-    #                 if : { "$eq" : ["$status", "new"] }, then : 1,
-    #                 else  : { "$cond" : {
-    #                     "if" : { "$eq" : ["$status", "pending"] }, then : 2,
-    #                     else  : 3
-    #                     }
-    #                 }
-    #             }
-    #         }
-    #     } },
-    #     {"$sort" : {"order" : 1} },
-    #     { "$project" : { "_id" : 1, "task" : 1, "status" : 1 } }
-    # ])'''
-
-    from collections import OrderedDict
     sort_dict = OrderedDict()
     sort_dict['order'] = 1
     sort_dict['_id'] = 1
@@ -130,8 +103,7 @@ def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, ca
             }}
         },
         {"$match" : {'$and': and_condition_list}},
-        # {"$sort" : {"order" : pymongo.ASCENDING, "_id": pymongo.ASCENDING} },
-        {"$sort" : sort_dict},
+        {"$sort" : sort_dict },
         {"$limit" : page_size },
         {"$project" : {'_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1, 'order': 1} }
     ])

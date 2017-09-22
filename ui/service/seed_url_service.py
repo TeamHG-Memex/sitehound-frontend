@@ -103,34 +103,8 @@ def publish_to_import_url_queue(workspace_id, url, is_relevant= True):
     Singleton.getInstance().broker_service.add_message_to_import_url(message)
 
 
-# def get_seeds_urls_by_workspace(workspace_id, sources, relevances, categories, udcs, drop_png=False):
-#     mongo_result = []
-#     for item in get_seeds_urls_by_workspace_dao(workspace_id, sources, relevances, categories, udcs):
-#         if drop_png:
-#             item.get('snapshot', {}).pop('png', None)
-#         mongo_result.append(item)
-#     return mongo_result
-
-
 def get_seeds_urls_to_label(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source):
     mongo_result = get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source)
-
-    # try:
-    #     mongo_result = get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id)
-    # except Exception, e:
-    #     print e
-    #     logging.info("item failed")
-    # for item in mongo_result:
-    #     try:
-    #         es_result = Singleton.getInstance().es_client.get_open_crawled_index_results(item['url'])
-    #         item['desc'] = es_result["text"]
-    #         # already stored in mongo
-    #         # item['title'] = es_result["crawlResultDto"]["title"]
-    #         # item['words'] = es_result["words"]
-    #         # item['language'] = es_result["language"]
-    #         # item['categories'] = es_result["categories"]
-    #     except:
-    #         logging.info("item failed")
     return mongo_result
 
 
