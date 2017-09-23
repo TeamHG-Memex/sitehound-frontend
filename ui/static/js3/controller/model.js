@@ -1,5 +1,5 @@
-ngApp.controller('modelController', ['$scope', '$rootScope', '$filter', '$interval', 'seedUrlFactory', 'modelerFactory', 'trainerFactory', 'smartCrawlerFactory',
-function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory, trainerFactory, smartCrawlerFactory) {
+ngApp.controller('modelController', ['$scope', '$rootScope', '$filter', '$interval', '$mdDialog', 'seedUrlFactory', 'modelerFactory', 'trainerFactory', 'smartCrawlerFactory',
+function ($scope, $rootScope, $filter, $interval, $mdDialog, seedUrlFactory, modelerFactory, trainerFactory, smartCrawlerFactory) {
 
     $scope.master.init();
 
@@ -317,7 +317,56 @@ function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory
 
 
     /** begins smart crawl **/
-	$scope.newSmartCrawl = function (ev) {
+	$scope.newSmartCrawlConfirmation = function (ev) {
+        var elem = {};
+    	elem.workspaceId = $scope.master.workspaceId;
+    	// elem.tabs= $scope.tabs;
+
+        elem.nResultsOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
+        elem.nResults ="10.000.000";
+
+        // var selectedPages = 0;
+        // for(var i=0; i<$scope.sourcesCodes.length; i++){
+        //     var tab = $scope.tabs[$scope.sourcesCodes[i]];
+        //     selectedPages += tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0);
+        // }
+        //
+        // if(selectedPages ==0){
+        //     alert("Please select some pages to deepcrawl first");
+        //     return;
+        // }
+
+        $mdDialog.show({
+            title:"bla",
+            controller: 'myDialogController',
+            // controller: DialogController,
+            locals:{item: elem},
+            // templateUrl: 'dialog1.tmpl.html',
+            templateUrl: 'static/partials-md/templates/new-smart-crawl-confirm.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+            .then(function(answer) {
+                if(answer){
+                    // elem.nResults = parseInt(elem.nResults.replaceAll("\\.",""));
+                    $scope.nResults= parseInt(elem.nResults.replaceAll("\\.",""));
+                    smartCrawl();
+                }
+                else{
+                    $scope.status = 'You cancelled the dialog.';
+                    console.log($scope.status);
+                }
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+                console.log($scope.status);
+            });
+    };
+
+
+
+	function smartCrawl(){
 
 	    smartCrawlerFactory.startSmartCrawl($scope.master.workspaceId, 100, "N10").then(
 	        function (response) {
@@ -327,7 +376,10 @@ function ($scope, $rootScope, $filter, $interval, seedUrlFactory, modelerFactory
                 console.log(response.data);
             }
         );
-    };
+
+    }
+
+
 
     /**ends smart crawl **/
 
