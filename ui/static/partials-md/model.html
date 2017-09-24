@@ -15,21 +15,17 @@
                 <div class="mdl-card__supporting-text">
                     <div class="mdl-card__title">
                         <span class="mdl-card__title-text">
-                            <!--<h4>New Deep Crawl</h4>-->
                             <h4>Label fetched pages to build the model</h4>
                         </span>
                     </div>
-                    <!--/*margin-left: 27px;margin-right: 27px-->
                     <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
-<!--                        Model metrics with some BIG HUGE numbers here! Score: 78.2% on 10 annotated pages (12% relevant).<br/><br/>-->
-
                         <div id="classifier-quality-container" style="width:100%;padding-bottom:20px">
-                                    <!-- Advice -->
+                            <!-- Advice -->
 
-                                    <div ng-repeat="adviceItem in modelerProgress.quality.advice">
-                                        <div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
-                                            <b>{{adviceItem.kind}}!</b>
-                                                <span ng-repeat="message in adviceItem.messages">
+                            <div ng-repeat="adviceItem in modelerProgress.quality.advice">
+                                <div  class="alert" role="alert" ng-class="{'alert-warning' : adviceItem.kind=='Warning', 'alert-danger' : adviceItem.kind=='Error', 'alert-info' : adviceItem.kind=='Notice'}">
+                                    <b>{{adviceItem.kind}}!</b>
+                                    <span ng-repeat="message in adviceItem.messages">
                                                     <span>
                                                         {{message.text}}
                                                     </span>
@@ -42,30 +38,31 @@
                                                           {{ message.tooltip }}
                                                         </md-tooltip>
                                                     </span>
-<!--
+                                        <!--
                                                     <span ng-show="message.tooltip" data-toggle="tooltip" data-placement="bottom" title="{{message.tooltip}}">
                                                         <span class="question glyphicon glyphicon-question-sign"></span>
                                                     </span>
 -->
                                                 </span>
-                                        </div>
-                                    </div>
+                                </div>
+                            </div>
 
-                                    <div layout="row" layout-align="start center">
-                                        <h5 style="font-size: 15px; font-weight: bold">Pop the hood</h5>
+                            <div layout="row" layout-align="start center">
+                                <h5 style="font-size: 15px; font-weight: bold">Pop the hood</h5>
 
-                                        <i onmouseover="" style="cursor: pointer;" class="material-icons" ng-hide="showUnderTheHood" ng-click="toogleShowUnderTheHood(true)">expand_more</i>
-                                        <i onmouseover="" style="cursor: pointer;" class="material-icons" ng-show="showUnderTheHood" ng-click="toogleShowUnderTheHood(false)">expand_less</i>
-                                    </div>
-                                    <div id="showUnderTheHood" ng-show="showUnderTheHood" style="padding-left: 20px;padding-right: 20px">
-                                        <!--modeler-->
+                                <i onmouseover="" style="cursor: pointer;" class="material-icons" ng-hide="showUnderTheHood" ng-click="toogleShowUnderTheHood(true)">expand_more</i>
+                                <i onmouseover="" style="cursor: pointer;" class="material-icons" ng-show="showUnderTheHood" ng-click="toogleShowUnderTheHood(false)">expand_less</i>
+                            </div>
+
+                            <div id="showUnderTheHood" ng-show="showUnderTheHood" style="padding-left: 20px;padding-right: 20px">
+                                <!--modeler-->
+                                <div>
+                                    <h5>Modeler</h5>
+                                    <p>The modeler builds a classifier for pages bassed on the html and URL of each labeled page</p>
+
+                                    <div>
                                         <div>
-                                            <h5>Modeler</h5>
-                                            <p>The modeler builds a classifier for pages bassed on the html and URL of each labeled page</p>
-
-                                            <div>
-                                                <div>
-                                                    <!--
+                                            <!--
                                                     <dl class="dl-horizontal">
                                                         <div>
                                                             <dt>
@@ -77,12 +74,12 @@
                                                         </div>
                                                     </dl>
                                                     -->
-                                                    <md-progress-linear md-mode="determinate" value="{{modelerProgress.percentage_done}}"></md-progress-linear>
-                                                </div>
-                                                <div>
-                                                    <dl class="dl-horizontal">
-                                                        <div ng-repeat="descriptionItem in modelerProgress.quality.description" style="font-size: 14px">
-                                                            <dt>
+                                            <md-progress-linear md-mode="determinate" value="{{modelerProgress.percentage_done}}"></md-progress-linear>
+                                        </div>
+                                        <div>
+                                            <dl class="dl-horizontal">
+                                                <div ng-repeat="descriptionItem in modelerProgress.quality.description" style="font-size: 14px">
+                                                    <dt>
                                                                 <span ng-class="{'underlined-dashed' : ['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1}">
                                                                     {{descriptionItem.heading}}:
                                                                     <md-tooltip ng-show="['Accuracy', 'F1', 'ROC AUC'].indexOf(descriptionItem.heading)>-1"
@@ -90,80 +87,80 @@
                                                                         ""{{modelerProgress.quality.tooltips[descriptionItem.heading]}}
                                                                     </md-tooltip>
                                                                 </span>
-                                                                <span style="font-weight: 100">
+                                                        <span style="font-weight: 100">
                                                                     {{descriptionItem.text}}
                                                                 </span>
-                                                            </dt>
-                                                            <!--<dd>{{descriptionItem.text}}</dd>-->
-                                                        </div>
-                                                    </dl>
+                                                    </dt>
+                                                    <!--<dd>{{descriptionItem.text}}</dd>-->
                                                 </div>
-<!--                                                <div style="padding:20px">-->
-                                                <div>
-                                                    <a href="javascript:void(0);" ng-show="!showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Show feature weights &hellip;</a>
-                                                    <a href="javascript:void(0);" ng-show="showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Hide feature weights &hellip;</a>
-                                                </div>
-                                                <!--<div id="clf-weights" class="collapse weights">-->
-                                                <div ng-show="showFeatureWeightsStatus" style="padding-left:40px;padding-bottom: 20px">
-                                                    <table class="eli5-weights" style="border-collapse: collapse; border: none;"
-                                                        ng-show="modelerProgress.quality.weights.pos.length + modelerProgress.quality.weights.neg.length>0"
-                                                    >
-                                                    <thead>
-                                                    <tr style="border: none;">
-                                                        <th style="padding: 0 1em 0 0.5em; text-align: right; border: none;">Weight</th>
-                                                        <th style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">Feature</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.quality.weights.pos">
-                                                            <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
-                                                                +<span ng-bind='item["weight"] | number:3'></span>
-                                                            </td>
-                                                            <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
-                                                                <span ng-bind='item["feature"]'></span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
-                                                            ng-show="modelerProgress.quality.weights.pos.length>0"
-                                                        >
-                                                            <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
-                                                                <i>&hellip; {{modelerProgress.quality.weights.pos_remaining}} more positive &hellip;</i>
-                                                            </td>
-                                                        </tr>
-                                                        <tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
-                                                            ng-show="modelerProgress.quality.weights.neg.length>0"
-                                                        >
-                                                            <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
-                                                                <i>&hellip;  {{modelerProgress.quality.weights.neg_remaining}} more negative &hellip;</i>
-                                                            </td>
-                                                        </tr>
-                                                        <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.quality.weights.neg">
-                                                            <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
-                                                                <span ng-bind='item["weight"] | number:3'></span>
-                                                            </td>
-                                                            <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
-                                                                <span ng-bind='item["feature"]'></span>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                </div>
-
-
-                                            </div>
-
-                                        <div/>
-
-                                        <!--trainer-->
+                                            </dl>
+                                        </div>
+                                        <!--                                                <div style="padding:20px">-->
                                         <div>
-                                            <h5>Trainer</h5>
-                                            <p>
-                                                Based on the Modeler, it crawls more pages for the user to annotate them so it can check and improve its performance. <br/>
-                                                It may restart several times during an annotation process
-                                            </p>
-                                            <dl class="dl-horizontal">
-                                                <div layout="row" layout-align="space-between center">
-                                                    <!--
+                                            <a href="javascript:void(0);" ng-show="!showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Show feature weights &hellip;</a>
+                                            <a href="javascript:void(0);" ng-show="showFeatureWeightsStatus && getFeatureWeightsStatusIsNotEmtpy()" ng-click="toggleFeatureWeights()">Hide feature weights &hellip;</a>
+                                        </div>
+                                        <!--<div id="clf-weights" class="collapse weights">-->
+                                        <div ng-show="showFeatureWeightsStatus" style="padding-left:40px;padding-bottom: 20px">
+                                            <table class="eli5-weights" style="border-collapse: collapse; border: none;"
+                                                   ng-show="modelerProgress.quality.weights.pos.length + modelerProgress.quality.weights.neg.length>0"
+                                            >
+                                                <thead>
+                                                <tr style="border: none;">
+                                                    <th style="padding: 0 1em 0 0.5em; text-align: right; border: none;">Weight</th>
+                                                    <th style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">Feature</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.quality.weights.pos">
+                                                    <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+                                                        +<span ng-bind='item["weight"] | number:3'></span>
+                                                    </td>
+                                                    <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+                                                        <span ng-bind='item["feature"]'></span>
+                                                    </td>
+                                                </tr>
+                                                <tr style="background-color: hsl(120, 100.00%, 88.94%); border: none;"
+                                                    ng-show="modelerProgress.quality.weights.pos.length>0"
+                                                >
+                                                    <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+                                                        <i>&hellip; {{modelerProgress.quality.weights.pos_remaining}} more positive &hellip;</i>
+                                                    </td>
+                                                </tr>
+                                                <tr style="background-color: hsl(0, 100.00%, 88.77%); border: none;"
+                                                    ng-show="modelerProgress.quality.weights.neg.length>0"
+                                                >
+                                                    <td colspan="2" style="padding: 0 0.5em 0 0.5em; text-align: center; border: none;">
+                                                        <i>&hellip;  {{modelerProgress.quality.weights.neg_remaining}} more negative &hellip;</i>
+                                                    </td>
+                                                </tr>
+                                                <tr style="background-color: {{item['hsl_color']}}; border: none;" ng-repeat="item in modelerProgress.quality.weights.neg">
+                                                    <td style="padding: 0 1em 0 0.5em; text-align: right; border: none;">
+                                                        <span ng-bind='item["weight"] | number:3'></span>
+                                                    </td>
+                                                    <td style="padding: 0 0.5em 0 0.5em; text-align: left; border: none;">
+                                                        <span ng-bind='item["feature"]'></span>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                                <!--trainer-->
+                                <div>
+                                    <h5>Trainer</h5>
+                                    <p>
+                                        Based on the Modeler, it crawls more pages for the user to annotate them so it can check and improve its performance. <br/>
+                                        It may restart several times during an annotation process
+                                    </p>
+                                    <dl class="dl-horizontal">
+                                        <div layout="row" layout-align="space-between center">
+                                            <!--
                                                     <dt>
                                                         <span>
                                                             Progress:
@@ -171,106 +168,101 @@
                                                         <md-progress-linear md-mode="determinate" value="{{trainerProgress.percentage_done}}"></md-progress-linear>
                                                     </dt>
                                                     -->
-<!--                                                    <span>Progress:</span>-->
-                                                    <md-progress-linear md-mode="determinate" value="{{trainerProgress.percentage_done}}" title="progress"></md-progress-linear>
-                                                </div>
-                                            </dl>
-                                            <dl class="dl-horizontal">
-                                                <div>
-                                                    <dt>
+                                            <!--                                                    <span>Progress:</span>-->
+                                            <md-progress-linear md-mode="determinate" value="{{trainerProgress.percentage_done}}" title="progress"></md-progress-linear>
+                                        </div>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <div>
+                                            <dt>
                                                         <span>
                                                             {{trainerProgress.progress}}
                                                         </span>
-                                                    </dt>
-                                                </div>
-                                            </dl>
+                                            </dt>
                                         </div>
+                                    </dl>
+                                </div>
 
-
-                                    </div>
+                            </div>
                         </div>
-<!--                       end progress -->
+                        <!--                       end progress -->
 
-                        <br>
                     </div>
 
-                        <!--<div class="mdl-grid portfolio-max-width" style="height: 851px" >-->
-                        <!--<div class="mdl-grid portfolio-max-width" style="height: 950px">-->
-                        <div class="mdl-grid portfolio-max-width" style="height: 440px; min-height: 441px">
-                            <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >
-                                <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}} " >
-                                        <div class="tab{{$index%4}}" style="padding: 25px;" >
-                                            <div layout="row" layout-align="end space-between" flex="100" style="width: 100%">
+                    <div class="mdl-grid portfolio-max-width" style="height: 440px; min-height: 441px">
+                        <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >
+                            <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}} " >
+                                <div class="tab{{$index%4}}" style="padding: 25px;" >
+                                    <div layout="row" layout-align="end space-between" flex="100" style="width: 100%">
 
-                                                <div>
-                                                    <span style="margin-right:15px"><b>Relevant</b>: {{tab.aggregatedResults["relevant"]}} </span>
-                                                    <span style="margin-right:15px"><b>Not relevant</b>: {{tab.aggregatedResults["irrelevant"]}} </span>
-                                                    <span style="margin-right:15px"><b>Skipped</b>: {{tab.aggregatedResults["skipped"]}} </span>
-                                                    <span style="margin-right:15px"><b>Pending</b>: {{tab.aggregatedResults["pending"]}} </span>
-                                                    <span style="margin-right:15px"><b>Total</b>: {{tab.aggregatedResults["total"]}}</span>
-                                                    <!--223 not relevant /233 skipped / 1000 pending {{tab.elems.length}} of {{tab.nResults}}-->
+                                        <div>
+                                            <span style="margin-right:15px"><b>Relevant</b>: {{tab.aggregatedResults["relevant"]}} </span>
+                                            <span style="margin-right:15px"><b>Not relevant</b>: {{tab.aggregatedResults["irrelevant"]}} </span>
+                                            <span style="margin-right:15px"><b>Skipped</b>: {{tab.aggregatedResults["skipped"]}} </span>
+                                            <span style="margin-right:15px"><b>Pending</b>: {{tab.aggregatedResults["pending"]}} </span>
+                                            <span style="margin-right:15px"><b>Total</b>: {{tab.aggregatedResults["total"]}}</span>
+                                            <!--223 not relevant /233 skipped / 1000 pending {{tab.elems.length}} of {{tab.nResults}}-->
+                                        </div>
+                                    </div>
+
+
+                                    <!--<md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached(tab)">-->
+                                    <md-content class="mdl-grid portfolio-max-width" style="margin-top:40px" >
+
+                                        <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.currentElem" >
+                                            <div layout="row" layout-align="start end">
+                                                <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px">
+                                                    <a href="javascript:void(0)">
+                                                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
+                                                    </a>
                                                 </div>
-                                            </div>
-
-
-                                            <!--<md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached(tab)">-->
-                                            <md-content class="mdl-grid portfolio-max-width" style="margin-top:40px" >
-
-                                                <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.currentElem" >
-                                                    <div layout="row" layout-align="start end">
-                                                        <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px">
-                                                            <a href="javascript:void(0)">
-                                                                <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div layout="column" layout-align="start start" style="margin-left:30px;margin-right: 30px; width: 100%">
-                                                            <div class="mdl-card__title">
+                                                <div layout="column" layout-align="start start" style="margin-left:30px;margin-right: 30px; width: 100%">
+                                                    <div class="mdl-card__title">
                                                                 <span>
                                                                     <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
                                                                 </span>
+                                                    </div>
+                                                    <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin: 0px; padding: 16px; width: 100%">
+                                                        <!--<div class="mdl-card__title-text" flex="100">-->
+                                                        <div flex="100">
+                                                            <div layout="column" layout-align="start start" flex="100">
+                                                                <span ng-bind="elem.title" style="font-size:16px"> </span>
                                                             </div>
-                                                            <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin: 0px; padding: 16px; width: 100%">
-                                                                <!--<div class="mdl-card__title-text" flex="100">-->
-                                                                <div flex="100">
-                                                                    <div layout="column" layout-align="start start" flex="100">
-                                                                        <span ng-bind="elem.title" style="font-size:16px"> </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div layout="row" layout-align="space-between center" style="margin-top:40px; width: 100%">
-                                                                    <div layout="row" layout-align="space-between center" >
-                                                                        <md-button class="md-raised" ng-click="label($event, tab, elem, false)" style="  font-size: 14px;text-align: center;  text-transform: none;">
-                                                                            Not relevant</md-button>
-                                                                        <md-button class="md-raised" ng-click="label($event, tab, elem, true)" style="  font-size: 14px;text-align: center;  text-transform: none;">
-                                                                            Relevant</md-button>
-                                                                    </div>
-                                                                    <div  layout="row" layout-align="space-between center">
-                                                                        <md-button class="md-raised" md-no-ink ng-click="label($event, tab, elem, null)" style="  font-size: 14px;text-align: center;  text-transform: none;">
-                                                                            Skip</md-button>
-                                                                    </div>
-                                                                </div>
+                                                        </div>
+                                                        <div layout="row" layout-align="space-between center" style="margin-top:40px; width: 100%">
+                                                            <div layout="row" layout-align="space-between center" >
+                                                                <md-button class="md-raised" ng-click="label($event, tab, elem, false)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                    Not relevant</md-button>
+                                                                <md-button class="md-raised" ng-click="label($event, tab, elem, true)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                    Relevant</md-button>
                                                             </div>
-                                                            <div class="mdl-card__actions" mdl-card--border>
-                                                                <div layout="row" layout-align="space-between center">
+                                                            <div  layout="row" layout-align="space-between center">
+                                                                <md-button class="md-raised" md-no-ink ng-click="label($event, tab, elem, null)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                    Skip</md-button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mdl-card__actions" mdl-card--border>
+                                                        <div layout="row" layout-align="space-between center">
                                                                     <span style="text-align:justify; font-size:12px;">
                                                                         Source:
                                                                         <span ng-bind="elem.crawlEntityType"></span>
                                                                     </span>
-                                                                    <span style="text-align:justify; font-size:12px;">
+                                                            <span style="text-align:justify; font-size:12px;">
                                                                         <a href="{{elem.url}}" target="_blank">open in new tab</a>
                                                                     </span>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </md-content>
-                                            <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%">
-                                                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                                             </div>
                                         </div>
-                                </md-tab>
-                            </md-tabs>
-                        </div>
+                                    </md-content>
+                                    <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%">
+                                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                                    </div>
+                                </div>
+                            </md-tab>
+                        </md-tabs>
                     </div>
                 </div>
                 <div class="mdl-card__actions">
@@ -279,8 +271,8 @@
                         <md-button class="md-primary md-raised" ng-click="newSmartCrawlConfirmation($event)">Start Smart Crawl ...</md-button>
                     </div>
                 </div>
-            </div>
-        </section>
+        </div>
+    </section>
 
-    </div>
+</div>
 </div>
