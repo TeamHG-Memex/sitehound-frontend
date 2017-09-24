@@ -45,6 +45,10 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, seedUrlFactory, mod
         }
     }
 
+    $scope.showUnderTheHood = false;
+    $scope.toogleShowUnderTheHood = function (value) {
+        $scope.showUnderTheHood = value;
+    };
 
     $scope.modelerProgress={};
     $scope.modelerProgress["quality"] = {};
