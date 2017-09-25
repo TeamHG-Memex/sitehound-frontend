@@ -61,29 +61,36 @@
                                                                     <span ng-bind="elem.title" style="font-size:16px"> </span>
                                                                 </div>
                                                             </div>
+                                                            <style>
+                                                                .highlighted{
+                                                                    background-color: yellow;
+                                                                    font-weight: 700;
+                                                                }
+                                                            </style>
                                                             <div layout="row" layout-align="space-between center" style="margin-top:40px; width: 100%">
                                                                 <div layout="row" layout-align="space-between center" >
                                                                     <md-button
-                                                                            ng-class="{'md-raised': !(elem.relevant===false), 'md-primary':elem.relevant===false}"
-                                                                            ng-disabled='elem["relevant"]===false'
+                                                                            ng-class="{'md-raised': !(elem.relevant===false), 'highlighted':elem.relevant===false}"
                                                                            ng-click="label($event, tab, elem, false)" style="  font-size: 14px;text-align: center;  text-transform: none;">
                                                                         Not relevant</md-button>
+<!--                                                                            ng-disabled='elem["relevant"]===false'-->
                                                                     <md-button
-                                                                            ng-class="{'md-raised': !(elem.relevant===true), 'md-primary':elem.relevant===true}"
-                                                                            ng-disabled='elem["relevant"]===true'
+                                                                            ng-class="{'md-raised': !(elem.relevant===true), 'highlighted':elem.relevant===true}"
                                                                             ng-click="label($event, tab, elem, true)"
                                                                             style="  font-size: 14px;text-align: center;  text-transform: none;">
                                                                         Relevant</md-button>
+<!--                                                                            ng-disabled='elem["relevant"]===true'-->
                                                                 </div>
                                                                 <div  layout="row" layout-align="space-between center">
                                                                     <md-button
-                                                                            ng-class="{'md-raised': !(elem.relevant===null ), 'md-primary':elem.relevant===null }"
-                                                                            ng-disabled='elem["relevant"]===null'
+                                                                            ng-class="{'md-raised': !(elem.relevant===null ), 'highlighted':elem.relevant===null }"
                                                                             ng-click="label($event, tab, elem, null)" style="  font-size: 14px;text-align: center;  text-transform: none;">
                                                                         Skipped</md-button>
+<!--                                                                            ng-disabled='elem["relevant"]===null'-->
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                         <div class="mdl-card__actions" mdl-card--border>
                                                             <div layout="row" layout-align="space-between center">
                                                                 <span style="text-align:justify; font-size:12px;">

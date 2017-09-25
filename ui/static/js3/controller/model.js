@@ -1,5 +1,5 @@
-ngApp.controller('modelController', ['$scope', '$rootScope', '$filter', '$interval', '$mdDialog', 'seedUrlFactory', 'modelerFactory', 'trainerFactory', 'smartCrawlerFactory',
-function ($scope, $rootScope, $filter, $interval, $mdDialog, seedUrlFactory, modelerFactory, trainerFactory, smartCrawlerFactory) {
+ngApp.controller('modelController', ['$scope', '$rootScope', '$filter', '$interval', '$mdDialog', 'domFactory', 'seedUrlFactory', 'modelerFactory', 'trainerFactory', 'smartCrawlerFactory',
+function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrlFactory, modelerFactory, trainerFactory, smartCrawlerFactory) {
 
     $scope.master.init();
 
@@ -355,8 +355,8 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, seedUrlFactory, mod
             .then(function(answer) {
                 if(answer){
                     // elem.nResults = parseInt(elem.nResults.replaceAll("\\.",""));
-                    $scope.nResults= parseInt(elem.nResults.replaceAll("\\.",""));
-                    smartCrawl();
+                    var nResults= parseInt(elem.nResults.replaceAll("\\.",""));
+                    smartCrawl(nResults, elem.broadnessNumber);
                 }
                 else{
                     $scope.status = 'You cancelled the dialog.';
@@ -370,11 +370,36 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, seedUrlFactory, mod
 
 
 
-	function smartCrawl(){
+	function smartCrawl(nResults, broadnessNumber){
 
-	    smartCrawlerFactory.startSmartCrawl($scope.master.workspaceId, 100, "N10").then(
+	    // Valid codes are ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"],
+        var broadness="DEEP";
+        if(broadnessNumber==0){
+            broadness="DEEP";
+        }
+        else if(broadnessNumber==1){
+            broadness="N10";
+        }
+        else if(broadnessNumber==2){
+            broadness="N100";
+        }
+        else if(broadnessNumber==3){
+            broadness="N1000";
+        }
+        else if(broadnessNumber==4){
+            broadness="N10000";
+        }
+        else if(broadnessNumber==5){
+            broadness="BROAD";
+        }
+
+
+
+	    smartCrawlerFactory.startSmartCrawl($scope.master.workspaceId, nResults, broadness).then(
 	        function (response) {
                 console.log(response.data);
+                domFactory.navigateToDeepcrawlJob(jobId);
+
             },
             function (response) {
                 console.log(response.data);
