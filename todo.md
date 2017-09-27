@@ -14,6 +14,10 @@ NEW UI
 #New Deep crawl:
  - Implement button Start Deep crawl
  - Improve alert "select all x"
+ - Button to find text on results
+
+#smart-crawler-results
+ - Button to find text on results
 
 
 

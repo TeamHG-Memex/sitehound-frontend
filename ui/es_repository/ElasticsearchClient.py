@@ -35,7 +35,7 @@ class ElasticsearchClient(object):
 
     def get_modeler_model(self, workspace_id):
         try:
-            res = self.es.get(index="modeler", doc_type="model", id=workspace_id, _source=["result.ddModelerOutput.model"])
-            return res['_source']['result']['ddModelerOutput']['model']
+            res = self.es.get(index="modeler", doc_type="model", id=workspace_id, _source=[])
+            return res['_source']['model']
         except:
             logging.info(workspace_id)

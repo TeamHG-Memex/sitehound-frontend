@@ -9,6 +9,7 @@ from flask import Response, request
 import logging
 __author__ = 'tomas'
 
+#@Deprecated
 # triggers the schedule_spider_searchengine
 @app.route("/api/workspace/<workspace_id>/broad-crawl", methods=['POST'])
 @login_required

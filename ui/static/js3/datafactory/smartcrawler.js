@@ -4,7 +4,7 @@ var smartCrawlerFactory = ngApp.factory('smartCrawlerFactory',['$http', function
 	var urlBase = '/api/workspace/{0}/smart-crawl';
 	var dataFactory = {};
 
-	dataFactory.startSmartCrawl = function(workspaceId, nResults, broadness){
+	dataFactory.start = function(workspaceId, nResults, broadness){
 		var url =  String.format(urlBase, workspaceId);
 		var po = {};
 		po.nResults = nResults;
@@ -12,9 +12,9 @@ var smartCrawlerFactory = ngApp.factory('smartCrawlerFactory',['$http', function
 		return $http.post(url, po);
 	};
 
-	dataFactory.getCrawlStatus = function(workspaceId, id){
+	dataFactory.getProgress = function(workspaceId, jobId){
 		var url =  String.format(urlBase, workspaceId);
-		return $http.get(url + '/status');
+		return $http.get(url + '/progress');
 	};
 
 	return dataFactory;

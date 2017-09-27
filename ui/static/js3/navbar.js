@@ -204,6 +204,11 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 		reload(url);
 	};
 
+	domFactory.navigateToSmartCrawlerResults = function(jobId){
+        var url = "/smart-crawler-results/"  + jobId;
+		reload(url);
+	};
+
 	function reload(url){
 		$location.path(url);
 		$route.reload();

@@ -158,7 +158,6 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'allLabeledController',
 				templateUrl: '/static/partials-md/all-labeled.html'
 			})
-
 		.when('/deepcrawler-job/:jobId',
 			{
 				controller: 'deepcrawlerController',
@@ -173,6 +172,16 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 			{
 				controller: 'jobController',
 				templateUrl: '/static/partials-md/job/table.html'
+			})
+		.when('/smart-crawler-results',
+			{
+				controller: 'smartCrawlerResultsController',
+				templateUrl: '/static/partials-md/smart-crawler-results.html'
+			})
+		.when('/smart-crawler-results/:jobId',
+			{
+				controller: 'smartCrawlerResultsController',
+				templateUrl: '/static/partials-md/smart-crawler-results.html'
 			})
 
 

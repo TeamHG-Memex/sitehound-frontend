@@ -395,11 +395,11 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
 
 
 
-	    smartCrawlerFactory.startSmartCrawl($scope.master.workspaceId, nResults, broadness).then(
+	    smartCrawlerFactory.start($scope.master.workspaceId, nResults, broadness).then(
 	        function (response) {
-                console.log(response.data);
-                domFactory.navigateToDeepcrawlJob(jobId);
-
+                // console.log(response.data);
+                var jobId = response.data["jobId"];
+                domFactory.navigateToSmartCrawlerResults(jobId);
             },
             function (response) {
                 console.log(response.data);

@@ -6,22 +6,6 @@ from ui.singleton import Singleton
 
 __author__ = 'tomas'
 
-#@Deprecated
-# def get_progress(workspace_id, phase):
-#
-#     if phase == "dd-modeler":
-#         return get_modeler_progress(workspace_id)
-#     elif phase == "dd-trainer":
-#         return get_trainer_progress(workspace_id)
-#     elif phase == "dd-crawler":
-#         return get_crawler_progress(workspace_id)
-#     else:
-#         logging.info("UNSUPPORTED PHASE!!!")
-
-
-
-
-
 
 def get_crawler_progress(workspace_id):
     collection = Singleton.getInstance().mongo_instance.get_workspace_collection()
