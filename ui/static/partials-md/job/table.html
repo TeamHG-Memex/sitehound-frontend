@@ -31,7 +31,8 @@
 								<tr md-row md-select="elem._id" md-select-id="_id" ng-repeat="elem in elems" md-on-select="mdOnSelect" md-on-deselect="mdOnDeselect"   >
 									<td md-cell>
 										<a ng-show="elem.crawlType=='DEEPCRAWL'" ng-href="#/deepcrawler-job/{{elem._id}}">{{elem._id}}</a>
-										<span ng-hide="elem.crawlType=='DEEPCRAWL'">{{elem._id}}</span>
+										<a ng-show="elem.crawlType=='SMARTCRAWL'" ng-href="#/smart-crawler-results/{{elem._id}}">{{elem._id}}</a>
+										<span ng-hide="elem.crawlType=='DEEPCRAWL' || elem.crawlType=='SMARTCRAWL'">{{elem._id}}</span>
 									</td>
 									<td md-cell>{{elem.strTimestamp}}</td>
 									<td md-cell>{{elem.crawlType}}</td>

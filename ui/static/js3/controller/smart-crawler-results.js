@@ -34,6 +34,12 @@ ngApp.controller('smartCrawlerResultsController', ['$scope', '$routeParams', '$r
 
 
     /** RESULTS **/
+
+	$scope.refresh = function () {
+		$scope.hasNext = true;
+		$scope.bottomOfPageReached();
+    };
+
     function fetch(){
 
         if($scope.showProgress){
