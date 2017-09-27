@@ -10,7 +10,7 @@ from utils.json_encoder import JSONEncoder
 
 
 # triggers the schedule_spider_searchengine
-@app.route("/api/workspace/<workspace_id>/smart-crawl", methods=['POST'])
+@app.route("/api/workspace/<workspace_id>/smart-crawler", methods=['POST'])
 @login_required
 @app.errorhandler(InvalidUsage)
 def smart_crawl_publication_api(workspace_id):
@@ -32,7 +32,7 @@ def smart_crawl_publication_api(workspace_id):
         raise InvalidUsage(str(e), status_code=409)
 
 
-@app.route("/api/workspace/<workspace_id>/smart-crawl/<job_id>", methods=["GET"])
+@app.route("/api/workspace/<workspace_id>/smart-crawler/<job_id>", methods=["GET"])
 @login_required
 def api_get_smart_crawl_domains(workspace_id, job_id):
 
@@ -54,6 +54,5 @@ def api_get_smart_crawl_domains(workspace_id, job_id):
 @app.route("/api/workspace/<workspace_id>/smart-crawler/<job_id>/progress", methods=["GET"])
 @login_required
 def get_smart_crawler_progress_api(workspace_id, job_id):
-    in_doc = get_smart_crawler_progress(workspace_id, job_id)
+    in_doc = get_smart_crawler_progress(job_id)
     return Response(json.dumps(in_doc), mimetype="application/json")
-

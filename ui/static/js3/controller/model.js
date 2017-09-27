@@ -369,10 +369,9 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
     };
 
 
+    // Valid return codes are ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"],
+    function getBroadnessCode(broadnessNumber){
 
-	function smartCrawl(nResults, broadnessNumber){
-
-	    // Valid codes are ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"],
         var broadness="DEEP";
         if(broadnessNumber==0){
             broadness="DEEP";
@@ -392,10 +391,15 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
         else if(broadnessNumber==5){
             broadness="BROAD";
         }
+        return broadness;
+    }
 
 
+	function smartCrawl(nResults, broadnessNumber){
 
-	    smartCrawlerFactory.start($scope.master.workspaceId, nResults, broadness).then(
+        var broadness = getBroadnessCode(broadnessNumber);
+
+        smartCrawlerFactory.start($scope.master.workspaceId, nResults, broadness).then(
 	        function (response) {
                 // console.log(response.data);
                 var jobId = response.data["jobId"];
@@ -408,11 +412,16 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
 
     }
 
-
-
     /**ends smart crawl **/
 
     init();
 }]);
 
-
+/*
+ngApp.filter('broadnessFilter', function() {
+    return function(input) {
+        // return Math.ceil(input);
+		return input.toFixed(2);
+    };
+});
+*/

@@ -2,7 +2,7 @@ from flask_login import login_required
 from ui import app
 from flask import Response, request
 from utils.json_encoder import JSONEncoder
-from service.job_service import get_jobs_by_workspace, cancel_job, dao_list_jobs, dao_count_jobs
+from service.job_service import cancel_job, dao_list_jobs, dao_count_jobs, get_job_dao
 
 __author__ = 'tomas'
 
@@ -14,12 +14,21 @@ __author__ = 'tomas'
 #     out_doc = JSONEncoder().encode(in_doc)
 #     return Response(out_doc, mimetype="application/json")
 
+@app.route("/api/workspace/<workspace_id>/job/<job_id>", methods=["GET"])
+@login_required
+def get_job_by_id_api(workspace_id, job_id):
+    job = get_job_dao(job_id)
+    out_doc = JSONEncoder().encode(job)
+    return Response(out_doc, mimetype="application/json")
+
 
 @app.route("/api/workspace/<workspace_id>/job/<job_id>", methods=["DELETE"])
 @login_required
 def delete_job_api(workspace_id, job_id):
     cancel_job(job_id)
     return Response("{}", mimetype="application/json")
+
+
 
 
 @app.route("/api/workspace/<workspace_id>/job", methods=['GET'])

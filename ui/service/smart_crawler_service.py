@@ -64,7 +64,7 @@ def get_smart_crawler_progress(job_id):
         if "progress" in doc:
             status["progress"] = doc["progress"]
         if "percentage_done" in doc:
-            status["percentage_done"]= doc["percentage_done"]
+            status["percentage_done"] = doc["percentage_done"]
     return status
 
 

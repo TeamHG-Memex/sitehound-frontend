@@ -1,5 +1,5 @@
 
-var jobFactory = ngApp.factory('jobFactory',['$http', '$httpParamSerializer', function($http, $httpParamSerializer){
+ngApp.factory('jobFactory',['$http', '$httpParamSerializer', function($http, $httpParamSerializer){
 
     var urlBase = '/api/workspace/{0}/job';
     var dataFactory = {};
@@ -8,6 +8,11 @@ var jobFactory = ngApp.factory('jobFactory',['$http', '$httpParamSerializer', fu
     //     var url =  String.format(urlBase, workspaceId);
     //     return $http.get(url);
     // };
+
+    dataFactory.getById = function(workspaceId, jobId){
+        var url =  String.format(urlBase, workspaceId);
+        return $http.get(url + "/" + jobId);
+    };
 
     dataFactory.get = function (workspaceId, query) {
         var url =  String.format(urlBase, workspaceId);

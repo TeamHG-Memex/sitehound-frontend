@@ -98,6 +98,8 @@ ngApp.filter('roundup', function() {
 		return input.toFixed(2);
     };
 });
+
+
 /*
 ngApp.factory('myHttpInterceptor', function ($q, $window) {
   return function (promise) {

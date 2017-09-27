@@ -10,20 +10,26 @@
                     </div>
                     <!--/*margin-left: 27px;margin-right: 27px-->
                     <div class="mdl-card__supporting-text" layout="column" layout-align="space-between center" style="margin-bottom: 0px;margin-top: 0px;">
-                        <div layout="row" layout-align="space-between center" style="width:90%;padding: 10px">
-                            <div layout="column" layout-align="center start">
+                        <div layout="row" layout-align="space-around center" style="width:100%;padding: 10px">
+                            <div layout="column" layout-align="center start" style="max-width: 70%">
                                 <span> <b>Status</b>: {{crawlJob["status"] | capitalize}}</span><br>
-                                <span> <b>Domains</b>: {{elems.length}}</span><br>
+                                <span> <b>Broadness</b>: {{crawlJob["broadness"]}} </span><br>
+                                <span ng-show='crawlJob["progress"]'> <b>Progress</b>: {{crawlJob["progress"]}}</span><br>
                             </div>
-                            <div layout="column" layout-align="center start">
-                                <span> <b>Started</b>: {{crawlJob.strTimestamp}}</span><br>
-                                <span> <b>Pages fetched</b>: {{crawlJob["pagesFetched"]}}</span><br>
-                            </div>
-                            <div layout="column" layout-align="center start">
-                                <span> <b>Max Pages to fetch</b>: {{crawlJob.nResultsRequested}}</span><br>
+<!--                            <div layout="column" layout-align="center start">
                                 <span> <b>RPM</b>: {{crawlJob["rpm"]}}</span><br>
+                                <span> <b>Pages fetched</b>: {{crawlJob["pagesFetched"]}}</span><br>
+                            </div>-->
+                            <div layout="column" layout-align="center start" >
+                                <span> <b>Started</b>: {{crawlJob.strTimestamp}} (UTC)</span><br>
+                                <span> <b>Max Pages to fetch</b>: {{crawlJob.nResultsRequested}}</span><br>
+                                <span ng-show='crawlJob["percentage_done"]'> <b>Percentage Done</b>: {{crawlJob["percentage_done"]}} (UTC)</span><br>
                             </div>
                         </div>
+<!--                        <div style="width: 100%">
+                            <span> <b>Progress</b>: {{crawlJob["progress"]}}</span><br>
+                        </div>
+                        -->
                     </div>
 
                     <div ng-show="elems.length==0" class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
