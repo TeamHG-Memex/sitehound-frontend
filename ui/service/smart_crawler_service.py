@@ -25,16 +25,16 @@ def get_smart_crawler_results(workspace_id, page_size, input_search_query):
     and_conditions.append({'workspaceId': workspace_id})
     and_conditions.append({'deleted': {'$exists': False}})
     and_conditions.append({'crawlEntityType': 'DD'})
-    # and_conditions.append({'crawlType': 'SMARTCRAWL'})
+    and_conditions.append({'crawlType': 'SMARTCRAWL'})
 
     if 'job_id' in input_search_query and input_search_query['job_id'] is not None:
         job_search_object = {'jobId': input_search_query["job_id"]}
         and_conditions.append(job_search_object)
 
     ''' max_id restricts the results to the current set of returned results and not screw the pagination by score '''
-    if 'max_id' in input_search_query and input_search_query['max_id'] is not None:
-        max_id_search_object = {"_id": {"$lte": ObjectId(input_search_query['max_id'])}}
-        and_conditions.append(max_id_search_object)
+    if 'last_id' in input_search_query and input_search_query['last_id'] is not None:
+        last_id_search_object = {"_id": {"$gt": ObjectId(input_search_query['last_id'])}}
+        and_conditions.append(last_id_search_object)
 
     if "search_text" in input_search_query:
         search_text = input_search_query['search_text']
@@ -54,18 +54,18 @@ def get_smart_crawler_results(workspace_id, page_size, input_search_query):
     return docs
 
 
-def get_smart_crawler_progress(job_id):
-    collection = Singleton.getInstance().mongo_instance.get_crawl_job_collection()
-    cursor = collection.find({'_id': ObjectId(job_id)}, {"progress": 1, "percentage_done": 1})
-    docs = list(cursor)
-    status = {}
-
-    for doc in docs:
-        if "progress" in doc:
-            status["progress"] = doc["progress"]
-        if "percentage_done" in doc:
-            status["percentage_done"] = doc["percentage_done"]
-    return status
+# def get_smart_crawler_progress(job_id):
+#     collection = Singleton.getInstance().mongo_instance.get_crawl_job_collection()
+#     cursor = collection.find({'_id': ObjectId(job_id)}, {"progress": 1, "percentage_done": 1})
+#     docs = list(cursor)
+#     status = {}
+#
+#     for doc in docs:
+#         if "progress" in doc:
+#             status["progress"] = doc["progress"]
+#         if "percentage_done" in doc:
+#             status["percentage_done"] = doc["percentage_done"]
+#     return status
 
 
 def __queue_smart_crawl(workspace_id, job_id, page_limit, broadness, urls, page_model):

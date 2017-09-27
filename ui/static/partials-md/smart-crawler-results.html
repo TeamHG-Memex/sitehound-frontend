@@ -9,7 +9,7 @@
                         </span>
                     </div>
                     <!--/*margin-left: 27px;margin-right: 27px-->
-                    <div class="mdl-card__supporting-text" layout="column" layout-align="space-between center" style="margin-bottom: 0px;margin-top: 0px;">
+                    <div class="mdl-card__supporting-text" layout="column" layout-align="space-between center" style="margin-bottom: 20px;margin-top: 0px;">
                         <div layout="row" layout-align="space-around center" style="width:100%;padding: 10px">
                             <div layout="column" layout-align="center start" style="max-width: 70%">
                                 <span> <b>Status</b>: {{crawlJob["status"] | capitalize}}</span><br>
@@ -23,7 +23,7 @@
                             <div layout="column" layout-align="center start" >
                                 <span> <b>Started</b>: {{crawlJob.strTimestamp}} (UTC)</span><br>
                                 <span> <b>Max Pages to fetch</b>: {{crawlJob.nResultsRequested}}</span><br>
-                                <span ng-show='crawlJob["percentage_done"]'> <b>Percentage Done</b>: {{crawlJob["percentage_done"]}} (UTC)</span><br>
+                                <span ng-show='crawlJob["percentage_done"]'> <b>Percentage Done</b>: {{crawlJob["percentage_done"]}}%</span><br>
                             </div>
                         </div>
 <!--                        <div style="width: 100%">
@@ -49,7 +49,7 @@
                                 <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
                                     <a href="javascript:void(0)">
                                         <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">-->
-                                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/deepcrawl/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
+                                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
                                     </a>
                                 </div>
 
@@ -73,7 +73,7 @@
                 </div>
                 <div class="mdl-card__actions">
                     <div layout="row" layout-align="space-between center">
-                        <a ng-href="/#/deepcrawler-job/{{jobId}}">Back to Job</a>
+                        <a ng-href="/#/jobs">Back to Jobs</a>
                     </div>
                 </div>
             </div>
