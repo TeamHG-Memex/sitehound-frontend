@@ -26,10 +26,11 @@
                                 <span ng-show='crawlJob["percentage_done"]'> <b>Percentage Done</b>: {{crawlJob["percentage_done"]}}%</span><br>
                             </div>
                         </div>
-<!--                        <div style="width: 100%">
-                            <span> <b>Progress</b>: {{crawlJob["progress"]}}</span><br>
+                        <div style="width: 100%">
+                            <md-button class="md-primary md-raised md-warning" ng-click="stop()">
+                                Stop
+                            </md-button>
                         </div>
-                        -->
                     </div>
 
                     <div ng-show="elems.length==0" class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">

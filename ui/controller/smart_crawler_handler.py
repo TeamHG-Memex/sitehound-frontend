@@ -4,7 +4,7 @@ from flask import Response, request
 from flask_login import login_required
 
 from controller.InvalidException import InvalidUsage
-from service.smart_crawler_service import start_smart_crawl_job, get_smart_crawler_results#, get_smart_crawler_progress
+from service.smart_crawler_service import start_smart_crawl_job, __queue_smart_crawler_stop, get_smart_crawler_results
 from ui import app
 from utils.json_encoder import JSONEncoder
 
@@ -49,3 +49,10 @@ def api_get_smart_crawler_results(workspace_id, job_id):
     docs = get_smart_crawler_results(workspace_id, page_size, search_query)
     return Response(JSONEncoder().encode(docs), mimetype="application/json")
 
+
+@app.route("/api/workspace/<workspace_id>/smart-crawler/<job_id>/stop", methods=['POST'])
+@login_required
+def api_stop_smart_crawler(workspace_id, job_id):
+    __queue_smart_crawler_stop(workspace_id, job_id)
+    doc = {"message": "Job was stopped succesfully"}
+    return Response(JSONEncoder().encode(doc), mimetype="application/json")

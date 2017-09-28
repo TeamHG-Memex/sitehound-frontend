@@ -18,6 +18,12 @@ var smartCrawlerFactory = ngApp.factory('smartCrawlerFactory',['$http', '$httpPa
         return $http.get(url + '/'+ jobId +'/results' + (qs ? '?' + qs : ""));
 	};
 
+
+	dataFactory.stop = function(workspaceId, jobId){
+		var url =  String.format(urlBase, workspaceId);
+		return $http.post(url + '/'+ jobId +'/stop');
+	};
+
 	return dataFactory;
 
 }]);

@@ -15,7 +15,7 @@ def start_smart_crawl_job(workspace_id, num_to_fetch, broadness):
 
     job_id = save_smart_crawl_job(workspace_id, num_to_fetch=int(num_to_fetch), broadness=broadness)
     page_model = __get_page_model(workspace_id)
-    __queue_smart_crawl(workspace_id, job_id=job_id, page_limit=int(num_to_fetch), broadness=broadness, urls=urls, page_model=page_model)
+    __queue_smart_crawl_start(workspace_id, job_id=job_id, page_limit=int(num_to_fetch), broadness=broadness, urls=urls, page_model=page_model)
     return job_id
 
 
@@ -68,7 +68,7 @@ def get_smart_crawler_results(workspace_id, page_size, input_search_query):
 #     return status
 
 
-def __queue_smart_crawl(workspace_id, job_id, page_limit, broadness, urls, page_model):
+def __queue_smart_crawl_start(workspace_id, job_id, page_limit, broadness, urls, page_model):
     '''
     {
         "workspace_id": "workspace id",
@@ -87,6 +87,16 @@ def __queue_smart_crawl(workspace_id, job_id, page_limit, broadness, urls, page_
         'broadness': broadness,
         'urls': urls,
         'page_model': page_model,
+    }
+    logging.info(message)
+    Singleton.getInstance().broker_service.add_message_to_dd_crawler_input(message)
+
+def __queue_smart_crawler_stop(workspace_id, job_id):
+
+    message = {
+        # 'workspace': workspace_id,  # Singleton.getInstance().mongo_instance.get_current_workspace_name(),
+        'id': job_id,
+        'action': "stop"
     }
     logging.info(message)
     Singleton.getInstance().broker_service.add_message_to_dd_crawler_input(message)

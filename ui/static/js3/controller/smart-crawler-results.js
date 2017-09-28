@@ -35,6 +35,19 @@ ngApp.controller('smartCrawlerResultsController', ['$scope', '$routeParams', '$r
 
     /** RESULTS **/
 
+    $scope.stop = function(){
+        smartCrawlerFactory.stop()
+        .then(
+            function(response){
+                console.log(response.data);
+                alert(response.data["message"]);
+            },
+            function(response){
+                console.log(response.data);
+            }
+        );
+    };
+
 	$scope.refresh = function () {
 		$scope.hasNext = true;
 		$scope.bottomOfPageReached();
