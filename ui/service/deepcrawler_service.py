@@ -34,11 +34,11 @@ def start_deep_crawl_job(workspace_id, num_to_fetch, selection):
             doc["id"] = doc["_id"]
             doc.pop('_id', None)
 
-    queue_deep_crawl(workspace_id, job_id=job_id, num_to_fetch=num_to_fetch, urls=urls, login_credentials=login_credentials)
+    queue_deep_crawl_start(workspace_id, job_id=job_id, num_to_fetch=num_to_fetch, urls=urls, login_credentials=login_credentials)
     return job_id
 
 
-def queue_deep_crawl(workspace_id, job_id, num_to_fetch, urls, login_credentials):
+def queue_deep_crawl_start(workspace_id, job_id, num_to_fetch, urls, login_credentials):
     logging.info("preparing deep crawl message")
     message = {
         'id': job_id,
@@ -46,6 +46,18 @@ def queue_deep_crawl(workspace_id, job_id, num_to_fetch, urls, login_credentials
         'page_limit': int(num_to_fetch),
         'urls': urls,
         'login_credentials': login_credentials
+    }
+
+    logging.info(message)
+    Singleton.getInstance().broker_service.add_message_to_deepcrawler(message)
+
+
+def queue_deep_crawl_stop(workspace_id, job_id):
+    logging.info("preparing stop deep-crawler")
+    message = {
+        'id': job_id,
+        'workspace_id': workspace_id,
+        'action': 'stop'
     }
 
     logging.info(message)

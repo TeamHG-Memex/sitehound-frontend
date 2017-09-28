@@ -50,9 +50,9 @@ def api_get_smart_crawler_results(workspace_id, job_id):
     return Response(JSONEncoder().encode(docs), mimetype="application/json")
 
 
-@app.route("/api/workspace/<workspace_id>/smart-crawler/<job_id>/stop", methods=['POST'])
+@app.route("/api/workspace/<workspace_id>/smart-crawler/<job_id>", methods=['DELETE'])
 @login_required
 def api_stop_smart_crawler(workspace_id, job_id):
     __queue_smart_crawler_stop(workspace_id, job_id)
-    doc = {"message": "Job was stopped succesfully"}
+    doc = {"message": "Job was stopped successfully"}
     return Response(JSONEncoder().encode(doc), mimetype="application/json")

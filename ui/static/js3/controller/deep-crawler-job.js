@@ -54,6 +54,20 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, loginFactory, $mdDi
 			});
     }
 
+
+    $scope.stop = function(){
+        deepcrawlerFactory.stop()
+        .then(
+            function(response){
+                console.log(response.data);
+                alert(response.data["message"]);
+            },
+            function(response){
+                console.log(response.data);
+            }
+        );
+    };
+
 //    $scope.showAdvanced = function(elem, ev) {
     $scope.showEnterCredentialsForm = function(elem, ev) {
 

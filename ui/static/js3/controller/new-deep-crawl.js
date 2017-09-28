@@ -249,7 +249,7 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
         }
 
         // var nResults = parseInt($scope.nResults.replaceAll("\\.",""));
-        deepcrawlerFactory.publish2DeepCrawl($scope.master.workspaceId, $scope.nResults, data).then(
+        deepcrawlerFactory.start($scope.master.workspaceId, $scope.nResults, data).then(
             function(response){
                 console.log(response);
                 var jobId = response.data.jobId;
