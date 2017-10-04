@@ -81,7 +81,7 @@ def __queue_smart_crawl_start(workspace_id, job_id, page_limit, broadness, urls,
     '''
 
     message = {
-        'workspace': workspace_id, #Singleton.getInstance().mongo_instance.get_current_workspace_name(),
+        'workspace_id': workspace_id, #Singleton.getInstance().mongo_instance.get_current_workspace_name(),
         'id': job_id,
         'page_limit': page_limit,
         'broadness': broadness,
