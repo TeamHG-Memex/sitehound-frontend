@@ -3,6 +3,10 @@ NEW UI
 # Release
  - obfuscate, minimize and join js files
 
+    #FIXME!!!
+    # location = "http://" + app.config['ES_HOST'] + ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
+    location = "http://" + "54.202.36.157"+ ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
+
 # ws
  - Redirect when no workspace is selected
 

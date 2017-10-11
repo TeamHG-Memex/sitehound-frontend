@@ -43,30 +43,18 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
 	};
 
 
-
-    //main
     $scope.master.checkWorkspace = function(){
         debugger;
         if($scope.master.workspace) {
             console.log("current workspace: " + $scope.master.workspace._id + "->" + $scope.master.workspace.name);
         }
         else{
-            // no more cookies
-            // if($cookies.get("workspaceId")){
-            //     $scope.master.workspaceId = $cookies.get("workspaceId");
-            // }
-            // console.log("no current workspace yet");
-            // if($scope.master.workspaceId){
-            //     $scope.master.reloadWorkspace($scope.master.workspaceId);
-            // }
             if($cookies.get("workspaceId")){
                 $scope.master.workspaceId = $cookies.get("workspaceId");
                 $scope.master.reloadWorkspace($scope.master.workspaceId);
             }
             else{
                 var url = "/#/workspace";
-                // $location.path(url);
-                // $route.reload();
                 window.location.assign(url);
             }
         }
