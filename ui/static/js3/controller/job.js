@@ -58,18 +58,6 @@ ngApp.controller('deleteJobController', ['deletedWorkspace', '$mdDialog', '$scop
 ngApp.controller('jobController', ['$scope', '$filter', '$timeout','jobFactory', 'domFactory', '$mdDialog', '$mdEditDialog',
     function ($scope, $filter, $timeout, jobFactory, domFactory, $mdDialog, $mdEditDialog) {
     'use strict';
-/*
-
-     $scope.workspace = null;
-
-    $scope.workspaces = [];
-
-    $scope.filter = {};
-    $scope.filter.showOnlyMines = false;
-    if($scope.master.getWorkspace()){
-        $scope.selected[0] = $scope.master.getWorkspace()
-    }
-*/
 
     $scope.master.init();
 

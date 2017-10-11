@@ -94,7 +94,11 @@
 
 									<!--<td md-cell >{{workspace._id}}</td>-->
 									<!--<td md-cell ng-click="editComment($event, workspace)">{{workspace.name}} &nbsp;-->
-									<td md-cell ng-click="setWorkspace(workspace._id)"><a ng-href="#/seeds">{{workspace.name}}</a>
+									<!--<td md-cell ng-click="setWorkspace(workspace._id)"><a ng-href="#/seeds">{{workspace.name}}</a>-->
+
+									<!--style="cursor: pointer;"-->
+									<td md-cell ng-click="setWorkspace(workspace._id)">
+										<a>{{workspace.name}}</a>
 										<!--<i class="material-icons md-18">mode-edit</i>-->
 										<!--<i class="material-icons md-18">edit</i>-->
 									</td>

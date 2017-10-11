@@ -1,6 +1,8 @@
 ngApp.controller('seedsController', ['$scope', '$filter', '$mdConstant','seedFactory', 'fetchService', 'seedUrlFactory', 'importUrlFactory', 'domFactory',
 function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, importUrlFactory, domFactory) {
 
+    console.log("loading seeds");
+
     $scope.master.init();
 
     /** BEGIN KEYWORD SEEDS **/

@@ -199,6 +199,11 @@ function($http, $location, $route, $routeParams, $ngSilentLocation, deepcrawlerF
 	}
 */
 
+	domFactory.navigateTo = function(target){
+        var url = "/" + target;
+		reload(url);
+	};
+
 	domFactory.navigateToDeepcrawlJob = function(jobId){
         var url = "/deepcrawler-job/"  + jobId;
 		reload(url);

@@ -1,5 +1,15 @@
 NEW UI
 
+# Release
+ - obfuscate, minimize and join js files
+
+# ws
+ - Redirect when no workspace is selected
+
+#Users:
+ - Add change password button on /#users
+ - Improve the change password page
+
 #Seeds:
  - accept onions
  - Browse function.

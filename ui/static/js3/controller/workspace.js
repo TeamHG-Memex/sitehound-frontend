@@ -68,8 +68,8 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
     $scope.workspacesCount = 0;
 
     $scope.selected=[];
-    if($scope.master.getWorkspace()){
-        $scope.selected[0] = $scope.master.getWorkspace()
+    if($scope.master.workspaceId){
+        $scope.selected[0] = $scope.master.workspaceId;
     }
 
 
@@ -206,9 +206,9 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
         var keywords = [];
         angular.forEach(words, function(v,k){
             keywords.push(" " + v.word + "("  + v.score + ")");
-        })
+        });
         return keywords.join();
-    }
+    };
 
 
     $scope.onReorder = function (order) {
