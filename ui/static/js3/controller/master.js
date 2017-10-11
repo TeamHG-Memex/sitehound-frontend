@@ -34,7 +34,9 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
 		},
 		function(response){
 			console.log(response);
-			$scope.workspaceName = null;
+            $scope.master.workspaceId = null;
+            $scope.master.workspace = null;
+            $scope.master.workspaceName = null;
             console.log("Redirecting. Failed to set ws:" + workspaceId);
             domFactory.navigateTo('workspace');
         });
@@ -58,8 +60,8 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
             //     $scope.master.reloadWorkspace($scope.master.workspaceId);
             // }
             if($cookies.get("workspaceId")){
-                var wsId = $cookies.get("workspaceId");
-                $scope.master.reloadWorkspace(wsId);
+                $scope.master.workspaceId = $cookies.get("workspaceId");
+                $scope.master.reloadWorkspace($scope.master.workspaceId);
             }
             else{
                 var url = "/#/workspace";
