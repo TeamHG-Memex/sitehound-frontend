@@ -75,16 +75,18 @@ def save_smart_crawl_job(workspace_id, num_to_fetch, broadness):
     return str(_id)
 
 
-def save_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type, status="QUEUED"):
+def save_job(workspace_id, num_to_fetch, crawler_provider, crawler_sources, crawl_type, status="QUEUED", keyword_source_type="FETCHED"):
+
     job = {}
     job["crawlType"] = crawl_type
     job["nResultsRequested"] = num_to_fetch
-    job["provider"] = broad_crawler_provider
-    job["sources"] = broad_crawler_sources
+    job["provider"] = crawler_provider
+    job["sources"] = crawler_sources
     job['timestamp'] = time.time()
     job['strTimestamp'] = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
     job["workspaceId"] = workspace_id
     job["status"] = status
+    job["keywordSourceType"] = keyword_source_type
 
     # _id = Singleton.getInstance().mongo_instance.get_crawl_job_collection().insert(job)
     collection = Singleton.getInstance().mongo_instance.get_crawl_job_collection()

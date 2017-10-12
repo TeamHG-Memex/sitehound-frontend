@@ -1,5 +1,5 @@
-ngApp.controller('seedsController', ['$scope', '$filter', '$mdConstant','seedFactory', 'fetchService', 'seedUrlFactory', 'importUrlFactory', 'domFactory',
-function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, importUrlFactory, domFactory) {
+ngApp.controller('seedsController', ['$scope', '$filter', '$rootScope', '$timeout', '$interval', '$mdConstant','seedFactory', 'fetchService', 'seedUrlFactory', 'importUrlFactory', 'domFactory',
+function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFactory, fetchService, seedUrlFactory, importUrlFactory, domFactory) {
 
     console.log("loading seeds");
 
@@ -20,7 +20,9 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 	  };
 	};
 
-	$scope.getSeeds = function(workspaceId){
+	$scope.getSeeds = function(){
+        var workspaceId = $scope.master.workspaceId;
+
 		if(!workspaceId){
 			return;
 		}
@@ -70,7 +72,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 		function(){})
 	};
 
-    $scope.getSeeds($scope.master.workspaceId);
+    $scope.getSeeds();
 
 	/** END KEYWORD SEEDS  **/
 
@@ -168,6 +170,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
     /** Begins results */
 
 	$scope.bottomOfPageReached = function(){
+        console.log("bottomOfPageReached");
 		fetch();
 	};
 
@@ -180,27 +183,43 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 	$scope.seedUrls = [];
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
 
-	function fetch(){
 
-        seedUrlFactory.get($scope.master.workspaceId, $scope.filters)
+    function fetch(){
+        seedUrlFactory.getSeedResults($scope.master.workspaceId, $scope.filters)
 		.then(
 			function (response) {
-				console.log("finish fetching seed Urls");
 				var tempResults = response.data;
 				Array.prototype.push.apply($scope.seedUrls, tempResults);
 
 				$scope.filters.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 					($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-			},
+				console.log("finish fetching seed Urls");
+
+            },
 			function (response) {
 				console.log(response);
 			});
 	}
 
-	fetch();
+
+    var isRunning = false;
+    function backgroundService(){
+        if(!isRunning && $scope.master.workspaceId){
+            isRunning = true;
+            if($scope.seedUrls.length<7) {
+                fetch();
+            }
+            $interval.cancel($rootScope.backgroundSeedsResultsServicePromise);
+            $rootScope.backgroundSeedsResultsServicePromise = $interval(backgroundService, 5000);
+            isRunning=false;
+        }
+    }
+    backgroundService();
 
 	/** end results */
 
+
+	
 	$scope.newDeepCrawl = function(){
 		domFactory.navigateToUrl("#/new-deep-crawl");
 

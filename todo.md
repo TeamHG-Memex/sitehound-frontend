@@ -15,8 +15,8 @@ NEW UI
  - Improve the change password page
 
 #Seeds:
- - accept onions
- - Browse function.
+// - accept onions
+ - Browse filesystem function.
  - check pagination on seeds results.
  - Don't store keywords in master.
  - Don't use endOfPageReached in master, use scrolly on md-content instead.

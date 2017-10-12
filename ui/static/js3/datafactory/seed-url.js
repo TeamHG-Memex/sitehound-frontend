@@ -10,6 +10,12 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', '$httpParamSeriali
 		return $http.get(url + (qs ? '?' + qs : ""));
 	};
 
+	dataFactory.getSeedResults = function (workspaceId, filters) {
+		var url =  String.format(urlBase, workspaceId) + "/keywords-results";
+		var qs = $httpParamSerializer(filters);
+        return $http.get(url + (qs ? '?' + qs : ""));
+	};
+
 	dataFactory.getUdcs = function (workspaceId) {
 		var url =  String.format(urlBase, workspaceId);
 //		return $http.get(url + '/' + source + '/udcs');

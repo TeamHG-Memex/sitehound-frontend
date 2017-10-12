@@ -5,17 +5,18 @@ import pymongo
 import json
 
 from mongo_repository.trained_url_repository import dao_reset_results, \
-    get_seeds_urls_to_label_dao, get_seeds_udcs_by_workspace_dao
+    get_seeds_urls_to_label_dao, get_seeds_udcs_by_workspace_dao, get_seeds_urls_keywords_results_dao
 from mongo_repository.trained_url_repository import get_seeds_urls_url
 from mongo_repository.trained_url_repository import get_seeds_urls_categorized
 from mongo_repository.trained_url_repository import dao_delete_seed_url
 from mongo_repository.trained_url_repository import dao_update_relevance, label
 from mongo_repository.trained_url_repository import dao_update_relevanceByid
 from service.job_service import save_job
+from service.metadata_factory import build_metadata
 from service.seed_service import dao_get_keywords_by_relevance
 from mongoutils.validate import validate_url
 from ui.singleton import Singleton
-
+from time import gmtime, strftime
 __author__ = 'tomas'
 
 
@@ -28,21 +29,10 @@ class Relevance:
 
 def add_known_urls_handler(workspace_id, urls_raw, is_relevant):
 
-    # if relevance == Relevance.NEUTRAL:
-    #     is_relevant = None
-    # elif relevance == Relevance.RELEVANT:
-    #     is_relevant = True
-    # elif relevance == Relevance.IRRELEVANT:
-    #     is_relevant = False
-    # else:
-    #     print("UNSUPPORTED relevance: " + relevance)
-    #     return
-    #
     for url in urls_raw.splitlines():
-        url = validate_url(url)
         try:
-            # dao_insert_url(url=url, is_relevant=True)
-            publish_to_import_url_queue(workspace_id, url, is_relevant=is_relevant)
+            url = validate_url(url)
+            publish_to_import_url_queue(workspace_id, url)
         except:
             logging.info(traceback.print_exc())
             print "Existing URL attempted to be uploaded, skipping it..."
@@ -66,24 +56,30 @@ def delete_seeds_url(workspace_id, id):
 
 
 # fetches the documents (keywords and urls) from the db and post them on the queue
-def schedule_spider_searchengine(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources):
+def schedule_spider_searchengine(workspace_id, num_to_fetch, crawler_provider, crawler_sources, keyword_source_type):
+
     keywords = dao_get_keywords_by_relevance(workspace_id)
     categorized_urls = get_seeds_urls_categorized(workspace_id)
-    job_id = save_job(workspace_id, num_to_fetch=int(num_to_fetch), broad_crawler_provider=broad_crawler_provider,
-                      broad_crawler_sources=broad_crawler_sources, crawl_type="KEYWORDS")
+
+    job_id = save_job(workspace_id, num_to_fetch=int(num_to_fetch), crawler_provider=crawler_provider,
+                      crawler_sources=crawler_sources, crawl_type="KEYWORDS", keyword_source_type= keyword_source_type)
 
     message = {
+        'workspace': workspace_id,
+        'jobId': job_id,
+        'crawlProvider': crawler_provider,
+        'crawlSources': crawler_sources,
+        'strTimestamp': strftime("%Y-%m-%d %H:%M:%S", gmtime()),
+        'keywordSourceType': keyword_source_type,
+
         'included': keywords['included'],
         'excluded': keywords['excluded'],
         'relevantUrl': categorized_urls['relevant'],
         'irrelevantUrl': categorized_urls['irrelevant'],
         'nResults': int(num_to_fetch),
-        'existentUrl': get_seeds_urls_url(workspace_id),
-        'workspace': workspace_id,
-        'jobId': job_id,
-        'crawlProvider': broad_crawler_provider,
-        'crawlSources': broad_crawler_sources
+        'existentUrl': get_seeds_urls_url(workspace_id)
     }
+
     Singleton.getInstance().broker_service.add_message_to_googlecrawler(message)
     return job_id
 
@@ -93,12 +89,15 @@ def reset_results(workspace_id, source):
 
 
 ''' post to import_url queue'''
-def publish_to_import_url_queue(workspace_id, url, is_relevant= True):
+def publish_to_import_url_queue(workspace_id, url):
+
+    metadata = build_metadata(workspace_id)
+    metadata["keywordSourceType"] = "MANUAL"
 
     message = {
         'url': url,
-        'isRelevant': is_relevant,
-        'metadata': Singleton.getInstance().broker_service.get_metadata(workspace_id)
+        'isRelevant': True,
+        'metadata': metadata
     }
     Singleton.getInstance().broker_service.add_message_to_import_url(message)
 
@@ -106,6 +105,10 @@ def publish_to_import_url_queue(workspace_id, url, is_relevant= True):
 def get_seeds_urls_to_label(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source):
     mongo_result = get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source)
     return mongo_result
+
+
+def get_seeds_urls_keywords_results(workspace_id, page_size, last_id):
+    return get_seeds_urls_keywords_results_dao(workspace_id, page_size, last_id)
 
 
 def get_seeds_udc_by_workspace(workspace_id):

@@ -79,7 +79,7 @@ class BrokerService(object):
 
     def add_message_to_googlecrawler(self, message):
         logging.info("posting  message to %s" % self.keywords_topic_input)
-        self.post_to_queue(message, self.keywords_topic_input, self.keywords_topic_output)
+        self.post_to_queue_no_extra_headers(message, self.keywords_topic_input)
 
     def read_topic_from_googlecrawler(self, callback):
         logging.info('registering read_topic_from_googlecrawler')
@@ -225,14 +225,14 @@ class BrokerService(object):
 
     ##### private core methods
 
-    def get_metadata(self, workspace_id):
-        metadata = {}
-        metadata['workspace'] = workspace_id
-        metadata['source'] = Singleton.getInstance().app_instance
-        metadata['callbackQueue'] = "callback_queue_not_used"
-        metadata['timestamp'] = time.time()
-        metadata['strTimestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-        return metadata
+    # def get_metadata(self, workspace_id):
+    #     metadata = {}
+    #     metadata['workspace'] = workspace_id
+    #     metadata['source'] = Singleton.getInstance().app_instance
+    #     # metadata['callbackQueue'] = "callback_queue_not_used"
+    #     # metadata['timestamp'] = time.time()
+    #     metadata['strTimestamp'] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    #     return metadata
 
     #post
     def post_to_queue(self, message, input_queue, callback_queue):

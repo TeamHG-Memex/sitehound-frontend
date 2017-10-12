@@ -23,8 +23,8 @@ def start_deep_crawl_job(workspace_id, num_to_fetch, selection):
     if len(urls) == 0:
         raise InvalidUsage("No Seed URLS were selected!", status_code=409)
 
-    job_id = save_job(workspace_id, num_to_fetch=int(num_to_fetch), broad_crawler_provider=broad_crawler_provider,
-                      broad_crawler_sources=broad_crawler_sources, crawl_type=crawl_type, status="STARTED")
+    job_id = save_job(workspace_id, num_to_fetch=int(num_to_fetch), crawler_provider=broad_crawler_provider,
+                      crawler_sources=broad_crawler_sources, crawl_type=crawl_type, status="STARTED")
 
     login_credentials = get_successful_logins(workspace_id, domains)
     for doc in login_credentials:

@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+import pymongo
 from bson import ObjectId
 
 from ui.singleton import Singleton
@@ -108,17 +109,34 @@ def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, ca
         {"$project" : {'_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1, 'order': 1} }
     ])
 
-
-        # .find({'$and': and_condition_list}, field_names_to_include)\
-        # .sort('_id', pymongo.ASCENDING)\
-        # .limit(page_size)
-
-
     docs = list(res["result"])
     return docs
 
 
-# def get_seeds_udcs_by_source_dao(workspace_id, source):
+def get_seeds_urls_keywords_results_dao(workspace_id, page_size, last_id):
+
+    and_condition_list = []
+
+    deleted_search_object = {'deleted': {"$exists": False}}
+    and_condition_list.append(deleted_search_object)
+
+    workspace_search_object = {'workspaceId': workspace_id}
+    and_condition_list.append(workspace_search_object)
+
+    if last_id:
+        last_id_search_object = {"_id": {"$gt": ObjectId(last_id)}}
+        and_condition_list.append(last_id_search_object)
+
+    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+
+    res = collection.find({'$and': and_condition_list})\
+        .sort('_id', pymongo.ASCENDING)\
+        .limit(page_size)
+
+    docs = list(res)
+    return docs
+
+
 def get_seeds_udcs_by_workspace_dao(workspace_id):
 
     and_condition_list = []

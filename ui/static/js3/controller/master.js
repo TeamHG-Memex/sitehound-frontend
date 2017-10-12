@@ -44,9 +44,9 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
 
 
     $scope.master.checkWorkspace = function(){
-        debugger;
+
         if($scope.master.workspace) {
-            console.log("current workspace: " + $scope.master.workspace._id + "->" + $scope.master.workspace.name);
+            // console.log("current workspace: " + $scope.master.workspace._id + "->" + $scope.master.workspace.name);
         }
         else{
             if($cookies.get("workspaceId")){

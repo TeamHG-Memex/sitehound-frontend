@@ -18,7 +18,7 @@ def get_screenshot_api(workspace_id, crawl_type, id):
     # screenshot = res[0]["snapshot"]["png"]
     screenshot = get_screenshot(crawl_type, id)
 
-    return Response(base64.b64decode(screenshot), mimetype="image/png")
+    return Response(screenshot, mimetype="image/png")
 
     # res = get_screenshot(crawl_type, id)
     #

@@ -59,7 +59,9 @@ ngApp.controller('jobController', ['$scope', '$filter', '$timeout','jobFactory',
     function ($scope, $filter, $timeout, jobFactory, domFactory, $mdDialog, $mdEditDialog) {
     'use strict';
 
-    $scope.master.init();
+        console.log("loading job.js");
+
+        $scope.master.init();
 
     $scope.elems = [];
     $scope.elemsCount = 0;

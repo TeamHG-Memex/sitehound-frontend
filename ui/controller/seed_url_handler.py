@@ -13,7 +13,7 @@ from utils.json_encoder import JSONEncoder
 from service.seed_url_service \
     import add_known_urls_handler, schedule_spider_searchengine, update_seeds_urls_relevance, \
     update_seeds_url_relevancy, delete_seeds_url, reset_results, \
-    get_seeds_urls_to_label, get_seeds_udc_by_workspace
+    get_seeds_urls_to_label, get_seeds_udc_by_workspace, get_seeds_urls_keywords_results
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url", methods=["GET"])
@@ -45,6 +45,16 @@ def get_seed_urls_by_workspace_api(workspace_id):
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 
+@app.route("/api/workspace/<workspace_id>/seed-url/keywords-results", methods=["GET"])
+@login_required
+def get_seeds_urls_keywords_results_api(workspace_id):
+
+    last_id = request.args.get('lastId')
+    page_size = 4
+    in_doc = get_seeds_urls_keywords_results(workspace_id, page_size, last_id)
+    out_doc = JSONEncoder().encode(in_doc)
+    return Response(out_doc, mimetype="application/json")
+
 
 # @app.route("/api/workspace/<workspace_id>/seed-url/<source>", methods=["POST"])
 # @login_required
@@ -57,13 +67,14 @@ def get_seed_urls_by_workspace_api(workspace_id):
 
 
 # @app.route("/api/workspace/<workspace_id>/seed-url/<source>/udcs", methods=["GET"])
-@app.route("/api/workspace/<workspace_id>/seed-url/udcs", methods=["GET"])
-@login_required
-def get_seed_udc_by_workspace_api(workspace_id):
-    in_doc = get_seeds_udc_by_workspace(workspace_id)
-    out_doc = JSONEncoder().encode(in_doc)
-    return Response(out_doc, mimetype="application/json")
-
+# @app.route("/api/workspace/<workspace_id>/seed-url/udcs", methods=["GET"])
+# @login_required
+# def get_seed_udc_by_workspace_api(workspace_id):
+#     in_doc = get_seeds_udc_by_workspace(workspace_id)
+#     out_doc = JSONEncoder().encode(in_doc)
+#     return Response(out_doc, mimetype="application/json")
+#
+#
 
 @app.route("/api/workspace/<workspace_id>/seed-url/url/<id>", methods=["PUT"])
 @login_required
@@ -95,11 +106,17 @@ def delete_seeds_url_api(workspace_id, id):
 def schedule_spider_searchengine_api(workspace_id):
 
     num_to_fetch = request.json['nResults']
-    broad_crawler_provider = request.json['crawlProvider']
-    broad_crawler_sources = request.json['crawlSources']
+    crawler_provider = request.json['crawlProvider']
+    crawler_sources = request.json['crawlSources']
+    keyword_source_type = "FETCHED"
 
     try:
-        job_id = schedule_spider_searchengine(workspace_id, num_to_fetch=int(num_to_fetch), broad_crawler_provider=broad_crawler_provider, broad_crawler_sources=broad_crawler_sources)
+        job_id = schedule_spider_searchengine(workspace_id,
+                                              num_to_fetch=int(num_to_fetch),
+                                              crawler_provider=crawler_provider,
+                                              crawler_sources=crawler_sources,
+                                              keyword_source_type=keyword_source_type)
+
         return Response('{"jobId": "' + job_id + '"}', mimetype="application/json")
     except NameError, e:
         raise InvalidUsage(str(e), status_code=409)
