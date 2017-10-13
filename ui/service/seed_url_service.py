@@ -88,9 +88,7 @@ def reset_results(workspace_id, source):
     dao_reset_results(workspace_id, source)
 
 
-''' post to import_url queue'''
 def publish_to_import_url_queue(workspace_id, url):
-
     metadata = build_metadata(workspace_id)
     metadata["keywordSourceType"] = "MANUAL"
 

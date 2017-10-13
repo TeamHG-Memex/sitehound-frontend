@@ -79,8 +79,6 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 
 
 
-
-
 	/** Begins Fetch Keywords**/
 
 	$scope.showKeywordsProgress = false;
@@ -164,6 +162,21 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 
     $scope.showByurlProgressTab = false;
 
+    $scope.addUrlsFromFile = function(data){
+        importedUrls = [];
+		var lines = data.split("\n");
+		for(var i=0; i<lines.length;i++){
+			var line = lines[i].trim();
+			if(validateUrl(line)){
+                importedUrls.push(line);
+			}
+			else{
+				console.log("couldn't validate:" +  line);
+			}
+		}
+        $scope.upload.urlsToAdd = importedUrls.join("\n");
+	};
+
     /**  Ends upload */
 
 
@@ -183,7 +196,6 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 	$scope.seedUrls = [];
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
 
-
     function fetch(){
         seedUrlFactory.getSeedResults($scope.master.workspaceId, $scope.filters)
 		.then(
@@ -193,14 +205,13 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 
 				$scope.filters.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 					($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-				console.log("finish fetching seed Urls");
+				// console.log("finish fetching seed Urls");
 
             },
 			function (response) {
 				console.log(response);
 			});
 	}
-
 
     var isRunning = false;
     function backgroundService(){
@@ -219,7 +230,6 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 	/** end results */
 
 
-	
 	$scope.newDeepCrawl = function(){
 		domFactory.navigateToUrl("#/new-deep-crawl");
 
@@ -228,5 +238,43 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 		domFactory.navigateToUrl("/new-smart-crawl");
 	};
 
-
 }]);
+
+
+
+/* FILE OPEN */
+ngApp.directive('chooseFile', function() {
+    return {
+        link: function (scope, elem, attrs) {
+            var button = elem.find('button');
+            var input = angular.element(elem[0].querySelector('input#fileInput'));
+            button.bind('click', function() {
+                input[0].click();
+            });
+            input.bind('change', function(e) {
+                scope.$apply(function() {
+                	console.log("change triggered");
+                    var files = e.target.files;
+                    if (files[0]) {
+                        var f = files[0];
+                        scope.fileName = f.name;
+                        r = new FileReader();
+
+                        r.onloadend = function(e) {
+                            var data = e.target.result;
+							scope.addUrlsFromFile(data);
+                        };
+
+                        r.readAsBinaryString(f);
+
+						e.target.value=null; // resets the field allowing to upload several times on the same file
+
+                    } else {
+                        scope.fileName = null;
+                    }
+                });
+            });
+        }
+    };
+});
+
