@@ -26,23 +26,26 @@
                                 <span ng-show='crawlJob["percentage_done"]'> <b>Percentage Done</b>: {{crawlJob["percentage_done"]}}%</span><br>
                             </div>
                         </div>
-                        <div style="width: 100%">
-                            <md-button class="md-primary md-raised md-warning" ng-click="stop()">
+                        <div style="width: 100%;" layout="row" layout-align="end end">
+                            <!--<md-button class="md-primary md-raised md-warning" ng-click="stop()">-->
+                            <md-button class="md-warn md-raised" ng-click="stop()">
                                 Stop
                             </md-button>
                         </div>
                     </div>
 
-                    <div ng-show="elems.length==0" class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
+                    <div ng-show="elems.length==0" class="mdl-card__supporting-text" layout="column" layout-align="space-between center" style="margin-bottom: 0px;margin-top: 0px;">
+                        <br/>
                         <span>
                             No results found
-                        </span><br/>
+                        </span>
+                        <br/>
                     </div>
-                    <div ng-show="elems.length==0" class="mdl-card__supporting-text" style="margin-bottom: 0px;margin-top: 0px;" layout="row" layout-align="end end">
-                        <md-button class="md-primary md-raised" ng-click="refresh()">
-                            Refresh
-                        </md-button>
-                    </div>
+                    <!--<div ng-show="elems.length==0" class="mdl-card__supporting-text" style="margin-bottom: 0px;margin-top: 0px;" layout="row" layout-align="end end">-->
+                        <!--<md-button class="md-primary md-raised" ng-click="refresh()">-->
+                            <!--Refresh-->
+                        <!--</md-button>-->
+                    <!--</div>-->
 
                     <md-content ng-show="elems.length>0" class="mdl-grid portfolio-max-width" style="height: 675px" scrolly="bottomOfPageReached()">
                             <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in elems" >

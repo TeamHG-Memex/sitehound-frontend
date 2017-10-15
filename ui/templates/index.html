@@ -258,100 +258,80 @@
 <link href="{{ url_for('static', filename='lib/angular/angular-material-data-table/0.10.9/md-data-table.min.css') }}" rel=stylesheet>
 
 
-<script src="{{ url_for('static', filename='js3/ngapp.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/index.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/constants.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/utils/url-helper.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/utils/string-helper.js') }}"></script>
 
+<script src="{{ url_for('static', filename='js3/ngapp.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/welcome.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/navbar.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/user.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/auth-register.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/user-defined-categories.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/label-user-defined-categories.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/seed.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/seed-url.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/seed-url-source.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/dd-training.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/event-factory.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/progress-factory.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/includes/job-stats.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/ml-crawling.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/workspace.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/job.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/seed-input.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/seeds.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/new-deep-crawl.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/new-smart-crawl.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/label.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/crawling-results.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/model.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/master.js') }}"></script>
-<!--<script src="{{ url_for('static', filename='js3/controller/current-workspace.js') }}"></script>-->
-
-<!--includes-->
 <script src="{{ url_for('static', filename='js3/controller/keywords.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/filter-train-results.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/train-results.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/header.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/datafactory/header.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/user.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/service/user.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/datafactory/user.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/auth-register.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/datafactory/workspace.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/workspace.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/job.js') }}"></script>
-<!--<script src="{{ url_for('static', filename='js3/service/workspace-selected-service.js') }}"></script>-->
-
-
-<script src="{{ url_for('static', filename='js3/seed.js') }}"></script>
-<!--<script src="{{ url_for('static', filename='js3/service/seed.js') }}"></script>-->
-<script src="{{ url_for('static', filename='js3/datafactory/seed.js') }}"></script>
-
-
-<script src="{{ url_for('static', filename='js3/user-defined-categories.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/label-user-defined-categories.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/seed-url.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/seed-url-source.js') }}"></script>
-<!--<script src="{{ url_for('static', filename='js3/service/seed-url.js') }}"></script>-->
-<script src="{{ url_for('static', filename='js3/datafactory/seed-url.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/service/fetch-service.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/service/training-service.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/dd-training.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/event-factory.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/progress-factory.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/import-url.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/datafactory/import-url.js') }}"></script>
-
-<!--<script src="{{ url_for('static', filename='js3/broadcrawler.js') }}"></script>-->
-<script src="{{ url_for('static', filename='js3/datafactory/broadcrawler.js') }}"></script>
-<!--<script src="{{ url_for('static', filename='js3/broadcrawler-results.js') }}"></script>-->
-<!--<script src="{{ url_for('static', filename='js3/broadcrawler-results-summary.js') }}"></script>-->
-<!--<script src="{{ url_for('static', filename='js3/deep-crawler.js') }}"></script>-->
-
-<script src="{{ url_for('static', filename='js3/controller/includes/job-stats.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/datafactory/job.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/navbar.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/dashboard.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/dashboard.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/welcome.js') }}"></script>
-
-<!--<script src="{{ url_for('static', filename='js3/controller/training-by-keyword.js') }}"></script>-->
-<!--<script src="{{ url_for('static', filename='js3/controller/training-by-url.js') }}"></script>-->
-<!--<script src="{{ url_for('static', filename='js3/controller/training-deep-web.js') }}"></script>-->
-<script src="{{ url_for('static', filename='js3/controller/ml-crawling.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/seed-input.js') }}"></script>
-
-<script src="{{ url_for('static', filename='js3/controller/seeds.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/new-deep-crawl.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/new-smart-crawl.js') }}"></script>
-
-
-<script src="{{ url_for('static', filename='js3/controller/label.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/crawling-results.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/datafactory/broadcrawler-results.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/model.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/all-labeled.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/deep-crawler-job.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/deep-crawler-domain.js') }}"></script>
-
 <script src="{{ url_for('static', filename='js3/controller/includes/training-stats.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/controller/includes/broadcrawl-stats.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/controller/smart-crawler-results.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/service/user.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/service/fetch-service.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/service/training-service.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/broadcrawler-results.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/datafactory/deepcrawler.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/datafactory/login.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/import-url.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/header.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/broadcrawler.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/seed-url.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/workspace.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/seed.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/job.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/datafactory/modeler.js') }}"></script>
+<script src="{{ url_for('static', filename='js3/datafactory/user.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/datafactory/trainer.js') }}"></script>
 <script src="{{ url_for('static', filename='js3/datafactory/smartcrawler.js') }}"></script>
-<script src="{{ url_for('static', filename='js3/controller/smart-crawler-results.js') }}"></script>
 
 
+<!--<script src="{{ url_for('static', filename='js3/controller/training-by-keyword.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/controller/training-by-url.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/service/workspace-selected-service.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/service/seed.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/service/seed-url.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/controller/training-deep-web.js') }}"></script>-->
 <!--<script src="{{ url_for('static', filename='lib/languages.js') }}"></script>-->
-<script src="{{ url_for('static', filename='js3/utils/url-helper.js') }}"></script>
+<!--<script src="{{ url_for('static', filename='js3/controller/current-workspace.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/broadcrawler-results.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/broadcrawler-results-summary.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/import-url.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/broadcrawler.js') }}"></script>-->
+<!--<script src="{{ url_for('static', filename='js3/deep-crawler.js') }}"></script>-->
+
+
 </body>
 </html>

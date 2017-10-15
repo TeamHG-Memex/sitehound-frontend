@@ -267,7 +267,8 @@ ngApp.directive('chooseFile', function() {
 
                         r.readAsBinaryString(f);
 
-						e.target.value=null; // resets the field allowing to upload several times on the same file
+						// resets the field allowing to upload several times on the same file
+						e.target.value=null;
 
                     } else {
                         scope.fileName = null;

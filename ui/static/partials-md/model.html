@@ -211,7 +211,7 @@
 
                                         <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.currentElem" >
                                             <div layout="row" layout-align="start end">
-                                                <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px">
+                                                <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px; min-width: 290px; min-height:250px; background-color: transparent">
                                                     <a href="javascript:void(0)">
                                                         <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
                                                     </a>

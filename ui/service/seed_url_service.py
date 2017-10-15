@@ -4,6 +4,7 @@ import uuid
 import pymongo
 import json
 
+from mongo_repository.deep_crawl_repository import get_seeds_urls_to_deep_crawl_dao
 from mongo_repository.trained_url_repository import dao_reset_results, \
     get_seeds_urls_to_label_dao, get_seeds_udcs_by_workspace_dao, get_seeds_urls_keywords_results_dao
 from mongo_repository.trained_url_repository import get_seeds_urls_url
@@ -88,7 +89,9 @@ def reset_results(workspace_id, source):
     dao_reset_results(workspace_id, source)
 
 
+''' post to import_url queue'''
 def publish_to_import_url_queue(workspace_id, url):
+
     metadata = build_metadata(workspace_id)
     metadata["keywordSourceType"] = "MANUAL"
 
@@ -113,3 +116,6 @@ def get_seeds_udc_by_workspace(workspace_id):
     mongo_result = get_seeds_udcs_by_workspace_dao(workspace_id)
     return mongo_result
 
+
+def get_seeds_urls_to_deep_crawl(workspace_id, page_size, keyword_source_type, last_id):
+    return get_seeds_urls_to_deep_crawl_dao(workspace_id, page_size, keyword_source_type, last_id)

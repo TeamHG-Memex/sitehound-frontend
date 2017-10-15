@@ -16,24 +16,12 @@ ngApp.controller('smartCrawlerResultsController', ['$scope', '$routeParams', '$r
         );
     }
 
-    var isRunning = false;
-    function backgroundService(){
-        if(!isRunning && $scope.master.workspaceId){
-            isRunning = true;
-
-           getCurrentJob();
-
-            $interval.cancel($rootScope.backgroundServicePromise);
-            $rootScope.backgroundServicePromise = $interval(backgroundService, 15000);
-            isRunning=false;
-
-            $scope.hasNext = true; // resets to fetch for new results
-        }
-    }
-    backgroundService();
 
 
     /** RESULTS **/
+    $scope.filters = {};
+    $scope.elems = [];
+
 
     $scope.stop = function(){
         smartCrawlerFactory.stop()
@@ -83,8 +71,6 @@ ngApp.controller('smartCrawlerResultsController', ['$scope', '$routeParams', '$r
 			});
     }
 
-    $scope.filters = {};
-	$scope.elems = [];
 	$scope.filters.lastId = $scope.elems.length > 0 ? $scope.elems[$scope.elems.length-1]._id : null;
 
     $scope.showProgress = false;
@@ -99,6 +85,26 @@ ngApp.controller('smartCrawlerResultsController', ['$scope', '$routeParams', '$r
 		}
 	};
 
-    fetch();
+    // fetch();
+
+    var isRunning = false;
+    function backgroundService(){
+        if(!isRunning && $scope.master.workspaceId){
+            isRunning = true;
+
+            getCurrentJob();
+            if($scope.elems.length==0){
+                $scope.bottomOfPageReached();
+            }
+
+            $interval.cancel($rootScope.backgroundServicePromise);
+            $rootScope.backgroundServicePromise = $interval(backgroundService, 15000);
+            isRunning=false;
+
+            $scope.hasNext = true; // resets to fetch for new results
+        }
+    }
+    backgroundService();
+
 }]);
 

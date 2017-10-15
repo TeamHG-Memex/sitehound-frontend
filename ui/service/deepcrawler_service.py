@@ -2,6 +2,7 @@ import logging
 import json
 from bson import ObjectId
 from controller.InvalidException import InvalidUsage
+from mongo_repository.deep_crawl_repository import __get_seeds_url_by_selection
 from service.domain_service import extract_domains_from_urls
 from service.job_service import save_job
 from service.login_service import get_logins, get_successful_logins
@@ -62,61 +63,4 @@ def queue_deep_crawl_stop(workspace_id, job_id):
 
     logging.info(message)
     Singleton.getInstance().broker_service.add_message_to_deepcrawler(message)
-
-
-def __get_seeds_url_by_selection(workspace_id, selection):
-    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
-
-    or_sources_conditions = []
-
-    for key, value in selection.iteritems():
-        and_source_conditions = []
-        workspace_search_object = {'workspaceId': workspace_id}
-        and_source_conditions.append(workspace_search_object)
-
-        # deleted_search_object = {'deleted': None}
-        # and_source_conditions.append(deleted_search_object)
-
-        source_search_conditions = []
-        source = value["source"]
-        if source == "searchengine":
-            source_search_conditions.append({'crawlEntityType': "BING"})
-            source_search_conditions.append({'crawlEntityType': "GOOGLE"})
-        elif source == "deepdeep":
-            source_search_conditions.append({'crawlEntityType': "DD"})
-
-        elif source == "tor":
-            source_search_conditions.append({'crawlEntityType': "TOR"})
-        elif source == "imported":
-            source_search_conditions.append({'crawlEntityType': "MANUAL"})
-        else:
-            print("no valid source was provided:" + source)
-
-        source_search_object = {'$or': source_search_conditions}
-        and_source_conditions.append(source_search_object)
-
-        if value["allSelected"]:
-            object_ids = []
-            for id in value["unselected"]:
-                object_ids.append(ObjectId(id))
-            ids_search_object = {'_id': {'$nin': object_ids}}
-
-            and_source_conditions.append(ids_search_object)
-        else:
-            object_ids = []
-            for id in value["selected"]:
-                object_ids.append(ObjectId(id))
-
-            ids_search_object = {'_id': {'$in': object_ids}}
-            and_source_conditions.append(ids_search_object)
-
-        or_sources_conditions.append({'$and': and_source_conditions})
-
-    cursor = collection.find({'$or': or_sources_conditions}, {'_id': 0, 'url': 1})
-    # docs = list(cursor)
-    urls = []
-    for item in cursor:
-        urls.append(item["url"])
-
-    return urls
 

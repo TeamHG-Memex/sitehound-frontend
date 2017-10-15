@@ -30,7 +30,7 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
 			$scope.master.workspace = response.data;
 			$scope.master.workspaceName = response.data.name;
             console.log("finished setting ws:" + workspaceId);
-            domFactory.navigateTo('seeds');
+            // domFactory.navigateTo('seeds');
 		},
 		function(response){
 			console.log(response);
@@ -154,6 +154,11 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
         { label: 'Search engines', value: 'SE' },
         { label: 'Twitter API', value: 'TWITTER' },
         { label: 'Deep web', value: 'TOR' }
+    ];
+
+    $scope.master.catalog.keywordSourceTypes=[
+        { label: 'Search engines', value: 'FETCHED' },
+        { label: 'Seeds', value: 'MANUAL' }
     ];
 
 

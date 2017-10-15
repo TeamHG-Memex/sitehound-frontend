@@ -1,9 +1,5 @@
-/**
- * Created by tomas on 11/08/17.
- */
-
-ngApp.controller('deepcrawlerController', ['$scope', '$filter', '$routeParams', 'deepcrawlerFactory', 'loginFactory', '$mdDialog',
-function ($scope, $filter, $routeParams, deepcrawlerFactory, loginFactory, $mdDialog) {
+ngApp.controller('deepcrawlerController', ['$scope', '$filter', '$rootScope', '$timeout', '$interval', '$routeParams', 'deepcrawlerFactory', 'loginFactory', '$mdDialog',
+function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcrawlerFactory, loginFactory, $mdDialog) {
 
     $scope.jobId = $routeParams.jobId;
 
@@ -17,9 +13,9 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, loginFactory, $mdDi
 
     $scope.filters = {};
 
-    $scope.fetch = function(){
-        fetch();
-    };
+    // $scope.fetch = function(){
+    //     fetch();
+    // };
 
     function fetch(){
         var filters = {};
@@ -96,5 +92,23 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, loginFactory, $mdDi
         loginFactory.sendCredentials(elem.workspaceId, elem.credentials);
     }
 
-    fetch();
+    // fetch();
+
+
+    var isRunning = false;
+    function backgroundService(){
+        if(!isRunning && $scope.master.workspaceId){
+            isRunning = true;
+            if($scope.elems.length<1) {
+                fetch();
+            }
+            $interval.cancel($rootScope.backgroundDeepCrawlJobServicePromise);
+            $rootScope.backgroundDeepCrawlJobServicePromise = $interval(backgroundService, 5000);
+            isRunning=false;
+        }
+    }
+
+    backgroundService();
+
+
 }]);

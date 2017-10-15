@@ -1,6 +1,7 @@
 from flask_login import login_required
 
 from controller.InvalidException import InvalidUsage
+from mongo_repository.deep_crawl_repository import dao_aggregate_urls_to_deep_crawl
 from mongo_repository.trained_url_repository import dao_aggregate_urls
 
 __author__ = 'tomas'
@@ -13,7 +14,7 @@ from utils.json_encoder import JSONEncoder
 from service.seed_url_service \
     import add_known_urls_handler, schedule_spider_searchengine, update_seeds_urls_relevance, \
     update_seeds_url_relevancy, delete_seeds_url, reset_results, \
-    get_seeds_urls_to_label, get_seeds_udc_by_workspace, get_seeds_urls_keywords_results
+    get_seeds_urls_to_label, get_seeds_udc_by_workspace, get_seeds_urls_keywords_results, get_seeds_urls_to_deep_crawl
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url", methods=["GET"])
@@ -25,6 +26,7 @@ def get_seed_urls_by_workspace_api(workspace_id):
     categories = request.args.getlist('categories')
     last_id = request.args.get('lastId')
     last_source = request.args.get('lastSource')
+    keyword_source_type = request.args.get('keywordSourceType')
     page_size = 4
     udcs = request.args.getlist('udcs') #DEPRECATED
 
@@ -42,6 +44,17 @@ def get_seed_urls_by_workspace_api(workspace_id):
             print "unsupported relevance type: " + rel
 
     in_doc = get_seeds_urls_to_label(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source)
+    out_doc = JSONEncoder().encode(in_doc)
+    return Response(out_doc, mimetype="application/json")
+
+
+@app.route("/api/workspace/<workspace_id>/seed-url/to-deep-crawl", methods=["GET"])
+@login_required
+def get_seed_urls_to_deep_crawl_api(workspace_id):
+    last_id = request.args.get('lastId')
+    keyword_source_type = request.args.get('keywordSourceType')
+    page_size = 4
+    in_doc = get_seeds_urls_to_deep_crawl(workspace_id, page_size, keyword_source_type, last_id)
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 
@@ -145,6 +158,14 @@ def post_add_known_urls(workspace_id):
 @login_required
 def api_aggregate_urls(workspace_id):
     in_doc = dao_aggregate_urls(workspace_id)
+    out_doc = JSONEncoder().encode(in_doc)
+    return Response(out_doc, mimetype="application/json")
+
+
+@app.route("/api/workspace/<workspace_id>/seed-url/aggregated/to-deep-crawl", methods=['GET'])
+@login_required
+def api_aggregate_urls_to_deep_crawl(workspace_id):
+    in_doc = dao_aggregate_urls_to_deep_crawl(workspace_id)
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 

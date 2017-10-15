@@ -6,7 +6,7 @@ from bson import ObjectId
 from ui.singleton import Singleton
 
 
-def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source):
+def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, categories, keyword_source_type, last_id, last_source):
 
     and_condition_list = []
 
@@ -280,15 +280,15 @@ def dao_reset_results(workspace_id, source):
 
 def dao_aggregate_urls(workspace_id):
 
-    source_search_conditions = []
+    and_search_conditions = []
 
     workspace_search_object = {'workspaceId': workspace_id}
-    source_search_conditions.append(workspace_search_object)
+    and_search_conditions.append(workspace_search_object)
 
     delete_search_object = {'deleted': {'$exists': False}}
-    source_search_conditions.append(delete_search_object)
+    and_search_conditions.append(delete_search_object)
 
-    source_search_object = {'$and': source_search_conditions}
+    source_search_object = {'$and': and_search_conditions}
 
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
 

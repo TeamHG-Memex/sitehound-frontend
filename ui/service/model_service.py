@@ -50,9 +50,9 @@ def get_modeler_progress(workspace_id):
 def build_html_location(url):
     #FIXME!!!
     # location = "http://" + app.config['ES_HOST'] + ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
-    location = "http://" + "54.202.36.157"+ ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
+    location = "http://" + app.config['ES_HOST'] + ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
     location = location + "/" + urllib.quote(url, safe='')
-    location = location + "?_source=result.crawlResultDto.html"
+    location = location + "?_source=analyzedCrawlResultDto.crawlResultDto.html"
     return location
 
 
