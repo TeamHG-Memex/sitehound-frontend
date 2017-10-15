@@ -6,11 +6,17 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
     $scope.master = {};
     $scope.master.workspace = null;
 
+
+    function navigateAway(){
+        console.log("navigates away");
+        domFactory.navigateTo('seeds');
+    }
+
 	$scope.master.setWorkspace = function(workspaceId){
 	    console.log("setting ws:" + workspaceId);
 		$scope.master.workspaceId = workspaceId;
 		$cookies.put("workspaceId", workspaceId);
-		$scope.master.reloadWorkspace(workspaceId);
+		$scope.master.reloadWorkspace(workspaceId, navigateAway);
 	};
 
 
@@ -24,13 +30,16 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
 	};
 
 	//use this when we allow the user to rename the workspace
-	$scope.master.reloadWorkspace= function(workspaceId){
+	$scope.master.reloadWorkspace= function(workspaceId, callback){
 		workspaceFactory.getWorkspace(workspaceId).then(
 		function(response){
 			$scope.master.workspace = response.data;
 			$scope.master.workspaceName = response.data.name;
             console.log("finished setting ws:" + workspaceId);
             // domFactory.navigateTo('seeds');
+            if(callback){
+                callback();
+            }
 		},
 		function(response){
 			console.log(response);
@@ -43,6 +52,7 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
 	};
 
 
+
     $scope.master.checkWorkspace = function(){
 
         if($scope.master.workspace) {
@@ -51,7 +61,7 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
         else{
             if($cookies.get("workspaceId")){
                 $scope.master.workspaceId = $cookies.get("workspaceId");
-                $scope.master.reloadWorkspace($scope.master.workspaceId);
+                $scope.master.reloadWorkspace($scope.master.workspaceId, navigateAway);
             }
             else{
                 var url = "/#/workspace";
@@ -60,13 +70,14 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
         }
     };
 
-    function setWorkspaceFromCookie(){
-        if($cookies.get("workspaceId")){
-            var wsId = $cookies.get("workspaceId");
-            $scope.master.reloadWorkspace(wsId);
-        }
-    }
 
+    // function setWorkspaceFromCookie(){
+    //     if($cookies.get("workspaceId")){
+    //         var wsId = $cookies.get("workspaceId");
+    //         $scope.master.reloadWorkspace(wsId);
+    //     }
+    // }
+    //
 
     $scope.toggleSelection = function toggleSelection(elem, list) {
         var idx = list.indexOf(elem);

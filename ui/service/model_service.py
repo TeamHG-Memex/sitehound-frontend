@@ -45,14 +45,13 @@ def get_modeler_progress(workspace_id):
     return progress
 
 
-
 ''' return http://54.202.36.157:9200/crawled-open/analyzed/https%3A%2F%2Fen.wikipedia.org%2Fwiki%2Fmock_object?_source=result.crawlResultDto.html '''
 def build_html_location(url):
     #FIXME!!!
     # location = "http://" + app.config['ES_HOST'] + ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
     location = "http://" + app.config['ES_HOST'] + ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
     location = location + "/" + urllib.quote(url, safe='')
-    location = location + "?_source=analyzedCrawlResultDto.crawlResultDto.html"
+    location = location + "?_source=result.crawlResultDto.html"
     return location
 
 

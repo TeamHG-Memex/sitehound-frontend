@@ -29,8 +29,8 @@ class ElasticsearchClient(object):
 
     def get_screenshoot(self, url):
         try:
-            res = self.es.get(index=self.index_name, doc_type=self.doc_type, id=url, _source=["analyzedCrawlResultDto.crawlResultDto.image"])
-            return res['_source']['analyzedCrawlResultDto']['crawlResultDto']['image']['content']
+            res = self.es.get(index=self.index_name, doc_type=self.doc_type, id=url, _source=["result.crawlResultDto.image"])
+            return res['_source']['result']['crawlResultDto']['image']['content']
         except:
             logging.info(url)
 

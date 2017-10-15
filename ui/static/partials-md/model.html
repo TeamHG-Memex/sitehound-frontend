@@ -145,10 +145,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-
-
                                     </div>
-
                                 </div>
 
                                 <!--trainer-->
@@ -175,9 +172,9 @@
                                     <dl class="dl-horizontal">
                                         <div>
                                             <dt>
-                                                        <span>
-                                                            {{trainerProgress.progress}}
-                                                        </span>
+                                                <span>
+                                                    {{trainerProgress.progress}}
+                                                </span>
                                             </dt>
                                         </div>
                                     </dl>
@@ -204,11 +201,7 @@
                                             <!--223 not relevant /233 skipped / 1000 pending {{tab.elems.length}} of {{tab.nResults}}-->
                                         </div>
                                     </div>
-
-
-                                    <!--<md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached(tab)">-->
                                     <md-content class="mdl-grid portfolio-max-width" style="margin-top:40px" >
-
                                         <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" style="width: 100%" ng-repeat="elem in tab.currentElem" >
                                             <div layout="row" layout-align="start end">
                                                 <div class="mdl-card__media mdl-shadow--2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px; min-width: 290px; min-height:250px; background-color: transparent">
@@ -218,9 +211,9 @@
                                                 </div>
                                                 <div layout="column" layout-align="start start" style="margin-left:30px;margin-right: 30px; width: 100%">
                                                     <div class="mdl-card__title">
-                                                                <span>
-                                                                    <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
-                                                                </span>
+                                                        <span>
+                                                            <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
+                                                        </span>
                                                     </div>
                                                     <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin: 0px; padding: 16px; width: 100%">
                                                         <!--<div class="mdl-card__title-text" flex="100">-->
@@ -231,10 +224,10 @@
                                                         </div>
                                                         <div layout="row" layout-align="space-between center" style="margin-top:40px; width: 100%">
                                                             <div layout="row" layout-align="space-between center" >
-                                                                <md-button class="md-raised" ng-click="label($event, tab, elem, false)" style="  font-size: 14px;text-align: center;  text-transform: none;">
-                                                                    Not relevant</md-button>
                                                                 <md-button class="md-raised" ng-click="label($event, tab, elem, true)" style="  font-size: 14px;text-align: center;  text-transform: none;">
                                                                     Relevant</md-button>
+                                                                <md-button class="md-raised" ng-click="label($event, tab, elem, false)" style="  font-size: 14px;text-align: center;  text-transform: none;">
+                                                                    Not relevant</md-button>
                                                             </div>
                                                             <div  layout="row" layout-align="space-between center">
                                                                 <md-button class="md-raised" md-no-ink ng-click="label($event, tab, elem, null)" style="  font-size: 14px;text-align: center;  text-transform: none;">
@@ -244,13 +237,13 @@
                                                     </div>
                                                     <div class="mdl-card__actions" mdl-card--border>
                                                         <div layout="row" layout-align="space-between center">
-                                                                    <span style="text-align:justify; font-size:12px;">
-                                                                        Source:
-                                                                        <span ng-bind="elem.crawlEntityType"></span>
-                                                                    </span>
                                                             <span style="text-align:justify; font-size:12px;">
-                                                                        <a href="{{elem.url}}" target="_blank">open in new tab</a>
-                                                                    </span>
+                                                                Source:
+                                                                <span ng-bind="elem.crawlEntityType"></span>
+                                                            </span>
+                                                            <span style="text-align:justify; font-size:12px;">
+                                                                <a href="{{elem.url}}" target="_blank">open in new tab</a>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
