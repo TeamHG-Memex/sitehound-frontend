@@ -3,10 +3,10 @@ var progressFactory = ngApp.factory('progressFactory',['$http', function($http){
 	var urlBase = '/api/workspace/{0}/{1}/progress';
 	var dataFactory = {};
 
-    dataFactory.getModelerProgress = function (workspaceId){
-        var phase = "dd-modeler";
-		return dataFactory.getProgress(workspaceId, phase);
-    }
+    // dataFactory.getModelerProgress = function (workspaceId){
+    //     var phase = "dd-modeler";
+		// return dataFactory.getProgress(workspaceId, phase);
+    // }
 
     dataFactory.getTrainerProgress = function (workspaceId){
         var phase = "dd-trainer";

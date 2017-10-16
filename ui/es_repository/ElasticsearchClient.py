@@ -5,6 +5,7 @@ from elasticsearch import Elasticsearch
 
 from ui import app, Singleton
 from datetime import datetime
+import urllib
 
 
 __author__ = 'tomas'
@@ -32,3 +33,10 @@ class ElasticsearchClient(object):
             return res['_source']['result']['crawlResultDto']['image']['content']
         except:
             logging.info(url)
+
+    def get_modeler_model(self, workspace_id):
+        try:
+            res = self.es.get(index="modeler", doc_type="model", id=workspace_id, _source=[])
+            return res['_source']['model']
+        except:
+            logging.info(workspace_id)

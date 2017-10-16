@@ -1,6 +1,7 @@
 from flask_login import login_required
 
 from controller.InvalidException import InvalidUsage
+from mongo_repository.deep_crawl_repository import dao_aggregate_urls_to_deep_crawl
 from mongo_repository.trained_url_repository import dao_aggregate_urls
 
 __author__ = 'tomas'
@@ -13,7 +14,7 @@ from utils.json_encoder import JSONEncoder
 from service.seed_url_service \
     import add_known_urls_handler, schedule_spider_searchengine, update_seeds_urls_relevance, \
     update_seeds_url_relevancy, delete_seeds_url, reset_results, \
-    get_seeds_urls_by_workspace, get_seeds_udc_by_workspace, label_seeds_url_relevancy
+    get_seeds_urls_to_label, get_seeds_udc_by_workspace, get_seeds_urls_keywords_results, get_seeds_urls_to_deep_crawl
 
 
 @app.route("/api/workspace/<workspace_id>/seed-url", methods=["GET"])
@@ -23,9 +24,11 @@ def get_seed_urls_by_workspace_api(workspace_id):
     sources = request.args.getlist('sources')
     relevances_as_string = request.args.getlist('relevances')
     categories = request.args.getlist('categories')
-    udcs = request.args.getlist('udcs')
     last_id = request.args.get('lastId')
+    last_source = request.args.get('lastSource')
+    keyword_source_type = request.args.get('keywordSourceType')
     page_size = 4
+    udcs = request.args.getlist('udcs') #DEPRECATED
 
     relevances = []
     for rel in relevances_as_string:
@@ -40,7 +43,28 @@ def get_seed_urls_by_workspace_api(workspace_id):
         else:
             print "unsupported relevance type: " + rel
 
-    in_doc = get_seeds_urls_by_workspace(workspace_id, page_size, sources, relevances, categories, udcs, last_id)
+    in_doc = get_seeds_urls_to_label(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source)
+    out_doc = JSONEncoder().encode(in_doc)
+    return Response(out_doc, mimetype="application/json")
+
+
+@app.route("/api/workspace/<workspace_id>/seed-url/to-deep-crawl", methods=["GET"])
+@login_required
+def get_seed_urls_to_deep_crawl_api(workspace_id):
+    last_id = request.args.get('lastId')
+    keyword_source_type = request.args.get('keywordSourceType')
+    page_size = 4
+    in_doc = get_seeds_urls_to_deep_crawl(workspace_id, page_size, keyword_source_type, last_id)
+    out_doc = JSONEncoder().encode(in_doc)
+    return Response(out_doc, mimetype="application/json")
+
+@app.route("/api/workspace/<workspace_id>/seed-url/keywords-results", methods=["GET"])
+@login_required
+def get_seeds_urls_keywords_results_api(workspace_id):
+
+    last_id = request.args.get('lastId')
+    page_size = 4
+    in_doc = get_seeds_urls_keywords_results(workspace_id, page_size, last_id)
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 
@@ -56,13 +80,14 @@ def get_seed_urls_by_workspace_api(workspace_id):
 
 
 # @app.route("/api/workspace/<workspace_id>/seed-url/<source>/udcs", methods=["GET"])
-@app.route("/api/workspace/<workspace_id>/seed-url/udcs", methods=["GET"])
-@login_required
-def get_seed_udc_by_workspace_api(workspace_id):
-    in_doc = get_seeds_udc_by_workspace(workspace_id)
-    out_doc = JSONEncoder().encode(in_doc)
-    return Response(out_doc, mimetype="application/json")
-
+# @app.route("/api/workspace/<workspace_id>/seed-url/udcs", methods=["GET"])
+# @login_required
+# def get_seed_udc_by_workspace_api(workspace_id):
+#     in_doc = get_seeds_udc_by_workspace(workspace_id)
+#     out_doc = JSONEncoder().encode(in_doc)
+#     return Response(out_doc, mimetype="application/json")
+#
+#
 
 @app.route("/api/workspace/<workspace_id>/seed-url/url/<id>", methods=["PUT"])
 @login_required
@@ -79,20 +104,6 @@ def update_seeds_url_relevancy_api(workspace_id, id):
     return Response("{}", mimetype="application/json")
 
 
-@app.route("/api/workspace/<workspace_id>/label/url/<id>", methods=["PUT"])
-@login_required
-def label_seeds_url_relevancy_api(workspace_id, id):
-
-    if "relevance" in request.json:
-        relevance = request.json['relevance']
-    else:
-        relevance = None
-
-    # categories = request.json['categories']
-    # udc = request.json['udc']
-    label_seeds_url_relevancy(workspace_id, id, relevance)
-    return Response("{}", mimetype="application/json")
-
 
 @app.route("/api/workspace/<workspace_id>/seed-url/url/<id>", methods=["DELETE"])
 @login_required
@@ -108,11 +119,17 @@ def delete_seeds_url_api(workspace_id, id):
 def schedule_spider_searchengine_api(workspace_id):
 
     num_to_fetch = request.json['nResults']
-    broad_crawler_provider = request.json['crawlProvider']
-    broad_crawler_sources = request.json['crawlSources']
+    crawler_provider = request.json['crawlProvider']
+    crawler_sources = request.json['crawlSources']
+    keyword_source_type = "FETCHED"
 
     try:
-        job_id = schedule_spider_searchengine(workspace_id, num_to_fetch=int(num_to_fetch), broad_crawler_provider=broad_crawler_provider, broad_crawler_sources=broad_crawler_sources)
+        job_id = schedule_spider_searchengine(workspace_id,
+                                              num_to_fetch=int(num_to_fetch),
+                                              crawler_provider=crawler_provider,
+                                              crawler_sources=crawler_sources,
+                                              keyword_source_type=keyword_source_type)
+
         return Response('{"jobId": "' + job_id + '"}', mimetype="application/json")
     except NameError, e:
         raise InvalidUsage(str(e), status_code=409)
@@ -141,6 +158,14 @@ def post_add_known_urls(workspace_id):
 @login_required
 def api_aggregate_urls(workspace_id):
     in_doc = dao_aggregate_urls(workspace_id)
+    out_doc = JSONEncoder().encode(in_doc)
+    return Response(out_doc, mimetype="application/json")
+
+
+@app.route("/api/workspace/<workspace_id>/seed-url/aggregated/to-deep-crawl", methods=['GET'])
+@login_required
+def api_aggregate_urls_to_deep_crawl(workspace_id):
+    in_doc = dao_aggregate_urls_to_deep_crawl(workspace_id)
     out_doc = JSONEncoder().encode(in_doc)
     return Response(out_doc, mimetype="application/json")
 

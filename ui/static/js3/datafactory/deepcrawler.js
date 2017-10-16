@@ -1,14 +1,10 @@
-/**
- * Created by tomas on 26/08/17.
- */
-
 var deepcrawlerFactory = ngApp.factory('deepcrawlerFactory',['$http', '$httpParamSerializer',
-	function($http, $httpParamSerializer){
+function($http, $httpParamSerializer){
 
-	var urlBase = '/api/workspace/{0}/deepcrawl';
+	var urlBase = '/api/workspace/{0}/deep-crawler';
 	var dataFactory = {};
 
-	dataFactory.publish2DeepCrawl = function(workspaceId, nResults, data){
+	dataFactory.start = function(workspaceId, nResults, data){
 		var url =  String.format(urlBase, workspaceId);
 		var po = {};
 		po.nResults = nResults;
@@ -23,6 +19,18 @@ var deepcrawlerFactory = ngApp.factory('deepcrawlerFactory',['$http', '$httpPara
         return $http.get(url + (qs ? '?' + qs : ""));
     };
 
-	return dataFactory;
+	dataFactory.getDeepcrawlDomainsByDomainName = function (workspaceId, jobId, domainName, query) {
+		var urlBase = '/api/workspace/{0}/deepcrawl-domains/{1}/domain-name/{2}';
+		var url =  String.format(urlBase, workspaceId, jobId, domainName);
+		var qs = $httpParamSerializer(query);
+        return $http.get(url + (qs ? '?' + qs : ""));
+    };
 
+	dataFactory.stop = function(workspaceId, jobId){
+		var url =  String.format(urlBase, workspaceId);
+		return $http.delete(url + '/'+ jobId);
+	};
+
+
+	return dataFactory;
 }]);

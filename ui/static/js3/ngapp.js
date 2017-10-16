@@ -98,6 +98,8 @@ ngApp.filter('roundup', function() {
 		return input.toFixed(2);
     };
 });
+
+
 /*
 ngApp.factory('myHttpInterceptor', function ($q, $window) {
   return function (promise) {
@@ -129,8 +131,9 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 	$routeProvider
 		.when('/',
 			{
-				controller: 'welcomeController',
-				templateUrl: '/static/partials-md/overview-md.html'
+				// controller: 'welcomeController',
+				// templateUrl: '/static/partials-md/overview-md.html'
+				redirectTo: '/seeds'
 			})
 		.when('/seeds',
 			{
@@ -157,11 +160,30 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'allLabeledController',
 				templateUrl: '/static/partials-md/all-labeled.html'
 			})
-
 		.when('/deepcrawler-job/:jobId',
 			{
 				controller: 'deepcrawlerController',
 				templateUrl: '/static/partials-md/deep-crawler-job.html'
+			})
+		.when('/deepcrawler-job/:jobId/deepcrawler-domain/:domain',
+			{
+				controller: 'deepcrawlerDomainController',
+				templateUrl: '/static/partials-md/deep-crawler-domain.html'
+			})
+		.when('/job',
+			{
+				controller: 'jobController',
+				templateUrl: '/static/partials-md/job/table.html'
+			})
+		.when('/smart-crawler-results',
+			{
+				controller: 'smartCrawlerResultsController',
+				templateUrl: '/static/partials-md/smart-crawler-results.html'
+			})
+		.when('/smart-crawler-results/:jobId',
+			{
+				controller: 'smartCrawlerResultsController',
+				templateUrl: '/static/partials-md/smart-crawler-results.html'
 			})
 
 
@@ -196,22 +218,22 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 				controller: 'workspaceController',
 				templateUrl: '/static/partials-md/workspace/table.html'
 			})
-		.when('/dashboard',
-			{
-				controller: 'dashboardController',
-				templateUrl: '/static/partials-md/dashboard-md.html'
-			})
-		.when('/seed-input',
-			{
-				controller: 'seedInputController',
-				templateUrl: '/static/partials-md/seed-input-md.html'
-			})
-
-		.when('/label',
-			{
-				controller: 'labelController',
-				templateUrl: '/static/partials-md/label-md.html'
-			})
+		// .when('/dashboard',
+		// 	{
+		// 		controller: 'dashboardController',
+		// 		templateUrl: '/static/partials-md/dashboard-md.html'
+		// 	})
+		// .when('/seed-input',
+		// 	{
+		// 		controller: 'seedInputController',
+		// 		templateUrl: '/static/partials-md/seed-input-md.html'
+		// 	})
+        //
+		// .when('/label',
+		// 	{
+		// 		controller: 'labelController',
+		// 		templateUrl: '/static/partials-md/label-md.html'
+		// 	})
 //		.when('/training-by-keyword',
 //			{
 //				controller: 'trainingByKeywordController',
@@ -227,21 +249,21 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 //				controller: 'trainingDeepWebController',
 //				templateUrl: '/static/partials-md/training-deep-web-md.html'
 //			})
-		.when('/ml-crawling',
-			{
-				controller: 'mlCrawlingController',
-				templateUrl: '/static/partials-md/ml-crawling-md.html'
-			})
-		.when('/crawling-results',
-			{
-				controller: 'crawlingResultsController',
-				templateUrl: '/static/partials-md/crawling-results-md.html'
-			})
-		.when('/feature-extraction',
-			{
-				controller: 'featureExtractionController',
-				templateUrl: '/static/partials-md/features-md.html'
-			})
+// 		.when('/ml-crawling',
+// 			{
+// 				controller: 'mlCrawlingController',
+// 				templateUrl: '/static/partials-md/ml-crawling-md.html'
+// 			})
+// 		.when('/crawling-results',
+// 			{
+// 				controller: 'crawlingResultsController',
+// 				templateUrl: '/static/partials-md/crawling-results-md.html'
+// 			})
+// 		.when('/feature-extraction',
+// 			{
+// 				controller: 'featureExtractionController',
+// 				templateUrl: '/static/partials-md/features-md.html'
+// 			})
 
 
 
@@ -323,7 +345,7 @@ ngApp.config(['$routeProvider', '$locationProvider', function AppConfig($routePr
 //			})
 		.otherwise({
 			redirectTo: '/'
-			})
+			});
 
     // enable html5Mode for pushstate ('#'-less URLs)
 //    $locationProvider.html5Mode({
@@ -447,3 +469,25 @@ ngApp.config(function ($httpProvider) {
   $httpProvider.defaults.transformRequest.push(spinnerFunction);
 });
 */
+
+
+ngApp.controller('myDialogController', ['$scope', '$mdDialog', 'item',
+    function ($scope, $mdDialog, item) {
+
+        $scope.elem = item;
+
+
+        $scope.hide = function() {
+            $mdDialog.hide();
+        };
+
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+
+        $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+        };
+
+    }]);
+

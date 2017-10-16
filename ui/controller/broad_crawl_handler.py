@@ -3,12 +3,13 @@ import json
 from flask_login import login_required
 
 from controller.InvalidException import InvalidUsage
-from service.broadcrawler_service import start_broad_crawl_job
+from service.broad_crawler_service import start_broad_crawl_job
 from ui import app
 from flask import Response, request
 import logging
 __author__ = 'tomas'
 
+#@Deprecated
 # triggers the schedule_spider_searchengine
 @app.route("/api/workspace/<workspace_id>/broad-crawl", methods=['POST'])
 @login_required

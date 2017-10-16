@@ -1,67 +1,11 @@
-/**
- * Created by tomas on 11/08/17.
- */
-
-ngApp.controller('deepcrawlerController', ['$scope', '$filter', '$routeParams', 'deepcrawlerFactory',
-function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
+ngApp.controller('deepcrawlerController', ['$scope', '$filter', '$rootScope', '$timeout', '$interval', '$routeParams', 'deepcrawlerFactory', 'loginFactory', '$mdDialog',
+function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcrawlerFactory, loginFactory, $mdDialog) {
 
     $scope.jobId = $routeParams.jobId;
 
-/** filters **/
-    // $scope.sources = [
-    //     {"name":"Clear web", "codes":["searchengine", "deepdeep"], "shortCode":"SE"},
-    //     {"name":"Dark web", "codes":["tor"], "shortCode":"TOR"}
-    // ];
-/*
-    $scope.relevances= [
-        {"name": "Relevant", "code":"true", "aggCode": "relevant", "jsCode": true},
-        {"name": "Not relevant", "code":"false", "aggCode": "irrelevant", "jsCode": false},
-        {"name": "Skipped", "code":"null", "aggCode": "skipped", "jsCode": null},
-        {"name": "Pending", "code":"unset", "aggCode": "pending", "jsCode": undefined}
-    ];
-*/
-    /** tabs */
-    // $scope.tabs = {};
-    // $scope.selectedTabIndex = 0;
-
-
     $scope.elems=[];
-    $scope.lastId=null;
+    // $scope.lastId=null;
 
-    /*
-    function init(){
-
-
-
-        for(var i=0; i<$scope.sources.length; i++){
-            var source = $scope.sources[i];
-            var tab = {};
-            tab.source=source;
-            tab.aggregatedResults=null;
-            tab.elems=[];
-            tab.lastId=null;
-            // tab.relevanceSelection = [];
-            tab.disabled=false;
-
-            // for(var j=0; j<$scope.relevances.length; j++){
-            //     tab.relevanceSelection.push($scope.relevances[j].code);
-            // }
-            $scope.tabs[source.shortCode] = tab;
-            console.log("ready to fetch: " + source.shortCode);
-            fetch(tab);
-        }
-        // getAggregated();
-    }
-    */
-/*
-	$scope.bottomOfPageReached = function(){
-	    if($scope.showProgress){
-	        return; // don't double do it
-        }
-	    // console.log("bottomOfPageReached:" + tab);
-		fetch();
-	};
-*/
     /** Begins results */
 
     $scope.crawlJob = {};
@@ -69,20 +13,15 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 
     $scope.filters = {};
 
+    // $scope.fetch = function(){
+    //     fetch();
+    // };
+
     function fetch(){
         var filters = {};
-        // filters["sources"] = tab.source.codes;
-        // if(tab.relevanceSelection.length==0){
-        //     return;
-        // }
-        // filters["relevances"] = tab.relevanceSelection;
-
-        if($scope.lastId){
-            filters["lastId"] = [$scope.lastId];
-        }
 
         $scope.showProgress=true;
-        // seedUrlFactory.get($scope.master.workspaceId, filters)
+
         deepcrawlerFactory.getDomainsByJobId($scope.master.workspaceId, $scope.jobId, filters)
 		.then(
 			function (response) {
@@ -96,18 +35,13 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 				if(response.data["progress"]){
 				    $scope.crawlJob["pagesFetched"]=response.data["progress"]["pagesFetched"];
                     $scope.crawlJob["status"]=response.data["progress"]["status"];
-                    $scope.crawlJob["rpm"]=response.data["progress"]["rpm"];;
+                    $scope.crawlJob["rpm"]=response.data["progress"]["rpm"];
 
 				    if(response.data["progress"]["domains"]){
 				        var tempResults = response.data["progress"]["domains"];
 				        $scope.elems = tempResults;
-                        // Array.prototype.push.apply($scope.elems, tempResults);
-                        //
-                        // $scope.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-                        //     ($scope.elems.length > 0 ? $scope.elems[$scope.elems.length-1]._id : null) ;
                     }
                 }
-                // tab.disabled= (tab.elems.length ==0);
                 $scope.showProgress=false;
 			},
 			function(response) {
@@ -116,5 +50,65 @@ function ($scope, $filter, $routeParams, deepcrawlerFactory, $mdDialog) {
 			});
     }
 
-    fetch();
+
+    $scope.stop = function(){
+        deepcrawlerFactory.stop()
+        .then(
+            function(response){
+                console.log(response.data);
+                alert(response.data["message"]);
+            },
+            function(response){
+                console.log(response.data);
+            }
+        );
+    };
+
+//    $scope.showAdvanced = function(elem, ev) {
+    $scope.showEnterCredentialsForm = function(elem, ev) {
+
+    	elem.workspaceId = $scope.master.workspaceId;
+
+        $mdDialog.show({
+            controller: 'myDialogController',
+            locals:{item: elem},
+            templateUrl: 'static/partials-md/templates/enter-credentials-form.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+            console.log('You said the information was "' + answer + '".');
+            if(answer){
+                sendCredentials(elem);
+            }
+        }, function() {
+            console.log('You cancelled the dialog.');
+        });
+    };
+
+    function sendCredentials(elem){
+        loginFactory.sendCredentials(elem.workspaceId, elem.credentials);
+    }
+
+    // fetch();
+
+
+    var isRunning = false;
+    function backgroundService(){
+        if(!isRunning && $scope.master.workspaceId){
+            isRunning = true;
+            if($scope.elems.length<1) {
+                fetch();
+            }
+            $interval.cancel($rootScope.backgroundDeepCrawlJobServicePromise);
+            $rootScope.backgroundDeepCrawlJobServicePromise = $interval(backgroundService, 5000);
+            isRunning=false;
+        }
+    }
+
+    backgroundService();
+
+
 }]);

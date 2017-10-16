@@ -17,9 +17,10 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 	/** Fetch pages */
 	$scope.seedUrls = [];
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
+	$scope.filters.lastSource = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1].crawlEntityType : null;
 
 
-    $scope.showFilters = ['sources', 'relevances', 'categories', , 'udcs'];
+    $scope.showFilters = ['sources', 'relevances', 'categories', 'udcs'];
 
 
     var searchResultsButtonStarted = false;
@@ -89,10 +90,25 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
                $scope.watchHandlers.push(watchHandler);
             }
 
-			$scope.filters.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-				($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
+			// $scope.filters.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+			// 	($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
+
+            if(tempResults.length > 0){
+                $scope.filters.lastId = tempResults[tempResults.length-1]._id;
+                $scope.filters.lastSource = tempResults[tempResults.length-1].crawlEntityType;
+            }
+            else{
+                if($scope.seedUrls.length > 0){
+                    $scope.filters.lastId = $scope.seedUrls[$scope.seedUrls.length-1]._id
+                    $scope.filters.lastSource = $scope.seedUrls[$scope.seedUrls.length-1].crawlEntityType;
+                }
+                else{
+                    $scope.filters.lastId = null;
+                }
+            }
 		},
 		function (response) {
+		    console.log(response);
 		});
 	};
 

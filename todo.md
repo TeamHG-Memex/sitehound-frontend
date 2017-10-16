@@ -1,8 +1,22 @@
 NEW UI
 
+# Release
+ - obfuscate, minimize and join js files
+
+    #FIXME!!!
+    # location = "http://" + app.config['ES_HOST'] + ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
+    location = "http://" + "54.202.36.157"+ ":" + str(app.config['ES_PORT']) + "/" + app.config['ES_INDEX_NAME'] + "/" + app.config['ES_DOC_TYPE']
+
+# ws
+ - Redirect when no workspace is selected
+
+#Users:
+ - Add change password button on /#users
+ - Improve the change password page
+
 #Seeds:
- - accept onions
- - Browse function.
+// - accept onions
+ - Browse filesystem function.
  - check pagination on seeds results.
  - Don't store keywords in master.
  - Don't use endOfPageReached in master, use scrolly on md-content instead.
@@ -14,6 +28,10 @@ NEW UI
 #New Deep crawl:
  - Implement button Start Deep crawl
  - Improve alert "select all x"
+ - Button to find text on results
+
+#smart-crawler-results
+ - Button to find text on results
 
 
 

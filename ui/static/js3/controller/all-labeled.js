@@ -3,7 +3,7 @@
  */
 
 ngApp.controller('allLabeledController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory',
-function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, $mdDialog) {
+function ($scope, $filter, seedFactory, fetchService, seedUrlFactory) {
 
 /** filters **/
     $scope.sources = [

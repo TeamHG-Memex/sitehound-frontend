@@ -1,0 +1,59 @@
+<div style="padding:8px; padding-top:48px">
+    <div layout="column">
+        <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
+            <div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+                <div class="mdl-card__supporting-text">
+                    <div class="mdl-card__title">
+                        <span class="mdl-card__title-text">
+                            <h4>Page samples on <b><span ng-bind="domainName"></span></b> </h4>
+                        </span>
+                    </div>
+
+                    <div ng-show="elems.length==0" class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
+                        <span>
+                            No results found
+                        </span><br/>
+                    </div>
+                    <div ng-show="elems.length==0" class="mdl-card__supporting-text" style="margin-bottom: 0px;margin-top: 0px;" layout="row" layout-align="end end">
+                        <md-button class="md-primary md-raised" ng-click="refresh()">
+                            Refresh
+                        </md-button>
+                    </div>
+
+                    <md-content ng-show="elems.length>0" class="mdl-grid portfolio-max-width" style="height: 675px" scrolly="bottomOfPageReached()">
+                            <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card" ng-repeat="elem in elems" >
+
+                                <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
+                                    <a href="javascript:void(0)">
+                                        <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">-->
+                                        <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/deepcrawl/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
+                                    </a>
+                                </div>
+
+                                <div class="mdl-card__supporting-text" style="margin:20px;margin-left:20px;margin-right:20px; width: 85%" layout="column" layout-align="space-between start">
+                                    <span class="mdl-card__title-text">
+                                        <span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>
+                                    </span>
+                                </div>
+                                <div class="mdl-card__actions" mdl-card--border>
+                                    <div layout="row" layout-align="space-between center">
+                                        <span style="text-align:justify; font-size:12px;">
+                                            <a href="{{elem.url}}" target="_blank">open in new tab</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%; margin:10px">
+                                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                            </div>
+                    </md-content>
+                </div>
+                <div class="mdl-card__actions">
+                    <div layout="row" layout-align="space-between center">
+                        <a ng-href="/#/deepcrawler-job/{{jobId}}">Back to Job</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

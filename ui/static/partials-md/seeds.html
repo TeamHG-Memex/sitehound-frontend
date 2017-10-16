@@ -1,5 +1,5 @@
 <div style="padding:8px; padding-top:48px">
-    <div ng-controller="seedsController" layout="column">
+    <div layout="column">
 
         <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
             <div class="mdl-card mdl-cell mdl-cell--6-col mdl-shadow--2dp" style="width:48%">
@@ -66,17 +66,43 @@
                 </div>
             </div>
 
-
+            <!--<style>-->
+                <!--.hint {-->
+                    <!--position: absolute;-->
+                    <!--left: 5px;-->
+                    <!--right: auto;-->
+                    <!--bottom: -15px;-->
+                    <!--font-size: 14px;-->
+                    <!--line-height: 14px;-->
+                    <!--transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);-->
+                    <!--color: grey;-->
+                <!--}-->
+            <!--</style>-->
             <div class="mdl-card mdl-cell mdl-cell--6-col mdl-shadow--2dp" style="width:48%">
                 <div class="mdl-card__supporting-text">
                     <h4>Add URLs</h4>
                     <div layout="row"  layout-align="space-between center">
-                        <p>Enter URLs (or Onions) or import them from file</p>
-                        <md-button class="md-primary md-raised" ng-click="browse()" >Browse</md-button>
+                        <p>Enter or import URLs (.onions allowed)</p>
+
+                        <div>
+                            <choose-file layout="row" flex="20">
+                                <input id="fileInput" type="file" accept=".txt" class="ng-hide">
+                                <md-input-container flex class="md-block">
+                                    <input type="text" ng-model="fileName" disabled class="ng-hide">
+                                </md-input-container>
+                                <div>
+                                    <md-button id="uploadButton" class="md-fab md-mini">
+                                        <md-icon class="material-icons">attach_file</md-icon>
+                                        <!--<md-icon class="material-icons">file_upload</md-icon>-->
+                                    </md-button>
+                                </div>
+                            </choose-file>
+                        </div>
+
+
                     </div>
                     <md-input-container class="md-block">
-                        <!--<label>Add known URLs from the domain you want to discover</label>-->
-                        <textarea ng-model="upload.urlsToAdd" max-rows="15" md-select-on-focus placeholder="i.e. https://www.google.com"></textarea>
+                        <textarea  styel="font-size:13px" ng-model="upload.urlsToAdd" max-rows="15" md-select-on-focus placeholder="i.e. https://www.google.com"></textarea>
                     </md-input-container>
                 </div>
                 <div class="mdl-card__actions" mdl-card--border>
@@ -96,7 +122,7 @@
 
 
 
-        <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
+        <section ng-show="seedUrls.length>0"  class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
             <div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
                 <div class="mdl-card__supporting-text">
                     <h4>Results</h4>
@@ -108,7 +134,7 @@
                                         <span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>
                                     </span>
                                 </div>
-                                <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)">
+                                <div class="mdl-card__media" ng-click="showAdvanced(elem, $event)" style="min-width:290px; min-height:250px; background-color: transparent">
                                     <a href="javascript:void(0)">
                                         <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/broadcrawl/screenshot/{{elem.id}}"  width="284" height="216" border="0" alt="">-->
                                         <img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">
@@ -138,8 +164,8 @@
                     <div layout="row" layout-align="space-between center">
                         <!--<md-button class="md-primary md-raised" ng-click="newDeepCrawl($event)">New Deep Crawl</md-button>-->
                         <!--<md-button class="md-primary md-raised" ng-click="newSmartCrawl($event)">New Smart Crawl</md-button>-->
-                          <a href="#/new-deep-crawl" class="mdl-button">New Deep Crawl</a>
-                          <a href="#/new-smart-crawl" class="mdl-button">New Smart Crawl</a>
+                          <a href="#/new-deep-crawl" class="mdl-button">Deep Crawl</a>
+                          <a href="#/model" class="mdl-button">Smart Crawl</a>
                     </div>
                 </div>
             </div>

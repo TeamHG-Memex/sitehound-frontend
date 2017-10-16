@@ -1,7 +1,9 @@
-ngApp.controller('seedsController', ['$scope', '$filter', '$mdConstant','seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService', 'importUrlFactory', 'domFactory',
-function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactory, trainingService, importUrlFactory, domFactory) {
+ngApp.controller('seedsController', ['$scope', '$filter', '$rootScope', '$timeout', '$interval', '$mdConstant','seedFactory', 'fetchService', 'seedUrlFactory', 'importUrlFactory', 'domFactory',
+function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFactory, fetchService, seedUrlFactory, importUrlFactory, domFactory) {
 
-    // $scope.master.init();
+    console.log("loading seeds");
+
+    $scope.master.init();
 
     /** BEGIN KEYWORD SEEDS **/
 
@@ -18,7 +20,9 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 	  };
 	};
 
-	$scope.getSeeds = function(workspaceId){
+	$scope.getSeeds = function(){
+        var workspaceId = $scope.master.workspaceId;
+
 		if(!workspaceId){
 			return;
 		}
@@ -68,11 +72,9 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 		function(){})
 	};
 
-    $scope.getSeeds($scope.master.workspaceId);
+    $scope.getSeeds();
 
 	/** END KEYWORD SEEDS  **/
-
-
 
 
 
@@ -160,33 +162,20 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 
     $scope.showByurlProgressTab = false;
 
-
-
-    $scope.results=[
-        {"id":"_adfaf1", "host": "host1", "title": "title afaf 1"},
-        {"id":"_adfaf2", "host": "host2", "title": "title afaf 2"},
-        {"id":"_adfaf3", "host": "host3", "title": "title afaf 3"},
-        {"id":"_adfaf4", "host": "host4", "title": "title afaf 4"},
-        {"id":"_adfaf5", "host": "host5", "title": "title afaf 5"},
-        {"id":"_adfaf6", "host": "host6", "title": "title afaf 6"},
-        {"id":"_adfaf7", "host": "host7", "title": "title afaf 7"},
-        {"id":"_adfaf8", "host": "host8", "title": "title afaf 8"},
-        {"id":"_adfaf9", "host": "host9", "title": "title afaf 9"},
-    ];
-
-    $scope.results2=[
-        {"id":"_adfaf21", "host": "host1", "title": "title afaf 1"},
-        {"id":"_adfaf22", "host": "host2", "title": "title afaf 2"},
-        {"id":"_adfaf23", "host": "host3", "title": "title afaf 3"},
-        {"id":"_adfaf24", "host": "host4", "title": "title afaf 4"},
-        {"id":"_adfaf25", "host": "host5", "title": "title afaf 5"},
-        {"id":"_adfaf26", "host": "host6", "title": "title afaf 6"},
-        {"id":"_adfaf27", "host": "host7", "title": "title afaf 7"},
-        {"id":"_adfaf28", "host": "host8", "title": "title afaf 8"},
-        {"id":"_adfaf29", "host": "host9", "title": "title afaf 9"},
-    ];
-
-
+    $scope.addUrlsFromFile = function(data){
+        importedUrls = [];
+		var lines = data.split("\n");
+		for(var i=0; i<lines.length;i++){
+			var line = lines[i].trim();
+			if(validateUrl(line)){
+                importedUrls.push(line);
+			}
+			else{
+				console.log("couldn't validate:" +  line);
+			}
+		}
+        $scope.upload.urlsToAdd = importedUrls.join("\n");
+	};
 
     /**  Ends upload */
 
@@ -194,6 +183,7 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
     /** Begins results */
 
 	$scope.bottomOfPageReached = function(){
+        console.log("bottomOfPageReached");
 		fetch();
 	};
 
@@ -206,26 +196,39 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 	$scope.seedUrls = [];
 	$scope.filters.lastId = $scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null;
 
-	function fetch(){
-
-        seedUrlFactory.get($scope.master.workspaceId, $scope.filters)
+    function fetch(){
+        seedUrlFactory.getSeedResults($scope.master.workspaceId, $scope.filters)
 		.then(
 			function (response) {
-				console.log("finish fetching seed Urls");
 				var tempResults = response.data;
 				Array.prototype.push.apply($scope.seedUrls, tempResults);
 
 				$scope.filters.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
 					($scope.seedUrls.length > 0 ? $scope.seedUrls[$scope.seedUrls.length-1]._id : null) ;
-			},
+				// console.log("finish fetching seed Urls");
+
+            },
 			function (response) {
 				console.log(response);
 			});
 	}
 
-	fetch();
+    var isRunning = false;
+    function backgroundService(){
+        if(!isRunning && $scope.master.workspaceId){
+            isRunning = true;
+            if($scope.seedUrls.length<7) {
+                fetch();
+            }
+            $interval.cancel($rootScope.backgroundSeedsResultsServicePromise);
+            $rootScope.backgroundSeedsResultsServicePromise = $interval(backgroundService, 5000);
+            isRunning=false;
+        }
+    }
+    backgroundService();
 
 	/** end results */
+
 
 	$scope.newDeepCrawl = function(){
 		domFactory.navigateToUrl("#/new-deep-crawl");
@@ -235,5 +238,44 @@ function ($scope, $filter, $mdConstant, seedFactory, fetchService, seedUrlFactor
 		domFactory.navigateToUrl("/new-smart-crawl");
 	};
 
-
 }]);
+
+
+
+/* FILE OPEN */
+ngApp.directive('chooseFile', function() {
+    return {
+        link: function (scope, elem, attrs) {
+            var button = elem.find('button');
+            var input = angular.element(elem[0].querySelector('input#fileInput'));
+            button.bind('click', function() {
+                input[0].click();
+            });
+            input.bind('change', function(e) {
+                scope.$apply(function() {
+                	console.log("change triggered");
+                    var files = e.target.files;
+                    if (files[0]) {
+                        var f = files[0];
+                        scope.fileName = f.name;
+                        r = new FileReader();
+
+                        r.onloadend = function(e) {
+                            var data = e.target.result;
+							scope.addUrlsFromFile(data);
+                        };
+
+                        r.readAsBinaryString(f);
+
+						// resets the field allowing to upload several times on the same file
+						e.target.value=null;
+
+                    } else {
+                        scope.fileName = null;
+                    }
+                });
+            });
+        }
+    };
+});
+

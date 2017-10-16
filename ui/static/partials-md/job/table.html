@@ -1,0 +1,54 @@
+<div style="padding:8px; padding-top:48px">
+    <div layout="column">
+
+	<section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
+		<div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+			<md-content flex md-scroll-y class="md-default-theme" id="homeContent">
+					<div layout="column" flex>
+						<md-toolbar class="md-table-toolbar md-default">
+							<div class="md-toolbar-tools">
+								<h2 class="md-title">Showing all jobs</h2>
+								<div flex></div>
+							</div>
+						</md-toolbar>
+						<md-table-container>
+							<!--<table md-table md-auto-select md-row-select ng-model="selected" md-progress="promise">-->
+							<table md-table ng-model="selected" md-progress="promise">
+
+								<thead md-head md-order="query.orderBy" md-on-reorder="onReorder">
+								<tr md-row>
+									<th md-column md-order-by="_id">Id</th>
+									<th md-column md-order-by="strTimestamp" style="min-width: 124px">Started</th>
+									<th md-column md-order-by="crawlType"><span>Type</span></th>
+									<th md-column md-order-by="nResultsRequested"><span>Max. Pages</span></th>
+									<th md-column md-order-by="status"><span>Status</span></th>
+									<!--<th md-column md-order-by="percentage_done">% Done</th>-->
+								</tr>
+								</thead>
+								<tbody md-body>
+
+								<!--<tr md-row md-select="domain" md-select-id="{{domain._id}}" ng-repeat="domain in domains.data">-->
+								<tr md-row md-select="elem._id" md-select-id="_id" ng-repeat="elem in elems" md-on-select="mdOnSelect" md-on-deselect="mdOnDeselect"   >
+									<td md-cell>
+										<a ng-show="elem.crawlType=='DEEPCRAWL'" ng-href="#/deepcrawler-job/{{elem._id}}">{{elem._id}}</a>
+										<a ng-show="elem.crawlType=='SMARTCRAWL'" ng-href="#/smart-crawler-results/{{elem._id}}">{{elem._id}}</a>
+										<span ng-hide="elem.crawlType=='DEEPCRAWL' || elem.crawlType=='SMARTCRAWL'">{{elem._id}}</span>
+									</td>
+									<td md-cell>{{elem.strTimestamp}}</td>
+									<td md-cell>{{elem.crawlType}}</td>
+									<td md-cell>{{elem.nResultsRequested}}</td>
+									<td md-cell>{{elem.status}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</md-table-container>
+
+						<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{elemsCount}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+					</div>
+				<!--</ui-view>-->
+			</md-content>
+		</div>
+		</section>
+	</div>
+
+</div>

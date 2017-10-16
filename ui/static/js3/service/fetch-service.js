@@ -21,7 +21,7 @@ var fetchService = ngApp.factory('fetchService',['$http', function($http){
 	service.resetResults = function(workspaceId, source){
 		var url =  String.format(urlBase, workspaceId);
 		return $http.delete(url + '/generation/' + source);
-	}
+	};
 
 	return service;
 }]);

@@ -1,5 +1,5 @@
 <div style="padding:8px; padding-top:48px">
-    <div ng-controller="newDeepCrawlController" layout="column">
+    <div layout="column">
 
         <section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
             <div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
@@ -13,11 +13,12 @@
 
 
                     <!--/*margin-left: 27px;margin-right: 27px-->
+
+                    <!--
                     <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
                         <div layout="row" layout-align="start center">
-                            <span>Max pages to fetch</span>
+                            <span>Max pages to fetch per domain</span>
                             <md-input-container style="margin-left: 10px">
-                                <!--<label>Max pages to fetch</label>-->
                                 <md-select ng-model="nResults">
                                     <md-option ng-repeat="max in nResultsOptions" ng-value="max">
                                       {{max}}
@@ -25,57 +26,8 @@
                                 </md-select>
                             </md-input-container>
                         </div>
-                        <!--<div class="mdl-card__title-text" >-->
-                            <!--<span ng-bind="elem.title" style="text-align:justify; width: 240px;font-size:16px;"> </span>-->
-
-                        <!--
-                            <h5>Select domains to deep crawl</h5>
-                            <div layout="row" layout-align="space-between center" style="width: 100%" flex>
-                                <div layout="row" flex="80">
-                                    <span flex="15">Filter by source</span>
-                                    <div  ng-repeat="source in sources" style="margin-left:10px">
-                                        <md-checkbox ng-click="filterBySource(source)">
-                                            {{ source.name }} ({{source.results}})
-                                        </md-checkbox>
-                                    </div>
-                                </div>
-                                <div flex="20">
-                                    <md-input-container>
-                                         <label>Filter by URL</label>
-                                        <input name="searchTerm" ng-model="searchTerm" style="margin-left:10px"/>
-                                    </md-input-container>
-                                </div>
-                            </div>
-                            <div layout="row" layout-align="space-between center" style="width: 100%" flex="30">
-                                <div>
-                                    <md-checkbox
-                                        aria-label="Select All"
-                                         ng-checked="isChecked()"
-                                         md-indeterminate="isIndeterminate()"
-                                         ng-click="toggleAll()">
-                                        <span ng-if="isChecked()">Un-</span>Select All
-                                    </md-checkbox>
-                                </div>
-                            </div>
-                        -->
-                            <!--<div layout="row" layout-align="space-between center" flex="100">-->
-                                      <!--<md-content class="md-padding" flex="100">-->
-                                        <!--<md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect>-->
-                                          <!--<md-tab ng-repeat="tab in tabs"-->
-                                                  <!--ng-disabled="tab.disabled"-->
-                                                  <!--label="{{tab.title}}">-->
-                                            <!--<div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">-->
-                                              <!--<div ng-bind="tab.content"></div>-->
-                                              <!--<br/>-->
-                                              <!--<md-button class="md-primary md-raised" ng-click="removeTab( tab )" ng-disabled="tabs.length <= 1">Remove Tab</md-button>-->
-                                            <!--</div>-->
-                                          <!--</md-tab>-->
-                                        <!--</md-tabs>-->
-                                      <!--</md-content>-->
-                            <!--</div>-->
-
                     </div>
-
+                    -->
 
                     <!--<md-content class="mdl-grid portfolio-max-width" style="height: 700px" >-->
                     <div class="mdl-grid portfolio-max-width" style="height: 851px" >
@@ -94,7 +46,9 @@
                                                     </div>
 
                                                     <div>
-                                                        {{tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0)}}  selected
+                                                        {{tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0)}}
+                                                        selected
+
                                                     </div>
                                                     <div>
                                                         Showing {{tab.elems.length}} of {{tab.nResults}}
@@ -154,51 +108,6 @@
                             </md-tab>
                         </md-tabs>
                     </div>
-                  <!--</md-content>-->
-
-                    <!--<md-content class="mdl-grid portfolio-max-width" style="height: 700px" scrolly="bottomOfPageReached()">-->
-                            <!--<div class="mdl-cell mdl-card mdl-shadow&#45;&#45;4dp portfolio-card" style="width: 100%" ng-repeat="elem in seedUrls" >-->
-
-
-                                <!--&lt;!&ndash;layout-align="space-between center"&ndash;&gt;-->
-                                <!--<div layout="row" flex layout-align="start center">-->
-                                    <!--<div flex="5" layout="column" layout-align="center center">-->
-                                        <!--<md-checkbox style="margin-left:8px" ng-checked="exists(elem._id, selectedResults)" ng-click="toggle(elem._id, selectedResults)">-->
-                                                <!--&lt;!&ndash;ng-checked="exists(item, selected)" ng-click="toggle(item, selected)"&ndash;&gt;-->
-                                            <!--&lt;!&ndash;{{ item }}&ndash;&gt;-->
-                                        <!--</md-checkbox>-->
-                                    <!--</div>-->
-                                    <!--<div class="mdl-card__media mdl-shadow&#45;&#45;2dp" ng-click="showAdvanced(elem, $event)" style="width: 290px">-->
-                                        <!--<a href="javascript:void(0)">-->
-                                            <!--<img class="article-image" ng-src="api/workspace/{{master.workspaceId}}/keywords/screenshot/{{elem._id}}" width="290" height="250" border="0" alt="">-->
-                                        <!--</a>-->
-                                    <!--</div>-->
-                                    <!--<div layout="column" layout-align="space-between start" style="margin-left:20px;margin-right: 20px;">-->
-                                        <!--<div class="mdl-card__title">-->
-                                            <!--<span class="mdl-card__title-text">-->
-                                                <!--<span style="font-size:20px;" ng-bind="elem.host | capitalize"></span>-->
-                                            <!--</span>-->
-                                        <!--</div>-->
-                                        <!--<div class="mdl-card__supporting-text"  layout="column" layout-align="space-between start">-->
-                                            <!--<span class="mdl-card__title-text">-->
-                                                <!--<span ng-bind="elem.title" style="font-size:16px;"> </span>-->
-                                            <!--</span>-->
-                                        <!--</div>-->
-                                        <!--<div class="mdl-card__actions" mdl-card&#45;&#45;border>-->
-                                            <!--<div layout="row" layout-align="space-between center">-->
-                                                <!--<span style="text-align:justify; font-size:12px;">-->
-                                                    <!--Source:-->
-                                                    <!--<span ng-bind="elem.crawlEntityType"></span>-->
-                                                <!--</span>-->
-                                                <!--<span style="text-align:justify; font-size:12px;">-->
-                                                    <!--<a href="{{elem.url}}" target="_blank">open in new tab</a>-->
-                                                <!--</span>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                    <!--</md-content>-->
                 </div>
                 <div class="mdl-card__actions">
                     <div layout="row" layout-align="space-between center">

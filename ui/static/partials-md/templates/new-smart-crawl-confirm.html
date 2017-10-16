@@ -1,0 +1,55 @@
+<md-dialog aria-label="Details">
+    <form ng-cloak >
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Smart crawl settings</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon>close_dialog</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content style="width: 430px; margin-left: 20px; margin-right: 20px">
+            <div class="md-dialog-content" layout="column" layout-align="start start">
+
+                <div layout="row" layout-align="space-between center" style="width: 100%">
+                    <header style="font-size: 16px">Max pages to fetch per domain:</header>
+                    <md-input-container style="margin-left: 10px; font-size: 14px">
+                        <md-select ng-model="elem.nResults">
+                            <md-option ng-repeat="max in elem.nResultsOptions" ng-value="max" aria-label="{{ max }} " >
+                              {{max}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row" layout-align="space-between center" style="width: 100%">
+                    <label style="font-size: 16px">Broadness:</label>
+                    <span layout="row" layout-align="center center" >
+                        <span style="font-size: 14px; font-weight: bold">
+                            Deeper&nbsp;&nbsp;
+                        </span>
+                        <md-slider-container>
+                            <md-slider flex min="1" max="5" ng-model="elem.broadnessNumber" aria-label="red" id="blue-slider">
+                            </md-slider>
+                        </md-slider-container>
+                        <span style="font-size: 14px; font-weight: bold">
+                           &nbsp;&nbsp;Broader&nbsp;
+                        </span>
+                    </span>
+                </div>
+
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center" style="margin: 20px;margin-top: 0px;">
+            <md-button class="md-raised" ng-click="answer(false)">
+                Cancel
+            </md-button>
+            <md-button class="md-primary md-raised" ng-disabled="!elem.nResults" ng-click="answer(true)" md-autofocus>
+                Start
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

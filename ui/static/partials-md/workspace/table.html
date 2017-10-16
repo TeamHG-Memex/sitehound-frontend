@@ -1,5 +1,5 @@
 <div style="padding:8px; padding-top:48px">
-    <div ng-controller="newDeepCrawlController" layout="column">
+    <div layout="column">
 
 	<section class="section--center mdl-grid mdl-grid--no-spacing" layout-align="space-between center" >
 		<div class="mdl-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
@@ -19,7 +19,7 @@
 						<!--<md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">-->
 						<md-toolbar class="md-table-toolbar md-default">
 							<div class="md-toolbar-tools">
-								<h2 class="md-title">Choose or create a new Workspace</h2>
+								<h2 class="md-title">Choose or create a workspace to begin</h2>
 								<div flex></div>
 								<!--<md-button class="md-icon-button" ng-click="filter.show = true">-->
 									<!--<md-icon>filter_list</md-icon>-->
@@ -94,7 +94,11 @@
 
 									<!--<td md-cell >{{workspace._id}}</td>-->
 									<!--<td md-cell ng-click="editComment($event, workspace)">{{workspace.name}} &nbsp;-->
-									<td md-cell ng-click="setWorkspace(workspace._id)"><a ng-href="#/seeds">{{workspace.name}}</a>
+									<!--<td md-cell ng-click="setWorkspace(workspace._id)"><a ng-href="#/seeds">{{workspace.name}}</a>-->
+
+									<!--style="cursor: pointer;"-->
+									<td md-cell ng-click="setWorkspace(workspace._id)">
+										<a>{{workspace.name}}</a>
 										<!--<i class="material-icons md-18">mode-edit</i>-->
 										<!--<i class="material-icons md-18">edit</i>-->
 									</td>

@@ -9,28 +9,26 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', '$httpParamSeriali
 		var qs = $httpParamSerializer(filters);
 		return $http.get(url + (qs ? '?' + qs : ""));
 	};
-/*
 
-	dataFactory.get = function (workspaceId, source, filters) {
-		var url =  String.format(urlBase, workspaceId);
-		debugger;
-
-//		po = {};
-//		po.sources = filters.sources;
-//		po.relevances = filters.relevances;
-//		po.categories = filters.categories;
-//		po.udcs = filters.udcs;
-//		po.lastId = lastId;
-		return $http.post(url + '/' + source, filters);
+	dataFactory.getToDeepCrawl = function (workspaceId, filters) {
+		var url =  String.format(urlBase, workspaceId) + "/to-deep-crawl";
+		var qs = $httpParamSerializer(filters);
+		return $http.get(url + (qs ? '?' + qs : ""));
 	};
-*/
 
+	dataFactory.getSeedResults = function (workspaceId, filters) {
+		var url =  String.format(urlBase, workspaceId) + "/keywords-results";
+		var qs = $httpParamSerializer(filters);
+        return $http.get(url + (qs ? '?' + qs : ""));
+	};
+
+	/*
 	dataFactory.getUdcs = function (workspaceId) {
 		var url =  String.format(urlBase, workspaceId);
 //		return $http.get(url + '/' + source + '/udcs');
 		return $http.get(url + '/udcs');
 	};
-
+*/
 
 //	dataFactory.update = function(workspaceId, id, relevance){
 //		var url =  String.format(urlBase, workspaceId);
@@ -103,5 +101,12 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', '$httpParamSeriali
 		var url =  String.format(urlBase+'/aggregated', workspaceId);
 		return $http.get(url);
 	};
+
+	dataFactory.getAggregatedToDeepCrawl = function (workspaceId) {
+		var url =  String.format(urlBase+'/aggregated/to-deep-crawl', workspaceId);
+		return $http.get(url);
+	};
+
+
 	return dataFactory;
 }]);

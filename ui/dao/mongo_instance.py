@@ -2,9 +2,6 @@ import pymongo
 from bson import ObjectId
 
 __author__ = 'tomas'
-# import itertools
-# import csv
-# import pymongo
 from pymongo import MongoClient
 import traceback
 
@@ -15,7 +12,6 @@ which_collection specifies whether to connect to the scrapy crawl data or common
 to connect to common crawl specify this as cc_crawldata
 '''
 
-
 mongo_database_name = "MemexHack"
 seed_urls_collection_name = "seed_urls"
 broad_crawler_collection_name = "broad_crawler"
@@ -25,6 +21,8 @@ user_collection_name = "user"
 role_collection_name = "role"
 deep_crawler_collection_name = "deep_crawler"
 deep_crawler_domains_collection_name = "deep_crawler_domains"
+login_collection_name = "login"
+
 
 class MongoInstance(object):
 
@@ -60,6 +58,9 @@ class MongoInstance(object):
     def get_deep_crawler_domains_collection(self):
         return self.db[deep_crawler_domains_collection_name]
 
+    def get_login_collection(self):
+        return self.db[login_collection_name]
+
     def initialize(self):
         collections = self.db.collection_names()
 
@@ -81,6 +82,10 @@ class MongoInstance(object):
         if deep_crawler_domains_collection_name not in collections:
             self.db.create_collection(deep_crawler_domains_collection_name)
             self.db[deep_crawler_domains_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("jobId", pymongo.ASCENDING), ("domain", pymongo.ASCENDING)], name="domain_search_index")
+
+        if login_collection_name not in collections:
+            self.db.create_collection(login_collection_name)
+            self.db[login_collection_name].create_index([("workspaceId", pymongo.ASCENDING)], name="login_index")
 
     def get_workspace_by_id(self, id):
         return self.workspace_collection.find_one({"_id": ObjectId(id)})

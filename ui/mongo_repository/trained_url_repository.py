@@ -1,16 +1,12 @@
+from collections import OrderedDict
+
 import pymongo
 from bson import ObjectId
 
 from ui.singleton import Singleton
 
 
-
-def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id):
-
-    # collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
-    # return list(collection.find({'workspaceId': workspace_id}))
-
-# def get_seeds_urls_by_source_dao(workspace_id, source, relevances, categories, udcs, last_id):
+def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, categories, keyword_source_type, last_id, last_source):
 
     and_condition_list = []
 
@@ -21,8 +17,6 @@ def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances
             if source == "searchengine":
                 source_search_conditions.append({'crawlEntityType': "BING"})
                 source_search_conditions.append({'crawlEntityType': "GOOGLE"})
-            # elif source == "twitter":
-            #     source_search_conditions.append({'crawlEntityType': "TWITTER"})
             elif source == "tor":
                 source_search_conditions.append({'crawlEntityType': "TOR"})
             elif source == "imported":
@@ -58,36 +52,84 @@ def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances
         categories_search_object = {'$or': categories_search_conditions}
         and_condition_list.append(categories_search_object)
 
-    #udcs
-    if len(udcs) > 0:
-        udcs_search_conditions = []
-        for udc in udcs:
-            udcs_search_conditions.append({'udc': udc.lower()})
+    # #udcs
+    # if len(udcs) > 0:
+    #     udcs_search_conditions = []
+    #     for udc in udcs:
+    #         udcs_search_conditions.append({'udc': udc.lower()})
+    #
+    #     udcs_search_object = {'$or': udcs_search_conditions}
+    #     and_condition_list.append(udcs_search_object)
 
-        udcs_search_object = {'$or': udcs_search_conditions}
-        and_condition_list.append(udcs_search_object)
 
     page_search_object = {}
-    if last_id is not None:
-        # page_search_object = {'_id' > input_search_query['last_id']}
-        page_search_object = {"_id": {"$gt": ObjectId(last_id)}}
+    if last_id is not None and last_source is not None:
+        #even bigger from same source, or any from other source
+        page_search_object = {'$or': [
+            {"$and": [{"_id": {"$gt": ObjectId(last_id)}}, {"crawlEntityType": last_source}]},
+            {"crawlEntityType": {"$ne": last_source}}
+        ]}
         and_condition_list.append(page_search_object)
 
-    deleted_search_object = {'deleted': None}
+    deleted_search_object = {'deleted': {"$exists": False}}
     and_condition_list.append(deleted_search_object)
 
     workspace_search_object = {'workspaceId': workspace_id}
     and_condition_list.append(workspace_search_object)
 
-    # field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'urlDesc', 'categories', 'language', 'relevant']
-    # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant', 'words']
-    # field_names_to_include = ['_id', 'crawlEntityType', 'url', 'relevant']
-    # field_names_to_include = ['_id', 'host', 'desc', 'crawlEntityType', 'url', 'words', 'title', 'language', 'relevant', 'categories', 'udc']
-    field_names_to_include = ['_id', 'host', 'crawlEntityType', 'url', 'title', 'language', 'relevant']
+
+    sort_dict = OrderedDict()
+    sort_dict['order'] = 1
+    sort_dict['_id'] = 1
 
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
-    res = collection\
-        .find({'$and': and_condition_list}, field_names_to_include)\
+
+    res = collection.aggregate([
+        { "$project" : {
+            '_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1, 'workspaceId':1, 'deleted':1,
+            "order" : {
+                "$cond" : {
+                    "if": { "$eq" : ["$crawlEntityType", "DD"] }, "then" : 1,
+                    "else": { "$cond" : {
+                        "if": { "$eq" : ["$crawlEntityType", "TOR"] }, "then" : 2,
+                        "else": {"$cond": {
+                            "if": {"$eq": ["$crawlEntityType", "GOOGLE"]}, "then": 3,
+                            "else": {"$cond": {
+                                "if": {"$eq": ["$crawlEntityType", "BING"]}, "then": 4,
+                                "else": 5
+                            }}
+                        }}
+                    }}
+                }
+            }}
+        },
+        {"$match" : {'$and': and_condition_list}},
+        {"$sort" : sort_dict },
+        {"$limit" : page_size },
+        {"$project" : {'_id':1, 'host':1, 'crawlEntityType':1, 'url':1, 'title':1, 'relevant':1, 'order': 1} }
+    ])
+
+    docs = list(res["result"])
+    return docs
+
+
+def get_seeds_urls_keywords_results_dao(workspace_id, page_size, last_id):
+
+    and_condition_list = []
+
+    deleted_search_object = {'deleted': {"$exists": False}}
+    and_condition_list.append(deleted_search_object)
+
+    workspace_search_object = {'workspaceId': workspace_id}
+    and_condition_list.append(workspace_search_object)
+
+    if last_id:
+        last_id_search_object = {"_id": {"$gt": ObjectId(last_id)}}
+        and_condition_list.append(last_id_search_object)
+
+    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+
+    res = collection.find({'$and': and_condition_list})\
         .sort('_id', pymongo.ASCENDING)\
         .limit(page_size)
 
@@ -95,7 +137,6 @@ def get_seeds_urls_by_workspace_dao(workspace_id, page_size, sources, relevances
     return docs
 
 
-# def get_seeds_udcs_by_source_dao(workspace_id, source):
 def get_seeds_udcs_by_workspace_dao(workspace_id):
 
     and_condition_list = []
@@ -239,15 +280,15 @@ def dao_reset_results(workspace_id, source):
 
 def dao_aggregate_urls(workspace_id):
 
-    source_search_conditions = []
+    and_search_conditions = []
 
     workspace_search_object = {'workspaceId': workspace_id}
-    source_search_conditions.append(workspace_search_object)
+    and_search_conditions.append(workspace_search_object)
 
     delete_search_object = {'deleted': {'$exists': False}}
-    source_search_conditions.append(delete_search_object)
+    and_search_conditions.append(delete_search_object)
 
-    source_search_object = {'$and': source_search_conditions}
+    source_search_object = {'$and': and_search_conditions}
 
     collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
 

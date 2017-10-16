@@ -12,24 +12,21 @@ from ui import Singleton
 
 ##################### Service #####################
 
-# This method takes the documents from the db and post them on the queue
 
-def start_broad_crawl_job(workspace_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources, crawl_type):
+def start_broad_crawl_job(workspace_id, num_to_fetch, crawl_type):
 
-        #check there is trained data
-        categorized_urls = get_seeds_urls_categorized(workspace_id)
+    #check there is trained data
+    categorized_urls = get_seeds_urls_categorized(workspace_id)
 
-        if 'relevant' not in categorized_urls or len(categorized_urls['relevant']) == 0:
-            raise InvalidUsage("No trained URLS!", status_code=409)
+    if 'relevant' not in categorized_urls or len(categorized_urls['relevant']) == 0:
+        raise InvalidUsage("No trained URLS!", status_code=409)
 
-        job_id = save_job(workspace_id, num_to_fetch=int(num_to_fetch), broad_crawler_provider=broad_crawler_provider,
-                          broad_crawler_sources=broad_crawler_sources, crawl_type=crawl_type)
+    job_id = save_job(workspace_id, num_to_fetch=int(num_to_fetch), crawl_type=crawl_type)
 
-        job_id = str(job_id)
-        queue_broad_crawl(workspace_id, job_id=job_id, num_to_fetch=int(num_to_fetch),
-                          broad_crawler_provider=broad_crawler_provider, broad_crawler_sources=broad_crawler_sources)
+    job_id = str(job_id)
+    queue_broad_crawl(workspace_id, job_id=job_id, num_to_fetch=int(num_to_fetch))
 
-        return job_id
+    return job_id
 
 
 def queue_broad_crawl(workspace_id, job_id, num_to_fetch, broad_crawler_provider, broad_crawler_sources):
@@ -56,30 +53,6 @@ def queue_broad_crawl(workspace_id, job_id, num_to_fetch, broad_crawler_provider
 
     logging.info(message)
     Singleton.getInstance().broker_service.add_message_to_broadcrawler(message, broad_crawler_provider)
-
-'''
-def register_broadcrawler_subscriber():
-    # Callback
-    # def action1(args):
-    #     print("action1 run with: " + str(args))
-
-    # def save_urls(obj):
-    # url = obj['url']
-    # 	print("save_url with: " + url)
-    # 	print("save_url object with: " + str(obj))
-    # 	dao_update_url(url=url, obj=obj)
-
-    def save_urls(message):
-
-        # persist the message
-        dao_insert_or_update(message)
-
-        # schedule the splash snapshot
-        collection = 'broadcrawler'
-        splash_publication(message['url'], message['workspace'], collection)
-
-    Singleton.getInstance().broker_service.read_topic_from_broadcrawler(callback=save_urls)
-'''
 
 
 def get_existing_categories_service(workspace_id):

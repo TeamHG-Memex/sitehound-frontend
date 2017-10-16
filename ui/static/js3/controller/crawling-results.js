@@ -338,24 +338,3 @@ function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawl
 }]);
 
 
-
-ngApp.controller('myDialogController', ['$scope', '$mdDialog', 'item',
-    function ($scope, $mdDialog, item) {
-
-        $scope.elem = item;
-
-
-        $scope.hide = function() {
-            $mdDialog.hide();
-        };
-
-        $scope.cancel = function() {
-            $mdDialog.cancel();
-        };
-
-        $scope.answer = function(answer) {
-            $mdDialog.hide(answer);
-        };
-
-    }]);
-

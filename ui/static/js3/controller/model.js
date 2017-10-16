@@ -1,9 +1,7 @@
-/**
- * Created by tomas on 11/08/17.
- */
+ngApp.controller('modelController', ['$scope', '$rootScope', '$filter', '$interval', '$mdDialog', 'domFactory', 'seedUrlFactory', 'modelerFactory', 'trainerFactory', 'smartCrawlerFactory',
+function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrlFactory, modelerFactory, trainerFactory, smartCrawlerFactory) {
 
-ngApp.controller('modelController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory', 'trainingService',
-function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingService, $mdDialog) {
+    $scope.master.init();
 
 /** filters **/
     $scope.sources = [
@@ -24,6 +22,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
             tab.aggregatedResults=null;
             tab.elems=[];
             tab.lastId=null;
+            tab.lastSource=null;
             tab.selected=[];
             tab.allSelected=false;
             $scope.tabs[source.shortCode] = tab;
@@ -46,6 +45,167 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         }
     }
 
+    $scope.showUnderTheHood = false;
+    $scope.toogleShowUnderTheHood = function (value) {
+        $scope.showUnderTheHood = value;
+    };
+
+    $scope.modelerProgress={};
+    $scope.modelerProgress["quality"] = {};
+    $scope.modelerProgress["percentage_done"] = 0;
+
+    $scope.getModelerProgress = function(){
+        modelerFactory.getProgress($scope.master.workspaceId)
+            .then(
+                function(response){
+                    if(response.data["quality"]){
+                        $scope.modelerProgress["quality"] = response.data["quality"];
+                        $scope.modelerProgress["quality"].advice = $scope.adviceParser($scope.modelerProgress["quality"].advice, $scope.modelerProgress["quality"].tooltips);
+                    }
+                    if(response.data["percentage_done"]){
+                        $scope.modelerProgress["percentage_done"] = response.data["percentage_done"];
+                    }
+                },
+                function(response){console.log(response);}
+            )
+    };
+
+
+
+    // $scope.showMoreStatus = false;
+    // $scope.toggleShowMore = function(){
+    //     $scope.showMoreStatus = !$scope.showMoreStatus;
+    // };
+    //
+    // $scope.getMoreStatusIsNotEmpty = function(){
+    //     return $scope.modelerProgress["quality"] &&
+    //             $scope.modelerProgress["quality"].description &&
+    //             $scope.modelerProgress["quality"].description.length>0;
+    // };
+    //
+
+    $scope.showFeatureWeightsStatus = false;
+    $scope.toggleFeatureWeights = function(){
+        $scope.showFeatureWeightsStatus = !$scope.showFeatureWeightsStatus;
+    };
+
+    $scope.getFeatureWeightsStatusIsNotEmtpy = function(){
+        return  $scope.modelerProgress["quality"] &&
+                $scope.modelerProgress["quality"].weights &&
+                $scope.modelerProgress["quality"].weights.pos &&
+                $scope.modelerProgress["quality"].weights.neg &&
+                ($scope.modelerProgress["quality"].weights.pos.length + $scope.modelerProgress["quality"].weights.neg.length)>0;
+    };
+
+
+    $scope.adviceParser = function(advices, tooltips){
+
+        var adviceArray=[];
+
+        var tooltipsKeys=[];
+        angular.forEach(tooltips, function(value,key){
+            tooltipsKeys.push(key);
+        });
+
+
+        angular.forEach(advices, function(value,key){
+            var advice = {"kind": value.kind};
+            advice.messages = $scope.tooltipParser(value.text, tooltipsKeys, tooltips);
+            adviceArray.push(advice);
+        });
+        return adviceArray;
+    };
+
+
+
+    $scope.tooltipParser = function(text, tooltipsKeys, tooltips){
+
+        var arr = [];
+
+        if(text=="" || !text){
+            return arr;
+        }
+
+        var positionArr = findPositionArray(text, tooltipsKeys);
+
+        positionArr.sort(function(a, b){
+            return a.pos - b.pos;
+        });
+
+        var right_text = text;
+        var lastIndex = 0;
+        angular.forEach(positionArr, function(value, key){
+                var left_text = text.substr(lastIndex, value.pos - lastIndex);
+                right_text = text.substr(value.pos + value.key.length);
+                var tooltipText = tooltips[value.key];
+
+                arr.push({"text":left_text, "tooltipKey": value.key, "tooltip": tooltipText });
+                lastIndex=value.pos + value.key.length;
+        });
+        arr.push({"text":right_text, "tooltip": null});
+
+        return arr;
+    };
+
+    function findPositionArray(text, tooltips){
+        var positionArr = [];
+        for (i = 0; i < tooltips.length; i++) {
+            var key = tooltips[i];
+            var textTemp = text;
+            while (textTemp.indexOf(key)>-1) {
+                var right_text = textTemp.substr(text.indexOf(key) + key.length);
+                positionArr.push({"pos": textTemp.indexOf(key), "key": key});
+                textTemp = right_text;
+            }
+        }
+        return positionArr;
+    }
+
+
+    $scope.trainerProgress={};
+    $scope.trainerProgress["progress"] = "";
+    $scope.trainerProgress["percentage_done"] = 0;
+
+    $scope.getTrainerProgress = function(){
+        trainerFactory.getProgress($scope.master.workspaceId)
+            .then(
+                function(response){
+                    // console.log(response);
+                    if(response.data["progress"]){
+                        $scope.trainerProgress["progress"] = response.data["progress"];
+                    }
+                    if(response.data["percentage_done"]){
+                        $scope.trainerProgress["percentage_done"] = response.data["percentage_done"];
+                    }
+                },
+                function(response){console.log(response);}
+            )
+    };
+
+
+
+
+
+    /** ends progress **/
+
+
+	var isRunning = false;
+	function backgroundService(){
+		if(!isRunning){
+			isRunning = true;
+            $scope.getModelerProgress();
+            $scope.getTrainerProgress();
+            $interval.cancel($rootScope.backgroundServicePromise);
+            $rootScope.backgroundServicePromise = $interval(backgroundService, 5000);
+			isRunning = false;
+		}
+	}
+
+    backgroundService();
+
+
+
+    /** Begins label **/
 
     $scope.label= function (ev, tab, elem, relevance) {
         tab.currentElem=null;
@@ -73,6 +233,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
         filters["relevances"] = ["unset"];
         if(tab.lastId){
             filters["lastId"] = [tab.lastId];
+            filters["lastSource"] = [tab.lastSource];
         }
 
         seedUrlFactory.get($scope.master.workspaceId, filters)
@@ -87,10 +248,25 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
                         tab.selected.push(tempResults[i]._id);
                     }
                 }
-				tab.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
-					(tab.elems.length > 0 ? tab.elems[tab.elems.length-1]._id : null) ;
+				// tab.lastId = tempResults.length > 0 ? tempResults[tempResults.length-1]._id :
+                 //    (tab.elems.length > 0 ? tab.elems[tab.elems.length-1]._id : null) ;
 
-                tab.disabled= (tab.elems.length ==0);
+				if(tempResults.length > 0){
+    				tab.lastId = tempResults[tempResults.length-1]._id;
+    				tab.lastSource = tempResults[tempResults.length-1].crawlEntityType;
+                }
+                else{
+				    if(tab.elems.length > 0){
+				        tab.lastId = tab.elems[tab.elems.length-1]._id
+				        tab.lastSource = tab.elems[tab.elems.length-1].crawlEntityType
+                    }
+                    else{
+				        tab.lastId = null;
+				        tab.lastSource = null;
+                    }
+                }
+
+                tab.disabled= (tab.elems.length == 0);
 
                 // everything was labeled
                 if(tempResults.length>0 && callback!=null){
@@ -144,19 +320,108 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
     }
 
 
-    /**
-     * sends
-     * 1) for the ones displayed, the checked status
-     * 2) for the ones not yet fetched, the main/submain checkbox status
-     * @param ev
-     */
-	$scope.newSmartCrawl = function (ev) {
-	    console.log(ev);
-        alert("deepcrawl!");
+    /** begins smart crawl **/
+	$scope.newSmartCrawlConfirmation = function (ev) {
+        var elem = {};
+    	elem.workspaceId = $scope.master.workspaceId;
+    	// elem.tabs= $scope.tabs;
+
+        elem.nResultsOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
+        elem.nResults ="10.000.000";
+
+        // var selectedPages = 0;
+        // for(var i=0; i<$scope.sourcesCodes.length; i++){
+        //     var tab = $scope.tabs[$scope.sourcesCodes[i]];
+        //     selectedPages += tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0);
+        // }
+        //
+        // if(selectedPages ==0){
+        //     alert("Please select some pages to deepcrawl first");
+        //     return;
+        // }
+
+        $mdDialog.show({
+            title:"bla",
+            controller: 'myDialogController',
+            // controller: DialogController,
+            locals:{item: elem},
+            // templateUrl: 'dialog1.tmpl.html',
+            templateUrl: 'static/partials-md/templates/new-smart-crawl-confirm.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+            .then(function(answer) {
+                if(answer){
+                    // elem.nResults = parseInt(elem.nResults.replaceAll("\\.",""));
+                    var nResults= parseInt(elem.nResults.replaceAll("\\.",""));
+                    smartCrawl(nResults, elem.broadnessNumber);
+                }
+                else{
+                    $scope.status = 'You cancelled the dialog.';
+                    console.log($scope.status);
+                }
+            }, function() {
+                $scope.status = 'You cancelled the dialog.';
+                console.log($scope.status);
+            });
     };
 
+
+    // Valid return codes are ["DEEP", "N10", "N100", "N1000", "N10000", "BROAD"],
+    function getBroadnessCode(broadnessNumber){
+
+        var broadness="DEEP";
+        if(broadnessNumber==0){
+            broadness="DEEP";
+        }
+        else if(broadnessNumber==1){
+            broadness="N10";
+        }
+        else if(broadnessNumber==2){
+            broadness="N100";
+        }
+        else if(broadnessNumber==3){
+            broadness="N1000";
+        }
+        else if(broadnessNumber==4){
+            broadness="N10000";
+        }
+        else if(broadnessNumber==5){
+            broadness="BROAD";
+        }
+        return broadness;
+    }
+
+
+	function smartCrawl(nResults, broadnessNumber){
+
+        var broadness = getBroadnessCode(broadnessNumber);
+
+        smartCrawlerFactory.start($scope.master.workspaceId, nResults, broadness).then(
+	        function (response) {
+                // console.log(response.data);
+                var jobId = response.data["jobId"];
+                domFactory.navigateToSmartCrawlerResults(jobId);
+            },
+            function (response) {
+                console.log(response.data);
+            }
+        );
+
+    }
+
+    /**ends smart crawl **/
 
     init();
 }]);
 
-
+/*
+ngApp.filter('broadnessFilter', function() {
+    return function(input) {
+        // return Math.ceil(input);
+		return input.toFixed(2);
+    };
+});
+*/

@@ -1,21 +1,20 @@
-/**
- * Created by tomas on 11/08/17.
- */
-
 ngApp.controller('newDeepCrawlController', ['$scope', '$filter', 'domFactory', 'seedFactory', 'fetchService', 'seedUrlFactory', 'deepcrawlerFactory', '$mdDialog',
 function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory, deepcrawlerFactory, $mdDialog) {
 
-    $scope.nResultsOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
-    $scope.nResults ="10.000.000";
+    console.log("loading new-deep-crawl.js");
 
-    $scope.sourcesCodes = ["SE", "MANUAL", "TOR"];
+    $scope.master.init();
+
+    // $scope.sourcesCodes = ["SE", "MANUAL", "TOR"];
+    $scope.sourcesCodes = ["FETCHED", "MANUAL"];
 
     /** filters **/
     $scope.sources = [
-        {"name":"Search Engines", "code":"searchengine", "shortCode":"SE", "results":0},
-        {"name":"Seeds", "code":"imported", "shortCode":"MANUAL", "results":0},
-        {"name":"Onions", "code":"tor", "shortCode":"TOR", "results":0}
-        // {"name":"DeepDeep", "code":"deepdeep", "shortCode":"DD", "results":0}
+        // {"name":"Search Engines", "code":"searchengine", "shortCode":"SE", "results":0},
+        // {"name":"Seeds", "code":"imported", "shortCode":"MANUAL", "results":0},
+        // {"name":"Onions", "code":"tor", "shortCode":"TOR", "results":0}
+        {"name":"Search Engines", "code":"FETCHED", "results":0},
+        {"name":"Seeds",          "code":"MANUAL",  "results":0}
     ];
 
     /** tabs */
@@ -32,7 +31,13 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
             tab.selected=[];
             tab.allSelected=false;
             tab.lastId=null;
-            $scope.tabs[source.shortCode] = tab;
+
+            tab.countSelected = function(){
+                return tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0);
+            };
+
+
+            $scope.tabs[source.code] = tab;
             fetch(tab);
         }
         $scope.getAggregated();
@@ -102,12 +107,12 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
 
     function fetch(tab){
         var filters = {};
-        filters["sources"] = [tab.source.code];
+        filters["keywordSourceType"] = [tab.source.code];
         if(tab.lastId){
             filters["lastId"] = [tab.lastId];
         }
 
-        seedUrlFactory.get($scope.master.workspaceId, filters)
+        seedUrlFactory.getToDeepCrawl($scope.master.workspaceId, filters)
 		.then(
 			function (response) {
 				console.log("finish fetching seed Urls");
@@ -136,7 +141,7 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
 
 	$scope.getAggregated = function() {
         // var tOut = $scope.startLoading();
-		seedUrlFactory.getAggregated($scope.master.workspaceId)
+		seedUrlFactory.getAggregatedToDeepCrawl($scope.master.workspaceId)
 			.then(
 			    function (response) {
                     buildAggregatedBy(response.data);
@@ -149,36 +154,39 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
 			);
 	};
 
+    // [{"count": 4, "_id": {"keywordSourceType": "MANUAL"}}, {"count": 40, "_id": {"keywordSourceType": "FETCHED"}}]
+
     function buildAggregatedBy(seedUrlAggregated){
         var resultStruct = {
-        "SE":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "DD":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "MANUAL":{"relevant":0, "irrelevant":0, "neutral":0, "total":0},
-        "TOR":{"relevant":0, "irrelevant":0, "neutral":0, "total":0}
+        "MANUAL":0,
+        "FETCHED":0
         };
-        angular.forEach(seedUrlAggregated, function(value, index){
-            var crawlEntityType = value._id.crawlEntityType =="GOOGLE" || value._id.crawlEntityType =="BING" ? "SE": value._id.crawlEntityType;
-            var relevance = value._id.relevant === undefined || value._id.relevant === null ? "neutral" : (value._id.relevant === false? "irrelevant" : "relevant");
-            resultStruct[crawlEntityType][relevance] = resultStruct[crawlEntityType][relevance] + value.count;
-            resultStruct[crawlEntityType]["total"] = resultStruct[crawlEntityType]["relevant"] + resultStruct[crawlEntityType]["irrelevant"] + resultStruct[crawlEntityType]["neutral"] ;
+
+
+       angular.forEach(seedUrlAggregated, function(value, index){
+            $scope.tabs[value["_id"]["keywordSourceType"]].nResults=value["count"];
         });
 
-        setTabsValue("SE", resultStruct["SE"]["total"]);
-        setTabsValue("MANUAL", resultStruct["MANUAL"]["total"]);
-        setTabsValue("TOR", resultStruct["TOR"]["total"]);
-        // setTabsValue("DD", resultStruct["DD"]["total"]);
     }
-
-    function setTabsValue(shortCode, value){
-        $scope.tabs[shortCode].nResults=value;
-    }
-
 
     $scope.newDeepCrawlConfirmation = function(ev) {
         var elem = {};
     	elem.workspaceId = $scope.master.workspaceId;
-        elem.nResults = parseInt($scope.nResults.replaceAll("\\.",""));
     	elem.tabs= $scope.tabs;
+
+        elem.nResultsOptions=["100", "1.000", "10.000", "100.000", "1.000.000", "10.000.000"];
+        elem.nResults ="10.000.000";
+
+        var selectedPages = 0;
+        for(var i=0; i<$scope.sourcesCodes.length; i++){
+            var tab = $scope.tabs[$scope.sourcesCodes[i]];
+            selectedPages += tab.selected.length + (tab.allSelected? (tab.nResults - tab.elems.length):0);
+        }
+
+        if(selectedPages ==0){
+            alert("Please select some pages to deepcrawl first");
+            return;
+        }
 
         $mdDialog.show({
             title:"bla",
@@ -194,6 +202,8 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
         })
             .then(function(answer) {
                 if(answer){
+                    // elem.nResults = parseInt(elem.nResults.replaceAll("\\.",""));
+                    $scope.nResults= parseInt(elem.nResults.replaceAll("\\.",""));
                     deepcrawl();
                 }
                 else{
@@ -205,6 +215,7 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
                 console.log($scope.status);
             });
     };
+
 
     function deepcrawl(){
 
@@ -230,8 +241,8 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
             }
         }
 
-        var nResults = parseInt($scope.nResults.replaceAll("\\.",""));
-        deepcrawlerFactory.publish2DeepCrawl($scope.master.workspaceId, nResults, data).then(
+        // var nResults = parseInt($scope.nResults.replaceAll("\\.",""));
+        deepcrawlerFactory.start($scope.master.workspaceId, $scope.nResults, data).then(
             function(response){
                 console.log(response);
                 var jobId = response.data.jobId;
