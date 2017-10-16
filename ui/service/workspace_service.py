@@ -18,17 +18,20 @@ def list_workspace(search_query):
 def get_workspace(workspace_id):
     workspace = dao_get_workspace_by_id(workspace_id)
 
-    if "link_model" in workspace and "model" in workspace["link_model"]:
-        workspace["link_model"]["model"] = True
-    else:
-        workspace["link_model"] = {}
-        workspace["link_model"]["model"] = False
+    if workspace:
+        if "link_model" in workspace and "model" in workspace["link_model"]:
+            workspace["link_model"]["model"] = True
+        else:
+            workspace["link_model"] = {}
+            workspace["link_model"]["model"] = False
 
-    if "page_model" in workspace and "model" in workspace["page_model"]:
-        workspace["page_model"]["model"] = True
+        if "page_model" in workspace and "model" in workspace["page_model"]:
+            workspace["page_model"]["model"] = True
+        else:
+            workspace["page_model"] = {}
+            workspace["page_model"]["model"] = False
     else:
-        workspace["page_model"] = {}
-        workspace["page_model"]["model"] = False
+        print "workspace doesn't exists: " + workspace_id
 
     return workspace
 

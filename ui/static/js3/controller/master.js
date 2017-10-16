@@ -33,12 +33,21 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
 	$scope.master.reloadWorkspace= function(workspaceId, callback){
 		workspaceFactory.getWorkspace(workspaceId).then(
 		function(response){
-			$scope.master.workspace = response.data;
-			$scope.master.workspaceName = response.data.name;
-            console.log("finished setting ws:" + workspaceId);
-            // domFactory.navigateTo('seeds');
-            if(callback){
-                callback();
+		    if(response.data==null){
+                $cookies.remove("workspaceId");
+                $scope.master.workspaceId = null;
+                $scope.master.workspace = null;
+                $scope.master.workspaceName = null;
+                domFactory.navigateTo('workspace');
+            }
+            else{
+                $scope.master.workspace = response.data;
+                $scope.master.workspaceName = response.data.name;
+                console.log("finished setting ws:" + workspaceId);
+                // domFactory.navigateTo('seeds');
+                if(callback){
+                    callback();
+                }
             }
 		},
 		function(response){
@@ -47,7 +56,9 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
             $scope.master.workspace = null;
             $scope.master.workspaceName = null;
             console.log("Redirecting. Failed to set ws:" + workspaceId);
-            domFactory.navigateTo('workspace');
+            if(!callback){
+                domFactory.navigateTo('workspace');
+            }
         });
 	};
 
@@ -64,8 +75,10 @@ function ($scope, $location, $route, $cookies, $mdConstant, workspaceFactory, $m
                 $scope.master.reloadWorkspace($scope.master.workspaceId, navigateAway);
             }
             else{
-                var url = "/#/workspace";
-                window.location.assign(url);
+                if(window.location.hash != "#/workspace"){
+                    var url = "/#/workspace";
+                    window.location.assign(url);
+                }
             }
         }
     };
