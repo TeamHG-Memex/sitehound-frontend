@@ -12,15 +12,13 @@
                     </div>
 
                     <!--/*margin-left: 27px;margin-right: 27px-->
+                    <!--
                     <div class="mdl-card__supporting-text" layout="column" layout-align="space-between start" style="margin-bottom: 0px;margin-top: 0px;">
                         Model metrics with some BIG HUGE numbers here! Score: 78.2% on 10 annotated pages (12% relevant).
-
                         <br>
                     </div>
-
+                    -->
                     <div class="mdl-grid portfolio-max-width" style="height: 900px" >
-                    <!--<div class="mdl-grid portfolio-max-width" style="height: 950px">-->
-                    <!--<div class="mdl-grid portfolio-max-width" style="height: 440px; min-height: 441px">-->
                         <md-tabs md-selected="selectedTabIndex" md-border-bottom md-autoselect flex="100" >
                             <md-tab ng-repeat="tab in tabs" ng-disabled="tab.disabled" label="{{tab.source.name}} " >
                                     <div class="tab{{$index%4}}" style="padding: 25px;" layout="column">
@@ -117,7 +115,7 @@
                 <div class="mdl-card__actions">
                     <div layout="row" layout-align="space-between center">
                         <a href="#/model" class="mdl-button">Back to Label More Pages</a>
-                        <md-button class="md-primary md-raised" ng-click="newSmartCrawl($event)">Start Smart Crawl</md-button>
+                        <!--<md-button class="md-primary md-raised" ng-click="newSmartCrawl($event)">Start Smart Crawl</md-button>-->
                     </div>
                 </div>
             </div>

@@ -5,13 +5,15 @@
 ngApp.controller('allLabeledController', ['$scope', '$filter', 'seedFactory', 'fetchService', 'seedUrlFactory',
 function ($scope, $filter, seedFactory, fetchService, seedUrlFactory) {
 
-/** filters **/
+    $scope.master.init();
+
+    /** filters **/
     $scope.sources = [
         {"name":"Clear web", "codes":["searchengine", "deepdeep"], "shortCode":"SE"},
         {"name":"Dark web", "codes":["tor"], "shortCode":"TOR"}
     ];
 
-    $scope.relevances= [
+    $scope.relevances = [
         {"name": "Relevant", "code":"true", "aggCode": "relevant", "jsCode": true},
         {"name": "Not relevant", "code":"false", "aggCode": "irrelevant", "jsCode": false},
         {"name": "Skipped", "code":"null", "aggCode": "skipped", "jsCode": null},
@@ -139,7 +141,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory) {
         }
 
         $scope.showProgress=true;
-        seedUrlFactory.get($scope.master.workspaceId, filters)
+        seedUrlFactory.getAllLabeled($scope.master.workspaceId, filters)
 		.then(
 			function (response) {
 				console.log("finish fetching seed Urls");
@@ -203,36 +205,6 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory) {
 
     }
 
-
-    /**
-     * sends
-     * 1) for the ones displayed, the checked status
-     * 2) for the ones not yet fetched, the main/submain checkbox status
-     * @param ev
-     */
-	$scope.newSmartCrawl = function (ev) {
-	    console.log(ev);
-        alert("deepcrawl!");
-    };
-
-
     init();
-    // $scope.relevanceFilter = function(input, tab){
-    //     debugger;
-		// return !input.deleted ;//&& $scope.inSelection(elem, );
-	// };
 }]);
 
-
-/*
-
-ngApp.filter('relevanceFilter', function () {
-return function (arr, tab) {
-    debugger;
-    if(arr.length>0){
-
-    }
-    return tab.relevanceSelection.indexOf(elem.relevant)>-1;
-
-}});
- */

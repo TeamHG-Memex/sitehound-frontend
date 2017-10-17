@@ -9,7 +9,6 @@ from ui.singleton import Singleton
 def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, categories, keyword_source_type, last_id, last_source):
 
     and_condition_list = []
-
     #sources
     if len(sources) > 0:
         source_search_conditions = []
@@ -37,7 +36,7 @@ def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, ca
             if relevance == "unset":
                 relevances_search_conditions.append({'relevant': {"$exists": False}})
             else:
-                relevances_search_conditions.append({'relevant': relevance})
+                relevances_search_conditions.append({"$and": [{'relevant': relevance}, {'relevant': {"$exists": True}}]})
 
         relevances_search_object = {'$or': relevances_search_conditions}
         and_condition_list.append(relevances_search_object)
@@ -51,16 +50,6 @@ def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, ca
 
         categories_search_object = {'$or': categories_search_conditions}
         and_condition_list.append(categories_search_object)
-
-    # #udcs
-    # if len(udcs) > 0:
-    #     udcs_search_conditions = []
-    #     for udc in udcs:
-    #         udcs_search_conditions.append({'udc': udc.lower()})
-    #
-    #     udcs_search_object = {'$or': udcs_search_conditions}
-    #     and_condition_list.append(udcs_search_object)
-
 
     page_search_object = {}
     if last_id is not None and last_source is not None:
@@ -110,6 +99,58 @@ def get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, ca
     ])
 
     docs = list(res["result"])
+    return docs
+
+
+def get_seeds_urls_all_labeled_dao(workspace_id, page_size, sources, relevances, last_id):
+
+    and_condition_list = []
+
+    if len(sources) > 0:
+        source_search_conditions = []
+        for source in sources:
+            if source == "searchengine":
+                source_search_conditions.append({'crawlEntityType': "BING"})
+                source_search_conditions.append({'crawlEntityType': "GOOGLE"})
+            elif source == "tor":
+                source_search_conditions.append({'crawlEntityType': "TOR"})
+            elif source == "imported":
+                source_search_conditions.append({'crawlEntityType': "MANUAL"})
+            elif source == "deepdeep":
+                source_search_conditions.append({'crawlEntityType': "DD"})
+            else:
+                print("no valid source was provided:" + source)
+
+        source_search_object = {'$or': source_search_conditions}
+        and_condition_list.append(source_search_object)
+
+    if len(relevances) > 0:
+        relevances_search_conditions = []
+        for relevance in relevances:
+            if relevance == "unset":
+                relevances_search_conditions.append({'relevant': {"$exists": False}})
+            else:
+                relevances_search_conditions.append({"$and": [{'relevant': relevance}, {'relevant': {"$exists": True}}]})
+
+        relevances_search_object = {'$or': relevances_search_conditions}
+        and_condition_list.append(relevances_search_object)
+
+    if last_id:
+        last_id_search_object = {"_id": {"$gt": ObjectId(last_id)}}
+        and_condition_list.append(last_id_search_object)
+
+    deleted_search_object = {'deleted': {"$exists": False}}
+    and_condition_list.append(deleted_search_object)
+
+    workspace_search_object = {'workspaceId': workspace_id}
+    and_condition_list.append(workspace_search_object)
+
+    collection = Singleton.getInstance().mongo_instance.get_seed_urls_collection()
+    res = collection.find({'$and': and_condition_list})\
+        .sort('_id', pymongo.ASCENDING)\
+        .limit(page_size)
+
+    docs = list(res)
     return docs
 
 

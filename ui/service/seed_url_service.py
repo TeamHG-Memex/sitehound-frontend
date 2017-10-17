@@ -6,7 +6,7 @@ import json
 
 from mongo_repository.deep_crawl_repository import get_seeds_urls_to_deep_crawl_dao
 from mongo_repository.trained_url_repository import dao_reset_results, \
-    get_seeds_urls_to_label_dao, get_seeds_udcs_by_workspace_dao, get_seeds_urls_keywords_results_dao
+    get_seeds_urls_to_label_dao, get_seeds_udcs_by_workspace_dao, get_seeds_urls_keywords_results_dao, get_seeds_urls_all_labeled_dao
 from mongo_repository.trained_url_repository import get_seeds_urls_url
 from mongo_repository.trained_url_repository import get_seeds_urls_categorized
 from mongo_repository.trained_url_repository import dao_delete_seed_url
@@ -49,7 +49,6 @@ def update_seeds_urls_relevance(evaluated_seeds_urls):
 
 def update_seeds_url_relevancy(workspace_id, id, relevance, categories, udc):
     dao_update_relevanceByid(workspace_id, id, relevance, categories, udc)
-
 
 
 def delete_seeds_url(workspace_id, id):
@@ -105,6 +104,11 @@ def publish_to_import_url_queue(workspace_id, url):
 
 def get_seeds_urls_to_label(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source):
     mongo_result = get_seeds_urls_to_label_dao(workspace_id, page_size, sources, relevances, categories, udcs, last_id, last_source)
+    return mongo_result
+
+
+def get_seeds_urls_all_labeled(workspace_id, page_size, sources, relevances, last_id):
+    mongo_result = get_seeds_urls_all_labeled_dao(workspace_id, page_size, sources, relevances, last_id)
     return mongo_result
 
 

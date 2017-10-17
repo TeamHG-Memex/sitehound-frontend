@@ -10,6 +10,12 @@ var seedUrlFactory = ngApp.factory('seedUrlFactory',['$http', '$httpParamSeriali
 		return $http.get(url + (qs ? '?' + qs : ""));
 	};
 
+	dataFactory.getAllLabeled = function (workspaceId, filters) {
+		var url =  String.format(urlBase, workspaceId) + "/all-labeled";
+		var qs = $httpParamSerializer(filters);
+		return $http.get(url + (qs ? '?' + qs : ""));
+	};
+
 	dataFactory.getToDeepCrawl = function (workspaceId, filters) {
 		var url =  String.format(urlBase, workspaceId) + "/to-deep-crawl";
 		var qs = $httpParamSerializer(filters);
