@@ -99,6 +99,12 @@ ngApp.filter('roundup', function() {
     };
 });
 
+ngApp.filter('max100', function() {
+    return function(input) {
+		return input >100? 100: input;
+    };
+});
+
 
 /*
 ngApp.factory('myHttpInterceptor', function ($q, $window) {

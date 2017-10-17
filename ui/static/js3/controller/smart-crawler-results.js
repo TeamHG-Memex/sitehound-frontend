@@ -93,7 +93,7 @@ ngApp.controller('smartCrawlerResultsController', ['$scope', '$routeParams', '$r
             isRunning = true;
 
             getCurrentJob();
-            if($scope.elems.length==0){
+            if($scope.elems.length<7){
                 $scope.bottomOfPageReached();
             }
 

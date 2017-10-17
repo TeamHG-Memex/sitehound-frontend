@@ -25,7 +25,7 @@ def get_smart_crawler_results(workspace_id, page_size, input_search_query):
     and_conditions.append({'workspaceId': workspace_id})
     and_conditions.append({'deleted': {'$exists': False}})
     and_conditions.append({'crawlEntityType': 'DD'})
-    and_conditions.append({'crawlType': 'SMARTCRAWL'})
+#    and_conditions.append({'crawlType': 'SMARTCRAWL'})
 
     if 'job_id' in input_search_query and input_search_query['job_id'] is not None:
         job_search_object = {'jobId': input_search_query["job_id"]}
