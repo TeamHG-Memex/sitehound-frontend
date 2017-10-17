@@ -119,7 +119,7 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 
 	$scope.fetchDark = function(ev){
 		var source='TOR';
-		var nResults=100;
+		var nResults=50;
 		generateSeedUrls(ev, source, nResults);
 	};
 
