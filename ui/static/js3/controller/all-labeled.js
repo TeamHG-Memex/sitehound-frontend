@@ -144,7 +144,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory) {
         seedUrlFactory.getAllLabeled($scope.master.workspaceId, filters)
 		.then(
 			function (response) {
-				console.log("finish fetching seed Urls");
+				console.log("finish fetching seed Urls (all-labeled)");
 				var tempResults = response.data;
 				Array.prototype.push.apply(tab.elems, tempResults);
 

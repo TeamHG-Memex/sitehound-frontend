@@ -26,7 +26,8 @@
                                 <span> <b>RPM</b>: {{crawlJob["rpm"]}}</span><br>
                             </div>
                         </div>
-                        <div style="width: 100%;" layout="row" layout-align="end end">
+
+                        <div ng-hide='crawlJob["status"]=="finished"' style="width: 100%;" layout="row" layout-align="end end">
                             <md-button class="md-warn md-raised" ng-click="stop()">
                                 Stop
                             </md-button>
@@ -116,9 +117,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%; margin:10px">
-                                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-                            </div>
+                            <!--<div layout="row" layout-align="center center" ng-show="showProgress" style="width: 100%; margin:10px">-->
+                                <!--<md-progress-circular md-mode="indeterminate"></md-progress-circular>-->
+                            <!--</div>-->
                         </md-content>
                     </div>
                 </div>

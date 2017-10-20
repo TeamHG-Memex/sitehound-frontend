@@ -225,9 +225,16 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
             isRunning=false;
         }
     }
+
     backgroundService();
 
-	/** end results */
+    $scope.$on('$locationChangeStart', function(event) {
+        console.log("$locationChangeStart");
+        $interval.cancel($rootScope.backgroundSeedsResultsServicePromise);
+        console.log("canceled backgroundSeedsResultsServicePromise");
+    });
+
+    /** end results */
 
 
 	$scope.newDeepCrawl = function(){

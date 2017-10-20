@@ -69,7 +69,7 @@ function ($scope, $filter, $modal, $routeParams, $interval, domFactory, seedFact
 		$scope.crawlStatusBusy=true;
 		seedUrlFactory.get($scope.workspaceId, $scope.source, getRelevanceSearchObject(), $scope.lastId)
 		.success(function (data) {
-			console.log("finish fetching seed Urls");
+			console.log("finish fetching seed Urls dd-training");
 //			$scope.seedUrls = $.parseJSON(data);
 			var tempResults = data;
 			Array.prototype.push.apply($scope.seedUrls, tempResults);

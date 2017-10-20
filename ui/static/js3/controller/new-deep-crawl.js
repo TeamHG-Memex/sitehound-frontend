@@ -115,7 +115,7 @@ function ($scope, $filter, domFactory, seedFactory, fetchService, seedUrlFactory
         seedUrlFactory.getToDeepCrawl($scope.master.workspaceId, filters)
 		.then(
 			function (response) {
-				console.log("finish fetching seed Urls");
+				console.log("finish getToDeepCrawl");
 				var tempResults = response.data;
 				Array.prototype.push.apply(tab.elems, tempResults);
 

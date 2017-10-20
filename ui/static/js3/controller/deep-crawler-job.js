@@ -1,6 +1,10 @@
 ngApp.controller('deepcrawlerController', ['$scope', '$filter', '$rootScope', '$timeout', '$interval', '$routeParams', 'deepcrawlerFactory', 'loginFactory', '$mdDialog',
 function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcrawlerFactory, loginFactory, $mdDialog) {
 
+    console.log("loading deepcrawler");
+
+    $scope.master.init();
+
     $scope.jobId = $routeParams.jobId;
 
     $scope.elems=[];
@@ -13,19 +17,17 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcr
 
     $scope.filters = {};
 
-    // $scope.fetch = function(){
-    //     fetch();
-    // };
-
     function fetch(){
         var filters = {};
+
+        console.log("fetching deepcrawler-job");
 
         $scope.showProgress=true;
 
         deepcrawlerFactory.getDomainsByJobId($scope.master.workspaceId, $scope.jobId, filters)
 		.then(
 			function (response) {
-				console.log("finish fetching seed Urls");
+				console.log("finish fetching seed Urls (deep-crawler-job)");
 				$scope.crawlJob = response.data;
 
 				$scope.crawlJob["pagesFetched"]=0;
@@ -50,7 +52,6 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcr
 			});
     }
 
-
     $scope.stop = function(){
         deepcrawlerFactory.stop()
         .then(
@@ -64,7 +65,6 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcr
         );
     };
 
-//    $scope.showAdvanced = function(elem, ev) {
     $scope.showEnterCredentialsForm = function(elem, ev) {
 
     	elem.workspaceId = $scope.master.workspaceId;
@@ -92,16 +92,13 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcr
         loginFactory.sendCredentials(elem.workspaceId, elem.credentials);
     }
 
-    // fetch();
-
-
     var isRunning = false;
     function backgroundService(){
         if(!isRunning && $scope.master.workspaceId){
             isRunning = true;
-            if($scope.elems.length<1) {
+            // if($scope.elems.length<1) {
                 fetch();
-            }
+            // }
             $interval.cancel($rootScope.backgroundDeepCrawlJobServicePromise);
             $rootScope.backgroundDeepCrawlJobServicePromise = $interval(backgroundService, 5000);
             isRunning=false;
@@ -110,5 +107,10 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcr
 
     backgroundService();
 
+    $scope.$on('$locationChangeStart', function(event) {
+        console.log("$locationChangeStart");
+        $interval.cancel($rootScope.backgroundDeepCrawlJobServicePromise);
+        console.log("canceled backgroundDeepCrawlJobServicePromise");
+    });
 
 }]);

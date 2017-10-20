@@ -1,6 +1,8 @@
 ngApp.controller('modelController', ['$scope', '$rootScope', '$filter', '$interval', '$mdDialog', 'domFactory', 'seedUrlFactory', 'modelerFactory', 'trainerFactory', 'smartCrawlerFactory',
 function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrlFactory, modelerFactory, trainerFactory, smartCrawlerFactory) {
 
+    console.log("loading model");
+
     $scope.master.init();
 
 /** filters **/
@@ -239,7 +241,7 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
         seedUrlFactory.get($scope.master.workspaceId, filters)
 		.then(
 			function (response) {
-				console.log("finish fetching seed Urls");
+				console.log("finish fetching seed Urls (model)");
 				var tempResults = response.data;
 				Array.prototype.push.apply(tab.elems, tempResults);
 

@@ -1,6 +1,7 @@
-ngApp.controller('deepcrawlerDomainController', ['$scope', '$filter', '$mdConstant', '$routeParams', 'deepcrawlerFactory', 'domFactory',
-function ($scope, $filter, $mdConstant, $routeParams, deepcrawlerFactory, domFactory) {
+ngApp.controller('deepcrawlerDomainController', ['$scope', '$filter', '$rootScope', '$timeout', '$interval', '$mdConstant', '$routeParams', 'deepcrawlerFactory',
+function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, $routeParams, deepcrawlerFactory) {
 
+    $scope.master.init();
 
 	$scope.jobId = $routeParams.jobId;
 	$scope.domainName = $routeParams.domain;
@@ -32,7 +33,7 @@ function ($scope, $filter, $mdConstant, $routeParams, deepcrawlerFactory, domFac
 		deepcrawlerFactory.getDeepcrawlDomainsByDomainName($scope.master.workspaceId, $scope.jobId, $scope.domainName, $scope.filters)
 		.then(
 			function (response) {
-				console.log("finish fetching seed Urls");
+				console.log("finish fetching getDeepcrawlDomainsByDomainName");
 				var tempResults = response.data;
 
 				Array.prototype.push.apply($scope.elems, tempResults);
@@ -51,6 +52,28 @@ function ($scope, $filter, $mdConstant, $routeParams, deepcrawlerFactory, domFac
 			});
 	}
 
-	fetch();
+	// fetch();
+
+    var isRunning = false;
+    function backgroundService(){
+        if(!isRunning && $scope.master.workspaceId){
+            isRunning = true;
+            // if($scope.elems.length<1) {
+            fetch();
+            // }
+            $interval.cancel($rootScope.backgroundDeepCrawlDomainsServicePromise);
+            $rootScope.backgroundDeepCrawlDomainsServicePromise = $interval(backgroundService, 5000);
+            isRunning=false;
+        }
+    }
+
+    backgroundService();
+
+    $scope.$on('$locationChangeStart', function(event) {
+        console.log("$locationChangeStart");
+        $interval.cancel($rootScope.backgroundDeepCrawlDomainsServicePromise);
+        console.log("canceled backgroundDeepCrawlDomainsServicePromise");
+    });
+
 
 }]);

@@ -1,12 +1,13 @@
 ngApp.controller('crawlingResultsController', ['$scope', '$filter', 'headerFactory', 'broadcrawlerResultsFactory', 'broadcrawlerResultsSummaryFactory', '$mdDialog',
 function ($scope, $filter, headerFactory, broadcrawlerResultsFactory, broadcrawlerResultsSummaryFactory, $mdDialog) {
 
+    console.log("loading crawlingResults");
 
 	$scope.master.init();
     $scope.workspaceId = $scope.master.workspaceId;
 
 //    $scope.showFilters = ['sources', 'relevances', 'categories', , 'udcs']
-    $scope.showFilters = ['broadcrawl-sources']
+    $scope.showFilters = ['broadcrawl-sources'];
 
     $scope.display = {};
     $scope.display.results = {};

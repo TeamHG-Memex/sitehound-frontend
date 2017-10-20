@@ -105,7 +105,7 @@ function ($scope, $rootScope, $filter, $modal, $routeParams, $interval, $timeout
         $scope.crawlStatusBusy=true;
         labelUserDefinedCategoriesFactory.get($scope.workspaceId, $scope.userDefinedCategoriesSelected(), $scope.lastId)
         .success(function (data) {
-            console.log("finish fetching seed Urls");
+            console.log("finish fetching seed Urls (ludc)");
             var tempResults = data;
 
             angular.forEach(tempResults, function(tempResult){

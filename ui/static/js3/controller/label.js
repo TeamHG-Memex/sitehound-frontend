@@ -52,7 +52,7 @@ function ($scope, $filter, seedFactory, fetchService, seedUrlFactory, trainingSe
 
         seedUrlFactory.get($scope.master.workspaceId, $scope.filters)
 		.then(function (response) {
-			console.log("finish fetching seed Urls");
+			console.log("finish fetching seed Urls (label)");
 			var tempResults = response.data;
 			angular.forEach(tempResults, function(tempResult){
 			    if(tempResult.udc == null || tempResult.udc== undefined){
