@@ -5,6 +5,7 @@ from flask_login import login_required
 from service.model_service import label_seeds_url_relevancy, get_modeler_progress
 from ui import app
 
+
 @app.route("/api/workspace/<workspace_id>/label/url/<id>", methods=["PUT"])
 @login_required
 def label_seeds_url_relevancy_api(workspace_id, id):

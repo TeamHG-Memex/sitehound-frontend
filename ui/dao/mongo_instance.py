@@ -69,19 +69,22 @@ class MongoInstance(object):
 
         if seed_urls_collection_name not in collections:
             self.db.create_collection(seed_urls_collection_name)
-            self.db[seed_urls_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("url", pymongo.ASCENDING)], unique=True, drop_dups=True)
+            self.db[seed_urls_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("url", pymongo.ASCENDING)], unique=True, drop_dups=True, name="seeds_url_ws_url_unique_index")
 
         if broad_crawler_collection_name not in collections:
             self.db.create_collection(broad_crawler_collection_name)
             self.db[broad_crawler_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("score", pymongo.DESCENDING), ("_id", pymongo.ASCENDING)], name="scoring_search_index")
+            self.db[broad_crawler_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("url", pymongo.ASCENDING)], unique=True, drop_dups=True, name="broad_crawler_ws_url_unique_index")
 
         if deep_crawler_collection_name not in collections:
             self.db.create_collection(deep_crawler_collection_name)
             self.db[deep_crawler_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("url", pymongo.ASCENDING), ("_id", pymongo.ASCENDING)], name="url_search_index")
+            self.db[deep_crawler_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("url", pymongo.ASCENDING)], unique=True, drop_dups=True, name="deep_crawler_ws_url_unique_index")
 
         if deep_crawler_domains_collection_name not in collections:
             self.db.create_collection(deep_crawler_domains_collection_name)
             self.db[deep_crawler_domains_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("jobId", pymongo.ASCENDING), ("domain", pymongo.ASCENDING)], name="domain_search_index")
+            self.db[deep_crawler_domains_collection_name].create_index([("workspaceId", pymongo.ASCENDING), ("url", pymongo.ASCENDING)], unique=True, drop_dups=True, name="deep_crawler_domain_ws_url_unique_index")
 
         if login_collection_name not in collections:
             self.db.create_collection(login_collection_name)

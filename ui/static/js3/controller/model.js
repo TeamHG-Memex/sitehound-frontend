@@ -57,6 +57,7 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
     $scope.modelerProgress["percentage_done"] = 0;
 
     $scope.getModelerProgress = function(){
+        console.log("getModelerProgress");
         modelerFactory.getProgress($scope.master.workspaceId)
             .then(
                 function(response){
@@ -169,6 +170,7 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
     $scope.trainerProgress["percentage_done"] = 0;
 
     $scope.getTrainerProgress = function(){
+        console.log("getTrainerProgress");
         trainerFactory.getProgress($scope.master.workspaceId)
             .then(
                 function(response){
@@ -184,10 +186,6 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
             )
     };
 
-
-
-
-
     /** ends progress **/
 
 
@@ -197,8 +195,8 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
 			isRunning = true;
             $scope.getModelerProgress();
             $scope.getTrainerProgress();
-            $interval.cancel($rootScope.backgroundServicePromise);
-            $rootScope.backgroundServicePromise = $interval(backgroundService, 5000);
+            $interval.cancel($rootScope.backgroundModelServicePromise);
+            $rootScope.backgroundModelServicePromise = $interval(backgroundService, 5000);
 			isRunning = false;
 		}
 	}
@@ -417,6 +415,14 @@ function ($scope, $rootScope, $filter, $interval, $mdDialog, domFactory, seedUrl
     /**ends smart crawl **/
 
     init();
+
+    $scope.$on('$locationChangeStart', function(event) {
+        console.log("$locationChangeStart");
+        $interval.cancel($rootScope.backgroundModelServicePromise);
+        console.log("canceled backgroundModelServicePromise");
+    });
+
+
 }]);
 
 /*

@@ -9,6 +9,7 @@ import json
 from ui import Singleton
 import logging
 
+
 class BrokerService(object):
 
     def __init__(self, app_instance, kafka_host_name, kafka_host_port, set_broad_crawler = None):
@@ -18,7 +19,6 @@ class BrokerService(object):
 
         self.broad_crawler_topic = "broadcrawler"
         self.broad_crawler_topic_input = self.broad_crawler_topic + "-input"
-        # self.broad_crawler_topic_input_frontera = self.broad_crawler_topic + "-frontera-input"
 
         self.deep_crawler_topic = "dd-deepcrawler"
         self.deep_crawler_topic_input = self.deep_crawler_topic + "-input"

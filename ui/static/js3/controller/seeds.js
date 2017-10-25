@@ -50,7 +50,9 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 			});
 			$scope.master.keywordsCount = $scope.relevantKeywordsObj.length;
 		},
-		function(){}
+		function(response){
+			console.log(response);
+		}
 		)
 	};
 
