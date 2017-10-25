@@ -35,7 +35,8 @@ class BrokerService(object):
         self.events_topic = "events"
         self.events_topic_input = self.events_topic + "-input"
 
-        self.login_topic = "login-output"
+        self.login_topic = "dd-login-output"
+
         self.dd_modeler_input = "dd-modeler-input"
         self.dd_crawler_input = "dd-crawler-input"
 

@@ -89,7 +89,7 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcr
     };
 
     function sendCredentials(elem){
-        loginFactory.sendCredentials(elem.workspaceId, elem.credentials);
+        loginFactory.sendCredentials($scope.master.workspaceId, $scope.jobId, elem.credentials);
     }
 
     var isRunning = false;

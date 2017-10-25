@@ -7,9 +7,10 @@ var loginFactory = ngApp.factory('loginFactory',['$http', '$httpParamSerializer'
     var urlBase = '/api/workspace/{0}/login';
     var dataFactory = {};
 
-    dataFactory.sendCredentials = function (workspaceId, credentials) {
+    dataFactory.sendCredentials = function (workspaceId, jobId, credentials) {
         var url = String.format(urlBase, workspaceId);
         var po = {};
+        po["jobId"] = jobId;
         po["credentials"] = credentials;
         return $http.post(url + "/" + credentials["_id"], po);
     };

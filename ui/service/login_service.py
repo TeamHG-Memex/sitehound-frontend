@@ -18,7 +18,7 @@ def get_logins(workspace_id, domains):
     and_source_conditions.append(key_values_search_object)
 
     query = {'$and': and_source_conditions}
-    fields = {'url': 1, 'domain': 1, 'keyValues': 1, 'result': 1, '_id': 1}
+    fields = {'url': 1, 'domain': 1, 'keysOrder': 1, 'keyValues': 1, 'result': 1, '_id': 1}
     cursor = collection.find(query, fields)
     docs = list(cursor)
     for doc in docs:
@@ -55,9 +55,9 @@ def get_successful_logins(workspace_id, domains):
     return docs
 
 
-def update_login(workspace_id, credentials):
+def update_login(workspace_id, job_id, credentials):
     save_login(credentials)
-    queue_login(workspace_id, credentials)
+    queue_login(workspace_id, job_id, credentials)
 
 
 def save_login(credentials):
@@ -69,13 +69,14 @@ def save_login(credentials):
     collection.update(login_search_object, operation)
 
 
-def queue_login(workspace_id, credentials):
+def queue_login(workspace_id, job_id, credentials):
     message = {
         'workspace_id': workspace_id,
+        'job_id': job_id,
         'id': credentials["_id"],
         'domain': credentials["domain"],
         'url': credentials["url"],
         'key_values': credentials["keyValues"]
     }
 
-    Singleton.getInstance().broker_service.add_message_to_deepcrawler(message)
+    Singleton.getInstance().broker_service.add_message_to_login(message)

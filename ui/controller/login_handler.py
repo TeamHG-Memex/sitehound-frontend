@@ -12,8 +12,9 @@ from ui import app
 def api_update_login(workspace_id, login_id):
 
     credentials = request.json["credentials"]
+    job_id = request.json["jobId"]
     # // save and publish to  the queue
-    update_login(workspace_id, credentials)
+    update_login(workspace_id, job_id, credentials)
 
     return Response(json.dumps({}), mimetype="application/json")
 
