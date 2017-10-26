@@ -39,10 +39,17 @@ def get_successful_logins(workspace_id, domains):
     domains_search_object = {'domain': {'$in': domains}}
     and_source_conditions.append(domains_search_object)
 
+    # key_values_search_object = {'keyValues': {"$exists": True}}
     key_values_search_object = {'keyValues': {"$exists": True}}
     and_source_conditions.append(key_values_search_object)
 
-    result_search_object = {'result': "success"}
+    key_values_login_search_object = {"$and": [{"keyValues.login": {"$exists": True}}, {"keyValues.login": {"$ne": None}}, {"keyValues.login": {"$ne": ""}}]}
+    and_source_conditions.append(key_values_login_search_object)
+
+    key_values_password_search_object = {"$and": [{"keyValues.password": {"$exists": True}}, {"keyValues.password": {"$ne": None}}, {"keyValues.password": {"$ne": ""}}]}
+    and_source_conditions.append(key_values_password_search_object)
+
+    result_search_object = {"$or": [{'result': "success"}, {'result': {"$exists": False}}]}
     and_source_conditions.append(result_search_object)
 
     query = {'$and': and_source_conditions}
