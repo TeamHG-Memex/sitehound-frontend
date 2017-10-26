@@ -84,7 +84,7 @@
 
                                                             <!--green-->
                                                             <!--<md-icon ng-show="elem['credentials']['keyValues']['txtUser']" md-svg-icon="social:people" style="color: #0F0; margin:12px" class="s48" aria-label="People Icon"></md-icon>-->
-                                                            <md-icon ng-show="elem['credentials']['result']=='success'" md-tooltip="successfully logged in" md-svg-icon="social:people" style="color: #0F0; margin:12px" class="s48" aria-label="People Icon"></md-icon>
+                                                            <md-icon ng-show="elem['credentials']['result']=='success'" md-tooltip="successfully logged in" md-svg-icon="social:people" style="color: #0F0; margin:12px" class="s48" aria-label="People Icon" ng-click="showEnterCredentialsForm(elem, $event)"></md-icon>
 
                                                         </div>
                                                     </div>
