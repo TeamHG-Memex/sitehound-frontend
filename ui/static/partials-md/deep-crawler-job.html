@@ -73,10 +73,10 @@
                                                         <div layout="column" layout-align="start center" flex="5" style="width: 100%; height: 100%">
 
                                                             <!--black-->
-                                                            <md-icon ng-show="elem['credentials'] && !elem['credentials']['keyValues']['txtUser']" md-tooltip="no credentials provided" ng-click="showEnterCredentialsForm(elem, $event)" md-svg-icon="social:people" style="color: #000; margin:12px" class="s48" aria-label="People Icon"></md-icon>
+                                                            <md-icon ng-show="elem['credentials'] && !elem['credentials']['keyValues']['login']" md-tooltip="no credentials provided" ng-click="showEnterCredentialsForm(elem, $event)" md-svg-icon="social:people" style="color: #000; margin:12px" class="s48" aria-label="People Icon"></md-icon>
 
                                                             <!--blue-->
-                                                            <md-icon ng-show="elem['credentials'] && elem['credentials']['keyValues']['txtUser'] && elem['credentials']['result']==undefined" md-tooltip="waiting for credentials results" ng-click="showEnterCredentialsForm(elem, $event)" md-svg-icon="social:people" style="color: #00F; margin:12px" class="s48" aria-label="People Icon"></md-icon>
+                                                            <md-icon ng-show="elem['credentials'] && elem['credentials']['keyValues']['login'] && elem['credentials']['result']==undefined" md-tooltip="waiting for credentials results" ng-click="showEnterCredentialsForm(elem, $event)" md-svg-icon="social:people" style="color: #00F; margin:12px" class="s48" aria-label="People Icon"></md-icon>
 
                                                             <!--red-->
                                                             <!--<md-icon ng-show="elem['credentials'] && !elem['credentials']['keyValues']['txtUser']" ng-click="showEnterCredentialsForm(elem, $event)" md-svg-icon="social:people" style="color: #F00; margin:12px" class="s48" aria-label="People Icon"></md-icon>-->
