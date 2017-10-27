@@ -91,12 +91,12 @@ def __queue_smart_crawl_start(workspace_id, job_id, page_limit, broadness, urls,
     logging.info(message)
     Singleton.getInstance().broker_service.add_message_to_dd_crawler_input(message)
 
+
 def __queue_smart_crawler_stop(workspace_id, job_id):
 
     message = {
-        # 'workspace': workspace_id,  # Singleton.getInstance().mongo_instance.get_current_workspace_name(),
         'id': job_id,
-        'action': "stop"
+        'stop': True
     }
     logging.info(message)
     Singleton.getInstance().broker_service.add_message_to_dd_crawler_input(message)
