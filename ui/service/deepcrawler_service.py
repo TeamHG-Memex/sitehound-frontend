@@ -57,8 +57,8 @@ def queue_deep_crawl_stop(workspace_id, job_id):
     logging.info("preparing stop deep-crawler")
     message = {
         'id': job_id,
-        'workspace_id': workspace_id,
-        'action': 'stop'
+        # 'workspace_id': workspace_id,
+        'stop': True
     }
 
     logging.info(message)

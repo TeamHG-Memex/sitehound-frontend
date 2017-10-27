@@ -31,12 +31,12 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcr
 				$scope.crawlJob = response.data;
 
 				$scope.crawlJob["pagesFetched"]=0;
-				$scope.crawlJob["status"]=$scope.crawlJob["status"];
+				$scope.crawlJob["status"]=response.data["status"];
 				$scope.crawlJob["rpm"]=0;
 
 				if(response.data["progress"]){
 				    $scope.crawlJob["pagesFetched"]=response.data["progress"]["pagesFetched"];
-                    $scope.crawlJob["status"]=response.data["progress"]["status"];
+                    // $scope.crawlJob["status"]=response.data["progress"]["status"];
                     $scope.crawlJob["rpm"]=response.data["progress"]["rpm"];
 
 				    if(response.data["progress"]["domains"]){
@@ -53,7 +53,7 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $routeParams, deepcr
     }
 
     $scope.stop = function(){
-        deepcrawlerFactory.stop()
+        deepcrawlerFactory.stop($scope.master.workspaceId, $scope.jobId)
         .then(
             function(response){
                 console.log(response.data);

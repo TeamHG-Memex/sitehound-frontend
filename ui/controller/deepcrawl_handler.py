@@ -21,5 +21,5 @@ def api_new_deep_crawl(workspace_id):
 @login_required
 def api_stop_deep_crawler(workspace_id, job_id):
     queue_deep_crawl_stop(workspace_id, job_id)
-    doc = {"message": "Job was stopped succesfully"}
+    doc = {"message": "Job was stopped successfully"}
     return Response(JSONEncoder().encode(doc), mimetype="application/json")
