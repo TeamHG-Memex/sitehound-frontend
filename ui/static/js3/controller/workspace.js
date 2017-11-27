@@ -205,7 +205,10 @@ ngApp.controller('workspaceController', ['$scope', '$filter', '$timeout','worksp
     $scope.prettyPrintWords = function(words) {
         var keywords = [];
         angular.forEach(words, function(v,k){
-            keywords.push(" " + v.word + "("  + v.score + ")");
+            // keywords.push(" " + v.word + "("  + v.score + ")");
+            if(v.score>3){
+                keywords.push(" " + v.word);
+            }
         });
         return keywords.join();
     };
