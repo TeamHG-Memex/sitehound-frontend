@@ -10,7 +10,7 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 	$scope.relevantKeywordsObj=[];
 	$scope.irrelevantKeywordsObj=[];
 	$scope.splitKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
-	$scope.maxChips = 15;
+	$scope.maxChips = 5;
 
 	$scope.keywordHash = function(word, hash, score) {
 	  return {
@@ -19,6 +19,13 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 		score: score
 	  };
 	};
+
+	$scope.relevantKeywordsObj=[];
+	$scope.irrelevantKeywordsObj=[];
+
+	function isChipRelevant(chip){
+		return chip.score>3;
+	}
 
 	$scope.getSeeds = function(){
         var workspaceId = $scope.master.workspaceId;
@@ -33,7 +40,7 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 
 			var words = response.data || [];
 			angular.forEach(words, function(v,k){
-				if(v.score>3){
+				if(isChipRelevant(v)){
 					$scope.relevantKeywordsObj.push(new $scope.keywordHash(v.word, k, v.score));
 				}
 				else{
@@ -41,6 +48,8 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 				}
 			});
 
+			// ordering is on the backend
+			/*
 			$scope.relevantKeywordsObj.sort(function(a, b){
 				return a.word == b.word ? 0 : +(a.word> b.word) || -1;
 			});
@@ -48,6 +57,7 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 			$scope.irrelevantKeywordsObj.sort(function(a, b){
 				return a.word == b.word ? 0 : +(a.word> b.word) || -1;
 			});
+			*/
 			$scope.master.keywordsCount = $scope.relevantKeywordsObj.length;
 		},
 		function(){}
@@ -55,7 +65,9 @@ function ($scope, $filter, $rootScope, $timeout, $interval, $mdConstant, seedFac
 	};
 
 
+
 	$scope.add = function(chip){
+
 		var onSuccess = function (response) {
 			$scope.getSeeds($scope.master.workspaceId);
 		};
