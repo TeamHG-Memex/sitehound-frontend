@@ -105,3 +105,7 @@ Alternatively, a container can be run instead of the local installation
 sitehound_version="3.3.2"
 docker run -d -p 0.0.0.0:5081:5081 --name=sitehound-$sitehound_version --hostname=sitehound --link mongodb:mongodb --link kafka-2.11-0.10.1.1-2.4:hh-kafka --link elasticsearch:hh-elasticsearch hyperiongray/sitehound:$sitehound_version
 ```
+
+---
+
+[![define hyperion gray](https://hyperiongray.s3.amazonaws.com/define-hg.svg)](https://hyperiongray.com/?pk_campaign=github&pk_kwd=sitehound-frontend "Hyperion Gray")
