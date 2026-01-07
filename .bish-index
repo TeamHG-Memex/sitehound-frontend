@@ -1,0 +1,9 @@
+./ui/auth.py
+./ui/settings.py
+./ui/__init__.py
+./ui/singleton.py
+./AGENTS.md
+./README.md
+./runserver.py
+./todo.md
+./docker-build.sh
