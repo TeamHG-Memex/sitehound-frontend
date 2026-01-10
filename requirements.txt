@@ -14,7 +14,7 @@ elasticsearch==2.4.1
 mongoengine==0.11.0
 markupsafe==0.23
 passlib==1.6.5
-urllib3==1.11
+urllib3==1.26.5
 kafka-python==1.3.2
 Jinja2==2.9.5
 Werkzeug==0.12.1
